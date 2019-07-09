@@ -1,29 +1,194 @@
 
-import React, {Fragment} from 'react';
-import {
+// import React, {Fragment} from 'react';
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   ViewStyle,
+//   TextStyle
+// } from 'react-native';
+
+// const Login = () => {
+//   return (
+//     <View>
+//       <Text
+//       style={styles.title}
+//       >登陆页面</Text>
+//       <View>
+//         <Text style={styles.content}>内容</Text>
+//       </View>
+//     </View>
+//   );
+// };
+
+// type Style = {
+//   title: TextStyle,
+//   content: TextStyle
+// }
+// const styles = StyleSheet.create<Style>({
+//   title: {
+//     color: 'red',
+//   },
+//   content: {
+//     color: 'blue',
+//   }
+// })
+
+// export default Login;
+
+import React, {Component} from 'react';
+import { 
   View,
   Text,
+  Image, 
+  TextInput, 
+  PixelRatio, 
+  TouchableOpacity, 
   StyleSheet,
-} from 'react-native';
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+} from "react-native"; 
 
-const Login = () => {
-  return (
-    <View>
-      <Text
-      style={styles.title}
-      >登陆页面</Text>
-    </View>
-  );
-};
+export default class LoginScreen extends Component<Props> {
+  
+  state = {
+    inputVal: '123'
+  }
 
-// type Style = {title: object}
-const styles = StyleSheet.create({
-  title: {
-    color: 'red',
+  static navigationOptions = {
+    header: null,
+    headerBackTitle: 'back',
+  }
+  render() {
+    return (
+      <View style={styleSheet.container}>
+        <View style={styleSheet.top}>
+          <Image
+            style={styleSheet.icon}
+            source={require('../images/icon.png')}
+          />
+          <View>
+            <Text style={styleSheet.h1}>Hello,</Text>
+            <Text style={styleSheet.h2}>欢迎使用慕思助手</Text>
+          </View>
+        </View>
+
+        <View>
+          <Text style={styleSheet.formTit}>密码登陆{this.state.inputVal}</Text>
+
+          <View style={styleSheet.inputBox}>
+          <Text style={styleSheet.label}>密码</Text>
+            <TextInput
+            style={styleSheet.input}
+            onChangeText={(text) => this.setState({inputVal: text})}
+            value={this.state.inputVal}
+            />
+          </View>
+          <View style={styleSheet.inputBox}>
+            <Text style={styleSheet.label}>密码</Text>
+            <TextInput
+            style={styleSheet.input}
+            onChangeText={(text) => this.setState({inputVal: text})}
+            value={this.state.inputVal}
+            />
+          </View>
+
+          <TouchableOpacity
+          style={styleSheet.button}
+          onPress={() => {this.props.navigation.replace('Work')}}
+          >
+            <Text style={styleSheet.btnText}>登陆</Text>
+          </TouchableOpacity>
+        </View>
+        
+        <Text style={styleSheet.copyright}>Copyright © 2019 de RUCCI All rights reserved</Text>
+      </View>
+    )
+  }
+}
+
+type Style = {
+  container: ViewStyle,
+  top: ViewStyle,
+  icon: ImageStyle,
+  h1: TextStyle,
+  h2: TextStyle,
+  formTit: TextStyle,
+  inputBox: ViewStyle,
+  input: TextStyle,
+  label: TextStyle,
+  button: TextStyle,
+  btnText: TextStyle,
+  copyright: TextStyle,
+}
+const styleSheet = StyleSheet.create<Style>({
+  container: {
+    // display: 'flex',
+    paddingLeft: 30,
+    paddingRight: 30,
+    backgroundColor: '#fff',
+    height:  '100%',
   },
-  content: {
-    color: 'blue',
+  top: {
+    width: '100%',
+    height: 100,
+    // flex: 1,
+    flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    marginTop: 150,
+  },
+  icon: {
+    width: 80,
+    height: 80,
+    // flex: 1,
+  },
+  h1: {
+    fontSize: 36,
+  },
+  h2: {
+    fontSize: 24,
+    lineHeight: 44,
+  },
+  formTit: {
+    fontSize: 18,
+    marginTop: 50,
+    marginBottom: 25,
+  },
+  inputBox: {
+    paddingTop:  30,
+  },
+  input: {
+    height: 40,
+    borderColor: '#007AFF',
+    borderBottomWidth: 1/PixelRatio.get(),
+    fontSize: 16,
+  },
+  label: {
+    fontSize: 12,
+    color: '#BEBEBE',
+  },
+  button: {
+    height: 50,
+    borderRadius: 25,
+    backgroundColor:  '#007AFF',
+    marginTop: 50,
+  },
+  btnText: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+    lineHeight: 50,
+  },
+  copyright: {
+    fontSize: 12,
+    color: '#909090',
+    // textAlign: 'center',
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    bottom: 30,
+    width: '100%',
   }
 })
 
-export default Login;
