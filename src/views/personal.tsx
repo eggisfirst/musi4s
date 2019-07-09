@@ -5,7 +5,7 @@ import TabBarItem from "../components/tabBarItem"
 export default class PersonalScreen extends React.Component { 
   static navigationOptions = {
     tabBarLabel: '我的',  
-    tabBarIcon: ({tintColor,focused}) => (
+    tabBarIcon: ({tintColor, focused}) => (
       <TabBarItem
         tintColor={tintColor}  
         focused={focused}  
