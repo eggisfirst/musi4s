@@ -4,6 +4,9 @@ import LoginScreen from './views/login'
 import ReportScreen from './views/report'
 import AnnouncementScreen from './views/announcement'
 import PersonalScreen from './views/personal'
+import Home from './components/tabBar'
+import React from "react";
+import { View } from "react-native";
 
 const AppNavigator = createBottomTabNavigator(
   {
@@ -17,6 +20,15 @@ const AppNavigator = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: '#007AFF',
       showIcon: true,
+    },
+    navigationOptions: {
+      headerTitle: <Home />,
+      headerRight:<View />,
+      headerLeft: <View/>,
+      headerTitleStyle: {
+        flex: 1,
+       textAlign: 'center'
+      }
     },
     // tabBarVisible: false,
   },

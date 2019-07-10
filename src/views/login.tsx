@@ -26,7 +26,7 @@ export default class LoginScreen extends Component<any> {
       maxLength:20,
       type: 'password'
     },
-    btnStatue: false
+    btnStatue: true
   }
 
   static navigationOptions = {
