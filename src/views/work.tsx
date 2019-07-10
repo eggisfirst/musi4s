@@ -3,7 +3,7 @@ import { View, Text, Button } from "react-native";
 import Header from '../components/header'
 import TabBarItem from "../components/tabBarItem"
 
-export default class WorkScreen extends React.Component<Props> { 
+export default class WorkScreen extends React.Component{ 
   static navigationOptions = {
     tabBarLabel: '工作',  
     tabBarIcon: ({tintColor, focused}) => (

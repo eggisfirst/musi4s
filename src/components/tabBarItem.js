@@ -1,11 +1,11 @@
 import React from 'react'
 import { Image } from 'react-native'
 
-const TabBarItem = ({focused, tintColor, selectedImage, normalImage}) => {
+const TabBarItem = ({focused, selectedImage, normalImage}) => {
   return (
     <Image
       source = {focused ? selectedImage : normalImage}
-      style={{ tintColor: tintColor, width: 25, height: 25 }}/>
+      style={{ width: 25, height: 25 }}/>
   )
 }
 
