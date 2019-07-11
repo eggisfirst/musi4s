@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import TabBarItem from "../../components/tabBarItem"
 import IndexIcon from '../../components/work/indexIcon'
 import pxToDp from "../../utils/fixcss";
+import TabBar from "../../components/tabBar";
 
 export default class WorkScreen extends React.Component<any>{ 
   static navigationOptions = {
@@ -34,6 +35,7 @@ export default class WorkScreen extends React.Component<any>{
     ]
     return (
       <View style={styles.wrapper}>
+        <TabBar />
         <View style={styles.viewStyle}>
           {
             list && list.map(item => (
