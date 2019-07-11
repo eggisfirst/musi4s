@@ -7,9 +7,6 @@ import pxToDp from "../../utils/fixcss";
 export default class WorkScreen extends React.Component<any>{ 
   static navigationOptions = {
     tabBarLabel: '工作', 
-    headerStyle: {
-      backgroundColor: '#f4511e',
-    }, 
     tabBarIcon: ({focused}) => (
       <TabBarItem
         focused={focused}  

@@ -1,6 +1,8 @@
 import React from "react"
 import { View, Text } from "react-native"
 import TabBarItem from "../../components/tabBarItem"
+import Header from "../../components/work/starHome/header";
+import pxToDp from "../../utils/fixcss";
 
 export default class PersonalScreen extends React.Component { 
   static navigationOptions = {
@@ -12,6 +14,7 @@ export default class PersonalScreen extends React.Component {
         normalImage={require('../../images/tabBar/personal.png')}  
         selectedImage={require('../../images/tabBar/personal_select.png')} />
     ),
+   
   }
   render() {
     return (

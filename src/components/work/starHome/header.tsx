@@ -17,6 +17,5 @@ const style = StyleSheet.create({
   headTitle: {
     height:pxToDp(353),
     width:pxToDp(750),
-    marginLeft:Platform.OS !== "ios" ? -56 : 0,
   }
 })
