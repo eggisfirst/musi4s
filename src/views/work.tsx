@@ -3,17 +3,21 @@ import { View, Text, Button } from "react-native";
 import Header from '../components/header'
 import TabBarItem from "../components/tabBarItem"
 
-export default class WorkScreen extends React.Component<Props> { 
+
+export default class WorkScreen extends React.Component<any>{ 
   static navigationOptions = {
-    tabBarLabel: '工作',  
-    tabBarIcon: ({tintColor, focused}) => (
+    tabBarLabel: '工作', 
+    headerStyle: {
+      backgroundColor: '#f4511e',
+    }, 
+    tabBarIcon: ({focused}) => (
       <TabBarItem
-        tintColor={tintColor}  
         focused={focused}  
         normalImage={require('../images/tabBar/work.png')}  
         selectedImage={require('../images/tabBar/work_select.png')} />
     ),
   }
+  
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

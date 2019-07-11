@@ -5,9 +5,8 @@ import TabBarItem from "../components/tabBarItem"
 export default class AnnouncementScreen extends React.Component { 
   static navigationOptions = {
     tabBarLabel: '公告',  
-    tabBarIcon: ({tintColor,focused}) => (
+    tabBarIcon: ({focused}) => (
       <TabBarItem
-        tintColor={tintColor}  
         focused={focused}  
         normalImage={require('../images/tabBar/announcement.png')}  
         selectedImage={require('../images/tabBar/announcement_select.png')} />
