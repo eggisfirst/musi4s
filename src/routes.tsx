@@ -1,12 +1,14 @@
 import { createStackNavigator, createBottomTabNavigator, createAppContainer } from "react-navigation"; 
-import WorkScreen from './views/work'
-import LoginScreen from './views/login'
-import ReportScreen from './views/report'
-import AnnouncementScreen from './views/announcement'
-import PersonalScreen from './views/personal'
-import Home from './components/tabBar'
 import React from "react";
-import { View } from "react-native";
+
+import WorkScreen from './views/work/work'
+import LoginScreen from './views/login'
+import ReportScreen from './views/report/report'
+import AnnouncementScreen from './views/announcement/announcement'
+import PersonalScreen from './views/personal/personal'
+import Home from './components/tabBar'
+import StarHome from './views/work/starHome';
+
 
 const AppNavigator = createBottomTabNavigator(
   {
@@ -23,12 +25,6 @@ const AppNavigator = createBottomTabNavigator(
     },
     navigationOptions: {
       headerTitle: <Home />,
-      headerRight:<View />,
-      headerLeft: <View/>,
-      headerTitleStyle: {
-        flex: 1,
-       textAlign: 'center'
-      }
     },
     // tabBarVisible: false,
   },
@@ -36,8 +32,10 @@ const AppNavigator = createBottomTabNavigator(
 
 const AppContainer = createAppContainer(
   createStackNavigator({
-    Login: LoginScreen,
     Work: AppNavigator,
+
+    StarHome:StarHome,
+    Login: LoginScreen,
   })
 )
 

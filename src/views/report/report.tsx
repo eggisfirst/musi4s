@@ -1,6 +1,6 @@
 import React from "react"
 import { View, Text, Button } from "react-native"
-import TabBarItem from "../components/tabBarItem"
+import TabBarItem from "../../components/tabBarItem"
 
 export default class ReportScreen extends React.Component { 
   static navigationOptions = {
@@ -9,8 +9,8 @@ export default class ReportScreen extends React.Component {
       <TabBarItem
         tintColor={tintColor}  
         focused={focused}  
-        normalImage={require('../images/tabBar/report.png')}  
-        selectedImage={require('../images/tabBar/report_select.png')} />
+        normalImage={require('../../images/tabBar/report.png')}  
+        selectedImage={require('../../images/tabBar/report_select.png')} />
     ),
   }
   render() {

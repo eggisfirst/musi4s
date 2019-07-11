@@ -1,12 +1,13 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
+import pxToDp from '../../../utils/fixcss';
 
 
-export default class TabBar extends React.Component<any>{
+export default class Header extends React.Component<any>{
   render() {
     return (
       <Image
-        source = {require('../images/logo.png')}
+        source = {require('../../../images/work/starHome/banner.png')}
         style={style.headTitle}/>
     )
   }
@@ -17,10 +18,9 @@ const style = StyleSheet.create({
     display:"flex",
     flexDirection:"row",
     justifyContent:"center",
-    // alignItems:"center",
     marginRight:'auto',
     marginLeft:"auto",
-    height:32,
-    width:45,
+    height:pxToDp(353),
+    width:pxToDp(750),
   }
 })
