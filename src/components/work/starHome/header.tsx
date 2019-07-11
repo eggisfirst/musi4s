@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, Platform } from 'react-native'
 import pxToDp from '../../../utils/fixcss';
 
 
@@ -15,12 +15,8 @@ export default class Header extends React.Component<any>{
 
 const style = StyleSheet.create({
   headTitle: {
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"center",
-    marginRight:'auto',
-    marginLeft:"auto",
     height:pxToDp(353),
     width:pxToDp(750),
+    marginLeft:Platform.OS !== "ios" ? -56 : 0,
   }
 })

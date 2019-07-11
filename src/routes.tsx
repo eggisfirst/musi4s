@@ -1,4 +1,4 @@
-import { createStackNavigator, createBottomTabNavigator, createAppContainer } from "react-navigation"; 
+import { createStackNavigator, createBottomTabNavigator, createAppContainer, HeaderBackButton } from "react-navigation"; 
 import React from "react";
 
 import WorkScreen from './views/work/work'
@@ -6,8 +6,9 @@ import LoginScreen from './views/login'
 import ReportScreen from './views/report/report'
 import AnnouncementScreen from './views/announcement/announcement'
 import PersonalScreen from './views/personal/personal'
-import Home from './components/tabBar'
+import LogoBanner from './components/tabBar'
 import StarHome from './views/work/starHome';
+import { Platform, StatusBar, Easing, Animated } from "react-native";
 
 
 const AppNavigator = createBottomTabNavigator(
@@ -23,9 +24,16 @@ const AppNavigator = createBottomTabNavigator(
       activeTintColor: '#007AFF',
       showIcon: true,
     },
+    
     navigationOptions: {
-      headerTitle: <Home />,
+      headerTitle: <LogoBanner />,
+      headerTruncatedBackTitle: null,
+      headerStyle: {
+        borderBottomWidth: 0,
+        elevation: 0,
+      },
     },
+    
     // tabBarVisible: false,
   },
 )
@@ -33,7 +41,6 @@ const AppNavigator = createBottomTabNavigator(
 const AppContainer = createAppContainer(
   createStackNavigator({
     Work: AppNavigator,
-
     StarHome:StarHome,
     Login: LoginScreen,
   })

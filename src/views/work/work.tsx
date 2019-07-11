@@ -36,22 +36,28 @@ export default class WorkScreen extends React.Component<any>{
       }
     ]
     return (
-      <View style={styles.viewStyle}>
-        {
-          list && list.map(item => (
-            <TouchableOpacity 
-                    key={item.title}
-                    onPress={() => {this.props.navigation.push(`${item.link}`)}}>
-             <IndexIcon imgUrl={item.imgUrl} title={item.title} key={item.title}/>
-            </TouchableOpacity>
-          ))
-        }
+      <View style={styles.wrapper}>
+        <View style={styles.viewStyle}>
+          {
+            list && list.map(item => (
+              <TouchableOpacity
+                      key={item.title}
+                      onPress={() => {this.props.navigation.push(`${item.link}`)}}>
+              <IndexIcon imgUrl={item.imgUrl} title={item.title} key={item.title}/>
+              </TouchableOpacity>
+            ))
+          }
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    height:"100%",
+    backgroundColor:"#f8f8f8"
+  },
   viewStyle: {
     display:"flex",
     flexDirection:"row",
@@ -61,6 +67,8 @@ const styles = StyleSheet.create({
     width:'100%',
     alignItems:"center",
     paddingLeft:pxToDp(95),
-    paddingRight:pxToDp(45)
+    paddingRight:pxToDp(45),
+    // height:'100%',
+    // backgroundColor:"#f8f8f8"
   }
 })

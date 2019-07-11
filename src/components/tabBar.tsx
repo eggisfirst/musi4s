@@ -17,10 +17,10 @@ const style = StyleSheet.create({
     display:"flex",
     flexDirection:"row",
     justifyContent:"center",
-    // alignItems:"center",
+    alignItems:"center",
     marginRight:'auto',
     marginLeft:"auto",
-    height:32,
-    width:45,
+    height:40,
+    width:58,
   }
 })
