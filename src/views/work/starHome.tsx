@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Header from '../../components/work/starHome/header';
+import {Header} from '../../components/work/starHome/header';
 import pxToDp from '../../utils/fixcss';
 import StarItem from '../../components/work/starHome/starItem';
 
@@ -11,6 +11,7 @@ export default class StarHome extends React.Component<any> {
     headerStyle: {
       height:pxToDp(353),
       width:pxToDp(750),
+      marginTop:Platform.OS ==="ios"?  pxToDp(-100):0,
       borderBottomWidth: 0,
       elevation: 0,
     }
@@ -52,6 +53,12 @@ export default class StarHome extends React.Component<any> {
     ]
     return(
       <View>
+         {/* <StatusBar
+          backgroundColor={'transparent'} 
+          translucent={true}
+          barStyle="light-content"
+          hidden={false}
+        /> */}
         <Text style={styles.title}>星级认证</Text>
         <View style={styles.list}>
           {

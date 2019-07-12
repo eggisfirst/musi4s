@@ -10,16 +10,16 @@ import {
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
 
-type Props = {
+type IProps = {
   inputData: {
     title:string,
     maxLength: number,
     type:string
   },
-  setVal:any
+  setVal:(n:object) => void,
 }
 
-export default class InputCmp extends Component<Props> {
+export default class InputCmp extends Component<IProps> {
   state = {
     inputVal: '',
     activeStatus: false,

@@ -6,7 +6,6 @@ import LoginScreen from './views/login'
 import ReportScreen from './views/report/report'
 import AnnouncementScreen from './views/announcement/announcement'
 import PersonalScreen from './views/personal/personal'
-import LogoBanner from './components/tabBar'
 import StarHome from './views/work/starHome';
 import { Platform, StatusBar, Easing, Animated, Image } from "react-native";
 
@@ -23,6 +22,7 @@ const AppNavigator = createBottomTabNavigator({
       showIcon: true,
     },
     navigationOptions: {
+      headerTransparent:true,
       // headerTitle: <LogoBanner />,
       // headerTruncatedBackTitle: null,
       // headerStyle: {
@@ -35,6 +35,9 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+  },
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部
@@ -45,9 +48,8 @@ const routerStack = createStackNavigator({
   StarHome: {
     screen: StarHome,
   },
-  Login: {
-    screen: LoginScreen,
-  },
+ 
+  
   
 },{
   mode: 'modal',
@@ -58,6 +60,14 @@ const routerStack = createStackNavigator({
   cardOverlayEnabled: true,
   //标题居中
   headerLayoutPreset: "center",
+  defaultNavigationOptions: {
+    // headerStyle: {
+    //   ...Platform.OS === 'android' && {
+    //     paddingTop: StatusBar.currentHeight,
+    //     // height: (StatusBar.currentHeight),
+    //   }
+    // }
+  },
     //页面跳转动画
   transitionConfig: () => ({
     transitionSpec: {

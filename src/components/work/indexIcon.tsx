@@ -1,12 +1,16 @@
 
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import React from 'react';
 import { Text } from 'react-native';
 import pxToDp from '../../utils/fixcss';
 
-export default class IconItem extends React.Component<any> {
-  render() {
-    const {imgUrl,title} = this.props
+interface IProps {
+  imgUrl: any
+  title: string
+}
+
+export const IndexIcon:React.FC<IProps> = (IProps) => {
+    const {imgUrl,title} = IProps
     return(
       <View style={styles.viewStyle}>
         <Image
@@ -16,7 +20,6 @@ export default class IconItem extends React.Component<any> {
         <Text style={styles.textStyle}>{title}</Text>
       </View>
     )
-  }
 }
 
 const styles = StyleSheet.create({

@@ -1,14 +1,15 @@
 import React from "react"; 
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import TabBarItem from "../../components/tabBarItem"
-import IndexIcon from '../../components/work/indexIcon'
+import { View, StyleSheet, TouchableOpacity, StatusBar, Platform } from "react-native";
+import {TabBarItem} from "../../components/tabBarItem"
+import {IndexIcon} from '../../components/work/indexIcon'
 import pxToDp from "../../utils/fixcss";
-import TabBar from "../../components/tabBar";
+import {TabBar} from "../../components/tabBar";
+
 
 export default class WorkScreen extends React.Component<any>{ 
   static navigationOptions = {
     tabBarLabel: '工作', 
-    tabBarIcon: ({focused}) => (
+    tabBarIcon: ({focused}:any) => (
       <TabBarItem
         focused={focused}  
         normalImage={require('../../images/tabBar/work.png')}  
@@ -35,6 +36,7 @@ export default class WorkScreen extends React.Component<any>{
     ]
     return (
       <View style={styles.wrapper}>
+        
         <TabBar />
         <View style={styles.viewStyle}>
           {
