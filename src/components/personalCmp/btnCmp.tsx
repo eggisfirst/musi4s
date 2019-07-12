@@ -3,11 +3,11 @@ import React from 'react'
 import pxToDp from "../../utils/fixcss";
 
 interface IProps {
-  onClick:() => void
+  handleLogout:() => void
 }
-export const BtnCmp:React.FC<IProps> = ({onClick}) => {
+export const BtnCmp:React.FC<IProps> = ({handleLogout}) => {
   return (
-    <TouchableOpacity onPress={() => {onClick()}}>
+    <TouchableOpacity onPress={() => {handleLogout()}}>
       <Text style={styles.btnStyle} >
         退出账号
       </Text>

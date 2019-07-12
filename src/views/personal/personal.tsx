@@ -43,7 +43,7 @@ export default class PersonalScreen extends React.Component<any> {
             </TouchableOpacity>
           )
         }
-        <BtnCmp onClick={() => {this.props.navigation.replace('Login')}}/>
+        <BtnCmp handleLogout={() => {this.props.navigation.replace('Login')}}/>
       </View>
     )
   }

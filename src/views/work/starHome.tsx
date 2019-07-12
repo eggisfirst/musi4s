@@ -11,7 +11,7 @@ export default class StarHome extends React.Component<any> {
     headerStyle: {
       height:pxToDp(353),
       width:pxToDp(750),
-      marginTop:Platform.OS ==="ios"?  pxToDp(-80):0,
+      marginTop:Platform.OS ==="ios"?  pxToDp(-90):0,
       borderBottomWidth: 0,
       elevation: 0,
     }
@@ -22,7 +22,8 @@ export default class StarHome extends React.Component<any> {
       {
         imgUrl:require("../../images/work/starHome/wait1.png"),
         title:"待受理",
-        num:3
+        num:3,
+        link: "HandlePage"
       },
       {
         imgUrl:require("../../images/work/starHome/wait2.png"),
@@ -58,6 +59,7 @@ export default class StarHome extends React.Component<any> {
           {
             list && list.map(item => (
               <TouchableOpacity  
+                      onPress={() => {this.props.navigation.push(`${item.link}`)}}
                       key={item.title}>
                 <StarItem title={item.title} imgUrl={item.imgUrl} num={item.num}/>
               </TouchableOpacity>

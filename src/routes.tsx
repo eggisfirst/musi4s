@@ -9,6 +9,7 @@ import PersonalScreen from './views/personal/personal'
 import StarHome from './views/work/starHome';
 import { Platform, StatusBar, Easing, Animated, Image } from "react-native";
 import pxToDp from "./utils/fixcss";
+import HandlePage from './views/work/starCheck/handlePage';
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -33,6 +34,11 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  StarHome: {
+    screen: StarHome,
+  },
+  HandlePage:HandlePage,
+  
   Login: {
     screen: LoginScreen,
   },
@@ -43,10 +49,6 @@ const routerStack = createStackNavigator({
       header: null,
     }
   },
-  StarHome: {
-    screen: StarHome,
-  },
- 
   
 },{
   mode: 'modal',
@@ -58,7 +60,7 @@ const routerStack = createStackNavigator({
   //标题居中
   headerLayoutPreset: "center",
   defaultNavigationOptions: {
-    
+    headerTintColor:"#000",
   },
     //页面跳转动画
   transitionConfig: () => ({
