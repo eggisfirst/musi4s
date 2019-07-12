@@ -1,10 +1,12 @@
 import React from "react"
-import { View, Text } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 import {TabBarItem} from "../../components/tabBarItem"
-import {Header} from "../../components/work/starHome/header";
 import pxToDp from "../../utils/fixcss";
+import { HeaderCmp } from '../../components/personalCmp/headerCmp';
+import { ListItem } from '../../components/personalCmp/listCmp';
+import { BtnCmp } from "../../components/personalCmp/btnCmp";
 
-export default class PersonalScreen extends React.Component { 
+export default class PersonalScreen extends React.Component<any> { 
   static navigationOptions = {
     tabBarLabel: '我的',  
     tabBarIcon: ({focused}:any) => (
@@ -16,10 +18,39 @@ export default class PersonalScreen extends React.Component {
    
   }
   render() {
+    const list = [
+      {
+        title: '我的收藏'
+      },
+      {
+        title: '意见反馈'
+      },
+      {
+        title: '账号安全'
+      },
+      {
+        title: '关于我们',
+        version: "版本 1.0.1"
+      },
+    ]
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Personal Screen</Text>
+      <View>
+        <HeaderCmp />
+        {
+          list && list.map(item =>
+            <TouchableOpacity onPress={() => {console.log(123)}}  key={item.title}>
+              <ListItem title={item.title} version={item.version}/>
+            </TouchableOpacity>
+          )
+        }
+        <BtnCmp onClick={() => {this.props.navigation.replace('Login')}}/>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  btnCmpStyle: {
+   
+  }
+})

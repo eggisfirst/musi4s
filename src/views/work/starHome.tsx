@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import {Header} from '../../components/work/starHome/header';
+import {Header} from '../../components/workCmp/starHome/header';
 import pxToDp from '../../utils/fixcss';
-import {StarItem} from '../../components/work/starHome/starItem';
+import {StarItem} from '../../components/workCmp/starHome/starItem';
 
 export default class StarHome extends React.Component<any> {
   static navigationOptions = {
@@ -75,7 +75,6 @@ export default class StarHome extends React.Component<any> {
               </TouchableOpacity>
             ))
           }
-        
         </View>
       </View>
     )

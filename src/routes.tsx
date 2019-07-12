@@ -16,8 +16,7 @@ const AppNavigator = createBottomTabNavigator({
     Announcement: AnnouncementScreen,
     Personal: PersonalScreen,
   },{
-    
-    initialRouteName: 'Work',
+    initialRouteName: 'Personal',
     tabBarOptions: {
       activeTintColor: '#007AFF',
       showIcon: true,
@@ -47,6 +46,7 @@ const routerStack = createStackNavigator({
   StarHome: {
     screen: StarHome,
   },
+ 
   
 },{
   mode: 'modal',

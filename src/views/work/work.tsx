@@ -1,7 +1,7 @@
 import React from "react"; 
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Button } from "react-native";
 import {TabBarItem} from "../../components/tabBarItem"
-import {IndexIcon} from '../../components/work/indexIcon'
+import {IndexIcon} from '../../components/workCmp/indexIcon'
 import pxToDp from "../../utils/fixcss";
 import {TabBar} from "../../components/tabBar";
 
