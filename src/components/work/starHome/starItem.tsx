@@ -2,10 +2,14 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 
-export default class StarItem extends React.Component<any>{
- render (){
-   const {imgUrl, title, num} = this.props
-   console.log(title)
+interface IProps {
+  imgUrl:any
+  title:string
+  num:number
+}
+
+export const StarItem:React.FC<IProps> = (IProps) =>{
+   const {imgUrl, title, num} = IProps
   return(
     <View style={styles.listItem}>
       <Image
@@ -18,7 +22,6 @@ export default class StarItem extends React.Component<any>{
       </View>
     </View>
    )
- }
 }
 
 const styles = StyleSheet.create({

@@ -4,9 +4,7 @@ import { StatusBar } from 'react-native';
 
 const App = () => {
   return (
-    <AppContainer>
-       
-    </AppContainer>
+    <AppContainer />
   );
 };
 

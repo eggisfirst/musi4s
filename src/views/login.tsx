@@ -167,8 +167,8 @@ const styleSheet:any = StyleSheet.create({
   copyright: {
     fontSize: pxToDp(24),
     color: '#909090',
-    // textAlign: 'center',
-    alignSelf: 'flex-end',
+    textAlign: 'center',
+    alignSelf: 'center',
     position: 'absolute',
     bottom: pxToDp(67),
     width: '100%',

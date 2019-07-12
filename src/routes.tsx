@@ -8,7 +8,7 @@ import AnnouncementScreen from './views/announcement/announcement'
 import PersonalScreen from './views/personal/personal'
 import StarHome from './views/work/starHome';
 import { Platform, StatusBar, Easing, Animated, Image } from "react-native";
-
+import pxToDp from "./utils/fixcss";
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -16,28 +16,25 @@ const AppNavigator = createBottomTabNavigator({
     Announcement: AnnouncementScreen,
     Personal: PersonalScreen,
   },{
+    
     initialRouteName: 'Work',
     tabBarOptions: {
       activeTintColor: '#007AFF',
       showIcon: true,
-    },
-    navigationOptions: {
-      headerTransparent:true,
-      // headerTitle: <LogoBanner />,
-      // headerTruncatedBackTitle: null,
-      // headerStyle: {
-      //   borderBottomWidth: 0,
-      //   elevation: 0,
-      // },
-    },
+      style: {
+        paddingBottom: 5,
+      },
+      labelStyle: {
+        fontSize: pxToDp(18),
+      },
+      indicatorStyle: { height: 0 },
+    }
   },
 )
 
 
 const routerStack = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-  },
+  
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部
@@ -48,9 +45,9 @@ const routerStack = createStackNavigator({
   StarHome: {
     screen: StarHome,
   },
- 
-  
-  
+  Login: {
+    screen: LoginScreen,
+  },
 },{
   mode: 'modal',
   // 指定标头的呈现方式
@@ -61,12 +58,7 @@ const routerStack = createStackNavigator({
   //标题居中
   headerLayoutPreset: "center",
   defaultNavigationOptions: {
-    // headerStyle: {
-    //   ...Platform.OS === 'android' && {
-    //     paddingTop: StatusBar.currentHeight,
-    //     // height: (StatusBar.currentHeight),
-    //   }
-    // }
+    
   },
     //页面跳转动画
   transitionConfig: () => ({

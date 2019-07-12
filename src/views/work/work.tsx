@@ -1,5 +1,5 @@
 import React from "react"; 
-import { View, StyleSheet, TouchableOpacity, StatusBar, Platform } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import {TabBarItem} from "../../components/tabBarItem"
 import {IndexIcon} from '../../components/work/indexIcon'
 import pxToDp from "../../utils/fixcss";
@@ -42,9 +42,9 @@ export default class WorkScreen extends React.Component<any>{
           {
             list && list.map(item => (
               <TouchableOpacity
-                      key={item.title}
-                      onPress={() => {this.props.navigation.push(`${item.link}`)}}>
-              <IndexIcon imgUrl={item.imgUrl} title={item.title} key={item.title}/>
+                key={item.title}
+                onPress={() => {this.props.navigation.push(`${item.link}`)}}>
+                <IndexIcon imgUrl={item.imgUrl} title={item.title} key={item.title}/>
               </TouchableOpacity>
             ))
           }
