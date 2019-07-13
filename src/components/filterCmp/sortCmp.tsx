@@ -6,7 +6,7 @@ import pxToDp from '../../utils/fixcss';
 
 interface IProps {
   handleSort: (i: number) => void
-  activeIndex: number
+  sortActiveIndex: number
   sortList: Array<string>
 }
 
@@ -28,7 +28,7 @@ export const Sort:React.FC<IProps> = (IProps) => {
                                 onPress={() => {handleClick(i)}} >
                                 <Text style={styles.listItem}>{item}</Text>
                                 {
-                                  IProps.activeIndex === i && (
+                                  IProps.sortActiveIndex === i && (
                                     <Image  style={styles.checkStyle}
                                             source={require("../../images/filter/checked.png")} />
                                   )
@@ -44,7 +44,7 @@ export const Sort:React.FC<IProps> = (IProps) => {
       <TouchableOpacity  
         style={styles.btnStyle}
         onPress={() => {setModalVisible(!modalVisible)}}>
-        <Text style={styles.textStyle}>{IProps.sortList[IProps.activeIndex]}</Text>
+        <Text style={styles.textStyle}>{IProps.sortList[IProps.sortActiveIndex]}</Text>
         <Image  style={modalVisible? styles.imageStyle2 : styles.imageStyle}
                 source={require('../../images/filter/down.png')} />
       </TouchableOpacity>

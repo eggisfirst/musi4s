@@ -2,19 +2,18 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React from 'react'
 import pxToDp from '../../utils/fixcss';
-import { ModalCmp } from './modalCmp';
 
-export const FilterCmp:React.FC = () => {
+interface IProps {
+  handleFilterStatus: () => void
+}
+export const FilterCmp:React.FC<IProps> = ({handleFilterStatus}) => {
   return (
-    <>
-      <TouchableOpacity style={styles.container}
-                        onPress={() => {}}>
-                        <Text style={styles.line}>|</Text>
-                        <Text style={styles.textStyle}>筛选</Text>
-                        <Image style={styles.image} source={require("../../images/filter/filter.png")} />
-      </TouchableOpacity>
-      <ModalCmp />
-    </>
+    <TouchableOpacity style={styles.container}
+                      onPress={() => {handleFilterStatus()}}>
+                      <Text style={styles.line}>|</Text>
+                      <Text style={styles.textStyle}>筛选</Text>
+                      <Image style={styles.image} source={require("../../images/filter/filter.png")} />
+    </TouchableOpacity>
   )
 }
 
