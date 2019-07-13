@@ -6,7 +6,7 @@ import pxToDp from "../../utils/fixcss";
 export const ModalCmp: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(true)
   return (
-    <View >
+    <View style={styles.modalStyle}>
       <Modal
         animationType="fade"
         transparent={true}
@@ -15,17 +15,7 @@ export const ModalCmp: React.FC = () => {
           
         }} >
           <View style={styles.modalStyle}>
-            <TouchableHighlight
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <View style={styles.list}>
-                <Text style={styles.listItem}>申请时间升序</Text>
-                <Image  style={styles.checkStyle}
-                        source={require("../../images/filter/checked.png")} />
-              </View>
-            </TouchableHighlight>
+            
           </View>
       </Modal>
     </View>
@@ -34,12 +24,18 @@ export const ModalCmp: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#ffaaff'
+  },
   modalStyle: {
     backgroundColor:"rgba(0,0,0,0.5)",
-    // marginTop:Platform.OS === "ios"? pxToDp(290) : pxToDp(190),
     flex:1,
     borderTopWidth:pxToDp(1),
     borderColor:"#e1e1e1",
+    zIndex: 99999
   },
   list: {
     display:"flex",

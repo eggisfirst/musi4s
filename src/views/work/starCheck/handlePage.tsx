@@ -3,20 +3,44 @@ import { View,Text, Platform, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import CheckHeader from '../../../components/workCmp/starCheck/CheckHeader';
 import { Sort } from '../../../components/filterCmp/sortCmp';
-import { ModalCmp } from '../../../components/filterCmp/modalCmp';
+import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 
-export default class HandelPage extends React.Component<any>{
+
+interface IState {
+  activeIndex: number,
+  sortList: Array<string>
+}
+
+export default class HandelPage extends React.Component<any,IState>{
   static navigationOptions = {
     header: null,
   }
+  state:IState = {
+    activeIndex: 0,
+    sortList:['申请时间升序','申请时间降序']
+  }
+  //排序
+  handleSort = (i:number) => {
+    if(this.state.activeIndex === i) {
+      return
+    }
+    this.setState({
+      activeIndex: i
+    })
+    //请求数据
+  }
+
  render (){
    const {navigation} = this.props
   return(
     <View>
       <CheckHeader  eggHandleBack={() => {navigation.goBack()}}
                     eggHandleSearch={() => {navigation.push("SearchPage")}} />
-      <View style={{position:"relative",zIndex:9999999}}>
-      <Sort handleSort={() => {console.log(111)}}/>
+      <View style={styles.filterContainer}>
+        <Sort handleSort={this.handleSort} 
+              activeIndex={this.state.activeIndex}
+              sortList={this.state.sortList}/>
+        <FilterCmp />
       </View>
       <View style={{borderTopWidth:1,borderColor:"#e1e1e1",width:"100%",height:80}}>
         <Text>123</Text>
@@ -27,8 +51,12 @@ export default class HandelPage extends React.Component<any>{
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    // paddingLeft: pxToDp(30),
-    // marginTop:pxToDp(53)
+  filterContainer: {
+    position:"relative",
+    zIndex:999,
+    display:"flex",
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"space-between"
   }
 })
