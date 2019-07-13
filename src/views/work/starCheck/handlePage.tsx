@@ -1,11 +1,11 @@
 import React from "react";
-import { View,Text, Platform, StyleSheet } from "react-native";
+import { View,Text, Platform, StyleSheet, Button } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import CheckHeader from '../../../components/workCmp/starCheck/CheckHeader';
 import { Sort } from '../../../components/filterCmp/sortCmp';
 import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
-
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 interface IState {
   sortActiveIndex: number,
@@ -13,7 +13,7 @@ interface IState {
   finterActiveIndex: number,
   filterList: Array<string>
   finterStatus: boolean
-  
+  isDateTimePickerVisibl: boolean
 }
 
 export default class HandelPage extends React.Component<any,IState>{
@@ -25,7 +25,8 @@ export default class HandelPage extends React.Component<any,IState>{
     sortList:['申请时间升序','申请时间降序'],
     finterActiveIndex: -1,
     filterList: ['一星','二星','三星','四星','五星'],
-    finterStatus: false
+    finterStatus: false,
+    isDateTimePickerVisibl: false
   }
   //排序
   handleSort = (i:number) => {
@@ -68,6 +69,23 @@ export default class HandelPage extends React.Component<any,IState>{
       finterActiveIndex: i
     })
   }
+
+
+  showDateTimePicker = () => {
+    this.setState({ 
+      isDateTimePickerVisibl: true 
+    });
+  };
+
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisibl: false });
+  };
+
+  handleDatePicked = (date:any) => {
+    console.log("A date has been picked: ", date);
+    this.hideDateTimePicker();
+  };
+
  render (){
    const {navigation} = this.props
   return(
@@ -89,7 +107,12 @@ export default class HandelPage extends React.Component<any,IState>{
                           handleComfirm={this.handleComfirm}/>
       }
       <View style={{borderTopWidth:1,borderColor:"#e1e1e1",width:"100%",height:80}}>
-        <Text>123</Text>
+      <Button title="Show DatePicker" onPress={this.showDateTimePicker} />
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisibl}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
+        />
       </View>
     </View>
    )
