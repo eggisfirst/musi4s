@@ -1,5 +1,4 @@
 import { createStackNavigator, createBottomTabNavigator, createAppContainer, HeaderBackButton } from "react-navigation"; 
-import React from "react";
 
 import WorkScreen from './views/work/work'
 import LoginScreen from './views/login'
@@ -7,9 +6,10 @@ import ReportScreen from './views/report/report'
 import AnnouncementScreen from './views/announcement/announcement'
 import PersonalScreen from './views/personal/personal'
 import StarHome from './views/work/starHome';
-import { Platform, StatusBar, Easing, Animated, Image } from "react-native";
+import { Easing, Animated } from "react-native";
 import pxToDp from "./utils/fixcss";
 import HandlePage from './views/work/starCheck/handlePage';
+import SearchPage from './views/search';
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -38,7 +38,7 @@ const routerStack = createStackNavigator({
     screen: StarHome,
   },
   HandlePage:HandlePage,
-  
+  SearchPage: SearchPage,
   Login: {
     screen: LoginScreen,
   },

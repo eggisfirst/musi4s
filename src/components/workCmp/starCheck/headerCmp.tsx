@@ -35,17 +35,18 @@ export default class HeaderCmp extends React.Component<IProps> {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:pxToDp(115),
+    marginTop:pxToDp(55),
     paddingLeft:pxToDp(32),
     paddingRight:pxToDp(22),
     display:"flex",
     flexDirection:"row",
     justifyContent:"space-between",
     alignItems:"center",
-    width: "100%"
+    width: "100%",
+    height: pxToDp(150),
   },
   backBtn: {
-    padding: pxToDp(20),
+    paddingRight: pxToDp(40),
   },
   arrow: {
     width:pxToDp(20),

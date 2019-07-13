@@ -12,7 +12,7 @@ export default class CheckHeader extends React.Component<IProps>{
  render (){
   const {eggHandleSearch, eggHandleBack} = this.props
   return(
-    <View style={styles.container}>
+    <View>
       <HeaderCmp  title="待受理" 
                   handleSearch={() => {eggHandleSearch()}}
                   handleBack={() => {eggHandleBack()}}/>
@@ -22,10 +22,3 @@ export default class CheckHeader extends React.Component<IProps>{
  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    borderBottomColor:"#e1e1e1",
-    borderWidth: pxToDp(1),
-    paddingBottom: pxToDp(32)
-  }
-})

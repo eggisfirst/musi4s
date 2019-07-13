@@ -2,6 +2,8 @@ import React from "react";
 import { View,Text, Platform, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import CheckHeader from '../../../components/workCmp/starCheck/CheckHeader';
+import { Sort } from '../../../components/filterCmp/sortCmp';
+import { ModalCmp } from '../../../components/filterCmp/modalCmp';
 
 export default class HandelPage extends React.Component<any>{
   static navigationOptions = {
@@ -12,10 +14,13 @@ export default class HandelPage extends React.Component<any>{
   return(
     <View>
       <CheckHeader  eggHandleBack={() => {navigation.goBack()}}
-                    eggHandleSearch={() => {navigation.push()}}>
-        <Text style={styles.headerContainer}>全部</Text>
-      </CheckHeader>
-      <Text>111</Text>
+                    eggHandleSearch={() => {navigation.push("SearchPage")}} />
+      <View style={{position:"relative",zIndex:9999999}}>
+      <Sort handleSort={() => {console.log(111)}}/>
+      </View>
+      <View style={{borderTopWidth:1,borderColor:"#e1e1e1",width:"100%",height:80}}>
+        <Text>123</Text>
+      </View>
     </View>
    )
  }
@@ -23,7 +28,7 @@ export default class HandelPage extends React.Component<any>{
 
 const styles = StyleSheet.create({
   headerContainer: {
-    paddingLeft: pxToDp(30),
-    marginTop:pxToDp(53)
+    // paddingLeft: pxToDp(30),
+    // marginTop:pxToDp(53)
   }
 })
