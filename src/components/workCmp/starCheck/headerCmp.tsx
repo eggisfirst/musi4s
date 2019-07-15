@@ -1,29 +1,27 @@
 import React from "react";
-import { View,Text, Platform, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View,Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
   title: string
-  handleBack: () => void
+  eggHandleBack: () => void
+  Children?: JSX.Element
 }
 
-export default class HeaderCmp extends React.Component<IProps> {
-  render() {
-    const {title,handleBack} = this.props
+export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
+    const {title,eggHandleBack} = props
     return(
       <View style={styles.container}>
         <TouchableOpacity 
             style={styles.backBtn}
-            onPress={() => {handleBack()}}>
+            onPress={() => {eggHandleBack()}}>
             <Image  style={styles.arrow}
                     source={require("../../../images/work/starCheck/arrow.png")}/>
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
-        {this.props.children}
+        {props.Children}
       </View>
      )
-  }
-  
 }
 
 const styles = StyleSheet.create({

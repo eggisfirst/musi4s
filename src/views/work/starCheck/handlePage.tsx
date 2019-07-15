@@ -1,7 +1,7 @@
 import React from "react";
 import { View,Text, Platform, StyleSheet, Button, TouchableHighlight, Dimensions, Alert } from "react-native";
 import pxToDp from "../../../utils/fixcss";
-import CheckHeader from '../../../components/workCmp/starCheck/CheckHeader';
+import {CheckHeader} from '../../../components/workCmp/starCheck/CheckHeader';
 import { Sort } from '../../../components/filterCmp/sortCmp';
 import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
@@ -89,7 +89,8 @@ export default class HandelPage extends React.Component<any,IState>{
    const {navigation} = this.props
   return(
     <View>
-      <CheckHeader  eggHandleBack={() => {navigation.goBack()}}
+      <CheckHeader  title={"待受理"}
+                    eggHandleBack={() => {navigation.goBack()}}
                     eggHandleSearch={() => {navigation.push("SearchPage")}} />
       <View style={styles.filterContainer}>
         <Sort handleSort={this.handleSort} 
