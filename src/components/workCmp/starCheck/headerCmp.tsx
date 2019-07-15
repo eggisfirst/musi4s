@@ -4,13 +4,12 @@ import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
   title: string
-  handleSearch: () => void
   handleBack: () => void
 }
 
 export default class HeaderCmp extends React.Component<IProps> {
   render() {
-    const {title,handleSearch,handleBack} = this.props
+    const {title,handleBack} = this.props
     return(
       <View style={styles.container}>
         <TouchableOpacity 
@@ -20,13 +19,7 @@ export default class HeaderCmp extends React.Component<IProps> {
                     source={require("../../../images/work/starCheck/arrow.png")}/>
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
-        <TouchableOpacity onPress={() => {handleSearch()}}>
-          <View style={styles.rightContainer}>
-            <Image  style={styles.search}
-                    source={require("../../../images/work/starCheck/search.png")} />
-            <Text style={styles.textStyle}>经销商</Text>
-          </View>
-        </TouchableOpacity>
+        {this.props.children}
       </View>
      )
   }
@@ -59,24 +52,4 @@ const styles = StyleSheet.create({
     textAlign:"right",
     flex:0.52,
   },
-  rightContainer: {
-    display:"flex",
-    flexDirection:"row",
-    width:pxToDp(180),
-    height: pxToDp(60),
-    borderRadius: pxToDp(30),
-    backgroundColor: "#f7f7f7",
-    alignItems:"center",
-    paddingLeft: pxToDp(30),
-    paddingRight: pxToDp(30)
-  },
-  search: {
-    width: pxToDp(32),
-    height: pxToDp(32),
-    marginRight: pxToDp(9),
-  },
-  textStyle: {
-    color: "#999",
-    fontSize: pxToDp(26)
-  }
 })

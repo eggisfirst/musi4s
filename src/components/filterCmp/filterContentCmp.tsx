@@ -4,10 +4,7 @@ import pxToDp from "../../utils/fixcss";
 import { DatePickerCmp } from "./dateCmp";
 import { format } from '../../utils/index';
 
-enum picker {
-  startPicker,
-  endPicker
-}
+
 interface IProps {
   filterList: Array<string>
   finterActiveIndex: number
@@ -32,6 +29,9 @@ export const FilterContentCmp: React.FC<IProps> = (IProps) => {
   //时间选择确定按钮
   const startComfirm = (date:Date) => {
     setStartStatus(!startStatus)
+    if(date === IProps.startDate) {
+      return
+    }
     if(new Date(IProps.endDate).getTime() - new Date(date).getTime() < 0) {
       Alert.alert(
         '提示',
@@ -50,6 +50,9 @@ export const FilterContentCmp: React.FC<IProps> = (IProps) => {
 
   const endComfirm = (date:Date) => {
     setEndStatus(!endStatus)
+    if(date === IProps.endDate) {
+      return
+    }
     if(new Date(date).getTime() - new Date(IProps.startDate).getTime() < 0) {
       Alert.alert(
         '提示',
@@ -90,6 +93,7 @@ export const FilterContentCmp: React.FC<IProps> = (IProps) => {
               <Text style={styles.dateText}>共{getRestDate(IProps.endDate, IProps.startDate)}日</Text>
             </View>
           </View>
+
           <View style={styles.star}>
             <Text style={styles.textStyle}>认证星级</Text>
             <View style={styles.btnList}>
@@ -104,6 +108,7 @@ export const FilterContentCmp: React.FC<IProps> = (IProps) => {
               }
             </View>
           </View>
+
           <View style={styles.footerBtn}>
             <TouchableOpacity activeOpacity={0.6} onPress={() => {handleReset()}}> 
               <Text style={styles.reset}>重置</Text>
@@ -112,6 +117,7 @@ export const FilterContentCmp: React.FC<IProps> = (IProps) => {
               <Text style={styles.comfirm}>完成</Text>
             </TouchableOpacity>
           </View>
+
       </View>
      {
         startStatus && 
