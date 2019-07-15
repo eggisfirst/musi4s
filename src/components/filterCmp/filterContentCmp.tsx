@@ -1,25 +1,94 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button, Platform, Dimensions } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Button, Platform, Dimensions, Alert, AlertIOS } from "react-native";
+import React, { useState } from "react";
 import pxToDp from "../../utils/fixcss";
+import { DatePickerCmp } from "./dateCmp";
+import { format } from '../../utils/index';
 
+enum picker {
+  startPicker,
+  endPicker
+}
 interface IProps {
   filterList: Array<string>
   finterActiveIndex: number
   handleFilter: (i: number) => void
   handleReset: () => void
   handleComfirm: () => void
+  startDate: Date
+  setStartDate: (date: Date) => void
+  endDate: Date
+  setEndtDate: (date: Date) => void
 }
 
 export const FilterContentCmp: React.FC<IProps> = (IProps) => {
   const {filterList,finterActiveIndex, handleFilter, handleReset, handleComfirm} = IProps
+  const [startStatus, setStartStatus] = useState(false)
+  const [endStatus, setEndStatus] = useState(false)
+
+  //选择星级
   const handleClick = (i:number) => {
     handleFilter(i)
   }
+  //时间选择确定按钮
+  const startComfirm = (date:Date) => {
+    setStartStatus(!startStatus)
+    if(new Date(IProps.endDate).getTime() - new Date(date).getTime() < 0) {
+      Alert.alert(
+        '提示',
+        '结束日不能小于起始日',
+        [{text: '确定'}, ],
+        { cancelable: false }
+     );
+     return
+    }
+    IProps.setStartDate(date)
+  }
+  //时间选择取消
+  const startCancle = () => {
+    setStartStatus(!startStatus)
+  }
+
+  const endComfirm = (date:Date) => {
+    setEndStatus(!endStatus)
+    if(new Date(date).getTime() - new Date(IProps.startDate).getTime() < 0) {
+      Alert.alert(
+        '提示',
+        '结束日不能小于起始日',
+        [{text: '确定'}, ],
+        { cancelable: false }
+     );
+     return
+    }
+    IProps.setEndtDate(date)
+  }
+  //时间选择取消
+  const endCancle = () => {
+    setEndStatus(!endStatus)
+  }
+  //获取时间间隔
+  const getRestDate = (end:Date,start:Date) => {
+    const restDate = new Date(end).getTime() - new Date(start).getTime()
+    const day =  Math.floor(restDate/(24*3600*1000))
+    return day + 1
+  }
+  
   return (
     <View style={styles.container}>
       <View style={styles.modalStyle}>
           <View>
             <Text style={styles.textStyle}>时间</Text>
+            <View style={styles.datePickerContainer}>
+              <TouchableOpacity activeOpacity={0.6} onPress={() => {setStartStatus(!startStatus)}}>
+                <Text style={styles.dateText}>起始日</Text>
+                <Text style={styles.date}>{format(IProps.startDate)}</Text>
+              </TouchableOpacity>
+              <Text  style={styles.dateText}>至</Text>
+              <TouchableOpacity  activeOpacity={0.6} onPress={() => {setEndStatus(!endStatus)}}>
+                <Text style={styles.dateText}>结束日</Text>
+                <Text style={styles.date}>{format(IProps.endDate)}</Text>
+              </TouchableOpacity>
+              <Text style={styles.dateText}>共{getRestDate(IProps.endDate, IProps.startDate)}日</Text>
+            </View>
           </View>
           <View style={styles.star}>
             <Text style={styles.textStyle}>认证星级</Text>
@@ -44,6 +113,24 @@ export const FilterContentCmp: React.FC<IProps> = (IProps) => {
             </TouchableOpacity>
           </View>
       </View>
+     {
+        startStatus && 
+        <View style={styles.datePickerMask}>
+          <DatePickerCmp  date={IProps.startDate} 
+                          showPickerDate={startStatus}
+                          comfirm={startComfirm}
+                          cancle={startCancle}/>
+        </View>
+     }
+    {
+      endStatus && 
+      <View style={styles.datePickerMask}>
+        <DatePickerCmp  date={IProps.endDate} 
+                        showPickerDate={endStatus}
+                        comfirm={endComfirm}
+                        cancle={endCancle}/>
+      </View>
+     }
     </View>
 
   )
@@ -56,7 +143,7 @@ const styles = StyleSheet.create({
     left:0,
     right:0,
     bottom:0, 
-    zIndex:9999, 
+    zIndex:999, 
     width: '100%', 
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -66,7 +153,7 @@ const styles = StyleSheet.create({
     top:0,
     right:0,
     bottom:0, 
-    zIndex:99999, 
+    zIndex:9999, 
     width: pxToDp(600), 
     height: Dimensions.get('screen').height,
     backgroundColor: '#fff',
@@ -141,5 +228,39 @@ const styles = StyleSheet.create({
     textAlign:"center",
     lineHeight: pxToDp(165)
 
+  },
+
+  datePickerMask: {
+    position: "relative",
+    top:0,
+    right:0,
+    bottom:0, 
+    zIndex:9999, 
+    width: pxToDp(750), 
+    height: Dimensions.get('screen').height,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  datePickerContainer: {
+    width: pxToDp(534),
+    height: pxToDp(120),
+    backgroundColor: "#f8f8f8",
+    padding: pxToDp(30),
+    marginTop: pxToDp(20),
+    borderRadius: pxToDp(12),
+    display: "flex",
+    flexDirection:"row",
+    alignItems:"flex-end",
+    justifyContent: "space-between"
+  },
+  dateText: {
+    color: "#999",
+    fontSize: pxToDp(22),
+    marginBottom: pxToDp(6)
+  },
+  date: {
+    color: "#363636",
+    fontSize: pxToDp(28),
+    // marginTop: pxToDp(10),
+    // lineHeight: pxToDp(28)
   }
 })

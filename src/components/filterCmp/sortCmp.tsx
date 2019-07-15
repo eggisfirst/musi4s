@@ -56,8 +56,8 @@ export const Sort:React.FC<IProps> = (IProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomWidth:pxToDp(1),
-    borderColor:"#e1e1e1",
+    // borderBottomWidth:pxToDp(1),
+    // borderColor:"#e1e1e1",
     position:"relative",
   },
   btnStyle: {

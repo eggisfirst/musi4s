@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
   },
   line: {
     color: "#999",
-    marginRight: pxToDp(32)
+    marginRight: pxToDp(32),
+    paddingLeft:pxToDp(20)
   },
   textStyle: {
     color: "#363636",

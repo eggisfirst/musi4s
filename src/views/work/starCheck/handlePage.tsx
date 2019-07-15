@@ -1,11 +1,10 @@
 import React from "react";
-import { View,Text, Platform, StyleSheet, Button } from "react-native";
+import { View,Text, Platform, StyleSheet, Button, TouchableHighlight, Dimensions, Alert } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import CheckHeader from '../../../components/workCmp/starCheck/CheckHeader';
 import { Sort } from '../../../components/filterCmp/sortCmp';
 import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
-import DateTimePicker from "react-native-modal-datetime-picker";
 
 interface IState {
   sortActiveIndex: number,
@@ -14,6 +13,8 @@ interface IState {
   filterList: Array<string>
   finterStatus: boolean
   isDateTimePickerVisibl: boolean
+  startDate: Date
+  endDate: Date
 }
 
 export default class HandelPage extends React.Component<any,IState>{
@@ -26,7 +27,9 @@ export default class HandelPage extends React.Component<any,IState>{
     finterActiveIndex: -1,
     filterList: ['一星','二星','三星','四星','五星'],
     finterStatus: false,
-    isDateTimePickerVisibl: false
+    isDateTimePickerVisibl: false,
+    startDate: new Date(),
+    endDate: new Date()
   }
   //排序
   handleSort = (i:number) => {
@@ -53,6 +56,10 @@ export default class HandelPage extends React.Component<any,IState>{
   //重置
   handleReset = () => {
     this._setFilterActiveIndex(-1)
+    this.setState({
+      startDate: new Date(),
+      endDate: new Date()
+    })
   }
   //完成
   handleComfirm = () => {
@@ -69,22 +76,14 @@ export default class HandelPage extends React.Component<any,IState>{
       finterActiveIndex: i
     })
   }
-
-
-  showDateTimePicker = () => {
-    this.setState({ 
-      isDateTimePickerVisibl: true 
-    });
-  };
-
-  hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisibl: false });
-  };
-
-  handleDatePicked = (date:any) => {
-    console.log("A date has been picked: ", date);
-    this.hideDateTimePicker();
-  };
+  //设置时间
+  setStartDate = (startDate:Date) => {
+    this.setState({startDate})
+  }
+  //判断结束时间和开始时间
+  setEndtDate = (endDate:Date) => {
+    this.setState({endDate})
+  }
 
  render (){
    const {navigation} = this.props
@@ -104,16 +103,13 @@ export default class HandelPage extends React.Component<any,IState>{
                           finterActiveIndex={this.state.finterActiveIndex}
                           handleFilter={this.handleFilter}
                           handleReset={this.handleReset}
-                          handleComfirm={this.handleComfirm}/>
+                          handleComfirm={this.handleComfirm}
+                          startDate={this.state.startDate}
+                          setStartDate={this.setStartDate}
+                          endDate={this.state.endDate}
+                          setEndtDate={this.setEndtDate}
+                          />
       }
-      <View style={{borderTopWidth:1,borderColor:"#e1e1e1",width:"100%",height:80}}>
-      <Button title="Show DatePicker" onPress={this.showDateTimePicker} />
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisibl}
-          onConfirm={this.handleDatePicked}
-          onCancel={this.hideDateTimePicker}
-        />
-      </View>
     </View>
    )
  }
@@ -126,6 +122,8 @@ const styles = StyleSheet.create({
     display:"flex",
     flexDirection:"row",
     alignItems:"center",
-    justifyContent:"space-between"
-  }
+    justifyContent:"space-between",
+    borderColor:"#e1e1e1",
+    borderBottomWidth:1
+  },
 })
