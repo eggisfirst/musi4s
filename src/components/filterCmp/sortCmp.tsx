@@ -8,6 +8,7 @@ interface IProps {
   handleSort: (i: number) => void
   sortActiveIndex: number
   sortList: Array<string>
+  handleSortStatus: (status: boolean) => void
 }
 
 export const Sort:React.FC<IProps> = (IProps) => {
@@ -16,6 +17,10 @@ export const Sort:React.FC<IProps> = (IProps) => {
   const handleClick = (i:number) => {
     IProps.handleSort(i)
     setModalVisible(!modalVisible)
+  }
+  const handleStatus = () => {
+    setModalVisible(!modalVisible)
+    IProps.handleSortStatus(!modalVisible)
   }
   let list = null;
   if(modalVisible) {
@@ -46,7 +51,7 @@ export const Sort:React.FC<IProps> = (IProps) => {
     <View style={styles.container}>
       <TouchableOpacity  
         style={styles.btnStyle}
-        onPress={() => {setModalVisible(!modalVisible)}}>
+        onPress={() => {handleStatus()}}>
         <Text style={styles.textStyle}>{IProps.sortList[IProps.sortActiveIndex]}</Text>
         <Image  style={modalVisible? styles.imageStyle2 : styles.imageStyle}
                 source={require('../../images/filter/down.png')} />
@@ -64,12 +69,12 @@ const styles = StyleSheet.create({
     height: pxToDp(2000),
     position: "absolute",
     top: pxToDp(240),
-    zIndex: 99999
+    zIndex: 9999999
   },
   container: {
     // borderBottomWidth:pxToDp(1),
     // borderColor:"#e1e1e1",
-    position:"relative",
+    // position:"relative",
   },
   btnStyle: {
     paddingLeft: pxToDp(32),

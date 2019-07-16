@@ -19,6 +19,7 @@ interface IState {
   isDateTimePickerVisibl: boolean
   startDate: Date
   endDate: Date
+  sortStatus: boolean
 }
 
 export default class HandelPage extends React.Component<any,IState>{
@@ -33,7 +34,13 @@ export default class HandelPage extends React.Component<any,IState>{
     finterStatus: false,
     isDateTimePickerVisibl: false,
     startDate: new Date(),
-    endDate: new Date()
+    endDate: new Date(),
+    sortStatus: false
+  }
+  handleSortStatus = (sortStatus: boolean) => {
+    this.setState({
+      sortStatus
+    })
   }
   //排序
   handleSort = (i:number) => {
@@ -88,10 +95,17 @@ export default class HandelPage extends React.Component<any,IState>{
   setEndtDate = (endDate:Date) => {
     this.setState({endDate})
   }
+  //安卓点击穿透处理
   handleSendBack = () => {
-    // Alert.alert("1111")
+    if(this.state.sortStatus) {
+      return
+    }
+    Alert.alert("1111")
   }
   handleApplying = () => {
+    if(this.state.sortStatus) {
+      return
+    }
     console.log('applying')
   }
 
@@ -115,7 +129,8 @@ export default class HandelPage extends React.Component<any,IState>{
                     eggHandleBack={() => {navigation.goBack()}}
                     eggHandleSearch={() => {navigation.push("SearchPage")}} />
       <View style={styles.filterContainer}>
-        <Sort handleSort={this.handleSort} 
+        <Sort handleSortStatus={this.handleSortStatus}
+              handleSort={this.handleSort} 
               sortActiveIndex={this.state.sortActiveIndex}
               sortList={this.state.sortList}/>
         <FilterCmp  handleFilterStatus={this.handleFilterStatus} />
