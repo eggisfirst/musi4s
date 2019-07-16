@@ -1,10 +1,14 @@
 import React from "react";
-import { View,Text, Platform, StyleSheet, Button, TouchableHighlight, Dimensions, Alert } from "react-native";
+import { View,Text, Platform, StyleSheet, Button, TouchableHighlight, Dimensions, Alert, TouchableOpacity, FlatList, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import {CheckHeader} from '../../../components/workCmp/starCheck/CheckHeader';
 import { Sort } from '../../../components/filterCmp/sortCmp';
 import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
+import { ApplyItem } from '../../../components/workCmp/starCheck/applyItem';
+import { ApplyBtn } from '../../../components/workCmp/starCheck/applyBtn';
+import { BtnTypes, BtnTitle } from '../../../utils/enum';
+import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
 
 interface IState {
   sortActiveIndex: number,
@@ -84,9 +88,27 @@ export default class HandelPage extends React.Component<any,IState>{
   setEndtDate = (endDate:Date) => {
     this.setState({endDate})
   }
+  handleSendBack = () => {
+    // Alert.alert("1111")
+  }
+  handleApplying = () => {
+    console.log('applying')
+  }
 
  render (){
    const {navigation} = this.props
+   const list = [
+     {name: '广东广州何秋明发起申请！', star: "三星", week: 48, score: 90, date: "2019.06.04",key:'1'},
+     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'2'},
+     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'3'},
+     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'4'},
+     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'5'},
+     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'6'},
+     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'7'},
+     {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'8'},
+     {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
+     {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
+   ]
   return(
     <View>
       <CheckHeader  title={"待受理"}
@@ -111,6 +133,20 @@ export default class HandelPage extends React.Component<any,IState>{
                           setEndtDate={this.setEndtDate}
                           />
       }
+      <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
+                data={list}
+                keyExtractor={item => item.key}
+                renderItem={({ item }) => (
+                  <ApplyItem title={item.name} star={item.star}>
+                    <View style={styles.btnStyle}>
+                      <ApplyBtn handleClick={this.handleSendBack} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
+                      <ApplyBtn handleClick={this.handleApplying} title={BtnTitle.applying} color={BtnTypes.Blue}/>
+                    </View>
+                    <ApplyFooter score={item.score} week={item.week} date={item.date}/>
+                  </ApplyItem>
+                )}
+              />
+     
     </View>
    )
  }
@@ -127,4 +163,10 @@ const styles = StyleSheet.create({
     borderColor:"#e1e1e1",
     borderBottomWidth:1
   },
+  btnStyle: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent:"flex-end",
+    width: "100%"
+  }
 })

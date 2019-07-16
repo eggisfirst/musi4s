@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
     fontSize:pxToDp(38),
     fontWeight:"bold",
     textAlign:"right",
-    flex:0.52,
+    flex:0.5,
   },
 })

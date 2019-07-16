@@ -20,6 +20,7 @@ export const Sort:React.FC<IProps> = (IProps) => {
   let list = null;
   if(modalVisible) {
     list = (
+      <>
       <View style={styles.modalStyle}>
           {
             IProps.sortList.map((item,i) => (
@@ -37,6 +38,8 @@ export const Sort:React.FC<IProps> = (IProps) => {
             ))
           }
       </View>
+      <Text style={styles.rest}></Text>
+      </>
     )
   }
   return (
@@ -55,6 +58,14 @@ export const Sort:React.FC<IProps> = (IProps) => {
 }
 
 const styles = StyleSheet.create({
+  rest: {
+    backgroundColor:"rgba(0,0,0,0.5)",
+    width: pxToDp(750),
+    height: pxToDp(2000),
+    position: "absolute",
+    top: pxToDp(240),
+    zIndex: 99999
+  },
   container: {
     // borderBottomWidth:pxToDp(1),
     // borderColor:"#e1e1e1",
@@ -87,8 +98,10 @@ const styles = StyleSheet.create({
   },
   modalStyle: {
     backgroundColor:"rgba(0,0,0,0.5)",
-    height: pxToDp(2000),
+    // height: pxToDp(1500),
     width:pxToDp(750),
+    // position: "absolute",
+    // top: pxToDp(80)
     // borderTopWidth:pxToDp(1),
     // borderColor: "#e1e1e1"
   },

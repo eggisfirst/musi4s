@@ -34,11 +34,13 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  HandlePage:HandlePage,
+
+  SearchPage: SearchPage,
+
   StarHome: {
     screen: StarHome,
   },
-  HandlePage:HandlePage,
-  SearchPage: SearchPage,
   Login: {
     screen: LoginScreen,
   },
