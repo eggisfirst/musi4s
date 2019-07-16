@@ -44,6 +44,8 @@ export default class Search extends React.Component<any,IState> {
       {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",},
       {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",},
       {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04"},
+      {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04"},
+      {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04"},
     ]
     this.setState({
       list
@@ -104,7 +106,7 @@ export default class Search extends React.Component<any,IState> {
           </View>
         </View>
        
-        <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
+        <FlatList style={{backgroundColor:"#f8f8f8"}} 
                 data={this.state.list}
                 keyExtractor={(item,index) => index + "1"}
                 renderItem={({ item }) => (
@@ -177,7 +179,8 @@ const styles = StyleSheet.create({
   input: {
     color: "#999",
     fontSize: pxToDp(26),
-    padding: 0
+    padding: 0,
+    width: pxToDp(450),
   },
   btnStyle: {
     display: "flex",

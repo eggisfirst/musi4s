@@ -34,8 +34,6 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  HandlePage:HandlePage,
-
   SearchPage: SearchPage,
 
   StarHome: {
@@ -44,6 +42,8 @@ const routerStack = createStackNavigator({
   Login: {
     screen: LoginScreen,
   },
+  HandlePage:HandlePage,
+
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部

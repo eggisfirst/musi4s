@@ -59,7 +59,8 @@ export default class StarHome extends React.Component<any> {
           {
             list && list.map(item => (
               <TouchableOpacity  
-                      onPress={() => {this.props.navigation.push(`${item.link}`)}}
+                      onPress={() => {this.props.navigation.push(`${item.link}`,
+                      )}}
                       key={item.title}>
                 <StarItem title={item.title} imgUrl={item.imgUrl} num={item.num}/>
               </TouchableOpacity>

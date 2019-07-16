@@ -101,7 +101,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top:0,
+    top: 0,
     left:0,
     right:0,
     bottom:0, 
@@ -110,8 +110,10 @@ const styles = StyleSheet.create({
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
     display: "flex",
-    alignItems:"center",
-    justifyContent:"center"
+    flexDirection: 'row',
+    paddingTop: "50%",
+    // alignItems:"center",
+    justifyContent:"center",
   },
   alertBox: {
     width: pxToDp(560),
