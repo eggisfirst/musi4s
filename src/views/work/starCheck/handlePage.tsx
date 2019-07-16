@@ -7,7 +7,7 @@ import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
 import { ApplyItem } from '../../../components/workCmp/starCheck/applyItem';
 import { ApplyBtn } from '../../../components/workCmp/starCheck/applyBtn';
-import { BtnTypes, BtnTitle, AlertBtnTypes } from '../../../utils/enum';
+import { BtnTypes, BtnTitle, AlertBtnTypes, StarCheckTypes } from '../../../utils/enum';
 import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
 import { AlertCmp } from '../../../components/altrtCmp';
 
@@ -22,6 +22,7 @@ interface IState {
   endDate: Date
   sortStatus: boolean
   alertBox: BtnTitle
+  starCheckType: StarCheckTypes
 }
 
 export default class HandelPage extends React.Component<any,IState>{
@@ -38,7 +39,8 @@ export default class HandelPage extends React.Component<any,IState>{
     startDate: new Date(),
     endDate: new Date(),
     sortStatus: false,
-    alertBox: BtnTitle.null
+    alertBox: BtnTitle.null,
+    starCheckType: StarCheckTypes.wait_handle
   }
   handleSortStatus = (sortStatus: boolean) => {
     this.setState({
@@ -130,7 +132,11 @@ export default class HandelPage extends React.Component<any,IState>{
       alertBox: status
     })
   }
-
+  componentDidMount(){
+    this.setState({
+      starCheckType: this.props.navigation.state.params.type
+    })
+  }
  render (){
    const {navigation} = this.props
    const list = [
@@ -145,10 +151,10 @@ export default class HandelPage extends React.Component<any,IState>{
      {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
      {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
    ]
-  
+ 
    return(
     <View>
-      <CheckHeader  title={"待受理"}
+      <CheckHeader  title={this.state.starCheckType}
                     eggHandleBack={() => {navigation.goBack()}}
                     eggHandleSearch={() => {navigation.push("SearchPage")}} />
       <View style={styles.filterContainer}>

@@ -3,6 +3,7 @@ import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity } 
 import {Header} from '../../components/workCmp/starHome/header';
 import pxToDp from '../../utils/fixcss';
 import {StarItem} from '../../components/workCmp/starHome/starItem';
+import { StarCheckTypes } from '../../utils/enum';
 
 export default class StarHome extends React.Component<any> {
   static navigationOptions = {
@@ -23,22 +24,25 @@ export default class StarHome extends React.Component<any> {
         imgUrl:require("../../images/work/starHome/wait1.png"),
         title:"待受理",
         num:3,
-        link: "HandlePage"
+        type: StarCheckTypes.wait_handle
       },
       {
         imgUrl:require("../../images/work/starHome/wait2.png"),
         title:"待验收",
-        num:12
+        num:12,
+        type: StarCheckTypes.wait_reception
       },
       {
         imgUrl:require("../../images/work/starHome/wait3.png"),
         title:"待发起",
-        num:5
+        num:5,
+        type: StarCheckTypes.wait_sponsor
       },
       {
         imgUrl:require("../../images/work/starHome/wait4.png"),
         title:"处理记录",
-        num:6
+        num:6,
+        type: StarCheckTypes.processing_record
       },
     ]
     const imgArr = [
@@ -59,7 +63,9 @@ export default class StarHome extends React.Component<any> {
           {
             list && list.map(item => (
               <TouchableOpacity  
-                      onPress={() => {this.props.navigation.push(`${item.link}`,
+                      onPress={() => {this.props.navigation.push('HandlePage',{
+                        type: item.type
+                      }
                       )}}
                       key={item.title}>
                 <StarItem title={item.title} imgUrl={item.imgUrl} num={item.num}/>
