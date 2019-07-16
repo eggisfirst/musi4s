@@ -5,5 +5,13 @@ export enum BtnTypes {
 
 export enum BtnTitle {
   applying,
-  sendBack
+  sendBack,
+  null
 }
+
+export enum AlertBtnTypes {
+  comfirm,
+  sendBack,
+  cancle,
+}
+

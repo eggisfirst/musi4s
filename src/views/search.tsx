@@ -1,10 +1,24 @@
 import React from "react";
 import { View,Text, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import pxToDp from "../utils/fixcss";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, FlatList } from "react-native-gesture-handler";
+import { ApplyItem } from "../components/workCmp/starCheck/applyItem";
+import { ApplyBtn } from "../components/workCmp/starCheck/applyBtn";
+import { BtnTitle, BtnTypes, AlertBtnTypes } from "../utils/enum";
+import { ApplyFooter } from "../components/workCmp/starCheck/applyFooter";
+import { AlertCmp } from "../components/altrtCmp";
 
+interface obj {
+  name: string
+  star: string
+  week: number
+  score: number
+  date: string
+}
 interface IState {
   value: string
+  list: Array<obj>
+  alertBox: BtnTitle
 }
 
 export default class Search extends React.Component<any,IState> {
@@ -12,7 +26,9 @@ export default class Search extends React.Component<any,IState> {
     header: null,
   }
   state:IState = {
-    value: ''
+    value: '',
+    list: [],
+    alertBox:BtnTitle.null
   }
   //更改输入框的值
   handleChange = (value:string) => {
@@ -20,9 +36,46 @@ export default class Search extends React.Component<any,IState> {
       value
     })
   }
+  //搜索请求数据
   handleSubmit = () => {
     //请求
-    Alert.alert('1111')
+    const list = [
+      {name: '广东广州何秋明发起申请！', star: "三星", week: 48, score: 90, date: "2019.06.04",},
+      {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",},
+      {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",},
+      {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04"},
+    ]
+    this.setState({
+      list
+    })
+  }
+  //退回
+  handleSendBack = () => {
+    this._setAlertBoxStatus(BtnTitle.sendBack)
+  }
+  //受理
+  handleApplying = () => {
+    this._setAlertBoxStatus(BtnTitle.applying)
+  }
+  //弹出框状态以及点击回调
+  handleAlert = (status:AlertBtnTypes,value?: string) => {
+    switch (status) {
+      case AlertBtnTypes.cancle:
+        this._setAlertBoxStatus(BtnTitle.null)
+        break;
+      case AlertBtnTypes.comfirm:
+        this._setAlertBoxStatus(BtnTitle.null)
+        break;
+      case AlertBtnTypes.sendBack:
+        console.log(value)
+        this._setAlertBoxStatus(BtnTitle.null)
+        break;
+    }
+  }
+  _setAlertBoxStatus = (status: BtnTitle) => {
+    this.setState({
+      alertBox: status
+    })
   }
   render() {
     const {navigation} = this.props
@@ -50,6 +103,29 @@ export default class Search extends React.Component<any,IState> {
             />
           </View>
         </View>
+       
+        <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
+                data={this.state.list}
+                keyExtractor={(item,index) => index + "1"}
+                renderItem={({ item }) => (
+                  <ApplyItem title={item.name} star={item.star}>
+                    <View style={styles.btnStyle}>
+                      <ApplyBtn handleClick={this.handleSendBack} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
+                      <ApplyBtn handleClick={this.handleApplying} title={BtnTitle.applying} color={BtnTypes.Blue}/>
+                    </View>
+                    <ApplyFooter score={item.score} week={item.week} date={item.date}/>
+                  </ApplyItem>
+                )}
+              />
+           {
+        this.state.alertBox !== BtnTitle.null &&  
+        <AlertCmp title={this.state.alertBox} 
+                  comfirm={this.state.alertBox === BtnTitle.applying?  AlertBtnTypes.comfirm : undefined}
+                  cancle={AlertBtnTypes.cancle}
+                  sendBack={this.state.alertBox === BtnTitle.sendBack?  AlertBtnTypes.sendBack : undefined}
+                  handleAlert={this.handleAlert}
+                  />
+      }
       </View>
      )
     }
@@ -102,5 +178,11 @@ const styles = StyleSheet.create({
     color: "#999",
     fontSize: pxToDp(26),
     padding: 0
+  },
+  btnStyle: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent:"flex-end",
+    width: "100%"
   }
 })

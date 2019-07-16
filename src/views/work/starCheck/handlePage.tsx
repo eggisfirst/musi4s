@@ -7,8 +7,9 @@ import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
 import { ApplyItem } from '../../../components/workCmp/starCheck/applyItem';
 import { ApplyBtn } from '../../../components/workCmp/starCheck/applyBtn';
-import { BtnTypes, BtnTitle } from '../../../utils/enum';
+import { BtnTypes, BtnTitle, AlertBtnTypes } from '../../../utils/enum';
 import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
+import { AlertCmp } from '../../../components/altrtCmp';
 
 interface IState {
   sortActiveIndex: number,
@@ -20,6 +21,7 @@ interface IState {
   startDate: Date
   endDate: Date
   sortStatus: boolean
+  alertBox: BtnTitle
 }
 
 export default class HandelPage extends React.Component<any,IState>{
@@ -35,7 +37,8 @@ export default class HandelPage extends React.Component<any,IState>{
     isDateTimePickerVisibl: false,
     startDate: new Date(),
     endDate: new Date(),
-    sortStatus: false
+    sortStatus: false,
+    alertBox: BtnTitle.null
   }
   handleSortStatus = (sortStatus: boolean) => {
     this.setState({
@@ -100,13 +103,32 @@ export default class HandelPage extends React.Component<any,IState>{
     if(this.state.sortStatus) {
       return
     }
-    Alert.alert("1111")
+    this._setAlertBoxStatus(BtnTitle.sendBack)
   }
   handleApplying = () => {
     if(this.state.sortStatus) {
       return
     }
-    console.log('applying')
+    this._setAlertBoxStatus(BtnTitle.applying)
+  }
+  handleAlert = (status:AlertBtnTypes,value?: string) => {
+    switch (status) {
+      case AlertBtnTypes.cancle:
+        this._setAlertBoxStatus(BtnTitle.null)
+        break;
+      case AlertBtnTypes.comfirm:
+        this._setAlertBoxStatus(BtnTitle.null)
+        break;
+      case AlertBtnTypes.sendBack:
+        console.log(value)
+        this._setAlertBoxStatus(BtnTitle.null)
+        break;
+    }
+  }
+  _setAlertBoxStatus = (status: BtnTitle) => {
+    this.setState({
+      alertBox: status
+    })
   }
 
  render (){
@@ -123,7 +145,8 @@ export default class HandelPage extends React.Component<any,IState>{
      {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
      {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
    ]
-  return(
+  
+   return(
     <View>
       <CheckHeader  title={"待受理"}
                     eggHandleBack={() => {navigation.goBack()}}
@@ -161,7 +184,15 @@ export default class HandelPage extends React.Component<any,IState>{
                   </ApplyItem>
                 )}
               />
-     
+      {
+        this.state.alertBox !== BtnTitle.null &&  
+        <AlertCmp title={this.state.alertBox} 
+                  comfirm={this.state.alertBox === BtnTitle.applying?  AlertBtnTypes.comfirm : undefined}
+                  cancle={AlertBtnTypes.cancle}
+                  sendBack={this.state.alertBox === BtnTitle.sendBack?  AlertBtnTypes.sendBack : undefined}
+                  handleAlert={this.handleAlert}
+                  />
+      }
     </View>
    )
  }
