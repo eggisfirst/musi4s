@@ -44,7 +44,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
           props.title === BtnTitle.applying && (
             <>
               <Image style={styles.image} source={require("../images/applying.png")}/>
-              <Text style={styles.titleStyle}>受理</Text>
+              <Text style={styles.titleStyle}>{BtnTitle.applying}</Text>
               <Text style={styles.textStyle}>是否确定受理，XX供应商</Text>
               <Text style={styles.textStyle}>《一星认证》申请？</Text>
             </>
@@ -54,7 +54,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
           props.title === BtnTitle.sendBack && (
             <>
               <Image style={styles.image} source={require("../images/sendback.png")}/>
-              <Text style={styles.titleStyle}>退回</Text>
+              <Text style={styles.titleStyle}>{BtnTitle.sendBack}</Text>
               <TextInput
                 style={styles.input}
                 maxLength={30}
@@ -71,22 +71,24 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
           <>
             {
               props.cancle === AlertBtnTypes.cancle && (
-                <TouchableOpacity activeOpacity={1} style={{borderColor: "#e1e1e1",borderRightWidth:pxToDp(1)}}>
-                                  <Text style={styles.cancle} onPress={() => {handleClick(AlertBtnTypes.cancle)}}>取消</Text>
+                <TouchableOpacity activeOpacity={1}
+                                  onPress={() => {handleClick(AlertBtnTypes.cancle)}} 
+                                  style={{borderColor: "#e1e1e1",borderRightWidth:pxToDp(1)}}>
+                                  <Text style={styles.cancle} >{AlertBtnTypes.cancle}</Text>
                                   </TouchableOpacity>
               )
             }
             {
               props.comfirm === AlertBtnTypes.comfirm && (
-                <TouchableOpacity activeOpacity={1}>
-                  <Text style={styles.comfirm} onPress={() => {handleClick(AlertBtnTypes.comfirm)}}>确定</Text>
+                <TouchableOpacity activeOpacity={1} onPress={() => {handleClick(AlertBtnTypes.comfirm)}}>
+                  <Text style={styles.comfirm} >{AlertBtnTypes.comfirm}</Text>
                 </TouchableOpacity>
               )
             }
             {
               props.sendBack === AlertBtnTypes.sendBack && (
-                <TouchableOpacity activeOpacity={1}>
-                  <Text style={styles.comfirm} onPress={() => {handleClick(AlertBtnTypes.sendBack)}}>退回</Text>
+                <TouchableOpacity activeOpacity={1}  onPress={() => {handleClick(AlertBtnTypes.sendBack)}}>
+                  <Text style={styles.comfirm}>{AlertBtnTypes.sendBack}</Text>
                 </TouchableOpacity>
               )
             }

@@ -114,16 +114,14 @@ export default class HandelPage extends React.Component<any,IState>{
     this._setAlertBoxStatus(BtnTitle.applying)
   }
   handleAlert = (status:AlertBtnTypes,value?: string) => {
+    this._setAlertBoxStatus(BtnTitle.null)
     switch (status) {
       case AlertBtnTypes.cancle:
-        this._setAlertBoxStatus(BtnTitle.null)
         break;
       case AlertBtnTypes.comfirm:
-        this._setAlertBoxStatus(BtnTitle.null)
         break;
       case AlertBtnTypes.sendBack:
         console.log(value)
-        this._setAlertBoxStatus(BtnTitle.null)
         break;
     }
   }
