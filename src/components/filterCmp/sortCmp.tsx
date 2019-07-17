@@ -21,8 +21,11 @@ class Sort extends React.Component<IProps> {
   }
   //选择
   handleSelect = (i:number) => {
-    this.props.handleSortIndex(i)
     this._setActive()
+    if(this.props.activeIndex === i) {
+      return
+    }
+    this.props.handleSortIndex(i)
   }
   _setActive = () => {
     const isActive = this.props.isActive

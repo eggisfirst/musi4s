@@ -1,21 +1,34 @@
 
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import React from 'react'
 import pxToDp from '../../utils/fixcss';
+import {connect} from 'react-redux';
+import * as actions from '../../store/actions/filter/rightFliter';
 
 interface IProps {
-  handleFilterStatus: () => void
+  isActive: boolean
+  handleFilterActive: (status: boolean) => void
 }
-export const FilterCmp:React.FC<IProps> = ({handleFilterStatus}) => {
-  return (
-    <TouchableOpacity style={styles.container}
-                      onPress={() => {handleFilterStatus()}}>
-                      <Text style={styles.line}>|</Text>
-                      <Text style={styles.textStyle}>筛选</Text>
-                      <Image style={styles.image} source={require("../../images/filter/filter.png")} />
+
+class FilterIcon extends React.Component<IProps> {
+  handleClick = () => {
+    const isActive = this.props.isActive
+    this.props.handleFilterActive(!isActive)
+  }
+  render() {
+    return (
+      <TouchableOpacity style={styles.container}
+        onPress={() => {this.handleClick()}}>
+        <Text style={styles.line}>|</Text>
+        <Text style={styles.textStyle}>筛选</Text>
+        <Image style={styles.image} source={require("../../images/filter/filter.png")} />
     </TouchableOpacity>
-  )
+    )
+  }
 }
+const mapStateToProps = (state: { rightFilter: any; }) => state.rightFilter;
+
+export default connect(mapStateToProps, actions)(FilterIcon)
 
 const styles = StyleSheet.create({
   container:{

@@ -3,60 +3,44 @@ import { View,Text, Platform, StyleSheet, Button, TouchableHighlight, Dimensions
 import pxToDp from "../../../utils/fixcss";
 import {CheckHeader} from '../../../components/workCmp/starCheck/CheckHeader';
 import Sort from '../../../components/filterCmp/sortCmp';
-import { FilterCmp } from '../../../components/filterCmp/filterCmp';
-import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
+import FilterIcon from '../../../components/filterCmp/filterCmp';
+import FilterContentCmp from "../../../components/filterCmp/filterContentCmp";
 import { ApplyItem } from '../../../components/workCmp/starCheck/applyItem';
 import { ApplyBtn } from '../../../components/workCmp/starCheck/applyBtn';
 import { BtnTypes, BtnTitle, AlertBtnTypes, StarCheckTypes } from '../../../utils/enum';
 import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
 import { AlertCmp } from '../../../components/altrtCmp';
 
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/filter/rightFliter';
+
+
 interface IState {
-  sortActiveIndex: number,
-  sortList: Array<string>,
   finterActiveIndex: number,
   filterList: Array<string>
   finterStatus: boolean
   isDateTimePickerVisibl: boolean
   startDate: Date
   endDate: Date
-  sortStatus: boolean
   alertBox: BtnTitle
   starCheckType: StarCheckTypes
 }
 
-export default class HandelPage extends React.Component<any,IState>{
+class HandelPage extends React.Component<any,IState>{
   static navigationOptions = {
     header: null,
   }
   state:IState = {
-    sortActiveIndex: 0,
-    sortList:['申请时间升序','申请时间降序'],
     finterActiveIndex: -1,
     filterList: ['一星','二星','三星','四星','五星'],
     finterStatus: false,
     isDateTimePickerVisibl: false,
     startDate: new Date(),
     endDate: new Date(),
-    sortStatus: false,
     alertBox: BtnTitle.null,
     starCheckType: StarCheckTypes.wait_handle
   }
-  handleSortStatus = (sortStatus: boolean) => {
-    this.setState({
-      sortStatus
-    })
-  }
-  //排序
-  handleSort = (i:number) => {
-    if(this.state.sortActiveIndex === i) {
-      return
-    }
-    this.setState({
-      sortActiveIndex: i,
-    })
-    //请求数据
-  }
+ 
   //侧边栏出现隐藏
   handleFilterStatus = () => {
     this._setFilterStatus()
@@ -103,15 +87,10 @@ export default class HandelPage extends React.Component<any,IState>{
   //安卓点击穿透处理
   handleSendBack = () => {
 
-    if(this.state.sortStatus) {
-      return
-    }
     this._setAlertBoxStatus(BtnTitle.sendBack)
   }
   handleApplying = () => {
-    if(this.state.sortStatus) {
-      return
-    }
+    
     this._setAlertBoxStatus(BtnTitle.applying)
   }
   handleAlert = (status:AlertBtnTypes,value?: string) => {
@@ -158,26 +137,13 @@ export default class HandelPage extends React.Component<any,IState>{
                     eggHandleBack={() => {navigation.goBack()}}
                     eggHandleSearch={() => {navigation.push("SearchPage")}} />
       <View style={styles.filterContainer}>
-        {/* <Sort handleSortStatus={this.handleSortStatus}
-              handleSort={this.handleSort} 
-              sortActiveIndex={this.state.sortActiveIndex}
-              sortList={this.state.sortList}/> */}
         <Sort />
-        <FilterCmp  handleFilterStatus={this.handleFilterStatus} />
+        <FilterIcon />
       </View>
       {
-        this.state.finterStatus &&  
-        <FilterContentCmp filterList={this.state.filterList} 
-                          finterActiveIndex={this.state.finterActiveIndex}
-                          handleFilter={this.handleFilter}
-                          handleReset={this.handleReset}
-                          handleComfirm={this.handleComfirm}
-                          startDate={this.state.startDate}
-                          setStartDate={this.setStartDate}
-                          endDate={this.state.endDate}
-                          setEndtDate={this.setEndtDate}
-                          />
+        this.props.rightFilter.isActive && <FilterContentCmp />
       }
+
       <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
                 data={list}
                 keyExtractor={item => item.key}
@@ -204,6 +170,9 @@ export default class HandelPage extends React.Component<any,IState>{
    )
  }
 }
+const mapStateToProps = (state:any) => state
+
+export default connect(mapStateToProps,actions)(HandelPage)
 
 const styles = StyleSheet.create({
   filterContainer: {
