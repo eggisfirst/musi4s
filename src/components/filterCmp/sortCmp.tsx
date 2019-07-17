@@ -17,6 +17,7 @@ export const Sort:React.FC<IProps> = (IProps) => {
   const handleClick = (i:number) => {
     IProps.handleSort(i)
     setModalVisible(!modalVisible)
+    IProps.handleSortStatus(!modalVisible)
   }
   const handleStatus = () => {
     setModalVisible(!modalVisible)

@@ -102,6 +102,7 @@ export default class HandelPage extends React.Component<any,IState>{
   }
   //安卓点击穿透处理
   handleSendBack = () => {
+
     if(this.state.sortStatus) {
       return
     }
@@ -131,6 +132,7 @@ export default class HandelPage extends React.Component<any,IState>{
     })
   }
   componentDidMount(){
+    //顶部标题
     this.setState({
       starCheckType: this.props.navigation.state.params.type
     })

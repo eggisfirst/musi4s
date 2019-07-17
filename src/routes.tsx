@@ -37,15 +37,6 @@ const routerStack = createStackNavigator({
   StarHome: {
     screen: StarHome,
   },
-  Login: {
-    screen: LoginScreen,
-  },
-  SearchPage: SearchPage,
-
- 
- 
-  HandlePage:HandlePage,
-
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部
@@ -53,7 +44,11 @@ const routerStack = createStackNavigator({
       header: null,
     }
   },
-  
+  HandlePage:HandlePage,
+  Login: {
+    screen: LoginScreen,
+  },
+  SearchPage: SearchPage,
 },{
   mode: 'modal',
   // 指定标头的呈现方式

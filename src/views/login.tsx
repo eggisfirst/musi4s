@@ -9,16 +9,17 @@ import {
 } from "react-native"; 
 import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
+import { RemPwd } from '../utils/enum';
 
 interface IProps {
   inputVal:string
-  btnStatue: boolean
+  btnStatue: RemPwd
 }
 
 export default class LoginScreen extends Component<any,IProps> {
   state:IProps = {
-    inputVal: '12',
-    btnStatue: true
+    inputVal: '',
+    btnStatue: RemPwd.unremember
   }
 
   static navigationOptions = {
@@ -29,11 +30,13 @@ export default class LoginScreen extends Component<any,IProps> {
   setVal = (val:object) => {
     console.log('111',val)
   }
+  //记住密码状态
   handleRememberPwd = () => {
-    const btnStatue = !this.state.btnStatue
+    const btnStatue = this.state.btnStatue === RemPwd.unremember? RemPwd.remembered : RemPwd.unremember
     this.setState({
       btnStatue
     })
+    console.log(btnStatue)
   }
   render() {
     const  inputAcData =  {
@@ -47,7 +50,7 @@ export default class LoginScreen extends Component<any,IProps> {
       type: 'password'
     }
     const circltStyle = {
-      display: this.state.btnStatue? "flex" : "none"
+      display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"
     }
     return (
       <View style={styleSheet.container}>
