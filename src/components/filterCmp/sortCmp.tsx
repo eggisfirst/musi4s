@@ -1,67 +1,78 @@
 
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import pxToDp from '../../utils/fixcss';
-
+import {connect} from 'react-redux';
+import * as actions from '../../store/actions/filter/sort';
+import { SotrList } from '../../utils/enum';
 
 interface IProps {
-  handleSort: (i: number) => void
-  sortActiveIndex: number
-  sortList: Array<string>
-  handleSortStatus: (status: boolean) => void
+  handleSortIndex: (i:number) => void
+  handleSortActive: (status: boolean) => void
+  sortList: Array<SotrList>
+  isActive: boolean
+  activeIndex: number
 }
 
-export const Sort:React.FC<IProps> = (IProps) => {
-  const [modalVisible, setModalVisible] = useState(false)
-  //点击事件
-  const handleClick = (i:number) => {
-    IProps.handleSort(i)
-    setModalVisible(!modalVisible)
-    IProps.handleSortStatus(!modalVisible)
+class Sort extends React.Component<IProps> {
+  //点击头部
+  handleClick = () => {
+    this._setActive()
   }
-  const handleStatus = () => {
-    setModalVisible(!modalVisible)
-    IProps.handleSortStatus(!modalVisible)
+  //选择
+  handleSelect = (i:number) => {
+    this.props.handleSortIndex(i)
+    this._setActive()
   }
-  let list = null;
-  if(modalVisible) {
-    list = (
-      <>
-      <View style={styles.modalStyle}>
-          {
-            IProps.sortList.map((item,i) => (
-              <TouchableOpacity key={item}  style={styles.listWrapper} 
-                                activeOpacity={0.8}
-                                onPress={() => {handleClick(i)}} >
-                                <Text style={styles.listItem}>{item}</Text>
-                                {
-                                  IProps.sortActiveIndex === i && (
-                                    <Image  style={styles.checkStyle}
-                                            source={require("../../images/filter/checked.png")} />
-                                  )
-                                }
-              </TouchableOpacity>
-            ))
-          }
-      </View>
-      <Text style={styles.rest}></Text>
-      </>
-    )
+  _setActive = () => {
+    const isActive = this.props.isActive
+    this.props.handleSortActive(!isActive)
   }
-  return (
-    <View style={styles.container}>
+  render() {
+    let list = null;
+      if(this.props.isActive) {
+        list = (
+          <>
+          <View style={styles.modalStyle}>
+              {
+                this.props.sortList.map((item,i) => (
+                  <TouchableOpacity key={item}  style={styles.listWrapper} 
+                                    activeOpacity={0.8}
+                                    onPress={() => {this.handleSelect(i)}} >
+                                    <Text style={styles.listItem}>{item}</Text>
+                                    {
+                                      this.props.activeIndex === i && (
+                                        <Image  style={styles.checkStyle}
+                                                source={require("../../images/filter/checked.png")} />
+                                      )
+                                    }
+                  </TouchableOpacity>
+                ))
+              }
+          </View>
+          <Text style={styles.rest}></Text>
+          </>
+        )
+      }
+    return (
+      <View style={styles.container}>
       <TouchableOpacity  
         style={styles.btnStyle}
-        onPress={() => {handleStatus()}}>
-        <Text style={styles.textStyle}>{IProps.sortList[IProps.sortActiveIndex]}</Text>
-        <Image  style={modalVisible? styles.imageStyle2 : styles.imageStyle}
+        onPress={() => {this.handleClick()}}>
+        <Text style={styles.textStyle}>{this.props.sortList[this.props.activeIndex]}</Text>
+        <Image  style={this.props.isActive? styles.imageStyle2 : styles.imageStyle}
                 source={require('../../images/filter/down.png')} />
       </TouchableOpacity>
       {list}
     </View>
-  )
- 
+    )
+  }
 }
+
+const mapStateToProps = (state: { sort: any; }) => state.sort;
+
+export default connect(mapStateToProps, actions)(Sort)
+
 
 const styles = StyleSheet.create({
   rest: {
@@ -133,3 +144,5 @@ const styles = StyleSheet.create({
     height: pxToDp(22),
   }
 })
+
+

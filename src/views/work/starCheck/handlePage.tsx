@@ -2,7 +2,7 @@ import React from "react";
 import { View,Text, Platform, StyleSheet, Button, TouchableHighlight, Dimensions, Alert, TouchableOpacity, FlatList, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import {CheckHeader} from '../../../components/workCmp/starCheck/CheckHeader';
-import { Sort } from '../../../components/filterCmp/sortCmp';
+import Sort from '../../../components/filterCmp/sortCmp';
 import { FilterCmp } from '../../../components/filterCmp/filterCmp';
 import { FilterContentCmp } from "../../../components/filterCmp/filterContentCmp";
 import { ApplyItem } from '../../../components/workCmp/starCheck/applyItem';
@@ -158,10 +158,11 @@ export default class HandelPage extends React.Component<any,IState>{
                     eggHandleBack={() => {navigation.goBack()}}
                     eggHandleSearch={() => {navigation.push("SearchPage")}} />
       <View style={styles.filterContainer}>
-        <Sort handleSortStatus={this.handleSortStatus}
+        {/* <Sort handleSortStatus={this.handleSortStatus}
               handleSort={this.handleSort} 
               sortActiveIndex={this.state.sortActiveIndex}
-              sortList={this.state.sortList}/>
+              sortList={this.state.sortList}/> */}
+        <Sort />
         <FilterCmp  handleFilterStatus={this.handleFilterStatus} />
       </View>
       {

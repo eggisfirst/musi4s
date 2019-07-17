@@ -1,3 +1,4 @@
 export const COUNT_ADD = 'COUNT_ADD';
 
-export const CHANGE_SORT = 'CHANGE_SORT'
+export const SORT_ACTIVE = 'SORT_ACTIVE'
+export const SORT_ACTIVEINDEX = 'SORT_ACTIVEINDEX'
