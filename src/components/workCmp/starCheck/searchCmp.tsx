@@ -10,7 +10,7 @@ interface IProps {
 
 export const SearchCmp: React.FC<IProps> = (IProps) => {
     return(
-      <TouchableOpacity onPress={() => {IProps.eggHandleSearch()}}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => {IProps.eggHandleSearch()}}>
         <View style={styles.rightContainer}>
           <Image  style={styles.search}
                   source={require("../../../images/work/starCheck/search.png")} />
