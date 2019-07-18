@@ -109,18 +109,18 @@ class FilterContentCmp extends React.Component<IProps> {
       <View style={styles.modalStyle}>
           <View>
             <Text style={styles.textStyle}>时间</Text>
-            {/* <View style={styles.datePickerContainer}>
+            <View style={styles.datePickerContainer}>
                <TouchableOpacity activeOpacity={0.6} onPress={() => {}}>
                  <Text style={styles.dateText}>起始日</Text>
-                 <Text style={styles.date}>{format(this.props.startDate)}</Text>
+                 <Text style={styles.date}>{this.props.startDate}</Text>
                </TouchableOpacity>
                <Text  style={styles.dateText}>至</Text>
                <TouchableOpacity  activeOpacity={0.6} onPress={() => {}}>
                  <Text style={styles.dateText}>结束日</Text>
-                 <Text style={styles.date}>{format(this.props.endDate)}</Text>
+                 <Text style={styles.date}>{this.props.endDate}</Text>
                </TouchableOpacity>
                <Text style={styles.dateText}>共{this._getRestDate(this.props.endDate, this.props.startDate)}日</Text>
-            </View> */}
+            </View>
           </View>
 
           <View style={styles.star}>

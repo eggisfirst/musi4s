@@ -1,20 +1,21 @@
 import * as Types from '../../actionTypes';
+import { format } from '../../../utils/index';
 
 const initState = {
   isActive: false,
   starIndex: -1,
   starList:['一星','二星','三星','四星','五星'],
 
-  startDate: new Date(),
-  endDate: new Date()
+  startDate: format(new Date()),
+  endDate: format(new Date())
 }
 
 interface action {
   type: string
   isActive: boolean
   index: number
-  startDate: Date
-  endDate: Date
+  startDate: any
+  endDate: any
 }
 
 
