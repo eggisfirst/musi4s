@@ -5,27 +5,20 @@ import {
   Image, 
   TouchableOpacity, 
   StyleSheet,
-  ViewStyle,
-  TextStyle,
-  ImageStyle,
 } from "react-native"; 
 import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
+import { RemPwd } from '../utils/enum';
 
-export default class LoginScreen extends Component<any> {
-  state = {
-    inputVal: '12',
-    inputAcData: {
-      title: '账号',
-      maxLength: 20,
-      type: 'account'
-    },
-    inputPdData: {
-      title: '密码',
-      maxLength:20,
-      type: 'password'
-    },
-    btnStatue: true
+interface IProps {
+  inputVal:string
+  btnStatue: RemPwd
+}
+
+export default class LoginScreen extends Component<any,IProps> {
+  state:IProps = {
+    inputVal: '',
+    btnStatue: RemPwd.unremember
   }
 
   static navigationOptions = {
@@ -33,18 +26,30 @@ export default class LoginScreen extends Component<any> {
     headerBackTitle: 'back',
   }
   //输入框的值
-  setVal = (val:{}) => {
+  setVal = (val:object) => {
     console.log('111',val)
   }
+  //记住密码状态
   handleRememberPwd = () => {
-    const btnStatue = !this.state.btnStatue
+    const btnStatue = this.state.btnStatue === RemPwd.unremember? RemPwd.remembered : RemPwd.unremember
     this.setState({
       btnStatue
     })
+    console.log(btnStatue)
   }
   render() {
-    let circltStyle = {
-      display: this.state.btnStatue? "flex" : "none"
+    const  inputAcData =  {
+      title: '账号',
+      maxLength: 20,
+      type: 'account'
+    }
+    const  inputPdData =  {
+      title: '密码',
+      maxLength:20,
+      type: 'password'
+    }
+    const circltStyle = {
+      display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"
     }
     return (
       <View style={styleSheet.container}>
@@ -58,11 +63,10 @@ export default class LoginScreen extends Component<any> {
             <Text style={styleSheet.h2}>欢迎使用慕思助手</Text>
           </View>
         </View>
-
         <View style={styleSheet.inputWrap}>
           <Text style={styleSheet.formTit}>密码登录</Text>
-          <InputCmp inputData={this.state.inputAcData} setVal={this.setVal}/>
-          <InputCmp inputData={this.state.inputPdData} setVal={this.setVal}/>
+          <InputCmp inputData={inputAcData} setVal={this.setVal}/>
+          <InputCmp inputData={inputPdData} setVal={this.setVal}/>
           
           <View style={styleSheet.remPwd} >
             <TouchableOpacity
@@ -92,25 +96,9 @@ export default class LoginScreen extends Component<any> {
   }
 }
 
-// type Style = {
-//   container: ViewStyle,
-//   top: ViewStyle,
-//   icon: ImageStyle,
-//   h1: TextStyle,
-//   h2: TextStyle,
-//   formTit: TextStyle,
-//   inputBox: ViewStyle,
-//   input: TextStyle,
-//   label: TextStyle,
-//   button: TextStyle,
-//   btnText: TextStyle,
-//   copyright: TextStyle,
-//   remPwd: TextStyle
-// }
 
 const styleSheet:any = StyleSheet.create({
   container: {
-    // display: 'flex',
     paddingLeft: pxToDp(73),
     paddingRight: pxToDp(73),
     backgroundColor: '#fff',
@@ -181,8 +169,8 @@ const styleSheet:any = StyleSheet.create({
   copyright: {
     fontSize: pxToDp(24),
     color: '#909090',
-    // textAlign: 'center',
-    alignSelf: 'flex-end',
+    textAlign: 'center',
+    alignSelf: 'center',
     position: 'absolute',
     bottom: pxToDp(67),
     width: '100%',

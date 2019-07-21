@@ -1,26 +1,14 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import AppContainer from './src/routes'
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import { StatusBar } from 'react-native';
+import { Provider } from 'react-redux'
+import store from './src/store'
 
 const App = () => {
   return (
-    <AppContainer />
-    // <Fragment>
-    //   <StatusBar barStyle="dark-content" />
-    //   <SafeAreaView>
-    //     <ScrollView
-    //       contentInsetAdjustmentBehavior="automatic">
-    //       <Text>首页</Text>
-    //     </ScrollView>
-    //   </SafeAreaView>
-    // </Fragment>
+    <Provider store={store}>
+       <AppContainer />
+    </Provider>
   );
 };
 

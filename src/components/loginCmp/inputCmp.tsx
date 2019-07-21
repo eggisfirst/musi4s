@@ -10,22 +10,30 @@ import {
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
 
-type Props = {
+interface IProps {
   inputData: {
     title:string,
     maxLength: number,
     type:string
   },
-  setVal:any
+  setVal:(n:object) => void,
 }
 
-export default class InputCmp extends Component<Props> {
-  state = {
+interface IState {
+  inputVal: string
+  activeStatus: boolean
+  animatedValue:any
+  bottom: number
+  isAnimate: boolean
+}
+
+export default class InputCmp extends Component<IProps,IState> {
+  state:IState = {
     inputVal: '',
     activeStatus: false,
     animatedValue:new Animated.Value(0),
     bottom: 0,
-    isAnimate: false
+    isAnimate: false,
   }
   //创建动画
   eggAnimated = Animated.timing(
@@ -56,6 +64,7 @@ export default class InputCmp extends Component<Props> {
       val
     })
   }
+  //聚焦
   handleFocus = () => {
     const inputVal = this.state.inputVal
     this._setStatus()
@@ -64,6 +73,7 @@ export default class InputCmp extends Component<Props> {
     }
     this._startAnimated(this.animateTop)
   }
+  //失焦
   handleBlur = () => {
     const inputVal = this.state.inputVal
     this._setStatus()
@@ -72,7 +82,8 @@ export default class InputCmp extends Component<Props> {
     }
     this._startAnimated(this.animateBottom)
   }
-  _startAnimated(bottom) {
+  //开始动画
+  _startAnimated(bottom:any) {
     const isAnimate = !this.state.isAnimate
     this.setState({
       bottom,
