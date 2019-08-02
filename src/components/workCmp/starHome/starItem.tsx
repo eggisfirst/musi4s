@@ -17,9 +17,14 @@ export const StarItem:React.FC<IProps> = (IProps) =>{
         source={imgUrl}>
       </Image>
       <Text style={styles.textStyle}>{title}</Text>
-      <View style={styles.tips}>
-        <Text style={styles.tipsText}>{num}</Text>
-      </View>
+      {
+        num !== 0 &&  
+        <View style={styles.tips}>
+          <Text style={styles.tipsText}> {num}</Text>
+        </View>
+      }
+     
+     
     </View>
    )
 }

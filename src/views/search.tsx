@@ -19,6 +19,7 @@ interface IState {
   value: string
   list: Array<obj>
   alertBox: BtnTitle
+  index: number
 }
 
 export default class Search extends React.Component<any,IState> {
@@ -28,7 +29,8 @@ export default class Search extends React.Component<any,IState> {
   state:IState = {
     value: '',
     list: [],
-    alertBox:BtnTitle.null
+    alertBox:BtnTitle.null,
+    index: -1
   }
   //更改输入框的值
   handleChange = (value:string) => {
@@ -52,11 +54,17 @@ export default class Search extends React.Component<any,IState> {
     })
   }
   //退回
-  handleSendBack = () => {
+  handleSendBack = (index: number) => {
+    this.setState({
+      index
+    })
     this._setAlertBoxStatus(BtnTitle.sendBack)
   }
   //受理
-  handleApplying = () => {
+  handleApplying = (index: number) => {
+    this.setState({
+      index
+    })
     this._setAlertBoxStatus(BtnTitle.applying)
   }
   //弹出框状态以及点击回调
@@ -66,13 +74,25 @@ export default class Search extends React.Component<any,IState> {
         this._setAlertBoxStatus(BtnTitle.null)
         break;
       case AlertBtnTypes.comfirm:
+        this._setList(this.state.index)
         this._setAlertBoxStatus(BtnTitle.null)
+
         break;
       case AlertBtnTypes.sendBack:
+        this._setList(this.state.index)
         console.log(value)
         this._setAlertBoxStatus(BtnTitle.null)
         break;
     }
+  }
+  //
+  _setList(index: number) {
+    //请求
+    let list = this.state.list
+    list.splice(index,1)
+    this.setState({
+      list
+    })
   }
   _setAlertBoxStatus = (status: BtnTitle) => {
     this.setState({
@@ -109,11 +129,11 @@ export default class Search extends React.Component<any,IState> {
         <FlatList style={{backgroundColor:"#f8f8f8"}} 
                 data={this.state.list}
                 keyExtractor={(item,index) => index + "1"}
-                renderItem={({ item }) => (
+                renderItem={({ item, index }) => (
                   <ApplyItem title={item.name} star={item.star}>
                     <View style={styles.btnStyle}>
-                      <ApplyBtn handleClick={this.handleSendBack} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
-                      <ApplyBtn handleClick={this.handleApplying} title={BtnTitle.applying} color={BtnTypes.Blue}/>
+                      <ApplyBtn handleClick={this.handleSendBack} index={index} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
+                      <ApplyBtn handleClick={this.handleApplying} index={index} title={BtnTitle.applying} color={BtnTypes.Blue}/>
                     </View>
                     <ApplyFooter score={item.score} week={item.week} date={item.date}/>
                   </ApplyItem>

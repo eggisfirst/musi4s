@@ -17,17 +17,20 @@ interface IProps {
 }
 
 export const StarCheck: React.FC<IProps> = ({navigation, list}) => {
+  let handleNavigateTo = (item: string) => {
+    navigation.push('HandlePage',{
+      type: item
+    })
+  }
   return (
+    
     <>
       <Text style={styles.title}>星级认证</Text>
       <View style={styles.list}>
         {
           list && list.map(item => (
             <TouchableOpacity  
-                    onPress={() => {navigation.push('HandlePage',{
-                      type: item.type
-                    }
-                    )}}
+                    onPress={() => {handleNavigateTo(item.type)}}
                     key={item.type}>
               <StarItem title={item.type} imgUrl={item.imgUrl} num={item.num}/>
             </TouchableOpacity>

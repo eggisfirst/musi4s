@@ -12,12 +12,17 @@ import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
 import { AlertCmp } from '../../../components/altrtCmp';
 
 import { connect } from 'react-redux';
-import * as actions from '../../../store/actions/filter/rightFliter';
-
+import * as rightFliter from '../../../store/actions/filter/rightFliter';
+import * as handlePageState from '../../../store/actions/handlePageState';
+const actions = {
+  ...rightFliter,
+  ...handlePageState
+}
 
 interface IState {
   alertBox: BtnTitle
   starCheckType: StarCheckTypes
+  index: number
 }
 
 class HandelPage extends React.Component<any,IState>{
@@ -26,26 +31,52 @@ class HandelPage extends React.Component<any,IState>{
   }
   state:IState = {
     alertBox: BtnTitle.null,
-    starCheckType: StarCheckTypes.wait_handle
+    starCheckType: StarCheckTypes.wait_handle,
+   
+    index: -1
   }
+
+  list =  [
+    {name: '广东广州何秋明发起申请！', star: "三星", week: 48, score: 90, date: "2019.06.04",key:'1'},
+    {name: '广东广州马梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'2'},
+    {name: '广东广州冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'3'},
+    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'4'},
+    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'5'},
+    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'6'},
+    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'7'},
+    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'8'},
+    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
+    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
+  ]
  
   //安卓点击穿透处理
-  handleSendBack = () => {
 
-    this._setAlertBoxStatus(BtnTitle.sendBack)
+  //退回
+  handleSendBack = (index: number) => {
+    this._setHanleClick(index,BtnTitle.sendBack)
   }
-  handleApplying = () => {
-    
-    this._setAlertBoxStatus(BtnTitle.applying)
+  //受理
+  handleApplying = (index:number) => {
+    this._setHanleClick(index,BtnTitle.applying)
   }
+  //验收
+  handleReception = (index: number) => {
+    this._setHanleClick(index,BtnTitle.reception)
+  }
+  //退回/受理
   handleAlert = (status:AlertBtnTypes,value?: string) => {
     this._setAlertBoxStatus(BtnTitle.null)
     switch (status) {
       case AlertBtnTypes.cancle:
+        console.log('cancle')
         break;
       case AlertBtnTypes.comfirm:
+        //请求
+        this.list.splice(this.state.index,1)
+        console.log('confirm',this.list[this.state.index])
         break;
       case AlertBtnTypes.sendBack:
+        this.list.splice(this.state.index,1)
         console.log(value)
         break;
     }
@@ -55,26 +86,29 @@ class HandelPage extends React.Component<any,IState>{
       alertBox: status
     })
   }
+  _setHanleClick = (index: number,state: BtnTitle) => {
+    this.setState({
+      index: index
+    })
+    this._setAlertBoxStatus(state)
+  }
+  //设置传过来的状态
+  componentWillMount() {
+    this.props.changeHandleState(this.props.navigation.state.params.type)
+  }
+
   componentDidMount(){
     //顶部标题
+    console.log('type',this.props.navigation.state.params.type)
     this.setState({
       starCheckType: this.props.navigation.state.params.type
     })
   }
+ 
  render (){
+   console.log(this.props.handlePageState.HState)
    const {navigation} = this.props
-   const list = [
-     {name: '广东广州何秋明发起申请！', star: "三星", week: 48, score: 90, date: "2019.06.04",key:'1'},
-     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'2'},
-     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'3'},
-     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'4'},
-     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'5'},
-     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'6'},
-     {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'7'},
-     {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'8'},
-     {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
-     {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
-   ]
+  
  
    return(
     <View>
@@ -90,13 +124,25 @@ class HandelPage extends React.Component<any,IState>{
       }
 
       <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
-                data={list}
+                data={this.list}
                 keyExtractor={item => item.key}
-                renderItem={({ item }) => (
+                renderItem={({ item,index }) => (
                   <ApplyItem title={item.name} star={item.star}>
                     <View style={styles.btnStyle}>
-                      <ApplyBtn handleClick={this.handleSendBack} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
-                      <ApplyBtn handleClick={this.handleApplying} title={BtnTitle.applying} color={BtnTypes.Blue}/>
+                      {
+                        this.props.handlePageState.HState === StarCheckTypes.wait_handle &&
+                        <>
+                          <ApplyBtn handleClick={this.handleSendBack} index={index} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
+                          <ApplyBtn handleClick={this.handleApplying} index={index} title={BtnTitle.applying} color={BtnTypes.Blue}/>
+                        </>
+                      }
+                      {
+                        this.props.handlePageState.HState === StarCheckTypes.wait_reception &&
+                        <>
+                          <ApplyBtn handleClick={this.handleReception} index={index} title={BtnTitle.reception} color={BtnTypes.Blue}/>
+                        </>
+                      }
+                     
                     </View>
                     <ApplyFooter score={item.score} week={item.week} date={item.date}/>
                   </ApplyItem>

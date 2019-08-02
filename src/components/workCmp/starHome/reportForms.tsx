@@ -48,12 +48,14 @@ const styles = StyleSheet.create({
     display:"flex",
     flexDirection:"row",
     alignItems:"center",
-    justifyContent:"space-between",
+    // justifyContent:"space-between",
     flexWrap:"wrap"
   },
   reportStyle: {
     width:pxToDp(200),
     height:pxToDp(160),
-    marginTop:pxToDp(51)
+    marginTop:pxToDp(51),
+    marginRight:pxToDp(28)
+  
   },
 })
