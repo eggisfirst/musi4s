@@ -15,14 +15,15 @@ export const handleSelectStarIndex = (index: number) => {
   }
 }
 
-export const selectStartDate = (startDate:Date) => {
+export const selectStartDate = (startDate:any) => {
+  console.log('startdate',startDate)
   return {
     type: Types.SELECT_START_DATE,
     startDate
   }
 }
 
-export const selectEndDate = (endDate: Date) => {
+export const selectEndDate = (endDate: any) => {
   return {
     type: Types.SELECT_END_DATE,
     endDate

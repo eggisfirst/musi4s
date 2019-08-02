@@ -4,16 +4,15 @@ import React, { useState } from "react";
 import DatePicker from "react-native-date-picker";
 
 interface IProps {
-  date: Date
+  date: any
   showPickerDate: boolean
   cancle: () => void
-  comfirm: (date:Date) => void
+  comfirm: (date:any) => void
 }
 
 
 export const DatePickerCmp: React.FC<IProps> = (props:IProps) => {
   const [pickerDate, setPickerDate] = useState(props.date)
-
   return (
     <View>
       {
