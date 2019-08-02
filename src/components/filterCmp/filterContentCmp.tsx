@@ -22,8 +22,9 @@ interface IProps {
 class FilterContentCmp extends React.Component<IProps> {
   state = {
     startStatus: false,
-    endStatus: false
+    endStatus: false,
   }
+  
   //选择星级
   handleClick = (i: number) => {
     if(this.props.starIndex === i) {
@@ -34,6 +35,9 @@ class FilterContentCmp extends React.Component<IProps> {
   }
   //重置
   handleReset = () => {
+    this.props.selectStartDate(new Date())
+    this.props.selectEndDate(new Date())
+
     this.props.handleSelectStarIndex(-1)
   }
   //确认
@@ -111,6 +115,8 @@ class FilterContentCmp extends React.Component<IProps> {
     const day =  Math.floor(restDate/(24*3600*1000))
     return day + 1
   }
+
+ 
   render() {
     console.log('props', format(new Date(this.props.startDate)))
 

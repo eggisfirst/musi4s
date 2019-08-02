@@ -1,5 +1,5 @@
 import React from "react";
-import { View,Text, Platform, StyleSheet, Button, TouchableHighlight, Dimensions, Alert, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import {CheckHeader} from '../../../components/workCmp/starCheck/CheckHeader';
 import Sort from '../../../components/filterCmp/sortCmp';
@@ -16,12 +16,6 @@ import * as actions from '../../../store/actions/filter/rightFliter';
 
 
 interface IState {
-  finterActiveIndex: number,
-  filterList: Array<string>
-  finterStatus: boolean
-  isDateTimePickerVisibl: boolean
-  startDate: Date
-  endDate: Date
   alertBox: BtnTitle
   starCheckType: StarCheckTypes
 }
@@ -31,59 +25,10 @@ class HandelPage extends React.Component<any,IState>{
     header: null,
   }
   state:IState = {
-    finterActiveIndex: -1,
-    filterList: ['一星','二星','三星','四星','五星'],
-    finterStatus: false,
-    isDateTimePickerVisibl: false,
-    startDate: new Date(),
-    endDate: new Date(),
     alertBox: BtnTitle.null,
     starCheckType: StarCheckTypes.wait_handle
   }
  
-  //侧边栏出现隐藏
-  handleFilterStatus = () => {
-    this._setFilterStatus()
-  }
-  //筛选
-  handleFilter = (i:number) => {
-    if(this.state.finterActiveIndex === i) {
-      this._setFilterActiveIndex(-1)
-      return
-    }
-    this._setFilterActiveIndex(i)
-  }
-  //重置
-  handleReset = () => {
-    this._setFilterActiveIndex(-1)
-    this.setState({
-      startDate: new Date(),
-      endDate: new Date()
-    })
-  }
-  //完成
-  handleComfirm = () => {
-    this._setFilterStatus()
-    //请求
-  }
-  _setFilterStatus = () => {
-    this.setState({
-      finterStatus: !this.state.finterStatus
-    })
-  }
-  _setFilterActiveIndex = (i: number) => {
-    this.setState({
-      finterActiveIndex: i
-    })
-  }
-  //设置时间
-  setStartDate = (startDate:Date) => {
-    this.setState({startDate})
-  }
-  //判断结束时间和开始时间
-  setEndtDate = (endDate:Date) => {
-    this.setState({endDate})
-  }
   //安卓点击穿透处理
   handleSendBack = () => {
 
