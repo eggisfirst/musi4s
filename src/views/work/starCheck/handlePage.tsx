@@ -61,7 +61,11 @@ class HandelPage extends React.Component<any,IState>{
   }
   //验收
   handleReception = (index: number) => {
-    this._setHanleClick(index,BtnTitle.reception)
+    console.log(index)
+    this.props.navigation.navigate('ReceptionPage',{
+      index
+    })
+    // this._setHanleClick(index,BtnTitle.reception)
   }
   //退回/受理
   handleAlert = (status:AlertBtnTypes,value?: string) => {

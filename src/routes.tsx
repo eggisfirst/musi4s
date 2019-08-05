@@ -10,6 +10,8 @@ import { Easing, Animated } from "react-native";
 import pxToDp from "./utils/fixcss";
 import HandlePage from './views/work/starCheck/handlePage';
 import SearchPage from './views/search';
+import ReceptionPage from './views/work/reception/reception';
+
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -34,6 +36,8 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  ReceptionPage: ReceptionPage,
+
   StarHome: {
     screen: StarHome,
   },
