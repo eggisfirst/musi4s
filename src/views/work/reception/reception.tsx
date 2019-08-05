@@ -6,6 +6,7 @@ import { DealerCard } from '../../../components/workCmp/receptionCmp/dealerCard'
 import { ReceItem } from '../../../components/workCmp/receptionCmp/receItem';
 import { AlertBtnTypes, BtnTitle } from "../../../utils/enum";
 import { AlertCmp } from '../../../components/altrtCmp';
+import {MapCmp} from '../../../components/mapCmp/map';
 
 
 interface IState {
@@ -73,9 +74,7 @@ export default class index extends React.Component<any,IState>{
                 data={this.list}
                 keyExtractor={item => item.key}
                 renderItem={({ item,index }) => (
-                  <ReceItem toGrade={this.toGrade} shopItem={item}>
-               
-                  </ReceItem>
+                  <ReceItem toGrade={this.toGrade} shopItem={item} />
                 )}
               />
       {
@@ -86,7 +85,7 @@ export default class index extends React.Component<any,IState>{
                   handleAlert={this.handleAlert}
                   boxValue={'该经销商，已有门店评分不合格，是否继续评分？'}/>
       }
-     
+      <MapCmp />
     </View>
    )
  }
