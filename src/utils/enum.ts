@@ -22,6 +22,7 @@ export enum BtnTitle {
   reception = '验收',
   applying = '受理',
   sendBack = '退回',
+  tips = "温馨提示",
   null = ''
 }
 

@@ -3,23 +3,54 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 
 import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
-
+  toGrade:() => void
+  shopItem: {
+    name: string
+    score1: number
+    score2: number
+    status: boolean
+    date: string
+  }
 }
 export const ReceItem:React.FC<IProps> = (props:IProps) =>{
   
   return(
     <View style={styles.wrapper}>
-      <View><Text style={styles.shopName}>广州马会家居凯奇门店</Text></View>
+      <View><Text style={styles.shopName}>{props.shopItem.name}</Text></View>
       <View style={styles.centerMsg}>
         <View style={styles.score}>
           <Text style={styles.textStyle}>门店评分：</Text>
-          <Text style={styles.redStyle}>82</Text>
+          <Text style={styles.redStyle}>{props.shopItem.score1}</Text>
           <Text style={styles.textStyle}>区域评分：</Text>
-          <Text style={styles.redStyle}>83</Text>
+          {
+            props.shopItem.status? 
+            <Text style={styles.redStyle}>{props.shopItem.score2}</Text>
+            :  <Text style={styles.textStyle}>/</Text>
+          }
         </View>
         <View style={styles.status}>
-          <Text style={styles.greenStyle}>已评分</Text>
+          {
+            props.shopItem.status? 
+            <Text style={styles.greenStyle}>已评分</Text> :
+            <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade()}}>
+              <Text style={styles.toGradeTxt}>进入评分</Text>
+            </TouchableOpacity>
+
+          }
+         
         </View>
+      </View>
+
+      <View style={styles.botMsg}>
+        <TouchableOpacity style={styles.address}>
+          <Image style={styles.add_icon} source={require("../../../images/work/reception/location.png")} />
+          <Text style={styles.add_text}>门店地址</Text>
+        </TouchableOpacity>
+        {
+          props.shopItem.status && 
+          <Text style={styles.botDate}>{props.shopItem.date}</Text>
+        }
+        
       </View>
     </View>
    )
@@ -28,7 +59,7 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
 const styles = StyleSheet.create({
   wrapper: {
     width: pxToDp(686),
-    height: pxToDp(240),
+    // height: pxToDp(240),
     backgroundColor: "#fff",
     borderRadius: pxToDp(20),
     marginBottom: pxToDp(11),
@@ -37,14 +68,15 @@ const styles = StyleSheet.create({
   shopName: {
     color: "#363636",
     fontSize: pxToDp(38),
-    fontWeight: "bold"
+    fontWeight: "bold",
+    marginBottom: pxToDp(30)
   },
   centerMsg: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: pxToDp(40),
+    marginBottom: pxToDp(30)
   },
   score: {
     display: "flex",
@@ -66,6 +98,46 @@ const styles = StyleSheet.create({
   greenStyle: {
     color: "#4CD964",
     fontSize: pxToDp(30)
+  },
+  toGradeBtn: {
+    width:pxToDp(160),
+    height:pxToDp(60),
+    borderRadius: pxToDp(30),
+    backgroundColor:'rgba(0,122,255,0.3)',
+  },
+  toGradeTxt: {
+    color:"#007aff",
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(60),
+    textAlign:'center'
+  },
+  botMsg: {
+    // marginTop:pxToDp(35)
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  address: {
+    width: pxToDp(160),
+    height: pxToDp(46),
+    borderRadius: pxToDp(8),
+    backgroundColor: 'rgba(204,204,204,0.3)',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent:"space-around"
+  },
+  add_icon: {
+    width: pxToDp(30),
+    height: pxToDp(30)
+  },
+  add_text: {
+    color: "#909090",
+    fontSize: pxToDp(28)
+  },
+  botDate: {
+    fontSize: pxToDp(28),
+    color: "#666"
   }
-
 })

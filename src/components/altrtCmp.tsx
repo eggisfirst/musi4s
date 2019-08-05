@@ -9,6 +9,7 @@ interface IProps {
   sendBack?:AlertBtnTypes
   cancle?:AlertBtnTypes
   handleAlert?: ( status:AlertBtnTypes,val?:string) => void 
+  boxValue?:string
 }
 
 
@@ -45,8 +46,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
             <>
               <Image style={styles.image} source={require("../images/applying.png")}/>
               <Text style={styles.titleStyle}>{BtnTitle.applying}</Text>
-              <Text style={styles.textStyle}>是否确定受理，XX供应商</Text>
-              <Text style={styles.textStyle}>《一星认证》申请？</Text>
+              <Text style={styles.textStyle}>是否确定受理，XX供应商《一星认证》申请？</Text>
             </>
           )
         }
@@ -64,6 +64,15 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
                 placeholder="请输入退回原因"
                 returnKeyType="done"
               />
+            </>
+          )
+        }
+        {
+          props.title === BtnTitle.tips && (
+            <>
+              <View  style={styles.tipsBox} ></View>
+              <Text style={styles.titleStyle}>{BtnTitle.tips}</Text>
+              <Text style={styles.textStyle2}>{props.boxValue}</Text>
             </>
           )
         }
@@ -126,6 +135,11 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"space-between"
   },
+  tipsBox: {
+    width: pxToDp(52),
+    height: pxToDp(52),
+  },
+
   image: {
     width: pxToDp(52),
     height: pxToDp(52),
@@ -134,11 +148,22 @@ const styles = StyleSheet.create({
   titleStyle: {
     color: "#363636",
     fontSize: pxToDp(38),
-    fontWeight: "bold"
+    fontWeight: "bold",
+    
   },
   textStyle: {
     color: "#666",
     fontSize: pxToDp(28),
+    width: pxToDp(340),
+    textAlign: "center",
+    lineHeight: pxToDp(44)
+  },
+  textStyle2: {
+    color: "#666",
+    fontSize: pxToDp(28),
+    width: pxToDp(450),
+    textAlign: "center",
+    lineHeight: pxToDp(44)
   },
   btn: {
     display: "flex",

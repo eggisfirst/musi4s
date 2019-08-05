@@ -1,39 +1,60 @@
 import React from "react";
 
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList, Alert, Linking } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { DealerCard } from '../../../components/workCmp/receptionCmp/dealerCard';
 import { ReceItem } from '../../../components/workCmp/receptionCmp/receItem';
-import { ApplyItem } from "../../../components/workCmp/starCheck/applyItem";
-import { StarCheckTypes, BtnTitle, BtnTypes } from "../../../utils/enum";
-import { ApplyBtn } from "../../../components/workCmp/starCheck/applyBtn";
-import { ApplyFooter } from "../../../components/workCmp/starCheck/applyFooter";
+import { AlertBtnTypes, BtnTitle } from "../../../utils/enum";
+import { AlertCmp } from '../../../components/altrtCmp';
 
 
 interface IState {
-  index: number
+  index: number //前一个页面的索引
+  gradeState: Boolean
 }
 
 export default class index extends React.Component<any,IState>{
   static navigationOptions = {
     header: null
   }
+  state = {
+    gradeState: false,
+    index: -1
+  }
   list =  [
-    {name: '广东广州何秋明发起申请！', star: "三星", week: 48, score: 90, date: "2019.06.04",key:'1'},
-    {name: '广东广州马梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'2'},
-    {name: '广东广州冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'3'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'4'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'5'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'6'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'7'},
-    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'8'},
-    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
-    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
+    {name: '广州马会家居凯奇门店',status: true, score1: 48, score2: 90, date: "2019.06.04",key:'1'},
+    {name: '广州马会家居歌蒂娅门店',status: false, score1: 48, score2: 90, date: "2019.05.04",key:'2'},
+    {name: '广州马会家居兰博基尼门店',status: false, score1: 48, score2: 90, date: "2019.05.04",key:'3'},
+    {name: '广州马会家居凯奇门店',status: false, score1: 48, score2: 90, date: "2019.05.04",key:'4'},
+    {name: '广州马会家居凯奇门店',status: true, score1: 48, score2: 90, date: "2019.05.04",key:'5'},
   ]
+
+  //验收弹框提示  //索引
+  toGrade = () => {
+    this.setState({
+      gradeState: true
+    })
+  }
+
+  //提示弹框的确认取消
+  handleAlert = (status:AlertBtnTypes) => {
+    switch (status) {
+      case AlertBtnTypes.comfirm:
+        this.props.navigation.navigate('GradePage',{
+          index: this.state.index
+        })
+        break;
+      case AlertBtnTypes.cancle:
+        this.setState({
+          gradeState: false
+        })
+        break;
+    }
+  }
  render (){
   const { navigation } = this.props;
   const index = navigation.getParam('index')
-
+  
   return(
     <View style={{backgroundColor: "#f8f8f8",width:"100%",height:"100%",overflow:"scroll"}}>
       <View style={styles.header}>
@@ -52,11 +73,20 @@ export default class index extends React.Component<any,IState>{
                 data={this.list}
                 keyExtractor={item => item.key}
                 renderItem={({ item,index }) => (
-                  <ReceItem >
+                  <ReceItem toGrade={this.toGrade} shopItem={item}>
                
                   </ReceItem>
                 )}
               />
+      {
+        this.state.gradeState && 
+        <AlertCmp title={BtnTitle.tips} 
+                  comfirm={AlertBtnTypes.comfirm}
+                  cancle={AlertBtnTypes.cancle}
+                  handleAlert={this.handleAlert}
+                  boxValue={'该经销商，已有门店评分不合格，是否继续评分？'}/>
+      }
+     
     </View>
    )
  }

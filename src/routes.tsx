@@ -11,6 +11,7 @@ import pxToDp from "./utils/fixcss";
 import HandlePage from './views/work/starCheck/handlePage';
 import SearchPage from './views/search';
 import ReceptionPage from './views/work/reception/reception';
+import GradePage from './views/work/gradePage/grade';
 
 
 const AppNavigator = createBottomTabNavigator({
@@ -37,17 +38,19 @@ const AppNavigator = createBottomTabNavigator({
 
 const routerStack = createStackNavigator({
   ReceptionPage: ReceptionPage,
-
-  StarHome: {
-    screen: StarHome,
-  },
+  GradePage: GradePage,
   Work: {
+
     screen: AppNavigator,
     //主导航页面不显示头部
     navigationOptions: {
       header: null,
     }
   },
+  StarHome: {
+    screen: StarHome,
+  },
+ 
   HandlePage:HandlePage,
   Login: {
     screen: LoginScreen,
