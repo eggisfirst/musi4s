@@ -44,6 +44,9 @@ export default class index extends React.Component<any,IState>{
         this.props.navigation.navigate('GradePage',{
           index: this.state.index
         })
+        this.setState({
+          gradeState: false
+        })
         break;
       case AlertBtnTypes.cancle:
         this.setState({
@@ -85,7 +88,7 @@ export default class index extends React.Component<any,IState>{
                   handleAlert={this.handleAlert}
                   boxValue={'该经销商，已有门店评分不合格，是否继续评分？'}/>
       }
-      <MapCmp />
+      {/* <MapCmp /> */}
     </View>
    )
  }

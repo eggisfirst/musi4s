@@ -4,7 +4,7 @@ import pxToDp from "../../../utils/fixcss";
 import { StarCheckTypes } from "../../../utils/enum";
 
 interface IProps {
-  title: StarCheckTypes
+  title: string
   eggHandleBack: () => void
   Children?: JSX.Element
 }
@@ -21,7 +21,7 @@ export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
                     source={require("../../../images/work/starCheck/arrow.png")}/>
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
-        {props.Children}
+        { props.Children || <View style={styles.right}></View>}
       </View>
      )
 }
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     paddingRight: pxToDp(40),
-    flex: 0.3
+    flex: 0.3,
   },
   arrow: {
     width:pxToDp(20),
@@ -53,4 +53,7 @@ const styles = StyleSheet.create({
     textAlign:"center",
     flex:0.6,
   },
+  right: {
+    flex: 0.4
+  }
 })

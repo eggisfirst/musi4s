@@ -38,7 +38,7 @@ const AppNavigator = createBottomTabNavigator({
 
 const routerStack = createStackNavigator({
   ReceptionPage: ReceptionPage,
-  GradePage: GradePage,
+
   Work: {
 
     screen: AppNavigator,
@@ -47,14 +47,20 @@ const routerStack = createStackNavigator({
       header: null,
     }
   },
+
   StarHome: {
     screen: StarHome,
   },
- 
+
   HandlePage:HandlePage,
+
   Login: {
     screen: LoginScreen,
   },
+  GradePage: GradePage,
+  
+  
+ 
   SearchPage: SearchPage,
 },{
   mode: 'modal',
@@ -68,6 +74,7 @@ const routerStack = createStackNavigator({
   defaultNavigationOptions: {
     headerTintColor:"#000",
   },
+  
     //页面跳转动画
   transitionConfig: () => ({
     transitionSpec: {
