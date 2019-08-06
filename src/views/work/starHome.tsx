@@ -27,7 +27,7 @@ export default class StarHome extends React.Component<any> {
     const list = [
       {
         imgUrl:require("../../images/work/starHome/wait1.png"),
-        num:3,
+        num:0,
         type: StarCheckTypes.wait_handle
       },
       {
@@ -50,9 +50,6 @@ export default class StarHome extends React.Component<any> {
       {
         imgUrl:require('../../images/work/starHome/record.png')
       },
-      {
-        imgUrl:require('../../images/work/starHome/progress.png')
-      }, 
       {
         imgUrl:require('../../images/work/starHome/score.png')
       },

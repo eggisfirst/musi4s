@@ -19,8 +19,10 @@ export enum BtnTypes {
 
 //经销商状态：退回/受理
 export enum BtnTitle {
+  reception = '验收',
   applying = '受理',
   sendBack = '退回',
+  tips = "温馨提示",
   null = ''
 }
 
@@ -36,7 +38,7 @@ export enum StarCheckTypes {
   wait_handle = '待处理',
   wait_reception = '待验收',
   wait_sponsor = '待发起',
-  processing_record = '处理记录'
+  processing_record = '认证进度'
 }
 
 export enum SotrList {

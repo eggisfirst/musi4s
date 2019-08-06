@@ -10,6 +10,9 @@ import { Easing, Animated } from "react-native";
 import pxToDp from "./utils/fixcss";
 import HandlePage from './views/work/starCheck/handlePage';
 import SearchPage from './views/search';
+import ReceptionPage from './views/work/reception/reception';
+import GradePage from './views/work/gradePage/grade';
+
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -34,20 +37,30 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  StarHome: {
-    screen: StarHome,
-  },
+  ReceptionPage: ReceptionPage,
+
   Work: {
+
     screen: AppNavigator,
     //主导航页面不显示头部
     navigationOptions: {
       header: null,
     }
   },
+
+  StarHome: {
+    screen: StarHome,
+  },
+
   HandlePage:HandlePage,
+
   Login: {
     screen: LoginScreen,
   },
+  GradePage: GradePage,
+  
+  
+ 
   SearchPage: SearchPage,
 },{
   mode: 'modal',
@@ -61,6 +74,7 @@ const routerStack = createStackNavigator({
   defaultNavigationOptions: {
     headerTintColor:"#000",
   },
+  
     //页面跳转动画
   transitionConfig: () => ({
     transitionSpec: {

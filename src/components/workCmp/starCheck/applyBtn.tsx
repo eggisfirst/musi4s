@@ -8,15 +8,16 @@ import { BtnTypes,BtnTitle } from "../../../utils/enum";
 interface IProps {
   color: BtnTypes
   title: BtnTitle
-  handleClick: () => void
+  handleClick: (index: number) => void
+  index: number
 }
 
 export  const ApplyBtn:React.FC<IProps> = (props:IProps) =>{
   const btnStyle = props.color === BtnTypes.Blue? styles.btnBlue : styles.btnRed
   const textStyle = props.color === BtnTypes.Blue? styles.Blue : styles.Red
-  const title = props.title === BtnTitle.applying? "受理" : "退回"
+  const title = props.title
     return(
-      <TouchableOpacity style={btnStyle} activeOpacity={0.6} onPress={() => {props.handleClick()}}>
+      <TouchableOpacity style={btnStyle} activeOpacity={0.6} onPress={() => {props.handleClick(props.index)}}>
         <Text style={textStyle}>{title}</Text>
       </TouchableOpacity>
     )

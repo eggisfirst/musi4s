@@ -6,8 +6,8 @@ const initState = {
   starIndex: -1,
   starList:['一星','二星','三星','四星','五星'],
 
-  startDate: format(new Date()),
-  endDate: format(new Date())
+  startDate: new Date().getTime(),
+  endDate: new Date().getTime()
 }
 
 interface action {
