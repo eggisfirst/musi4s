@@ -47,3 +47,17 @@ export enum SotrList {
   timeDown = '申请时间降序'
 }
 
+export enum Duty {
+  area = '区域',
+  fourS = '4s部'
+}
+
+export enum ProcessState {
+  grade = '已评分',
+  apply = '已申请',
+  approve = '已认证',
+  sendBack = '区域已退回',
+  accept = '4s已受理',
+  revocation = '已撤销',
+  unAccept = '未通过'
+}

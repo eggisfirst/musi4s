@@ -7,7 +7,7 @@ import FilterIcon from '../../../components/filterCmp/filterCmp';
 import FilterContentCmp from "../../../components/filterCmp/filterContentCmp";
 import { ApplyItem } from '../../../components/workCmp/starCheck/applyItem';
 import { ApplyBtn } from '../../../components/workCmp/starCheck/applyBtn';
-import { BtnTypes, BtnTitle, AlertBtnTypes, StarCheckTypes } from '../../../utils/enum';
+import { BtnTypes, BtnTitle, AlertBtnTypes, StarCheckTypes, Duty } from '../../../utils/enum';
 import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
 import { AlertCmp } from '../../../components/altrtCmp';
 
@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import * as rightFliter from '../../../store/actions/filter/rightFliter';
 import * as handlePageState from '../../../store/actions/handlePageState';
 import { SponsorBox } from '../../../components/workCmp/sponsorCmp/sponsorBox';
+import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 const actions = {
   ...rightFliter,
   ...handlePageState
@@ -24,6 +25,7 @@ interface IState {
   alertBox: BtnTitle
   starCheckType: StarCheckTypes
   index: number
+  sponsorStatus: boolean
 }
 
 class HandelPage extends React.Component<any,IState>{
@@ -34,20 +36,21 @@ class HandelPage extends React.Component<any,IState>{
     alertBox: BtnTitle.null,
     starCheckType: StarCheckTypes.wait_handle,
    
-    index: -1
+    index: -1,
+    sponsorStatus: false,
   }
 
   list =  [
-    {name: '广东广州何秋明发起申请！', star: "三星", week: 48, score: 90, date: "2019.06.04",key:'1'},
-    {name: '广东广州马梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'2'},
-    {name: '广东广州冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'3'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'4'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'5'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'6'},
-    {name: '广东广州马冬梅发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'7'},
-    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'8'},
-    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
-    {name: '广东广州马发起申请！',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
+    {name: '广东广州何秋明', star: "三星", week: 48, score: 90, date: "2019.06.04",key:'1'},
+    {name: '广东广州马梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'2'},
+    {name: '广东广州冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'3'},
+    {name: '广东广州马冬',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'4'},
+    {name: '广东广州马冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'5'},
+    {name: '广东广州马冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'6'},
+    {name: '广东广州马冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'7'},
+    {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'8'},
+    {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
+    {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
   ]
  
   //安卓点击穿透处理
@@ -63,7 +66,7 @@ class HandelPage extends React.Component<any,IState>{
   //发起认证
   handleSponsor = (index: number) => {
     console.log('发起认证')
-    // this._setHanleClick(index,BtnTitle.sponsor)
+    this._setSponsorStatus(true, index)
   }
   //验收
   handleReception = (index: number) => {
@@ -102,6 +105,28 @@ class HandelPage extends React.Component<any,IState>{
     })
     this._setAlertBoxStatus(state)
   }
+
+  //提交认证
+  handleSponsorComfirm = () => {
+    //请求
+    this._setSponsorStatus(false)
+    this.list.splice(this.state.index,1)
+  }
+  //取消认证
+  handleSponsorCancle = () => {
+    this._setSponsorStatus(false)
+  }
+  _setSponsorStatus = (sponsorStatus: boolean, index?:number) => {
+    if(index !== undefined) {
+      this.setState({
+        index: index
+      })
+    }
+    this.setState({
+      sponsorStatus,
+    })
+    
+  }
   //设置传过来的状态
   componentWillMount() {
     this.props.changeHandleState(this.props.navigation.state.params.type)
@@ -120,7 +145,11 @@ class HandelPage extends React.Component<any,IState>{
   // console.log(this.props.handlePageState.HState)
   const {navigation} = this.props
   const HState = this.props.handlePageState.HState
- 
+  const scoreType = {
+    shop: true,
+    area: false,
+    four: false
+  }
    return(
     <View>
       <CheckHeader  title={this.state.starCheckType}
@@ -138,7 +167,7 @@ class HandelPage extends React.Component<any,IState>{
                 data={this.list}
                 keyExtractor={item => item.key}
                 renderItem={({ item,index }) => (
-                  <ApplyItem title={item.name} star={item.star}>
+                  <ApplyItem title={item.name} star={item.star} type={this.state.starCheckType}>
                     <View style={styles.btnStyle}>
                       {
                         HState === StarCheckTypes.wait_handle &&
@@ -160,10 +189,21 @@ class HandelPage extends React.Component<any,IState>{
                            <ApplyBtn handleClick={this.handleSponsor} index={index} title={BtnTitle.sponsor} color={BtnTypes.Blue}/>
                          </View>
                       }
+                       {
+                        HState === StarCheckTypes.processing_record &&
+                        <Text style={styles.processStatus_red}>已撤回</Text>
+                      }
                     </View>
                     {
                        HState === StarCheckTypes.wait_handle || HState === StarCheckTypes.wait_reception?
                         <ApplyFooter score={item.score} week={item.week} date={item.date}/> : <></>
+                    }
+                    {
+                       HState === StarCheckTypes.processing_record &&
+                       <View style={styles.process_footer}>
+                        <ScoreItem scoreType={scoreType}/>
+                        <ScoreItem reason={'不符合规范'} />
+                       </View>
                     }
                   </ApplyItem>
                 )}
@@ -177,7 +217,13 @@ class HandelPage extends React.Component<any,IState>{
                   handleAlert={this.handleAlert}
                   />
       }
-      <SponsorBox />
+      {
+        this.state.sponsorStatus && 
+        <SponsorBox duty={Duty.fourS} 
+                    handleSponsorCancle={this.handleSponsorCancle}
+                    handleSponsorComfirm={this.handleSponsorComfirm}/>
+      }
+      
     </View>
    )
  }
@@ -214,5 +260,16 @@ const styles = StyleSheet.create({
   sponsorDate: {
     color: "#666",
     fontSize: pxToDp(26)
+  },
+  processStatus_blue: {
+    color: "#007aff",
+    fontSize: pxToDp(30)
+  },
+  processStatus_red: {
+    color: "#FF2D55",
+    fontSize: pxToDp(30)
+  },
+  process_footer: {
+    marginTop: pxToDp(20)
   }
 })

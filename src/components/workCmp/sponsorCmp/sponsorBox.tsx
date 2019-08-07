@@ -3,8 +3,16 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Duty } from "../../../utils/enum";
 
-export const SponsorBox:React.FC = () => {
+interface IProps {
+  duty: Duty  //判断4s或者区域
+  handleSponsorCancle: () => void
+  handleSponsorComfirm: () => void
+}
+
+
+export const SponsorBox:React.FC<IProps> = (props) => {
   const list = [
     {
       key: '省份城市',
@@ -44,7 +52,7 @@ export const SponsorBox:React.FC = () => {
     },
     
   ]
-  const scoreList = [
+  const scoreList1 = [
     {
       key: "门店评分",
       value: "85分",
@@ -66,6 +74,8 @@ export const SponsorBox:React.FC = () => {
       value: "2018.05.02 16:00",
       status: false
     },
+  ]
+  const scoreList2 = [
     {
       key: "4s部评分",
       status: true,
@@ -77,14 +87,21 @@ export const SponsorBox:React.FC = () => {
       value: "2018.05.02 16:00",
       status: false
     },
-
   ]
+  const socreList = props.duty === Duty.area? scoreList1 : [...scoreList1,...scoreList2]
+  const container = props.duty === Duty.area? styles.areaHeight : styles.fourHeight
+
+
+  //跳转到报表
   const handleToReport = () => {
     console.log('gogoggo')
   }
+
+ 
+
   return(
     <View style={styles.mask}>
-      <View style={styles.container}>
+      <View style={container}>
         <Image style={styles.header} source={require("../../../images/work/sponsor/box_header.png")} />
         <View style={styles.sponsorBox}>
           <Text style={styles.title}>发起认证</Text>
@@ -106,7 +123,7 @@ export const SponsorBox:React.FC = () => {
         </View>
         <View style={styles.scoreBox}>
           {
-            scoreList.map((item, index) => (
+            socreList.map((item, index) => (
               <View key={index} style={styles.content}>
                 <Text style={styles.left1}>{item.key}：</Text>
                 <Text style={styles.right}>{item.value}</Text>
@@ -122,10 +139,10 @@ export const SponsorBox:React.FC = () => {
           }
         </View>
         <View style={styles.btn}>
-          <TouchableOpacity style={styles.btnWrap}>
+          <TouchableOpacity style={styles.btnWrap} onPress={() => {props.handleSponsorCancle()}}>
             <Text style={styles.cancle}>取消</Text>
           </TouchableOpacity>
-          <TouchableOpacity  style={[styles.btnWrap,styles.borderLeft]}>
+          <TouchableOpacity  style={[styles.btnWrap,styles.borderLeft]} onPress={() => {props.handleSponsorComfirm()}}>
             <Text style={styles.comfirm}>提交</Text>
           </TouchableOpacity>
         </View>
@@ -149,9 +166,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent:"center",
   },
-  container: {
+  areaHeight: {
     width: pxToDp(620),
-    minHeight: pxToDp(1150),
+    height: pxToDp(1050),
+    backgroundColor: "#fff",
+    borderRadius: pxToDp(10),
+    marginTop:pxToDp(200)
+  },
+  fourHeight: {
+    width: pxToDp(620),
+    height: pxToDp(1150),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     marginTop:pxToDp(279)
