@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import {CheckHeader} from '../../../components/workCmp/starCheck/CheckHeader';
 import Sort from '../../../components/filterCmp/sortCmp';
@@ -14,6 +14,7 @@ import { AlertCmp } from '../../../components/altrtCmp';
 import { connect } from 'react-redux';
 import * as rightFliter from '../../../store/actions/filter/rightFliter';
 import * as handlePageState from '../../../store/actions/handlePageState';
+import { SponsorBox } from '../../../components/workCmp/sponsorCmp/sponsorBox';
 const actions = {
   ...rightFliter,
   ...handlePageState
@@ -59,6 +60,11 @@ class HandelPage extends React.Component<any,IState>{
   handleApplying = (index:number) => {
     this._setHanleClick(index,BtnTitle.applying)
   }
+  //发起认证
+  handleSponsor = (index: number) => {
+    console.log('发起认证')
+    // this._setHanleClick(index,BtnTitle.sponsor)
+  }
   //验收
   handleReception = (index: number) => {
     console.log(index)
@@ -101,6 +107,7 @@ class HandelPage extends React.Component<any,IState>{
     this.props.changeHandleState(this.props.navigation.state.params.type)
   }
 
+
   componentDidMount(){
     //顶部标题
     console.log('type',this.props.navigation.state.params.type)
@@ -110,9 +117,9 @@ class HandelPage extends React.Component<any,IState>{
   }
  
  render (){
-   console.log(this.props.handlePageState.HState)
-   const {navigation} = this.props
-  
+  // console.log(this.props.handlePageState.HState)
+  const {navigation} = this.props
+  const HState = this.props.handlePageState.HState
  
    return(
     <View>
@@ -134,21 +141,30 @@ class HandelPage extends React.Component<any,IState>{
                   <ApplyItem title={item.name} star={item.star}>
                     <View style={styles.btnStyle}>
                       {
-                        this.props.handlePageState.HState === StarCheckTypes.wait_handle &&
+                        HState === StarCheckTypes.wait_handle &&
                         <>
                           <ApplyBtn handleClick={this.handleSendBack} index={index} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
                           <ApplyBtn handleClick={this.handleApplying} index={index} title={BtnTitle.applying} color={BtnTypes.Blue}/>
                         </>
                       }
                       {
-                        this.props.handlePageState.HState === StarCheckTypes.wait_reception &&
+                        HState === StarCheckTypes.wait_reception &&
                         <>
                           <ApplyBtn handleClick={this.handleReception} index={index} title={BtnTitle.reception} color={BtnTypes.Blue}/>
                         </>
                       }
-                     
+                      {
+                         HState === StarCheckTypes.wait_sponsor &&
+                         <View style={styles.sponsor}>
+                          <Text style={styles.sponsorDate}>申请时间：2019.06.04</Text>
+                           <ApplyBtn handleClick={this.handleSponsor} index={index} title={BtnTitle.sponsor} color={BtnTypes.Blue}/>
+                         </View>
+                      }
                     </View>
-                    <ApplyFooter score={item.score} week={item.week} date={item.date}/>
+                    {
+                       HState === StarCheckTypes.wait_handle || HState === StarCheckTypes.wait_reception?
+                        <ApplyFooter score={item.score} week={item.week} date={item.date}/> : <></>
+                    }
                   </ApplyItem>
                 )}
               />
@@ -161,6 +177,7 @@ class HandelPage extends React.Component<any,IState>{
                   handleAlert={this.handleAlert}
                   />
       }
+      <SponsorBox />
     </View>
    )
  }
@@ -185,5 +202,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent:"flex-end",
     width: "100%"
+  },
+  sponsor: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    marginTop: pxToDp(24)
+  },
+  sponsorDate: {
+    color: "#666",
+    fontSize: pxToDp(26)
   }
 })

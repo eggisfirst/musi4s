@@ -6,11 +6,11 @@ import {connect} from 'react-redux';
 import * as actions from '../../store/actions/filter/rightFliter';
 
 interface IProps {
-  isActive: boolean
-  handleFilterActive: (status: boolean) => void
+  // isActive: boolean
+  // handleFilterActive: (status: boolean) => void
 }
 
-class FilterIcon extends React.Component<IProps> {
+class FilterIcon extends React.Component<any> {
   handleClick = () => {
     const isActive = this.props.isActive
     this.props.handleFilterActive(!isActive)

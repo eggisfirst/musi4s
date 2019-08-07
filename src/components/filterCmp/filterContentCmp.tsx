@@ -8,18 +8,18 @@ import * as actions from '../../store/actions/filter/rightFliter'
 
 
 interface IProps {
-  handleSelectStarIndex: (i: number) => void
-  handleFilterActive: (statue: boolean) => void
-  selectStartDate: (date: any) => void
-  selectEndDate: (date: any) => void
-  starList: Array<string>
-  starIndex: number
-  isActive: boolean
-  startDate: any
-  endDate: any
+  // handleSelectStarIndex: (i: number) => void
+  // handleFilterActive: (statue: boolean) => void
+  // selectStartDate: (date: any) => void
+  // selectEndDate: (date: any) => void
+  // starList: Array<string>
+  // starIndex: number
+  // isActive: boolean
+  // startDate: any
+  // endDate: any
 }
 
-class FilterContentCmp extends React.Component<IProps> {
+class FilterContentCmp extends React.Component<any> {
   state = {
     startStatus: false,
     endStatus: false,
@@ -144,7 +144,7 @@ class FilterContentCmp extends React.Component<IProps> {
             <Text style={styles.textStyle}>认证星级</Text>
             <View style={styles.btnList}>
               {
-                this.props.starList.map((item, i) => (
+                this.props.starList.map((item:any, i:number) => (
                   <TouchableOpacity activeOpacity={0.6} key={item} onPress={() => {this.handleClick(i)}}> 
                     <View style={this.props.starIndex === i? styles.starItemActive:styles.starItem}>
                       <Text style={this.props.starIndex === i? styles.btnColorActive:styles.btnColor}>{item}</Text>

@@ -23,6 +23,7 @@ export enum BtnTitle {
   applying = '受理',
   sendBack = '退回',
   tips = "温馨提示",
+  sponsor = '发起认证',
   null = ''
 }
 

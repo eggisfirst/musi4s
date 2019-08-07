@@ -25,14 +25,14 @@ export  const ApplyBtn:React.FC<IProps> = (props:IProps) =>{
 
 const styles = StyleSheet.create({
   btnRed: {
-    width: pxToDp(140),
+    minWidth: pxToDp(140),
     height: pxToDp(60),
     borderRadius: pxToDp(30),
     marginLeft: pxToDp(20),
     backgroundColor: "rgba(255,45,85,0.3)",
   },
   btnBlue: {
-    width: pxToDp(140),
+    minWidth: pxToDp(140),
     height: pxToDp(60),
     borderRadius: pxToDp(30),
     marginLeft: pxToDp(20),
@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     lineHeight: pxToDp(60),
     textAlign:"center",
+    paddingLeft: pxToDp(20),
+    paddingRight: pxToDp(20)
   },
   Blue: {
     color: '#007AFF',
@@ -51,5 +53,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     lineHeight: pxToDp(60),
     textAlign:"center",
+    paddingLeft: pxToDp(20),
+    paddingRight: pxToDp(20)
   }
 })
