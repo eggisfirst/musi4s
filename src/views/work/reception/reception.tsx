@@ -6,12 +6,13 @@ import { DealerCard } from '../../../components/workCmp/receptionCmp/dealerCard'
 import { ReceItem } from '../../../components/workCmp/receptionCmp/receItem';
 import { AlertBtnTypes, BtnTitle } from "../../../utils/enum";
 import { AlertCmp } from '../../../components/altrtCmp';
-import {MapCmp} from '../../../components/mapCmp/map';
+import MapCmp from '../../../components/mapCmp/map';
 
 
 interface IState {
   index: number //前一个页面的索引
   gradeState: Boolean
+  mapStatue: boolean
 }
 
 export default class index extends React.Component<any,IState>{
@@ -20,7 +21,8 @@ export default class index extends React.Component<any,IState>{
   }
   state = {
     gradeState: false,
-    index: -1
+    index: -1,
+    mapStatue: false
   }
   list =  [
     {name: '广州马会家居凯奇门店',status: true, score1: 48, score2: 90, date: "2019.06.04",key:'1'},
@@ -30,6 +32,11 @@ export default class index extends React.Component<any,IState>{
     {name: '广州马会家居凯奇门店',status: true, score1: 48, score2: 90, date: "2019.05.04",key:'5'},
   ]
 
+  handleShowMap = () => {
+    this.setState({
+      mapStatue: true
+    })
+  }
   //验收弹框提示  //索引
   toGrade = () => {
     this.setState({
@@ -77,7 +84,7 @@ export default class index extends React.Component<any,IState>{
                 data={this.list}
                 keyExtractor={item => item.key}
                 renderItem={({ item,index }) => (
-                  <ReceItem toGrade={this.toGrade} shopItem={item} />
+                  <ReceItem toGrade={this.toGrade} shopItem={item} handleShowMap={this.handleShowMap} />
                 )}
               />
       {
@@ -88,7 +95,9 @@ export default class index extends React.Component<any,IState>{
                   handleAlert={this.handleAlert}
                   boxValue={'该经销商，已有门店评分不合格，是否继续评分？'}/>
       }
-      {/* <MapCmp /> */}
+      {
+        this.state.mapStatue && <MapCmp />
+      }
     </View>
    )
  }
