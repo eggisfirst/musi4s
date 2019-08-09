@@ -23,6 +23,7 @@ export enum BtnTitle {
   applying = '受理',
   sendBack = '退回',
   tips = "温馨提示",
+  sponsor = '发起认证',
   null = ''
 }
 
@@ -46,3 +47,17 @@ export enum SotrList {
   timeDown = '申请时间降序'
 }
 
+export enum Duty {
+  area = '区域',
+  fourS = '4s部'
+}
+
+export enum ProcessState {
+  grade = '已评分',
+  apply = '已申请',
+  approve = '已认证',
+  sendBack = '区域已退回',
+  accept = '4s已受理',
+  revocation = '已撤销',
+  unAccept = '未通过'
+}

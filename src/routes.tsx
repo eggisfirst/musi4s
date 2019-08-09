@@ -37,6 +37,9 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  StarHome: {
+    screen: StarHome,
+  },
   ReceptionPage: ReceptionPage,
 
   Work: {
@@ -48,9 +51,7 @@ const routerStack = createStackNavigator({
     }
   },
 
-  StarHome: {
-    screen: StarHome,
-  },
+ 
 
   HandlePage:HandlePage,
 

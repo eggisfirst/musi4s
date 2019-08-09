@@ -618,13 +618,8 @@
 
 "@babel/runtime@^7.4.5":
   version "7.5.5"
-<<<<<<< HEAD
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.5.tgz#74fba56d35efbeca444091c7850ccd494fd2f132"
-  integrity sha512-28QvEGyQyNkB0/m2B4FU7IEZGK2NUrcMtT6BZEFALTguLk+AUT6ofsHtPk5QyjAdUkpMJ+/Em+quwz4HOt30AQ==
-=======
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.5.5.tgz#74fba56d35efbeca444091c7850ccd494fd2f132"
   integrity sha1-dPulbTXvvspEQJHHhQzNSU/S8TI=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -909,13 +904,8 @@
 
 "@types/hoist-non-react-statics@^3.3.0":
   version "3.3.1"
-<<<<<<< HEAD
-  resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
-  integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
-=======
   resolved "https://registry.npm.taobao.org/@types/hoist-non-react-statics/download/@types/hoist-non-react-statics-3.3.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fhoist-non-react-statics%2Fdownload%2F%40types%2Fhoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
   integrity sha1-ESSq/lEYy1kZd66xzqrtEHDrA58=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
   dependencies:
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
@@ -967,13 +957,8 @@
 
 "@types/react-redux@^7.1.1":
   version "7.1.1"
-<<<<<<< HEAD
-  resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.1.tgz#eb01e89cf71cad77df9f442b819d5db692b997cb"
-  integrity sha512-owqNahzE8en/jR4NtrUJDJya3tKru7CIEGSRL/pVS84LtSCdSoT7qZTkrbBd3S4Lp11sAp+7LsvxIeONJVKMnw==
-=======
   resolved "https://registry.npm.taobao.org/@types/react-redux/download/@types/react-redux-7.1.1.tgz#eb01e89cf71cad77df9f442b819d5db692b997cb"
   integrity sha1-6wHonPccrXffn0QrgZ1dtpK5l8s=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
   dependencies:
     "@types/hoist-non-react-statics" "^3.3.0"
     "@types/react" "*"
@@ -4273,13 +4258,8 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
 
 moment@^2.22.1:
   version "2.24.0"
-<<<<<<< HEAD
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
-  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
-=======
   resolved "https://registry.npm.taobao.org/moment/download/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha1-DQVdU/UFKqZTyfbraLtdEr9cK1s=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
 
 morgan@^1.9.0:
   version "1.9.1"
@@ -5034,15 +5014,9 @@ react-native-animatable@^1.3.1:
     prop-types "^15.5.10"
 
 react-native-date-picker@^2.4.2:
-<<<<<<< HEAD
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.5.0.tgz#6dc89e9c7fdf61de708fc444594dcc16a20a7070"
-  integrity sha512-l7nzA6J2q45mmBZE2CgsO+YGm8ZaFiAuXdXIxFx/M0J9wWH2Th0RMnBssDx4nbHrk020bl5lzeCZKQHtiS58wA==
-=======
   version "2.6.1"
   resolved "https://registry.npm.taobao.org/react-native-date-picker/download/react-native-date-picker-2.6.1.tgz#ad322cc12a760ad7a2cabce18928652dd4f8b8f0"
   integrity sha1-rTIswSp2CteiyrzhiShlLdT4uPA=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
   dependencies:
     moment "^2.22.1"
 
@@ -5191,13 +5165,8 @@ react-proxy@^1.1.7:
 
 react-redux@^7.1.0:
   version "7.1.0"
-<<<<<<< HEAD
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.1.0.tgz#72af7cf490a74acdc516ea9c1dd80e25af9ea0b2"
-  integrity sha512-hyu/PoFK3vZgdLTg9ozbt7WF3GgX5+Yn3pZm5/96/o4UueXA+zj08aiSC9Mfj2WtD1bvpIb3C5yvskzZySzzaw==
-=======
   resolved "https://registry.npm.taobao.org/react-redux/download/react-redux-7.1.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-redux%2Fdownload%2Freact-redux-7.1.0.tgz#72af7cf490a74acdc516ea9c1dd80e25af9ea0b2"
   integrity sha1-cq989JCnSs3FFuqcHdgOJa+eoLI=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
   dependencies:
     "@babel/runtime" "^7.4.5"
     hoist-non-react-statics "^3.3.0"
@@ -5295,15 +5264,6 @@ realpath-native@^1.1.0:
 
 redux-thunk@^2.3.0:
   version "2.3.0"
-<<<<<<< HEAD
-  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
-  integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
-
-redux@^4.0.0, redux@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
-  integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==
-=======
   resolved "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
   integrity sha1-UcLBmhhe1Rh6qpotCLZm0NZGdiI=
 
@@ -5311,7 +5271,6 @@ redux@^4.0.0, redux@^4.0.4:
   version "4.0.4"
   resolved "https://registry.npm.taobao.org/redux/download/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
   integrity sha1-TuGusWS2PWobzFeuSqC25vp6N5Y=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
   dependencies:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"
@@ -5987,13 +5946,8 @@ supports-color@^6.1.0:
 
 symbol-observable@^1.2.0:
   version "1.2.0"
-<<<<<<< HEAD
-  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
-  integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
-=======
   resolved "https://registry.npm.taobao.org/symbol-observable/download/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
   integrity sha1-wiaIrtTqs83C3+rLtWFmBWCgCAQ=
->>>>>>> cc20dd240a157e12948526ab9358aa0892eaefd9
 
 symbol-tree@^3.2.2:
   version "3.2.4"

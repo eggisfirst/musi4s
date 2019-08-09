@@ -1,10 +1,12 @@
 import React from "react";
 import { View,Text, StyleSheet, Image } from "react-native";
 import pxToDp from "../../../utils/fixcss";
+import { StarCheckTypes } from "../../../utils/enum";
 
 interface IProps {
   title: string
   star: string
+  type: StarCheckTypes  //认证进度的跟其他三个不同
 }
 
 export const ApplyItem:React.FC<IProps> = (props) =>{
@@ -14,7 +16,19 @@ export const ApplyItem:React.FC<IProps> = (props) =>{
           <Image  style={styles.ImageStyle}
                   source={require("../../../images/work/starCheck/via.png")}/>
           <View>
-            <Text style={styles.name}>{props.title}</Text>
+            <View style={styles.processTitle}>
+              <Text style={styles.name}>
+                {
+                  props.type === StarCheckTypes.processing_record? 
+                  props.title :
+                  props.title + '发起申请！'
+                }
+              </Text>
+              {
+                props.type === StarCheckTypes.processing_record &&
+                <Text style={styles.processText}>06-04  15：00</Text>
+              }
+            </View>
             <Text style={styles.star}>认证星级：{props.star}</Text>
           </View>
         </View>
@@ -47,11 +61,23 @@ const styles = StyleSheet.create({
     color: "#363636",
     fontSize: pxToDp(38),
     fontWeight: "bold",
-    width: pxToDp(600),
+    // width: pxToDp(600),
     lineHeight: pxToDp(60)
   },
   star: {
     color: "#363636",
     fontSize: pxToDp(30)
+  },
+
+  processTitle: {
+    display:"flex",
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"space-between",
+    width: pxToDp(580)
+  },
+  processText: {
+    color: "#666",
+    fontSize: pxToDp(24)
   }
 })
