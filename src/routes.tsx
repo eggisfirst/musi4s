@@ -40,8 +40,6 @@ const routerStack = createStackNavigator({
   StarHome: {
     screen: StarHome,
   },
-  ReceptionPage: ReceptionPage,
-
   Work: {
 
     screen: AppNavigator,
@@ -50,7 +48,10 @@ const routerStack = createStackNavigator({
       header: null,
     }
   },
-
+  ReceptionPage: ReceptionPage,
+  GradePage: GradePage,
+ 
+ 
  
 
   HandlePage:HandlePage,
@@ -58,9 +59,6 @@ const routerStack = createStackNavigator({
   Login: {
     screen: LoginScreen,
   },
-  GradePage: GradePage,
-  
-  
  
   SearchPage: SearchPage,
 },{
