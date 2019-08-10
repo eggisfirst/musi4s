@@ -37,29 +37,23 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  ReceptionPage: ReceptionPage,
+
   StarHome: {
     screen: StarHome,
   },
   Work: {
-
     screen: AppNavigator,
     //主导航页面不显示头部
     navigationOptions: {
       header: null,
     }
   },
-  ReceptionPage: ReceptionPage,
   GradePage: GradePage,
- 
- 
- 
-
   HandlePage:HandlePage,
-
   Login: {
     screen: LoginScreen,
   },
- 
   SearchPage: SearchPage,
 },{
   mode: 'modal',
