@@ -3,6 +3,7 @@ package com.deruccits;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import cn.qiuxiang.react.amap3d.AMap3DPackage;
 import com.henninghall.date_picker.DatePickerPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -26,7 +27,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new DatePickerPackage(),
-            new RNGestureHandlerPackage()
+            new RNGestureHandlerPackage(),
+             new AMap3DPackage()
       );
     }
 
