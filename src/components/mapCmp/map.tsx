@@ -24,7 +24,7 @@ export default class MapCmp extends React.Component{
                 onPress={() => {
                     RoutePlan.openAmap({
                         slat: 23.025205, slon: 113.758683, sname: "我的位置",
-                        dlat: 23.025205, dlon: 113.758683, dname: "北京",
+                        dlat: 23.025205, dlon: 113.758683, dname: "东莞厚街",
                         mode: RoutePlan.Mode.DRIVING
                     }).then(res => Alert.alert(res)).catch(err => Alert.alert(err))
                 }}
