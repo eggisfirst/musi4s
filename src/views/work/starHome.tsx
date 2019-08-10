@@ -59,6 +59,12 @@ export default class StarHome extends React.Component<any> {
         <StarCheck list={list} navigation={this.props.navigation}/>
         <ReportForm  list={imgArr} navigation={this.props.navigation}/>
         <Counter />
+        <View>
+          <Button
+            title="toLogin"
+            onPress={() => {this.props.navigation.push(`Login`)}}>
+          </Button>
+        </View>
       </View>
     )
   }
