@@ -4,6 +4,7 @@ import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
   toGrade:() => void
+  handleShowMap: () => void
   shopItem: {
     name: string
     score1: number
@@ -42,7 +43,7 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
       </View>
 
       <View style={styles.botMsg}>
-        <TouchableOpacity style={styles.address}>
+        <TouchableOpacity style={styles.address} onPress={() => {props.handleShowMap()}}>
           <Image style={styles.add_icon} source={require("../../../images/work/reception/location.png")} />
           <Text style={styles.add_text}>门店地址</Text>
         </TouchableOpacity>
