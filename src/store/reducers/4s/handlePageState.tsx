@@ -1,5 +1,5 @@
-import * as Types from '../actionTypes';
-import { StarCheckTypes } from '../../utils/enum';
+import * as Types from '../../actionTypes/4s/actionTypes';
+import { StarCheckTypes } from '../../../utils/enum';
 
 const initState = {
   HState: StarCheckTypes.wait_handle

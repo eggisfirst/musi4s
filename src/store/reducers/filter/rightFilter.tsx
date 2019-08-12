@@ -1,4 +1,4 @@
-import * as Types from '../../actionTypes';
+import * as Types from '../../actionTypes/4s/actionTypes';
 import { format } from '../../../utils/index';
 
 const initState = {

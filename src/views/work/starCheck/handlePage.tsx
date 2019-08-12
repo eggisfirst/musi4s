@@ -14,7 +14,7 @@ import { AlertCmp } from '../../../components/altrtCmp';
 import { connect } from 'react-redux';
 import * as sort from '../../../store/actions/filter/sort'
 import * as rightFliter from '../../../store/actions/filter/rightFliter';
-import * as handlePageState from '../../../store/actions/handlePageState';
+import * as handlePageState from '../../../store/actions/4s/handlePageState';
 import { SponsorBox } from '../../../components/workCmp/sponsorCmp/sponsorBox';
 import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 import ProcessBox from '../../../components/workCmp/processCmp/processBox';
