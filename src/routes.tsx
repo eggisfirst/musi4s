@@ -12,6 +12,7 @@ import HandlePage from './views/work/starCheck/handlePage';
 import SearchPage from './views/search';
 import ReceptionPage from './views/work/reception/reception';
 import GradePage from './views/work/gradePage/grade';
+import CheckListPage from './views/work/starCheck/checkList';
 
 
 const AppNavigator = createBottomTabNavigator({
@@ -41,7 +42,6 @@ const routerStack = createStackNavigator({
     screen: StarHome,
   },
   Work: {
-
     screen: AppNavigator,
     //主导航页面不显示头部
     navigationOptions: {
@@ -50,16 +50,11 @@ const routerStack = createStackNavigator({
   },
   ReceptionPage: ReceptionPage,
   GradePage: GradePage,
- 
- 
- 
-
+  CheckListPage: CheckListPage,
   HandlePage:HandlePage,
-
   Login: {
     screen: LoginScreen,
   },
- 
   SearchPage: SearchPage,
 },{
   mode: 'modal',

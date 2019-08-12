@@ -6,7 +6,7 @@ import { StarCheckTypes } from "../../../utils/enum";
 interface IProps {
   eggHandleSearch: () => void
   eggHandleBack: () => void
-  title: StarCheckTypes
+  title: StarCheckTypes | string
 }
 
 export const CheckHeader:React.FC<IProps> = (props:IProps) => {
@@ -15,7 +15,7 @@ export const CheckHeader:React.FC<IProps> = (props:IProps) => {
     <>
       <HeaderCmp  title={title} 
                   eggHandleBack={eggHandleBack}
-                  Children={<SearchCmp eggHandleSearch={eggHandleSearch}/>}>
+                  >
       </HeaderCmp>
     </>
    )

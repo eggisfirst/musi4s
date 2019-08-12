@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     fontSize:pxToDp(38),
     fontWeight:"bold",
     textAlign:"center",
-    flex:0.6,
+    flex:0.68,
   },
   right: {
     flex: 0.4
