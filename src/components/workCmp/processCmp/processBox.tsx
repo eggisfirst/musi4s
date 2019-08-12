@@ -45,15 +45,116 @@ export default class ProcessBox extends React.Component<IProps>{
           remark: "已通过"
         }
       ]
+    },
+    {
+      name:  ApproveNode.fourS,
+      data: [
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.08.15",
+          remark: "已通过"
+        },
+        {
+          time: "2018.010.15",
+          remark: "已发起"
+        }
+      ]
+    },
+    {
+      name:  ApproveNode.fourS,
+      data: [
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+      ]
+    },
+    {
+      name:  ApproveNode.fourS,
+      data: [
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+      ]
+    },
+    {
+      name:  ApproveNode.fourS,
+      data: [
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+      ]
+    },
+    {
+      name:  ApproveNode.fourS,
+      data: [
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+      ]
+    },{
+      name:  ApproveNode.fourS,
+      data: [
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+        {
+          time: "2018.07.15",
+          remark: "已受理"
+        },
+      ]
     }
   ]
+  /**获取每个节点的margintop */
   const myMarginTop = (index: number) => {
-    if(index === 0) {
-      return pxToDp(38)
+    if(index === -1) {
+      return pxToDp(36)
     }
     if(list[index]) {
       const i = list[index].data.length
-      return pxToDp(57 + i*20)
+      return pxToDp( (i)*40)
+    }
+  }
+  const myLastBottom = (type: string) => {
+    if(type === ApproveNode.headquarters) {
+      return pxToDp(93)
+    }else {
+      return 0
     }
   }
   return(
@@ -63,26 +164,25 @@ export default class ProcessBox extends React.Component<IProps>{
 
         <ScrollView style={styles.content}>
           <View style={styles.linePosition}>
-            <TimerShaft />
+            <TimerShaft list={list}/>
           </View>
           {
             nodeList.map((item, index) => (
-              <View style={{marginTop: myMarginTop(index)}} key={index} >
-                <Text style={styles.lefttext} >{item}</Text>
+              <View style={{marginTop: myMarginTop(index - 1)}} key={index} >
+                <Text style={[styles.lefttext,{marginBottom: myLastBottom(item)}]} >{item}</Text>
               </View>
             ))
           }
           <View style={styles.rightBox}>
             {
               list.map((item, index) => (
-                <View style={{marginTop: myMarginTop(index)}} key={index}>
+                <View style={{marginTop: pxToDp(40)}} key={index}>
                   <View style={styles.rightStatus} >
                     {
                       item.data && item.data.map((el, i) => (
                         <Text key={i} style={styles.rightText}>{el.time}{el.remark}</Text>
                       ))
                     }
-                  
                   </View>
                 </View>
               ))
@@ -165,13 +265,14 @@ const styles = StyleSheet.create({
     textAlign: "right",
     width: pxToDp(140),
     paddingRight: pxToDp(20),
-    fontWeight: "500"
+    fontWeight: "500",
+    lineHeight:pxToDp(40)
   },
 
   rightBox: {
     position: "absolute",
     top: 0,
-    left: pxToDp(182)
+    left: pxToDp(182),
   },
   rightStatus: {
     width: pxToDp(400),
@@ -180,12 +281,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: pxToDp(12),
     borderBottomRightRadius: pxToDp(12),
     borderBottomLeftRadius: pxToDp(12),
-    lineHeight: pxToDp(40)
   },
   rightText: {
     color: "#666",
     fontSize: pxToDp(24),
-    paddingLeft: pxToDp(20)
+    paddingLeft: pxToDp(20),
+    lineHeight: pxToDp(40)
   }
 
 })

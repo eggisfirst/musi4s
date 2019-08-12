@@ -2,24 +2,37 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 
-interface node {
-  num: number
-
+interface IProps {
+  list: Array<any>                  
 }
 
 
-export const TimerShaft:React.FC = () => {
-  
-
+export const TimerShaft:React.FC<IProps> = ({list}) => {
+  const myMarginTop = (index: number) => {
+    if(index === -1) {
+      return
+    }
+    if(list[index]) {
+      const i = list[index].data.length
+      return pxToDp((i)*38 + 27)
+    }
+  }
 
   return(
-    <View style={styles.container}>
-      <View style={styles.blue}>
-        <View style={styles.blueIn}></View>
-      </View>
-      <View style={styles.blueLine}></View>
+    <View >
+      {
+        list.map((item, index) => (
+          <View key={index} style={styles.container}>
+            <View style={[styles.blueLine,{height: myMarginTop(index - 1)}]}></View>
+            <View style={styles.blue}>
+              <View style={styles.blueIn}></View>
+            </View>
+          </View>
+        ))
+      }
+    
 
-      <View style={styles.blue}>
+      {/* <View style={styles.blue}>
         <View style={styles.blueIn}></View>
       </View>
       <View style={styles.blueLine}></View>
@@ -27,7 +40,7 @@ export const TimerShaft:React.FC = () => {
       <View style={styles.grey}>
          <View style={styles.greyIn}></View>
        </View>
-       <View style={styles.greyLine}></View>
+       <View style={styles.greyLine}></View> */}
     </View>
    )
 }
