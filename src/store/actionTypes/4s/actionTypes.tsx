@@ -1,4 +1,3 @@
-export const COUNT_ADD = 'COUNT_ADD';
 
 //排序
 export const SORT_ACTIVE = 'SORT_ACTIVE'    

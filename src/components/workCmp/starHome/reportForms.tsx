@@ -4,7 +4,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import pxToDp from "../../../utils/fixcss";
 
 interface list {
-  imgUrl: any
+  imgUrl: any,
+  link: string
 }
 
 interface IProps {
@@ -19,7 +20,7 @@ export const ReportForm: React.FC<IProps> = ({navigation, list}) => {
         <View style={styles.reportWrapper}>
           {
             list && list.map(item => (
-              <TouchableOpacity key={item.imgUrl}>
+              <TouchableOpacity key={item.imgUrl} onPress={() => {navigation.push(item.link)}}>
                 <Image 
                     style={styles.reportStyle}
                     source={item.imgUrl} />

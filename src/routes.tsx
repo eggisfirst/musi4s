@@ -12,6 +12,7 @@ import HandlePage from './views/work/starCheck/handlePage';
 import SearchPage from './views/search';
 import ReceptionPage from './views/work/reception/reception';
 import GradePage from './views/work/gradePage/grade';
+import CheckRecordPage from './views/work/starCheck/areaReports/checkRecord';
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -36,9 +37,8 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  StarHome: {
-    screen: StarHome,
-  },
+  StarHome,
+
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部
@@ -46,19 +46,14 @@ const routerStack = createStackNavigator({
       header: null,
     }
   },
- 
-  HandlePage:HandlePage,
-
-
-  GradePage: GradePage,
-
-  ReceptionPage: ReceptionPage,
- 
-
+  CheckRecordPage,
+  HandlePage,
+  GradePage,
+  ReceptionPage,
   Login: {
     screen: LoginScreen,
   },
-  SearchPage: SearchPage,
+  SearchPage,
 },{
   mode: 'modal',
   // 指定标头的呈现方式

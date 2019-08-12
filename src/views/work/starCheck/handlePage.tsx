@@ -170,9 +170,9 @@ class HandelPage extends React.Component<any,IState>{
       starCheckType: this.props.navigation.state.params.type
     })
   }
-  componentWillMount() {
-    this.initFilter()
+  componentDidMount() {
     this.getPageState()
+    this.initFilter()
   }
 
  render (){
