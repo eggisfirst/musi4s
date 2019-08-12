@@ -1,7 +1,7 @@
 import React from "react";
 import { View,Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import pxToDp from "../../../utils/fixcss";
-import { StarCheckTypes } from "../../../utils/enum";
+import pxToDp from "../../utils/fixcss";
+import { StarCheckTypes } from "../../utils/enum";
 
 interface IProps {
   title: string
@@ -9,7 +9,13 @@ interface IProps {
   Children?: JSX.Element
 }
 
-
+/**通用头部需要设置页面默认头部为null */
+/**
+ * 
+ * @param props static navigationOptions = {
+  header: null,
+}
+ */
 export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
     const {title,eggHandleBack} = props
     return(
@@ -18,7 +24,7 @@ export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
             style={styles.backBtn}
             onPress={() => {eggHandleBack()}}>
             <Image  style={styles.arrow}
-                    source={require("../../../images/work/starCheck/arrow.png")}/>
+                    source={require("../../images/work/starCheck/arrow.png")}/>
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
         { props.Children || <View style={styles.right}></View>}

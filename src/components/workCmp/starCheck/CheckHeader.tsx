@@ -1,12 +1,12 @@
 import React from "react";
-import  {HeaderCmp}  from "./headerCmp"
+import  {HeaderCmp}  from "../../headerCmp/headerCmp"
 import { SearchCmp } from './searchCmp';
 import { StarCheckTypes } from "../../../utils/enum";
 
 interface IProps {
   eggHandleSearch: () => void
   eggHandleBack: () => void
-  title: StarCheckTypes
+  title: string
 }
 
 export const CheckHeader:React.FC<IProps> = (props:IProps) => {

@@ -14,7 +14,7 @@ interface IProps {
   // activeIndex: number
 }
 
-class Sort extends React.Component<any> {
+class Sort extends React.Component<any,IProps> {
   //点击头部
   handleClick = () => {
     this._setActive()

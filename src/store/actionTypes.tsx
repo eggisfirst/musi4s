@@ -7,6 +7,8 @@ export const SORT_ACTIVEINDEX = 'SORT_ACTIVEINDEX'
 //筛选
 export const Filter_ACTIVE = 'Filter_ACTIVE'
 export const Filter_STAR = 'Filter_STAR'
+export const Filter_SITUATION = 'Filter_SITUATION'
+
 
 //时间选择器
 export const SELECT_START_DATE = 'SELECT_START_DATE'

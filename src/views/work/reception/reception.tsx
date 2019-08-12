@@ -81,7 +81,7 @@ export default class index extends React.Component<any,IState>{
   const index = navigation.getParam('index')
   
   return(
-    <View style={{backgroundColor: "#f8f8f8",width:"100%",height:"100%",overflow:"scroll"}}>
+    <View style={{backgroundColor: "#f8f8f8", width:"100%",height:"100%",overflow:"scroll"}}>
       <View style={styles.header}>
         <View style={styles.headerWrapper}>
           <TouchableOpacity style={styles.icon} onPress={() => {this.props.navigation.goBack()}}>
@@ -101,6 +101,7 @@ export default class index extends React.Component<any,IState>{
                   <ReceItem toGrade={this.toGrade} shopItem={item} handleShowMap={this.handleShowMap} />
                 )}
               />
+
       {
         this.state.gradeState && 
         <AlertCmp title={BtnTitle.tips} 
@@ -153,6 +154,6 @@ const styles = StyleSheet.create({
   },
   shopList: {
     marginTop: pxToDp(125),
-    paddingLeft:pxToDp(32)
+    paddingLeft:pxToDp(32),
   }
 })

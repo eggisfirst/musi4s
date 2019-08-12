@@ -13,7 +13,6 @@ import SearchPage from './views/search';
 import ReceptionPage from './views/work/reception/reception';
 import GradePage from './views/work/gradePage/grade';
 
-
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
     Report: ReportScreen,
@@ -37,11 +36,12 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  ReceptionPage: ReceptionPage,
-
   StarHome: {
     screen: StarHome,
   },
+  ReceptionPage: ReceptionPage,
+
+ 
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部

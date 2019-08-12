@@ -15,6 +15,13 @@ export const handleSelectStarIndex = (index: number) => {
   }
 }
 
+export const handleSituation = (index: number) => {
+  return {
+    type: Types.Filter_SITUATION,
+    index
+  }
+}
+
 export const selectStartDate = (startDate:any) => {
   console.log('startdate',startDate)
   return {

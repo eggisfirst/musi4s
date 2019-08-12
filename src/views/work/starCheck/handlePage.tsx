@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Text } from "react-native";
+import { View, StyleSheet, FlatList, Text} from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import {CheckHeader} from '../../../components/workCmp/starCheck/CheckHeader';
 import Sort from '../../../components/filterCmp/sortCmp';
@@ -12,13 +12,16 @@ import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
 import { AlertCmp } from '../../../components/altrtCmp';
 
 import { connect } from 'react-redux';
+import * as sort from '../../../store/actions/filter/sort'
 import * as rightFliter from '../../../store/actions/filter/rightFliter';
 import * as handlePageState from '../../../store/actions/handlePageState';
 import { SponsorBox } from '../../../components/workCmp/sponsorCmp/sponsorBox';
 import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
+import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 const actions = {
   ...rightFliter,
-  ...handlePageState
+  ...handlePageState,
+  ...sort
 }
 
 interface IState {
@@ -26,6 +29,7 @@ interface IState {
   starCheckType: StarCheckTypes
   index: number
   sponsorStatus: boolean
+  processBoxStatus: boolean
 }
 
 class HandelPage extends React.Component<any,IState>{
@@ -38,6 +42,8 @@ class HandelPage extends React.Component<any,IState>{
    
     index: -1,
     sponsorStatus: false,
+    processBoxStatus: false
+
   }
 
   list =  [
@@ -55,20 +61,20 @@ class HandelPage extends React.Component<any,IState>{
  
   //安卓点击穿透处理
 
-  //退回
+  /**退回 */
   handleSendBack = (index: number) => {
     this._setHanleClick(index,BtnTitle.sendBack)
   }
-  //受理
+  /**受理 */
   handleApplying = (index:number) => {
     this._setHanleClick(index,BtnTitle.applying)
   }
-  //发起认证
+  /**发起验证 */
   handleSponsor = (index: number) => {
     console.log('发起认证')
     this._setSponsorStatus(true, index)
   }
-  //验收
+  /**验收 */
   handleReception = (index: number) => {
     console.log(index)
     this.props.navigation.navigate('ReceptionPage',{
@@ -76,7 +82,7 @@ class HandelPage extends React.Component<any,IState>{
     })
     // this._setHanleClick(index,BtnTitle.reception)
   }
-  //退回/受理
+  /**退回和受理 */
   handleAlert = (status:AlertBtnTypes,value?: string) => {
     this._setAlertBoxStatus(BtnTitle.null)
     switch (status) {
@@ -106,16 +112,34 @@ class HandelPage extends React.Component<any,IState>{
     this._setAlertBoxStatus(state)
   }
 
-  //提交认证
+  /**提交认证 */
   handleSponsorComfirm = () => {
     //请求
     this._setSponsorStatus(false)
     this.list.splice(this.state.index,1)
   }
-  //取消认证
+  /**取消认证 */
   handleSponsorCancle = () => {
     this._setSponsorStatus(false)
   }
+  /**弹出认证进度弹框 */
+  handleShowReceptionBox = (index: number) => {
+    if(this.state.starCheckType !== StarCheckTypes.processing_record) {
+      return
+    }
+    /**请求 */
+    this.setState({
+      processBoxStatus: true
+    })
+  }
+  /**关闭认证弹框 */
+  handleCloseProcessBox = () => {
+    this.setState({
+      processBoxStatus: false
+    })
+  }
+  
+
   _setSponsorStatus = (sponsorStatus: boolean, index?:number) => {
     if(index !== undefined) {
       this.setState({
@@ -127,20 +151,30 @@ class HandelPage extends React.Component<any,IState>{
     })
     
   }
-  //设置传过来的状态
-  componentWillMount() {
-    this.props.changeHandleState(this.props.navigation.state.params.type)
+  /**初始化筛选框 */
+  initFilter = () => {
+    /**排序 */
+    this.props.handleSortIndex(0)
+    /**筛选日期 */
+    this.props.selectStartDate(new Date())
+    this.props.selectEndDate(new Date())
+    /**认证进度里面的处理情况 */
+    this.props.handleSituation(-1)
+    /**星级选择 */
+    this.props.handleSelectStarIndex(-1)
   }
-
-
-  componentDidMount(){
-    //顶部标题
-    console.log('type',this.props.navigation.state.params.type)
+  /**获取上一页传过来的状态并设置顶部标题 */
+  getPageState() {
+    this.props.changeHandleState(this.props.navigation.state.params.type)
     this.setState({
       starCheckType: this.props.navigation.state.params.type
     })
   }
- 
+  componentWillMount() {
+    this.initFilter()
+    this.getPageState()
+  }
+
  render (){
   // console.log(this.props.handlePageState.HState)
   const {navigation} = this.props
@@ -160,52 +194,56 @@ class HandelPage extends React.Component<any,IState>{
         <FilterIcon />
       </View>
       {
-        this.props.rightFilter.isActive && <FilterContentCmp />
+        this.props.rightFilter.isActive && <FilterContentCmp type={this.state.starCheckType}/>
       }
 
       <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
                 data={this.list}
                 keyExtractor={item => item.key}
                 renderItem={({ item,index }) => (
-                  <ApplyItem title={item.name} star={item.star} type={this.state.starCheckType}>
-                    <View style={styles.btnStyle}>
-                      {
-                        HState === StarCheckTypes.wait_handle &&
-                        <>
-                          <ApplyBtn handleClick={this.handleSendBack} index={index} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
-                          <ApplyBtn handleClick={this.handleApplying} index={index} title={BtnTitle.applying} color={BtnTypes.Blue}/>
-                        </>
-                      }
-                      {
-                        HState === StarCheckTypes.wait_reception &&
-                        <>
-                          <ApplyBtn handleClick={this.handleReception} index={index} title={BtnTitle.reception} color={BtnTypes.Blue}/>
-                        </>
-                      }
-                      {
-                         HState === StarCheckTypes.wait_sponsor &&
-                         <View style={styles.sponsor}>
-                          <Text style={styles.sponsorDate}>申请时间：2019.06.04</Text>
-                           <ApplyBtn handleClick={this.handleSponsor} index={index} title={BtnTitle.sponsor} color={BtnTypes.Blue}/>
-                         </View>
-                      }
-                       {
-                        HState === StarCheckTypes.processing_record &&
-                        <Text style={styles.processStatus_red}>已撤回</Text>
-                      }
+                <ApplyItem  title={item.name} 
+                            star={item.star} 
+                            type={this.state.starCheckType}
+                            index={index}
+                            handleShowReceptionBox={this.handleShowReceptionBox}>
+                  <View style={styles.btnStyle}>
+                    {
+                      HState === StarCheckTypes.wait_handle &&
+                      <>
+                        <ApplyBtn handleClick={this.handleSendBack} index={index} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
+                        <ApplyBtn handleClick={this.handleApplying} index={index} title={BtnTitle.applying} color={BtnTypes.Blue}/>
+                      </>
+                    }
+                    {
+                      HState === StarCheckTypes.wait_reception &&
+                      <>
+                        <ApplyBtn  handleClick={this.handleReception} index={index} title={BtnTitle.reception} color={BtnTypes.Blue}/>
+                      </>
+                    }
+                    {
+                      HState === StarCheckTypes.wait_sponsor &&
+                      <View style={styles.sponsor}>
+                        <Text style={styles.sponsorDate}>申请时间：2019.06.04</Text>
+                        <ApplyBtn handleClick={this.handleSponsor} index={index} title={BtnTitle.sponsor} color={BtnTypes.Blue}/>
+                      </View>
+                    }
+                    {
+                      HState === StarCheckTypes.processing_record &&
+                      <Text style={styles.processStatus_red}>已撤回</Text>
+                    }
+                  </View>
+                  {
+                    HState === StarCheckTypes.wait_handle || HState === StarCheckTypes.wait_reception?
+                      <ApplyFooter score={item.score} week={item.week} date={item.date}/> : <></>
+                  }
+                  {
+                    HState === StarCheckTypes.processing_record &&
+                    <View style={styles.process_footer}>
+                      <ScoreItem scoreType={scoreType}/>
+                      <ScoreItem reason={'不符合规范'} />
                     </View>
-                    {
-                       HState === StarCheckTypes.wait_handle || HState === StarCheckTypes.wait_reception?
-                        <ApplyFooter score={item.score} week={item.week} date={item.date}/> : <></>
-                    }
-                    {
-                       HState === StarCheckTypes.processing_record &&
-                       <View style={styles.process_footer}>
-                        <ScoreItem scoreType={scoreType}/>
-                        <ScoreItem reason={'不符合规范'} />
-                       </View>
-                    }
-                  </ApplyItem>
+                  }
+                </ApplyItem>
                 )}
               />
       {
@@ -222,6 +260,11 @@ class HandelPage extends React.Component<any,IState>{
         <SponsorBox duty={Duty.fourS} 
                     handleSponsorCancle={this.handleSponsorCancle}
                     handleSponsorComfirm={this.handleSponsorComfirm}/>
+      }
+
+      {
+        this.state.processBoxStatus &&
+        <ProcessBox handleCloseProcessBox={this.handleCloseProcessBox}/>
       }
       
     </View>
