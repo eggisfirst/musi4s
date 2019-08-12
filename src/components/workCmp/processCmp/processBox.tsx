@@ -8,155 +8,119 @@ import { ApproveNode } from "../../../utils/enum";
 interface IProps {
   handleCloseProcessBox: () => void
 }
-export default class ProcessBox extends React.Component<IProps>{
- 
-
+interface IState {
+  nodeList: Array<any>
+  nodeStateList: Array<any>
+}
+export default class ProcessBox extends React.Component<IProps,IState>{
+  state:IState = {
+    nodeList: [],
+    nodeStateList:[]
+  }
+  /**获取左边固定的节点 */
+  getNodeList = () => {
+    const nodeList = [
+      ApproveNode.agency,
+      ApproveNode.area,
+      ApproveNode.fourS,
+      ApproveNode.saleCenter,
+      ApproveNode.fourS,
+      ApproveNode.marketCenter,
+      ApproveNode.president,
+      ApproveNode.headquarters
+    ]
+    this.setState({
+      nodeList
+    })
+  }
+  /**获取接口返回的数据 */
+  getNodeState = () => {
+    const nodeStateList = [
+      {
+        data: [
+          {
+            time: "2018.01.15",
+            remark: "已申请",
+            status: true
+          }
+        ]
+      },
+      {
+        data: [
+          {
+            time: "2018.02.15",
+            remark: "已申请",
+            status: true
+          },
+          {
+            time: "2018.02.15",
+            remark: "已申请",
+            status: true
+          },
+        ]
+      },
+      {
+        data: [
+          {
+            time: "2018.02.15",
+            remark: "已申请",
+            status: true
+          },
+          {
+            time: "2018.02.15",
+            remark: "已申请",
+            status: false
+          },
+        ]
+      },
+      
+    ]
+    this.setState({
+      nodeStateList
+    })
+  }
+  /**获取完整的包括未到节点的时间轴 */
+  getAllList = () => {
+    if(this.state.nodeList.length === this.state.nodeStateList.length) {
+      const getAllList = this.state.nodeStateList
+      return getAllList
+    }
+    let getAllList:any = []
+    this.state.nodeList.map((item, index) => {
+      if(this.state.nodeStateList[index] && this.state.nodeStateList[index].data) {
+        getAllList.push({data:this.state.nodeStateList[index].data})
+      }else {
+        getAllList.push({status: 'no'})
+      }
+    })
+    return getAllList
+  }
+  componentDidMount() {
+    this.getNodeList()
+    this.getNodeState()
+  }
 
  render (){
-  const nodeList = [
-    ApproveNode.agency,
-    ApproveNode.area,
-    ApproveNode.fourS,
-    ApproveNode.saleCenter,
-    ApproveNode.fourS,
-    ApproveNode.marketCenter,
-    ApproveNode.president,
-    ApproveNode.headquarters
-  ]
-  const list = [
-    {
-      name:  ApproveNode.agency,
-      data: [
-        {
-          time: "2018.05.15",
-          remark: "已申请"
-        }
-      ]
-    },
-    {
-      name:  ApproveNode.area,
-      data: [
-        {
-          time: "2018.05.15",
-          remark: "已申请"
-        },
-        {
-          time: "2018.05.15",
-          remark: "已通过"
-        }
-      ]
-    },
-    {
-      name:  ApproveNode.fourS,
-      data: [
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.08.15",
-          remark: "已通过"
-        },
-        {
-          time: "2018.010.15",
-          remark: "已发起"
-        }
-      ]
-    },
-    {
-      name:  ApproveNode.fourS,
-      data: [
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-      ]
-    },
-    {
-      name:  ApproveNode.fourS,
-      data: [
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-      ]
-    },
-    {
-      name:  ApproveNode.fourS,
-      data: [
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-      ]
-    },
-    {
-      name:  ApproveNode.fourS,
-      data: [
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-      ]
-    },{
-      name:  ApproveNode.fourS,
-      data: [
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-        {
-          time: "2018.07.15",
-          remark: "已受理"
-        },
-      ]
-    }
-  ]
   /**获取每个节点的margintop */
   const myMarginTop = (index: number) => {
     if(index === -1) {
       return pxToDp(36)
     }
-    if(list[index]) {
-      const i = list[index].data.length
+    if(this.state.nodeStateList[index]) {
+      const i = this.state.nodeStateList[index].data.length
       return pxToDp( (i)*40)
+    }else {
+      return pxToDp(56)
     }
   }
+  /**最后一个元素底部加距离 */
   const myLastBottom = (type: string) => {
     if(type === ApproveNode.headquarters) {
       return pxToDp(93)
-    }else {
-      return 0
     }
   }
+  
+  
   return(
     <View style={styles.mask}>
       <View style={styles.container}>
@@ -164,10 +128,10 @@ export default class ProcessBox extends React.Component<IProps>{
 
         <ScrollView style={styles.content}>
           <View style={styles.linePosition}>
-            <TimerShaft list={list}/>
+            <TimerShaft getAllList={this.getAllList()} nodeStateList={this.state.nodeStateList}/>
           </View>
           {
-            nodeList.map((item, index) => (
+            this.state.nodeList.map((item, index) => (
               <View style={{marginTop: myMarginTop(index - 1)}} key={index} >
                 <Text style={[styles.lefttext,{marginBottom: myLastBottom(item)}]} >{item}</Text>
               </View>
@@ -175,12 +139,20 @@ export default class ProcessBox extends React.Component<IProps>{
           }
           <View style={styles.rightBox}>
             {
-              list.map((item, index) => (
+              this.state.nodeStateList.map((item, index) => (
                 <View style={{marginTop: pxToDp(40)}} key={index}>
                   <View style={styles.rightStatus} >
                     {
-                      item.data && item.data.map((el, i) => (
-                        <Text key={i} style={styles.rightText}>{el.time}{el.remark}</Text>
+                      item.data && item.data.map((el:any, i:number) => (
+                        <View key={i}>
+                          {
+                            el.status? 
+                            <Text style={styles.rightText}>{el.time} {el.remark}</Text>
+                            : 
+                            <Text style={styles.rightText}>{el.time} <Text style={styles.rightTextRed} onPress={() => {console.log('to')}}>{el.remark}</Text>
+                            </Text>
+                          }
+                        </View>
                       ))
                     }
                   </View>
@@ -287,6 +259,12 @@ const styles = StyleSheet.create({
     fontSize: pxToDp(24),
     paddingLeft: pxToDp(20),
     lineHeight: pxToDp(40)
+  },
+  rightTextRed: {
+    color: "#FF2D55",
+    fontSize:pxToDp(24),
+    lineHeight: pxToDp(40),
+    textDecorationLine:'underline'
   }
 
 })

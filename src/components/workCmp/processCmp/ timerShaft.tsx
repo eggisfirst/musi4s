@@ -3,44 +3,77 @@ import { View, Text, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
-  list: Array<any>                  
+  getAllList: Array<any>   
+  nodeStateList: Array<any>
 }
 
 
-export const TimerShaft:React.FC<IProps> = ({list}) => {
+export const TimerShaft:React.FC<IProps> = ({getAllList, nodeStateList}) => {
+  /**获取每段时间轴的长度 */
   const myMarginTop = (index: number) => {
     if(index === -1) {
       return
     }
-    if(list[index]) {
-      const i = list[index].data.length
+    if(getAllList[index].data.length) {
+      const i = getAllList[index].data.length
       return pxToDp((i)*38 + 27)
     }
   }
-
+  /**未完成节点的时间轴第一段长度 */
+  const myUnFinishMarTop = (index: number) => {
+    const len = nodeStateList.length
+    if(index === len) {
+      const length = nodeStateList[len - 1].data.length
+      return pxToDp(length*38 + 31)
+    }else {
+      return pxToDp(76)
+    }
+  }
+  /**获取未通过的节点 */
+  const unFinishNode = (item: any,index: number) => {
+    for (const key of item.data) {
+      if(!key.status) {
+        return false
+      }
+    }
+   
+  }
   return(
     <View >
       {
-        list.map((item, index) => (
+        getAllList.map((item, index) => (
+          
           <View key={index} style={styles.container}>
-            <View style={[styles.blueLine,{height: myMarginTop(index - 1)}]}></View>
-            <View style={styles.blue}>
-              <View style={styles.blueIn}></View>
-            </View>
+            {
+              item.status && item.status === 'no'?
+              <>
+                <View style={[styles.greyLine,{height: myUnFinishMarTop(index)}]}></View>
+                <View style={styles.grey}>
+                  <View style={styles.greyIn}></View>
+                </View>
+              </> : 
+              <>
+                {
+                  unFinishNode(item,index) !== false? 
+                  <>
+                    <View style={[styles.blueLine,{height: myMarginTop(index - 1)}]}></View>
+                    <View style={styles.blue}>
+                      <View style={styles.blueIn}></View>
+                    </View>
+                  </> : 
+                  <>
+                    <View style={[styles.blueLine,{height: myMarginTop(index - 1)}]}></View>
+                    <View style={styles.red}>
+                      <View style={styles.redIn}></View>
+                    </View>
+                  </> 
+                }
+                
+              </>
+            }
           </View>
         ))
       }
-    
-
-      {/* <View style={styles.blue}>
-        <View style={styles.blueIn}></View>
-      </View>
-      <View style={styles.blueLine}></View>
-
-      <View style={styles.grey}>
-         <View style={styles.greyIn}></View>
-       </View>
-       <View style={styles.greyLine}></View> */}
     </View>
    )
 }
@@ -94,8 +127,26 @@ const styles = StyleSheet.create({
   },
   greyLine: {
     width: pxToDp(4),
-    height: pxToDp(200),
+    height: pxToDp(57),
     backgroundColor: "#F8F8F8",
     borderRadius: pxToDp(2)
-  }
+  },
+
+  red: {
+    width: pxToDp(20),
+    height: pxToDp(20),
+    borderRadius: pxToDp(10),
+    backgroundColor: "rgba(255,45,85,0.3)",
+    position: "relative",
+  },
+  redIn: {
+    width: pxToDp(12),
+    height: pxToDp(12),
+    borderRadius: pxToDp(6),
+    backgroundColor: "#FF2D55",
+    position: "absolute",
+    top: pxToDp(4),
+    left: pxToDp(4),
+    zIndex: 99
+  },
 })
