@@ -13,7 +13,7 @@ export default class CheckRecord extends React.Component<any>{
     header: null,
   }
   eggHandleSearch = () => {
-    this.props.navigation.push('SearchPage')
+    this.props.navigation.push('SearchPage') 
   }
   render (){
     const {navigation} = this.props

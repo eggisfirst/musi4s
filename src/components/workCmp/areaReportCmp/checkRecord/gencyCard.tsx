@@ -26,7 +26,7 @@ export const GencyCard:React.FC<IProps> = (props) => {
   const loadMore = () => {
     setLoadState(!loadState)
   }
-  /**跳转到检查记录页面 */
+  /**跳转到检查记录页面  传递shopname过去！！*/
   const handleClickToRecord =(index: number) => {
     props.navigation.push('CheckRecordPage',{
       index

@@ -8,6 +8,7 @@ import pxToDp from "../../../../utils/fixcss";
 
 import * as actions from '../../../../store/actions/filter/select'
 import { connect } from 'react-redux';
+import ScoreCanvas from "../../../../components/workCmp/areaReportCmp/checkRecord/scoreCanvas";
 
 class CheckDetails extends React.Component<any>{
   static navigationOptions = {
@@ -35,6 +36,8 @@ class CheckDetails extends React.Component<any>{
                       mySelectList={['五星 |','四星 |', '三星 |', '二星 | ', '一星 |']}
                      />
         </View>
+        <ScoreCanvas />
+        
       </View>
     )
   }

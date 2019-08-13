@@ -4,7 +4,7 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { BackGroundHeader } from "../../../../components/headerCmp/backgroundHeader";
 import pxToDp from "../../../../utils/fixcss";
 import SelectCmp from '../../../../components/filterCmp/selectCmp';
-import {StarCheckBox} from '../../../../components/workCmp/areaReportCmp/checkRecord/starCheckBox';
+import {StarCheckBox} from '../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
 import { SelectType } from "../../../../utils/enum";
 
 
@@ -19,7 +19,10 @@ class CheckRecord extends React.Component<any>{
   handleSelect = (index:number) => {
     console.log(1111,index)
   }
-
+  /**获取传递过来的门店名 */
+  componentDidMount() {
+    // console.log(this.props.navigation.state.parmas)
+  }
   /**页面卸载的时候重新初始化数据 */
   componentWillUnmount() {
     this.props.handleSelectActiveIndex(0)
