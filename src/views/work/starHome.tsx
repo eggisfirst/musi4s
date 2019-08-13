@@ -48,11 +48,11 @@ export default class StarHome extends React.Component<any> {
     const imgArr = [
       {
         imgUrl:require('../../images/work/starHome/record.png'),
-        link: "CheckRecordPage"
+        link: "GencyShopPage"
       },
       {
         imgUrl:require('../../images/work/starHome/score.png'),
-        link: "CheckRecordPage"
+        link: "GencyShopPage"
       },
     ]
     return(

@@ -10,6 +10,7 @@ interface IProps {
   bgColor: string
   fontColor: string
   imgUrl: any
+  setHeight: number
 }
 
 /**通用头部需要设置页面默认头部为null */
@@ -22,7 +23,7 @@ interface IProps {
 export const BackGroundHeader:React.FC<IProps> = (props:IProps) => {
     const {title,eggHandleBack} = props
     return(
-      <View style={[styles.container,{backgroundColor: props.bgColor}]}>
+      <View style={[styles.container,{backgroundColor: props.bgColor, height: pxToDp(props.setHeight)}]}>
         <TouchableOpacity 
             style={styles.backBtn}
             onPress={() => {eggHandleBack()}}>
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     justifyContent:"space-between",
     alignItems:"center",
     width: "100%",
-    height: pxToDp(263),
+    // height: pxToDp(263),
   },
   backBtn: {
     paddingRight: pxToDp(40),
