@@ -14,6 +14,7 @@ import ReceptionPage from './views/work/reception/reception';
 import GradePage from './views/work/gradePage/grade';
 import GencyShopPage from './views/work/starCheck/areaReports/gencyShop';
 import CheckRecordPage from './views/work/starCheck/areaReports/checkRecord';
+import CheckDetailsPage from './views/work/starCheck/areaReports/checkDetails';
 
 
 const AppNavigator = createBottomTabNavigator({
@@ -39,8 +40,10 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  StarHome,
+  CheckDetailsPage,
+
   CheckRecordPage,
+  StarHome,
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部
