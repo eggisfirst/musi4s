@@ -40,10 +40,13 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  StarHome,
+
   CheckDetailsPage,
 
   CheckRecordPage,
-  StarHome,
+
+
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部

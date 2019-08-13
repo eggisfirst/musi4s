@@ -5,12 +5,26 @@ import { BackGroundHeader } from "../../../../components/headerCmp/backgroundHea
 import pxToDp from "../../../../utils/fixcss";
 import SelectCmp from '../../../../components/filterCmp/selectCmp';
 import {StarCheckBox} from '../../../../components/workCmp/areaReportCmp/checkRecord/starCheckBox';
+import { SelectType } from "../../../../utils/enum";
 
-export default class CheckRecord extends React.Component<any>{
+
+import * as actions from '../../../../store/actions/filter/select'
+import { connect } from 'react-redux';
+
+class CheckRecord extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
- 
+  /**请求筛选：合格/不合格/全部的数据 */
+  handleSelect = (index:number) => {
+    console.log(1111,index)
+  }
+
+  /**页面卸载的时候重新初始化数据 */
+  componentWillUnmount() {
+    this.props.handleSelectActiveIndex(0)
+  }
+
   render (){
     const list = [
       {
@@ -54,7 +68,10 @@ export default class CheckRecord extends React.Component<any>{
                           setHeight={263}
                           imgUrl={require("../../../../images/backicon.png")} />
         <View style={styles.banner}>
-          <SelectCmp />
+          <SelectCmp  selectType={SelectType.qualified} 
+                      color={"#fff"} activeColor={"#FFCB38"}
+                      handleSelect={this.handleSelect}
+                      mySelectList={['全部', '合格', '不合格']}/>
           <Text style={styles.shop}>明世家博览馆慕思店</Text>
         </View>
         <ScrollView>
@@ -64,6 +81,9 @@ export default class CheckRecord extends React.Component<any>{
     )
   }
 }
+
+const mapStateToProps = (state:any) => state
+export default connect(mapStateToProps,actions)(CheckRecord)
 
 const styles = StyleSheet.create({
   container: {

@@ -5,6 +5,7 @@ export const SORT_ACTIVEINDEX = 'SORT_ACTIVEINDEX'
 
 /**点击筛选 */
 export const Select_ACTIVEINDEX = 'Select_ACTIVEINDEX'
+export const Select_STARACTIVEINDEX = 'Select_STARACTIVEINDEX'
 
 
 /**筛选 */

@@ -2,12 +2,13 @@ import * as Types from '../../actionTypes/4s/actionTypes';
 
 const initState = {
   activeIndex: 0,
-  selectList:['全部', '合格', '不合格'],
+  selectActiveIndex: -1,
 }
 
 interface action {
   index: number
   type: string
+  list: Array<string>
 }
 
 
@@ -16,6 +17,9 @@ export default (state=initState, action:action) => {
   switch (action.type) {
     case Types.Select_ACTIVEINDEX:
       newState.activeIndex = action.index
+      return newState;
+    case Types.Select_STARACTIVEINDEX:
+      newState.selectActiveIndex = action.index
       return newState;
   }
   return state;

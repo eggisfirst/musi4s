@@ -1,4 +1,5 @@
 /**登录状态 */
+import { StarCheck } from '../components/workCmp/starHome/starCheck';
 export enum LoginStatus {
   logining,
   logout
@@ -76,3 +77,11 @@ export enum ApproveNode {
   headquarters = '总部'
 }
 
+/** 点击筛选的类型*/
+export enum SelectType {
+  qualified, //不可以选择初始index的
+  StarCheck // 可以选择初始index
+}
+
+
+ 

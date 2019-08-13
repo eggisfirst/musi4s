@@ -4,12 +4,24 @@ import { View, Text, StyleSheet } from "react-native";
 import pxToDp from "../../utils/fixcss";
 import * as actions from '../../store/actions/filter/select'
 import { connect } from 'react-redux';
+import { SelectType } from "../../utils/enum";
 
 interface IState {
   timeoutId: any
 }
 
-class SelectCmp extends React.Component<any>{
+interface IProps {
+  selectFilter?: any
+  handleSelectActiveIndex?: any
+  handleSelectStarActiveIndex?: any
+
+  mySelectList: Array<string>
+  selectType: SelectType
+  color: string
+  activeColor: string
+  handleSelect: (index: number) => void
+}
+class SelectCmp extends React.Component<IProps,IState>{
   state:IState = {
     timeoutId: null
   }
@@ -20,7 +32,11 @@ class SelectCmp extends React.Component<any>{
     if(index === this.props.selectFilter.activeIndex) {
       return
     }
-    this.props.handleSelectActiveIndex(index)
+    if(this.props.selectType === SelectType.qualified) {
+      this.props.handleSelectActiveIndex(index)
+    }else {
+      this.props.handleSelectStarActiveIndex(index)
+    }
     this.processor(index) 
   }
   /**
@@ -38,21 +54,25 @@ class SelectCmp extends React.Component<any>{
   }
   /**请求 */
   performProcessiong(index: number) {
-    console.log(index)
+    this.props.handleSelect(index)
   }
 
   render (){
-    const selectList = this.props.selectFilter.selectList
-    const activeIndex = this.props.selectFilter.activeIndex
+    /**判断是哪个数据 */
+    const selectList =  this.props.mySelectList
+
+    const activeIndex = this.props.selectType === SelectType.qualified? 
+                        this.props.selectFilter.activeIndex : this.props.selectFilter.selectActiveIndex 
+
     const activeColor = {
-      color: "#FFCB38"
+      color: this.props.activeColor
     }
 
     return(
       <View style={styles.container}> 
         {
           selectList && selectList.map((item : any, index : any) => (
-            <Text key={index} style={[styles.text, activeIndex === index && activeColor]} onPress={() => {this.handleSelectClick(index)}}>{item}</Text>
+            <Text key={index} style={[{color: this.props.color},styles.text, activeIndex === index && activeColor]} onPress={() => {this.handleSelectClick(index)}}>{item}</Text>
           ))
         }
       </View>
@@ -70,7 +90,6 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   text: {
-    color: "#fff",
     fontSize: pxToDp(28),
     fontWeight: "500",
     marginRight: pxToDp(36)
