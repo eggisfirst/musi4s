@@ -47,26 +47,20 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
     return(
       <View style={styles.container}>
         <View style={styles.header}>
-          <View style={styles.head_left}>
-            <Text style={styles.starAccept}>五星认证</Text>
-            {
-              star().map((item, index) => {
-                if(item) {
-                  return (
-                    <Image key={index} style={styles.starIcon} source={require("../../../../images/work/areaReport/checkRecord/star.png")} />
-                  )
-                }else {
-                  return (
-                    <Image key={index} style={styles.starIcon} source={require("../../../../images/work/areaReport/checkRecord/star_white.png")} />
-                  )
-                }
-              })
-            }
-          </View>
-          <View style={styles.head_right}>
-            <Text style={styles.detail}>明细</Text>
-            <Image style={styles.arrowIcon} source={require('../../../../images/work/areaReport/checkRecord/arrow.png')} />
-          </View>
+          <Text style={styles.starAccept}>五星认证</Text>
+          {
+            star().map((item, index) => {
+              if(item) {
+                return (
+                  <Image key={index} style={styles.starIcon} source={require("../../../../images/work/areaReport/checkRecord/star.png")} />
+                )
+              }else {
+                return (
+                  <Image key={index} style={styles.starIcon} source={require("../../../../images/work/areaReport/checkRecord/star_white.png")} />
+                )
+              }
+            })
+          }
         </View>
         
         <View style={styles.title}>
@@ -128,17 +122,11 @@ const styles = StyleSheet.create({
     width: pxToDp(710),
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     paddingLeft: pxToDp(24),
     paddingRight: pxToDp(13),
     borderBottomColor: "#e1e1e1",
     borderBottomWidth: pxToDp(1)
-  },
-  head_left: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
   },
   starAccept: {
     lineHeight: pxToDp(80),
@@ -150,21 +138,6 @@ const styles = StyleSheet.create({
   starIcon: {
     width: pxToDp(31),
     height: pxToDp(30),
-  },
-  head_right: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  detail: {
-    color: "#909090",
-    fontSize: pxToDp(24),
-    lineHeight: pxToDp(80)
-  },
-  arrowIcon: {
-    width: pxToDp(14),
-    height: pxToDp(23),
-    marginLeft: pxToDp(14)
   },
 
   title: {

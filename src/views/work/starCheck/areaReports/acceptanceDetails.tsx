@@ -2,7 +2,7 @@ import React from "react";
 
 import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
 import { HeaderCmp } from '../../../../components/headerCmp/headerCmp';
-import {AcceptanceCard} from '../../../../components/workCmp/areaReportCmp/checkRecord/acceptanceCard';
+import {AcceptanceCard} from '../../../../components/workCmp/areaReportCmp/acceptance/acceptanceCard';
 import pxToDp from "../../../../utils/fixcss";
 
 export default class AcceptanceDetails extends React.Component<any>{

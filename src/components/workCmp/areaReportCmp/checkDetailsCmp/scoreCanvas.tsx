@@ -19,13 +19,10 @@ export default class ScoreCanvas extends React.Component{
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: pxToDp(440),
-    borderTopWidth: pxToDp(1),
-    borderTopColor: "#e5e5e5",
-    marginTop: pxToDp(33),
+    height: pxToDp(420),
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   circle: {
     marginTop: pxToDp(55),
