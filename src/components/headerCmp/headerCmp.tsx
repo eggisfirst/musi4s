@@ -26,7 +26,7 @@ export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
             <Image  style={styles.arrow}
                     source={require("../../images/work/starCheck/arrow.png")}/>
         </TouchableOpacity>
-        <Text style={styles.title}>{title}</Text>
+        <Text numberOfLines={1} style={styles.title} >{title}</Text>
         { props.Children || <View style={styles.right}></View>}
       </View>
      )
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     width: "100%",
     height: pxToDp(150),
+    backgroundColor: "#fff"
   },
   backBtn: {
     paddingRight: pxToDp(40),

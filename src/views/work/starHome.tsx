@@ -52,7 +52,7 @@ export default class StarHome extends React.Component<any> {
       },
       {
         imgUrl:require('../../images/work/starHome/score.png'),
-        link: "GencyShopPage"
+        link: "AcceptancePage"
       },
     ]
     return(

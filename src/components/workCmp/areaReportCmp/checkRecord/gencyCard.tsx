@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, Platform } from "react-native";
 import pxToDp from '../../../../utils/fixcss';
 import {StarBox} from './starBox';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationActions } from "react-navigation";
+import { ReportType } from "../../../../utils/enum";
 
 
 interface IProps {
   list: Array<any>
   navigation: any
+  type: ReportType
 }
 
 export const GencyCard:React.FC<IProps> = (props) => {
@@ -28,7 +30,12 @@ export const GencyCard:React.FC<IProps> = (props) => {
   }
   /**跳转到检查记录页面  传递shopname过去！！*/
   const handleClickToRecord =(index: number) => {
-    props.navigation.push('CheckRecordPage',{
+    /**跳转检查记录页面 */
+    props.type === ReportType.check && props.navigation.push('CheckRecordPage',{
+      index
+    })
+    /**跳转验收认证详情页面 */
+    props.type === ReportType.acceptance && props.navigation.push('AcceptanceDetailsPage',{
       index
     })
   }
@@ -41,7 +48,7 @@ export const GencyCard:React.FC<IProps> = (props) => {
         <Image style={styles.via} source={require('../../../../images/personal/via.png')}/>
         <Text style={styles.name}>广东深圳新国</Text>
         <View style={styles.starbox}>
-          <StarBox starTitle={"二星检查"} starNum={2}/>
+          <StarBox starTitle={"二星"+ props.type} starNum={2}/>
         </View>
       </View>
       {
@@ -55,7 +62,7 @@ export const GencyCard:React.FC<IProps> = (props) => {
       {
         props.list.length > 4 &&
         <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => {loadMore()}}>
-          <Text style={styles.shopText}>{loadState? '点击收起' : '点击更多'}</Text>
+          <Text style={styles.shopText}>{loadState? '点击收起' : '点击加载更多'}</Text>
           <Image style={[styles.loadMoreIcon,loadState && myRotate ]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
         </TouchableOpacity>
       }
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
     shadowColor: '#ccc',
     shadowRadius: pxToDp(10),
     shadowOpacity: 0.3,
-    marginBottom: pxToDp(80)
+    marginBottom: Platform.OS ==="ios"?  pxToDp(20):pxToDp(80)
   },
   via: {
     width: pxToDp(121),

@@ -83,5 +83,7 @@ export enum SelectType {
   StarCheck // 可以选择初始index
 }
 
-
- 
+export enum ReportType {
+  check = '检查',
+  acceptance = '认证'
+}

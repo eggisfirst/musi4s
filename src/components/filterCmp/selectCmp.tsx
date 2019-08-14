@@ -29,12 +29,15 @@ class SelectCmp extends React.Component<IProps,IState>{
    * 点击切换选择
    */
   handleSelectClick = (index: number) => {
-    if(index === this.props.selectFilter.activeIndex) {
-      return
-    }
     if(this.props.selectType === SelectType.qualified) {
+      if(index === this.props.selectFilter.activeIndex) {
+        return
+      }
       this.props.handleSelectActiveIndex(index)
     }else {
+      if(index === this.props.selectFilter.selectActiveIndex) {
+        return
+      }
       this.props.handleSelectStarActiveIndex(index)
     }
     this.processor(index) 

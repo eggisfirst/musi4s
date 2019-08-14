@@ -15,6 +15,8 @@ import GradePage from './views/work/gradePage/grade';
 import GencyShopPage from './views/work/starCheck/areaReports/gencyShop';
 import CheckRecordPage from './views/work/starCheck/areaReports/checkRecord';
 import CheckDetailsPage from './views/work/starCheck/areaReports/checkDetails';
+import AcceptancePage from './views/work/starCheck/areaReports/acceptance';
+import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptanceDetails';
 
 
 const AppNavigator = createBottomTabNavigator({
@@ -40,9 +42,11 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  CheckDetailsPage,
+  AcceptanceDetailsPage,
 
   StarHome,
+  AcceptancePage,
+  CheckDetailsPage,
 
 
   CheckRecordPage,
