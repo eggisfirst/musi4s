@@ -7,6 +7,7 @@ interface IProps {
   title: string
   eggHandleBack: () => void
   Children?: JSX.Element
+  bgColor?: string
 }
 
 /**通用头部需要设置页面默认头部为null */
@@ -19,7 +20,7 @@ interface IProps {
 export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
     const {title,eggHandleBack} = props
     return(
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor: props.bgColor? props.bgColor : "#fff"}]}>
         <TouchableOpacity 
             style={styles.backBtn}
             onPress={() => {eggHandleBack()}}>

@@ -1,14 +1,14 @@
 import React from "react";
 
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { BackGroundHeader } from "../../../../components/headerCmp/backgroundHeader";
-import pxToDp from "../../../../utils/fixcss";
-import SelectCmp from '../../../../components/filterCmp/selectCmp';
-import {StarCheckBox} from '../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
-import { SelectType } from "../../../../utils/enum";
+import { BackGroundHeader } from "../../../../../components/headerCmp/backgroundHeader";
+import pxToDp from "../../../../../utils/fixcss";
+import SelectCmp from '../../../../../components/filterCmp/selectCmp';
+import {StarCheckBox} from '../../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
+import { SelectType } from "../../../../../utils/enum";
 
 
-import * as actions from '../../../../store/actions/filter/select'
+import * as actions from '../../../../../store/actions/filter/select'
 import { connect } from 'react-redux';
 
 class CheckRecord extends React.Component<any>{
@@ -69,7 +69,7 @@ class CheckRecord extends React.Component<any>{
                           bgColor={'#007aff'}
                           fontColor={"#fff"}
                           setHeight={263}
-                          imgUrl={require("../../../../images/backicon.png")} />
+                          imgUrl={require("../../../../../images/backicon.png")} />
         <View style={styles.banner}>
           <SelectCmp  selectType={SelectType.qualified} 
                       color={"#fff"} activeColor={"#FFCB38"}

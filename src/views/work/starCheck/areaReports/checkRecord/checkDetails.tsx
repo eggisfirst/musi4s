@@ -1,15 +1,15 @@
 import React from "react";
 
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { HeaderCmp } from '../../../../components/headerCmp/headerCmp';
-import SelectCmp from '../../../../components/filterCmp/selectCmp';
-import { SelectType } from "../../../../utils/enum";
-import pxToDp from "../../../../utils/fixcss";
+import { View, Text, StyleSheet, ScrollView, Platform, TouchableOpacity } from "react-native";
+import { HeaderCmp } from '../../../../../components/headerCmp/headerCmp';
+import SelectCmp from '../../../../../components/filterCmp/selectCmp';
+import { SelectType } from "../../../../../utils/enum";
+import pxToDp from "../../../../../utils/fixcss";
 
-import * as actions from '../../../../store/actions/filter/select'
+import * as actions from '../../../../../store/actions/filter/select'
 import { connect } from 'react-redux';
-import ScoreCanvas from "../../../../components/workCmp/areaReportCmp/checkDetailsCmp/scoreCanvas";
-import { MaxtermCmp } from '../../../../components/workCmp/areaReportCmp/checkDetailsCmp/maxTerm';
+import ScoreCanvas from "../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/scoreCanvas";
+import { MaxtermCmp } from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/maxTerm';
 
 class CheckDetails extends React.Component<any>{
   static navigationOptions = {
@@ -41,9 +41,10 @@ class CheckDetails extends React.Component<any>{
         </View>
         <ScrollView>
           <ScoreCanvas />
-          <MaxtermCmp />
+          <TouchableOpacity activeOpacity={0.6} onPress={() => {navigation.push("DetailsPage")}}>
+            <MaxtermCmp />
+          </TouchableOpacity>
         </ScrollView>
-        
       </View>
     )
   }
@@ -55,7 +56,8 @@ export default connect(mapStateToProps,actions)(CheckDetails)
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    paddingBottom: Platform.OS === "ios"? 0 :  pxToDp(80)
   },
   line: {
     width: "100%",

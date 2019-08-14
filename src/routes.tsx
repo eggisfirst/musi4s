@@ -12,11 +12,12 @@ import HandlePage from './views/work/starCheck/handlePage';
 import SearchPage from './views/search';
 import ReceptionPage from './views/work/reception/reception';
 import GradePage from './views/work/gradePage/grade';
-import GencyShopPage from './views/work/starCheck/areaReports/gencyShop';
-import CheckRecordPage from './views/work/starCheck/areaReports/checkRecord';
-import CheckDetailsPage from './views/work/starCheck/areaReports/checkDetails';
-import AcceptancePage from './views/work/starCheck/areaReports/acceptance';
-import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptanceDetails';
+import GencyShopPage from './views/work/starCheck/areaReports/checkRecord/gencyShop';
+import CheckRecordPage from './views/work/starCheck/areaReports/checkRecord/checkRecord';
+import CheckDetailsPage from './views/work/starCheck/areaReports/checkRecord/checkDetails';
+import AcceptancePage from './views/work/starCheck/areaReports/acceptance/acceptance';
+import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptance/acceptanceDetails';
+import DetailsPage from './views/work/starCheck/areaReports/checkRecord/detailsPage';
 
 
 const AppNavigator = createBottomTabNavigator({
@@ -42,20 +43,13 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  StarHome,
+  DetailsPage,
 
   CheckDetailsPage,
-
-
-
+  StarHome,
   AcceptanceDetailsPage,
-
   AcceptancePage,
-
-
   CheckRecordPage,
-
-
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部
