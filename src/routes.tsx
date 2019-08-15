@@ -45,8 +45,10 @@ const AppNavigator = createBottomTabNavigator({
 const routerStack = createStackNavigator({
   DetailsPage,
 
-  CheckDetailsPage,
   StarHome,
+
+
+  CheckDetailsPage,
   AcceptanceDetailsPage,
   AcceptancePage,
   CheckRecordPage,

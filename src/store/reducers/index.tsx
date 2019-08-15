@@ -3,11 +3,14 @@ import sort from './filter/sort'
 import rightFilter from './filter/rightFilter';
 import handlePageState from './4s/handlePageState';
 import selectFilter from './filter/select';
+import pullDownData from './filter/pullDownSelect';
+
 
 
 export default combineReducers({
   sort,
   rightFilter,
   handlePageState,
-  selectFilter
+  selectFilter,
+  pullDownData
 })

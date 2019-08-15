@@ -7,6 +7,9 @@ export const SORT_ACTIVEINDEX = 'SORT_ACTIVEINDEX'
 export const Select_ACTIVEINDEX = 'Select_ACTIVEINDEX'
 export const Select_STARACTIVEINDEX = 'Select_STARACTIVEINDEX'
 
+/**下拉选择 */
+export const Select_PULLDOWNINDEX = 'Select_PULLDOWNINDEX'
+
 
 /**筛选 */
 export const Filter_ACTIVE = 'Filter_ACTIVE'
