@@ -6,7 +6,7 @@ import PullDownCmp from "../../../../../components/filterCmp/pullDownCmp";
 import pxToDp from "../../../../../utils/fixcss";
 import {connect} from 'react-redux';
 import * as actions from '../../../../../store/actions/filter/pullDownSelect';
-import SliderCmp from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
+import {SliderCmp} from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
 
 
 class DetailsPage extends React.Component<any>{
@@ -32,8 +32,7 @@ class DetailsPage extends React.Component<any>{
 
 
           <View style={styles.sliderCmp}>
-            <SliderCmp />
-
+            <SliderCmp cutScore={9}/>
 
             <View style={styles.reason}>
               <Text style={styles.reasontext}>扣分原因：</Text>
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     top: pxToDp(392)
   },
   sliderCmp: {
-    width: pxToDp(554),
+    width: pxToDp(544),
     height: pxToDp(200),
     zIndex: 10,
     left: pxToDp(33),
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
   reason: {
     position: "absolute",
     left: 0,
-    top: pxToDp(280)
+    top: pxToDp(150)
   },
   reasontext: {
     color: "#7c7c7c",

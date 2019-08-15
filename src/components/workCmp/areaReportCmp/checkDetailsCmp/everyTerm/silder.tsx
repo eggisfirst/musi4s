@@ -1,56 +1,52 @@
 import React from "react";
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
 import pxToDp from "../../../../../utils/fixcss";
 import LinearGradient from 'react-native-linear-gradient';
-export default class SliderCmp extends React.Component{
-  render (){
-    const scaleList = [1,1,1,2,1,1,1]
-    return(
-      <View style={styles.container}>
-        <View style={styles.scoreRange}>
-          <Text style={styles.score}>0</Text>
-          <Text style={styles.score}>18</Text>
-        </View>
-        <View style={styles.scale}>
-          {
-            scaleList.map((item, index) => (
-              <View key={index} style={item === 1? styles.scale1 : styles.scale2}></View>
-            ))
-          }
-        </View>
-        <View style={styles.slider}>
-          <LinearGradient style={styles.activeSlider} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFBB02', '#FFA15B', '#FF6A5D']}></LinearGradient>
-        </View>
-      
+
+interface IProps {
+  cutScore: number
+}
+
+
+export const SliderCmp:React.FC<IProps> = (props) =>{
+  /**刻度 */
+  const scaleList = [1,1,1,2,1,1,1]
+  /**扣的分数占18分的比例 */
+  const sliderActivePrecent = (props.cutScore/18)*100 + "%"
+  return(
+    <View style={styles.container}>
+      <View style={styles.scoreRange}>
+        <Text style={styles.score}>0</Text>
+        {
+          scaleList.map((item, index) => (
+            <View key={index} style={item === 1? styles.scale1 : styles.scale2}></View>
+          ))
+        }
+        <Text style={styles.score}>18</Text>
       </View>
-    )
-  }
+      <ImageBackground style={[styles.bubble,{left: sliderActivePrecent}]} source={require("../../../../../images/work/areaReport/checkRecord/bubble.png")}>
+        <Text style={styles.cutScore}>扣{props.cutScore}分</Text>
+      </ImageBackground>
+      <View style={styles.slider}>
+        <LinearGradient style={[styles.activeSlider,{width:sliderActivePrecent }]} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFBB02', '#FFA15B', '#FF6A5D']}></LinearGradient>
+      </View>
+      
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5
-  },
-  buttonText: {
-    fontSize: 18,
-    fontFamily: 'Gill Sans',
-    textAlign: 'center',
-    margin: 10,
-    color: '#ffffff',
-    backgroundColor: 'transparent',
-  },
   container: {
-    width: "100%",
+    width: pxToDp(490),
     height: "100%",
+    marginLeft: pxToDp(20)
   },
   scoreRange: {
     display: 'flex',
     justifyContent: "space-between",
     flexDirection: "row",
+    alignItems: "center"
   },
   score: {
     fontSize: pxToDp(32),
@@ -77,16 +73,30 @@ const styles = StyleSheet.create({
   },
 
   slider: {
-    width: "100%",
+    width:  pxToDp(490),
     height: pxToDp(24),
     borderRadius: pxToDp(12),
     backgroundColor: "#f5f5f5",
     marginTop: pxToDp(18)
   },
   activeSlider: {
-    width: "80%",
     height: pxToDp(24),
     backgroundColor: "#ff6a5d",
     borderRadius: pxToDp(12),
+  },
+
+  bubble: {
+    width: pxToDp(98),
+    height: pxToDp(61),
+    marginLeft: pxToDp(-40),
+    position: "absolute",
+    left: '50%',
+    top: pxToDp(-80)
+  },
+  cutScore: {
+    color: "#E4675B",
+    fontSize: pxToDp(26),
+    textAlign: "center",
+    lineHeight: pxToDp(41)
   }
 })
