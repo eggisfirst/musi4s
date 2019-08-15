@@ -14,6 +14,12 @@ interface IState {
   selectBoxStatus: boolean
 }
 
+/**
+ * 每次使用需要在主页面初始化
+ * componentDidMount() {
+    this.props.pullDownSelect(0)
+  }
+ */
  class PullDownCmp extends React.Component<IProps,IState>{
   state:IState = {
     selectBoxStatus: false

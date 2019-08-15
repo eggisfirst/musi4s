@@ -32,7 +32,7 @@ class DetailsPage extends React.Component<any>{
 
 
           <View style={styles.sliderCmp}>
-            <SliderCmp cutScore={9}/>
+            <SliderCmp cutScore={9} maxNum={18}/>
 
             <View style={styles.reason}>
               <Text style={styles.reasontext}>扣分原因：</Text>
