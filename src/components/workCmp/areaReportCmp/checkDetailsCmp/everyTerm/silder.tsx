@@ -2,7 +2,7 @@ import React from "react";
 
 import { View, Text, StyleSheet } from "react-native";
 import pxToDp from "../../../../../utils/fixcss";
-
+import LinearGradient from 'react-native-linear-gradient';
 export default class SliderCmp extends React.Component{
   render (){
     const scaleList = [1,1,1,2,1,1,1]
@@ -20,14 +20,29 @@ export default class SliderCmp extends React.Component{
           }
         </View>
         <View style={styles.slider}>
-          <View style={styles.activeSlider}></View>
+          <LinearGradient style={styles.activeSlider} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFBB02', '#FFA15B', '#FF6A5D']}></LinearGradient>
         </View>
+      
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+  },
   container: {
     width: "100%",
     height: "100%",
