@@ -6,6 +6,7 @@ import PullDownCmp from "../../../../../components/filterCmp/pullDownCmp";
 import pxToDp from "../../../../../utils/fixcss";
 import {connect} from 'react-redux';
 import * as actions from '../../../../../store/actions/filter/pullDownSelect';
+import SliderCmp from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
 
 
 class DetailsPage extends React.Component<any>{
@@ -28,13 +29,20 @@ class DetailsPage extends React.Component<any>{
         </View>
         <View style={styles.showPictureBox}>
 
-        </View>
-        <View style={styles.sliderCmp}>
-          <View style={styles.reason}>
-            <Text style={styles.reasontext}>扣分原因：</Text>
-            <Text style={styles.text}>店面海报旧，海报位置不合理，卫生差不够干净不合理不合理不合理不合理不合理不合理不合理不合理，故扣9分。</Text>
+
+
+          <View style={styles.sliderCmp}>
+            <SliderCmp />
+
+
+            <View style={styles.reason}>
+              <Text style={styles.reasontext}>扣分原因：</Text>
+              <Text style={styles.text}>店面海报旧，海报位置不合理，卫生差不够干净不合理不合理不合理不合理不合理不合理不合理不合理，故扣9分。</Text>
+            </View>
           </View>
+
         </View>
+     
       </View>
     )
   }
@@ -67,18 +75,15 @@ const styles = StyleSheet.create({
     top: pxToDp(392)
   },
   sliderCmp: {
-    width: "100%",
+    width: pxToDp(554),
     height: pxToDp(200),
-    borderWidth: 1,
     zIndex: 10,
-    left: 0,
+    left: pxToDp(33),
     top: pxToDp(620),
-    paddingLeft: pxToDp(100),
-    paddingRight: pxToDp(100)
   },
   reason: {
     position: "absolute",
-    left: pxToDp(100),
+    left: 0,
     top: pxToDp(280)
   },
   reasontext: {
