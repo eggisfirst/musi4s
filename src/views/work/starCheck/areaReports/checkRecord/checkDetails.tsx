@@ -8,7 +8,7 @@ import pxToDp from "../../../../../utils/fixcss";
 
 import * as actions from '../../../../../store/actions/filter/select'
 import { connect } from 'react-redux';
-import ScoreCanvas from "../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/scoreCanvas";
+import { ScoreCanvas } from "../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/scoreCanvas";
 import { MaxtermCmp } from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/maxTerm';
 
 class CheckDetails extends React.Component<any>{
@@ -40,7 +40,7 @@ class CheckDetails extends React.Component<any>{
           </View>
         </View>
         <ScrollView>
-          <ScoreCanvas />
+          <ScoreCanvas score={64}/>
           <TouchableOpacity activeOpacity={0.6} onPress={() => {navigation.push("DetailsPage")}}>
             <MaxtermCmp />
           </TouchableOpacity>

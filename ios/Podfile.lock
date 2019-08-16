@@ -46,6 +46,9 @@ PODS:
   - React/jsinspector (0.59.9)
   - React/RCTBlob (0.59.9):
     - React/Core
+  - React/RCTImage (0.59.9):
+    - React/Core
+    - React/RCTNetwork
   - React/RCTNetwork (0.59.9):
     - React/Core
   - React/RCTText (0.59.9):
@@ -54,6 +57,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNSVG (9.6.4):
+    - React
   - yoga (0.59.9.React)
 
 DEPENDENCIES:
@@ -65,9 +70,11 @@ DEPENDENCIES:
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -89,6 +96,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-amap3d:
     :path: "../node_modules/react-native-amap3d/lib/ios"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -101,9 +110,10 @@ SPEC CHECKSUMS:
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
-  react-native-amap3d: 8dda78f6605472b50a17818f5af185518081eec7
+  react-native-amap3d: 7ee6406ae17b263f4ae4bbb9eacd1bc53cc8bd4f
+  RNSVG: a53a5de0d90ec96a6502cc3a4534dfcc0c130622
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: 90468b94bdba21175ed91f2226fca52a13ed9c3c
+PODFILE CHECKSUM: d6c8a39255cf99fd858e1744919bba9f11be4e71
 
 COCOAPODS: 1.7.5
