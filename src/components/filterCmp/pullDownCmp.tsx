@@ -145,11 +145,7 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(10),
     borderWidth: pxToDp(1),
     borderColor: "#eee",
-    marginTop: pxToDp(11)
-    // position: "absolute",
-    // left: 0,
-    // top: pxToDp(111),
-    // zIndex: 99,
+    marginTop: pxToDp(11),
   },
   textBox: {
     display: "flex",
@@ -157,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     flexDirection:"row",
     paddingLeft: pxToDp(57),
-    paddingRight: pxToDp(57)
+    paddingRight: pxToDp(57),
   },
   selectText: {
     color: "#090909",

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { HeaderCmp } from "../../../../../components/headerCmp/headerCmp";
 import PullDownCmp from "../../../../../components/filterCmp/pullDownCmp";
 import pxToDp from "../../../../../utils/fixcss";
@@ -28,7 +28,7 @@ class DetailsPage extends React.Component<any>{
           <PullDownCmp />
         </View>
         <View style={styles.showPictureBox}>
-
+         
 
 
           <View style={styles.sliderCmp}>
