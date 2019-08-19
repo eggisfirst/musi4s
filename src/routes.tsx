@@ -43,12 +43,15 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+  },
+  StarHome,
+
+ 
   CheckDetailsPage,
 
   DetailsPage,
-
-  StarHome,
-
 
   AcceptanceDetailsPage,
   AcceptancePage,
@@ -64,9 +67,7 @@ const routerStack = createStackNavigator({
   HandlePage,
   GradePage,
   ReceptionPage,
-  Login: {
-    screen: LoginScreen,
-  },
+ 
   SearchPage,
 },{
   mode: 'modal',

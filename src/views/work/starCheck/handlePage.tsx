@@ -193,10 +193,9 @@ class HandelPage extends React.Component<any,IState>{
         <Sort />
         <FilterIcon />
       </View>
-      {
-        this.props.rightFilter.isActive && <FilterContentCmp type={this.state.starCheckType}/>
-      }
-
+        {
+          this.props.rightFilter.isActive && <FilterContentCmp type={this.state.starCheckType}/>
+        }
       <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
                 data={this.list}
                 keyExtractor={item => item.key}

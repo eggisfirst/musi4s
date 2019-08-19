@@ -183,7 +183,9 @@ class FilterContentCmp extends React.Component<any> {
             </TouchableOpacity>
           </View>
 
-        {
+       
+      </View>
+      {
         this.state.startStatus && 
         <View style={styles.datePickerMask}>
           <DatePickerCmp  date={new Date(this.props.startDate)} 
@@ -201,7 +203,6 @@ class FilterContentCmp extends React.Component<any> {
                             cancle={this.endCancle}/>
           </View>
         }
-      </View>
     </View>
     )
   }
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     left:0,
     right:0,
     bottom:0, 
-    zIndex:999999, 
+    zIndex:9999, 
     width: pxToDp(750), 
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
     top:0,
     right:0,
     bottom:0, 
-    zIndex:9999, 
+    zIndex:999999, 
     width: pxToDp(750), 
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',

@@ -3,27 +3,10 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Svg,{
   Circle,
-  Ellipse,
-  G,
-  TSpan,
-  TextPath,
-  Path,
-  Polygon,
-  Polyline,
-  Line,
-  Rect,
-  Use,
-  Image,
-  Symbol,
   Defs,
   LinearGradient,
-  RadialGradient,
   Stop,
-  ClipPath,
-  Pattern,
-  Mask,
 } from 'react-native-svg';
-import pxToDp from "../../../../utils/fixcss";
 
 interface IProps {
   score: number
@@ -50,8 +33,6 @@ export const CircleProgress:React.FC<IProps> = (props) => {
               <Stop offset="1" stopColor="#0FACF5" stopOpacity="1" />
           </LinearGradient>
       </Defs>
-
-
       <Circle
         cx="60"
         cy="60"
@@ -60,7 +41,8 @@ export const CircleProgress:React.FC<IProps> = (props) => {
         strokeWidth="10"
         strokeLinecap="round"
         fill="transparent"
-        strokeDasharray={dasharray} strokeDashoffset={60}
+        strokeDasharray={dasharray} 
+        strokeDashoffset={60}
       />
 
       <Circle
@@ -71,7 +53,8 @@ export const CircleProgress:React.FC<IProps> = (props) => {
         strokeWidth="10"
         strokeLinecap="round"
         fill="transparent"
-        strokeDasharray={dasharray} strokeDashoffset={dasharray - everyNum*targetNum}
+        strokeDasharray={dasharray} 
+        strokeDashoffset={dasharray - everyNum*targetNum}
       />
     </Svg>
    

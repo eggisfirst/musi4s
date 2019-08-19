@@ -19,9 +19,11 @@ export const DatePickerCmp: React.FC<IProps> = (props:IProps) => {
         props.showPickerDate && (
             <View style={styles.dateWrapper}>  
               <View style={styles.btnWrapper}>
+
                 <TouchableOpacity onPress={() => {props.cancle()}}>
                   <Text style={styles.btn}>取消</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity onPress={() => {props.comfirm(pickerDate)}}>
                   <Text style={styles.btn}>确定</Text>
                 </TouchableOpacity>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     display:"flex",
     flexDirection:"row",
     justifyContent:"space-between",
-    zIndex:10000,
+    zIndex:99999,
   },
   datePicker: {
     backgroundColor:"#fff",
@@ -81,6 +83,6 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(80),
     color: "#007aff",
     fontSize: pxToDp(36),
-    textAlign:"center"
+    textAlign:"center",
   }
 })
