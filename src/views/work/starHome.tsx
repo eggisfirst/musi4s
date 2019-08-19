@@ -9,6 +9,8 @@ import pxToDp from '../../utils/fixcss';
 import { StarCheckTypes } from '../../utils/enum';
 
 
+import axios from 'axios'
+
 export default class StarHome extends React.Component<any> {
   static navigationOptions = {
     headerTitle: <Header/>, 
@@ -21,7 +23,15 @@ export default class StarHome extends React.Component<any> {
       elevation: 0,
     }
   }
-
+  componentDidMount() {
+    // axios({
+    //   url: "http://10.11.8.247:8088/v2/api/cert/approve/getUserInfo",
+    //   method: 'post',
+    //   headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    // }).then(res => {
+    //   console.log(res)
+    // })
+  }
   render() {
     const list = [
       {

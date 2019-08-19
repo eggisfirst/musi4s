@@ -1,5 +1,5 @@
-import { AsyncStorage } from "react-native";
-
+// import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 /**
  * 设置本地缓存
  * @param key 缓存key
@@ -7,18 +7,13 @@ import { AsyncStorage } from "react-native";
  * @param value 缓存value
  */
 const _storeData = async (key: string,value: string) => {
-  try {
-    await AsyncStorage.setItem(key, value);
-  } catch (error) {
-    // Error saving data
-  }
+  await AsyncStorage.setItem(key, value);
 }
-
 export {_storeData}
 
 
 /**
- * 获取本地缓存
+ * 返回一个promise
  * @param key 获取缓存的key
  */
 const _retrieveData = async (key: string) => {
@@ -26,6 +21,7 @@ const _retrieveData = async (key: string) => {
     const value = await AsyncStorage.getItem(key);
     if (value !== null) {
       return value
+      // We have data!!
       console.log(value);
     }
    } catch (error) {
