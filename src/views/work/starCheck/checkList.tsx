@@ -3,17 +3,38 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
+import MiddleCategoryCmp from '../../../components/workCmp/starCheck/check/middleCategoryCmp'
 
 interface IState {
   total: number
   deduct: number
+  list: Array<{name:string,status:boolean}>
 }
 
 export default class CheckList extends React.Component<any, IState>{
   state: IState = {
     total: 23,
-    deduct: 9
+    deduct: 9,
+    list: [
+      // {
+      //   name: '店面',
+      //   status: false,
+      // },
+      // {
+      //   name: '店面面积',
+      //   status: false,
+      // },
+      // {
+      //   name: '店面类型',
+      //   status: false,
+      // },
+      // {
+      //   name: '装修时间/到期时间',
+      //   status: false,
+      // }
+    ]
   }
+
   static navigationOptions = {
     header: null
   }
@@ -21,6 +42,32 @@ export default class CheckList extends React.Component<any, IState>{
   handleToCheckList = (index: number): void => {
     console.log('跳转检查小项', index)
   }
+
+  componentDidMount() {
+    this.setState({
+      list: 
+      [
+        {
+          name: '店面1',
+          status: true,
+        },
+        {
+          name: '店面面积1',
+          status: false,
+        },
+        {
+          name: '店面类型',
+          status: false,
+        },
+        {
+          name: '装修时间/到期时间',
+          status: false,
+        },
+      ]
+    })
+
+  }
+
   render() {
     const { navigation } = this.props
     return (
@@ -40,7 +87,7 @@ export default class CheckList extends React.Component<any, IState>{
         </View>
 
         <View>
-          
+          <MiddleCategoryCmp list={this.state.list} />
         </View>
       </View>
     )

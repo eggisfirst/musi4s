@@ -38,6 +38,10 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
+  CheckListPage: CheckListPage,
+  // CheckListPage: {
+  //   screen: CheckListPage,
+  // },
   StarHome: {
     screen: StarHome,
   },
@@ -50,7 +54,6 @@ const routerStack = createStackNavigator({
   },
   ReceptionPage: ReceptionPage,
   GradePage: GradePage,
-  CheckListPage: CheckListPage,
   HandlePage:HandlePage,
   Login: {
     screen: LoginScreen,
