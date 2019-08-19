@@ -13,6 +13,12 @@ import SearchPage from './views/search';
 import ReceptionPage from './views/work/reception/reception';
 import GradePage from './views/work/gradePage/grade';
 import CheckListPage from './views/work/starCheck/checkList';
+import GencyShopPage from './views/work/starCheck/areaReports/checkRecord/gencyShop';
+import CheckRecordPage from './views/work/starCheck/areaReports/checkRecord/checkRecord';
+import CheckDetailsPage from './views/work/starCheck/areaReports/checkRecord/checkDetails';
+import AcceptancePage from './views/work/starCheck/areaReports/acceptance/acceptance';
+import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptance/acceptanceDetails';
+import DetailsPage from './views/work/starCheck/areaReports/checkRecord/detailsPage';
 
 
 const AppNavigator = createBottomTabNavigator({
@@ -38,13 +44,22 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  CheckListPage: CheckListPage,
-  // CheckListPage: {
-  //   screen: CheckListPage,
-  // },
-  StarHome: {
-    screen: StarHome,
+  DetailsPage,
+
+  CheckDetailsPage,
+
+  StarHome,
+
+  Login: {
+    screen: LoginScreen,
   },
+
+ 
+
+
+  AcceptanceDetailsPage,
+  AcceptancePage,
+  CheckRecordPage,
   Work: {
     screen: AppNavigator,
     //主导航页面不显示头部
@@ -52,13 +67,12 @@ const routerStack = createStackNavigator({
       header: null,
     }
   },
-  ReceptionPage: ReceptionPage,
-  GradePage: GradePage,
-  HandlePage:HandlePage,
-  Login: {
-    screen: LoginScreen,
-  },
-  SearchPage: SearchPage,
+  GencyShopPage,
+  HandlePage,
+  GradePage,
+  ReceptionPage,
+ 
+  SearchPage,
 },{
   mode: 'modal',
   // 指定标头的呈现方式

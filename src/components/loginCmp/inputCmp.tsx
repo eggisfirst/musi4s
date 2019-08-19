@@ -9,14 +9,16 @@ import {
   Easing,
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
+import { _retrieveData } from '../../utils/utils';
+import { RemPwd } from '../../utils/enum';
 
 interface IProps {
   inputData: {
     title:string,
     maxLength: number,
-    type:string
+    type:string,
   },
-  setVal:(n:object) => void,
+  setVal:(n:object) => void
 }
 
 interface IState {
@@ -34,6 +36,30 @@ export default class InputCmp extends Component<IProps,IState> {
     animatedValue:new Animated.Value(0),
     bottom: 0,
     isAnimate: false,
+  }
+  componentDidMount() {
+    this.initData()
+  }
+  /**
+   * 判断是否有本地缓存
+   */
+  initData() {
+    /**记住i密码的状态 */
+    _retrieveData('pwdStatus').then(res => {
+      if(res === RemPwd.remembered) {
+        _retrieveData(this.props.inputData.type).then(res => {
+          if(!res) {
+            return
+          }
+          this.setState({
+            inputVal:res
+          })
+          this._setStatus()
+          this._startAnimated(this.animateTop)
+        })
+      }
+    })
+   
   }
   //创建动画
   eggAnimated = Animated.timing(

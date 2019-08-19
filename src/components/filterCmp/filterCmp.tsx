@@ -4,11 +4,9 @@ import React from 'react'
 import pxToDp from '../../utils/fixcss';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions/filter/rightFliter';
+import { StarCheckTypes } from '../../utils/enum';
 
-interface IProps {
-  // isActive: boolean
-  // handleFilterActive: (status: boolean) => void
-}
+
 
 class FilterIcon extends React.Component<any> {
   handleClick = () => {

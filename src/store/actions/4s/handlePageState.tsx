@@ -1,4 +1,4 @@
-import * as Types from '../actionTypes';
+import * as Types from '../../actionTypes/4s/actionTypes';
 
 
 export const changeHandleState = (state: string) => {

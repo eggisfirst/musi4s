@@ -9,25 +9,68 @@ import {
 import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
 import { RemPwd } from '../utils/enum';
+import AsyncStorage from '@react-native-community/async-storage';
 
-interface IProps {
+import { IndexModel } from '../request';
+import { _storeData, _retrieveData, _removeItem } from '../utils/utils';
+const indexModel = new IndexModel()
+
+interface IState {
   inputVal:string
   btnStatue: RemPwd
+  account: string
+  password: string
 }
 
-export default class LoginScreen extends Component<any,IProps> {
-  state:IProps = {
-    inputVal: '',
-    btnStatue: RemPwd.unremember
-  }
-
+export default class LoginScreen extends Component<any> {
   static navigationOptions = {
     header: null,
     headerBackTitle: 'back',
   }
+
+  state:IState = {
+    inputVal: '',
+    btnStatue: RemPwd.unremember,
+    account: '',
+    password: ""
+  }
+  componentDidMount() {
+    this.initLoginData()
+  }
+  /**
+   * 判断如果有缓存，使用缓存
+   */
+  initLoginData() {
+    /**密码状态框 */
+    _retrieveData('pwdStatus').then(res => {
+      this.setState({
+        btnStatue: res
+      })
+    })
+  }
+
+  /**
+   * 登录
+   */
+  handleLoginIn = () => {
+    // this.state.account &&  _storeData('account',this.state.account)
+    // this.state.password &&  _storeData('password',this.state.password)
+  
+    // indexModel.getAuth().then(res => {
+    //   this.props.navigation.replace('Work')
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+   
+    this.props.navigation.replace('Work')
+
+
+  }
+
   //输入框的值
-  setVal = (val:object) => {
-    console.log('111',val)
+  setVal = (value:any) => {
+    value.type === 'account' && this.setState({account:value.val}) 
+    value.type === 'password' && this.setState({password:value.val}) 
   }
   //记住密码状态
   handleRememberPwd = () => {
@@ -35,8 +78,9 @@ export default class LoginScreen extends Component<any,IProps> {
     this.setState({
       btnStatue
     })
-    console.log(btnStatue)
+    _storeData('pwdStatus',btnStatue)
   }
+
   render() {
     const  inputAcData =  {
       title: '账号',
@@ -65,8 +109,8 @@ export default class LoginScreen extends Component<any,IProps> {
         </View>
         <View style={styleSheet.inputWrap}>
           <Text style={styleSheet.formTit}>密码登录</Text>
-          <InputCmp inputData={inputAcData} setVal={this.setVal}/>
-          <InputCmp inputData={inputPdData} setVal={this.setVal}/>
+          <InputCmp  inputData={inputAcData} setVal={this.setVal}/>
+          <InputCmp  inputData={inputPdData} setVal={this.setVal}/>
           
           <View style={styleSheet.remPwd} >
             <TouchableOpacity
@@ -84,7 +128,7 @@ export default class LoginScreen extends Component<any,IProps> {
 
           <TouchableOpacity
             style={styleSheet.button}
-            onPress={() => {this.props.navigation.replace('Work')}}
+            onPress={() => {this.handleLoginIn()}}
           >
             <Text style={styleSheet.btnText}>登录</Text>
           </TouchableOpacity>

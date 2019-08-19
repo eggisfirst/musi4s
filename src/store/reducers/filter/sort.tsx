@@ -1,4 +1,4 @@
-import * as Types from '../../actionTypes';
+import * as Types from '../../actionTypes/4s/actionTypes';
 import { SotrList } from '../../../utils/enum';
 
 const initState = {

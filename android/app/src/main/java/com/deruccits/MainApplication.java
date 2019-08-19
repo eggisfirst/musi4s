@@ -3,6 +3,9 @@ package com.deruccits;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.horcrux.svg.SvgPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import cn.qiuxiang.react.amap3d.AMap3DPackage;
 import com.henninghall.date_picker.DatePickerPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -26,6 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AsyncStoragePackage(),
+            new SvgPackage(),
+            new LinearGradientPackage(),
             new AMap3DPackage(),
             new DatePickerPackage(),
             new RNGestureHandlerPackage(),

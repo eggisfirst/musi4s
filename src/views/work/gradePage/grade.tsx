@@ -2,7 +2,7 @@ import React from "react";
 
 import { View, Text, Platform, StatusBar, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
-import { HeaderCmp } from '../../../components/workCmp/starCheck/headerCmp';
+import { HeaderCmp } from '../../../components/headerCmp/headerCmp';
 import { CheckBox } from '../../../components/workCmp/gradeCmp/checkBox';
 
 

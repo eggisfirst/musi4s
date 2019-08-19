@@ -5,18 +5,11 @@ import { DatePickerCmp } from "./dateCmp";
 import { format } from '../../utils/index';
 import { connect } from "react-redux";
 import * as actions from '../../store/actions/filter/rightFliter'
+import { StarCheckTypes } from "../../utils/enum";
 
 
 interface IProps {
-  // handleSelectStarIndex: (i: number) => void
-  // handleFilterActive: (statue: boolean) => void
-  // selectStartDate: (date: any) => void
-  // selectEndDate: (date: any) => void
-  // starList: Array<string>
-  // starIndex: number
-  // isActive: boolean
-  // startDate: any
-  // endDate: any
+  type:StarCheckTypes  /**判断是哪个页面 */
 }
 
 class FilterContentCmp extends React.Component<any> {
@@ -25,7 +18,7 @@ class FilterContentCmp extends React.Component<any> {
     endStatus: false,
   }
   
-  //选择星级
+  /**选择星级 */
   handleClick = (i: number) => {
     if(this.props.starIndex === i) {
       this.props.handleSelectStarIndex(-1)
@@ -33,33 +26,41 @@ class FilterContentCmp extends React.Component<any> {
     }
     this.props.handleSelectStarIndex(i)
   }
-  //重置
+  /**处理情况 */
+  handleSitatuation = (i: number) => {
+    if(this.props.situationIndex === i) {
+      this.props.handleSituation(-1)
+      return
+    }
+    this.props.handleSituation(i)
+  }
+  /**重置 */
   handleReset = () => {
     this.props.selectStartDate(new Date())
     this.props.selectEndDate(new Date())
-
+    this.props.handleSituation(-1)
     this.props.handleSelectStarIndex(-1)
   }
-  //确认
+  /**确认 */
   handleComfirm = () => {
     const isActive = this.props.isActive
     this.props.handleFilterActive(!isActive)
   }
 
-  //打开起始  日期选择器
+  /**打开起始  日期选择器 */
   setStartStatus = () => {
     this.setState({
       startStatus: !this.state.startStatus
     })
   }
-  //打开结束  日期选择器
+  /** 打开结束  日期选择器*/
   setEndStatus = () => {
     this.setState({
       endStatus: !this.state.endStatus
     })
   }
 
-   //时间选择确定按钮
+   /**时间选择确定按钮 */
   startComfirm = (date:any) => {
     this.setState({
       startStatus: !this.state.startStatus
@@ -78,7 +79,7 @@ class FilterContentCmp extends React.Component<any> {
     }
     this.props.selectStartDate(date.getTime())
   }
-  //时间选择取消
+  /**开始时间选择取消 */
   startCancle = () => {
     this.setState({
       startStatus: !this.state.startStatus
@@ -103,13 +104,13 @@ class FilterContentCmp extends React.Component<any> {
     }
     this.props.selectEndDate(date.getTime())
   }
-  //时间选择取消
+  /**结束时间选择取消 */
   endCancle = () => {
     this.setState({
       endStatus: !this.state.endStatus
     })
   }
-  //获取时间间隔
+  /**获取时间间隔 */
   _getRestDate = (end:any,start:any) => {
     const restDate = new Date(end).getTime() - new Date(start).getTime()
     const day =  Math.floor(restDate/(24*3600*1000))
@@ -154,6 +155,24 @@ class FilterContentCmp extends React.Component<any> {
               }
             </View>
           </View>
+          {
+            this.props.type === StarCheckTypes.processing_record &&
+            <View style={styles.star}>
+              <Text style={styles.textStyle}>处理情况</Text>
+              <View style={styles.btnList}>
+                {
+                  this.props.situationList.map((item:any, i:number) => (
+                    <TouchableOpacity activeOpacity={0.6} key={item} onPress={() => {this.handleSitatuation(i)}}> 
+                      <View style={this.props.situationIndex === i? styles.starItemActive:styles.starItem}>
+                        <Text style={this.props.situationIndex === i? styles.btnColorActive:styles.btnColor}>{item}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )) 
+                }
+              </View>
+            </View>
+          }
+          
 
           <View style={styles.footerBtn}>
             <TouchableOpacity activeOpacity={0.6} onPress={() => {this.handleReset()}}> 
@@ -163,7 +182,10 @@ class FilterContentCmp extends React.Component<any> {
               <Text style={styles.comfirm}>完成</Text>
             </TouchableOpacity>
           </View>
-          {
+
+       
+      </View>
+      {
         this.state.startStatus && 
         <View style={styles.datePickerMask}>
           <DatePickerCmp  date={new Date(this.props.startDate)} 
@@ -181,7 +203,6 @@ class FilterContentCmp extends React.Component<any> {
                             cancle={this.endCancle}/>
           </View>
         }
-      </View>
     </View>
     )
   }
@@ -198,7 +219,7 @@ const styles = StyleSheet.create({
     left:0,
     right:0,
     bottom:0, 
-    zIndex:999999, 
+    zIndex:9999, 
     width: pxToDp(750), 
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -290,7 +311,7 @@ const styles = StyleSheet.create({
     top:0,
     right:0,
     bottom:0, 
-    zIndex:9999, 
+    zIndex:999999, 
     width: pxToDp(750), 
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',

@@ -1,4 +1,4 @@
-import * as Types from '../../actionTypes';
+import * as Types from '../../actionTypes/4s/actionTypes';
 
 export const handleFilterActive = (isActive: boolean ) => {
   return {
@@ -11,6 +11,13 @@ export const handleFilterActive = (isActive: boolean ) => {
 export const handleSelectStarIndex = (index: number) => {
   return {
     type: Types.Filter_STAR,
+    index
+  }
+}
+
+export const handleSituation = (index: number) => {
+  return {
+    type: Types.Filter_SITUATION,
     index
   }
 }

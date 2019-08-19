@@ -26,12 +26,12 @@ export default class WorkScreen extends React.Component<any>{
       {
         imgUrl:require('../../images/work/news.png'),
         title:"我的消息",
-        link:"StarHome"
+        // link:"StarHome"
       },
       {
         imgUrl:require('../../images/work/daiban.png'),
         title:"我的代办",
-        link:"StarHome"
+        // link:"StarHome"
       }
     ]
     return (

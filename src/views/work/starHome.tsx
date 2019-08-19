@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
 import {Header} from '../../components/workCmp/starHome/header';
-import Counter from '../../components/counter';
 import {StarCheck}  from '../../components/workCmp/starHome/starCheck';
 import { ReportForm } from '../../components/workCmp/starHome/reportForms';
 
@@ -9,6 +8,8 @@ import { ReportForm } from '../../components/workCmp/starHome/reportForms';
 import pxToDp from '../../utils/fixcss';
 import { StarCheckTypes } from '../../utils/enum';
 
+
+import axios from 'axios'
 
 export default class StarHome extends React.Component<any> {
   static navigationOptions = {
@@ -22,7 +23,15 @@ export default class StarHome extends React.Component<any> {
       elevation: 0,
     }
   }
-
+  componentDidMount() {
+    // axios({
+    //   url: "http://10.11.8.247:8088/v2/api/cert/approve/getUserInfo",
+    //   method: 'post',
+    //   headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    // }).then(res => {
+    //   console.log(res)
+    // })
+  }
   render() {
     const list = [
       {
@@ -48,23 +57,18 @@ export default class StarHome extends React.Component<any> {
     ]
     const imgArr = [
       {
-        imgUrl:require('../../images/work/starHome/record.png')
+        imgUrl:require('../../images/work/starHome/record.png'),
+        link: "GencyShopPage"
       },
       {
-        imgUrl:require('../../images/work/starHome/score.png')
+        imgUrl:require('../../images/work/starHome/score.png'),
+        link: "AcceptancePage"
       },
     ]
     return(
       <View>
         <StarCheck list={list} navigation={this.props.navigation}/>
         <ReportForm  list={imgArr} navigation={this.props.navigation}/>
-        <Counter />
-        <View>
-          <Button
-            title="toLogin"
-            onPress={() => {this.props.navigation.push(`Login`)}}>
-          </Button>
-        </View>
       </View>
     )
   }

@@ -1,10 +1,12 @@
-import * as Types from '../../actionTypes';
+import * as Types from '../../actionTypes/4s/actionTypes';
 import { format } from '../../../utils/index';
 
 const initState = {
   isActive: false,
   starIndex: -1,
   starList:['一星','二星','三星','四星','五星'],
+  situationIndex: -1,
+  situationList: ['认证中','已认证','认证失败'],
 
   startDate: new Date().getTime(),
   endDate: new Date().getTime()
@@ -27,6 +29,9 @@ export default (state=initState, action:action) => {
       return newState;
     case Types.Filter_STAR:
       newState.starIndex = action.index
+      return newState
+    case Types.Filter_SITUATION:
+      newState.situationIndex = action.index
       return newState
     case Types.SELECT_START_DATE:
       newState.startDate = action.startDate

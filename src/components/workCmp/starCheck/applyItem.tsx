@@ -1,40 +1,64 @@
 import React from "react";
-import { View,Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { StarCheckTypes } from "../../../utils/enum";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 interface IProps {
   title: string
   star: string
   type: StarCheckTypes  //认证进度的跟其他三个不同
+  index: number
+  handleShowReceptionBox: (index: number) => void
 }
 
-export const ApplyItem:React.FC<IProps> = (props) =>{
-    return(
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Image  style={styles.ImageStyle}
-                  source={require("../../../images/work/starCheck/via.png")}/>
-          <View>
-            <View style={styles.processTitle}>
-              <Text style={styles.name}>
-                {
-                  props.type === StarCheckTypes.processing_record? 
-                  props.title :
-                  props.title + '发起申请！'
-                }
-              </Text>
-              {
-                props.type === StarCheckTypes.processing_record &&
-                <Text style={styles.processText}>06-04  15：00</Text>
-              }
+
+
+export const ApplyItem: React.FC<IProps> = (props) => {
+  return (
+    <>
+      {
+        props.type === StarCheckTypes.processing_record &&
+        <TouchableWithoutFeedback onPress={() => { props.handleShowReceptionBox(props.index) }}>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Image style={styles.ImageStyle}
+                source={require("../../../images/work/starCheck/via.png")} />
+              <View>
+                <View style={styles.processTitle}>
+                  <Text style={styles.name} >
+                    {props.title}
+                  </Text>
+                  <Text style={styles.processText}>06-04  15：00</Text>
+                </View>
+                <Text style={styles.star}>认证星级：{props.star}</Text>
+              </View>
             </View>
-            <Text style={styles.star}>认证星级：{props.star}</Text>
+            {props.children}
           </View>
+        </TouchableWithoutFeedback>
+      }
+      {
+        props.type !== StarCheckTypes.processing_record &&
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Image style={styles.ImageStyle}
+              source={require("../../../images/work/starCheck/via.png")} />
+            <View>
+              <View style={styles.processTitle}>
+                <Text style={styles.name} >
+                  {props.title + '发起申请！'}
+                </Text>
+              </View>
+              <Text style={styles.star}>认证星级：{props.star}</Text>
+            </View>
+          </View>
+          {props.children}
         </View>
-        {props.children}
-      </View>
-    )
+      }
+    </>
+
+  )
 }
 
 const styles = StyleSheet.create({
@@ -50,7 +74,7 @@ const styles = StyleSheet.create({
   header: {
     display: "flex",
     flexDirection: 'row',
-    alignItems:"center"
+    alignItems: "center"
   },
   ImageStyle: {
     width: pxToDp(100),
@@ -70,10 +94,10 @@ const styles = StyleSheet.create({
   },
 
   processTitle: {
-    display:"flex",
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"space-between",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     width: pxToDp(580)
   },
   processText: {
