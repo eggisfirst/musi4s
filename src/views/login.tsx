@@ -11,6 +11,7 @@ import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
 import { RemPwd } from '../utils/enum';
 
+
 interface IProps {
   inputVal:string
   btnStatue: RemPwd
@@ -26,6 +27,7 @@ export default class LoginScreen extends Component<any,IProps> {
     header: null,
     headerBackTitle: 'back',
   }
+
   //输入框的值
   setVal = (val:object) => {
     console.log('111',val)
