@@ -10,7 +10,6 @@ import {
 import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
 import { RemPwd } from '../utils/enum';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import { IndexModel } from '../request';
 import { _storeData, _retrieveData, _removeItem } from '../utils/utils';

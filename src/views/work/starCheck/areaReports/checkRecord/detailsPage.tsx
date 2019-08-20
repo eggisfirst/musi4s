@@ -1,13 +1,20 @@
 import React from "react";
 
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Dimensions } from "react-native";
 import { HeaderCmp } from "../../../../../components/headerCmp/headerCmp";
 import PullDownCmp from "../../../../../components/filterCmp/pullDownCmp";
 import pxToDp from "../../../../../utils/fixcss";
 import {connect} from 'react-redux';
 import * as actions from '../../../../../store/actions/filter/pullDownSelect';
 import {SliderCmp} from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
+import SwiperIndex from "../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/swiperIndex";
 
+
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+function wp (percentage: number) {
+    const value = (percentage * viewportWidth) / 100;
+    return Math.round(value);
+}
 
 class DetailsPage extends React.Component<any>{
   static navigationOptions = {
@@ -28,8 +35,7 @@ class DetailsPage extends React.Component<any>{
           <PullDownCmp />
         </View>
         <View style={styles.showPictureBox}>
-         
-
+          <SwiperIndex />
 
           <View style={styles.sliderCmp}>
             <SliderCmp cutScore={9} maxNum={18}/>
@@ -64,21 +70,21 @@ const styles = StyleSheet.create({
   },
   showPictureBox: {
     width: pxToDp(600),
-    height: pxToDp(438),
-    borderWidth: 1,
-    marginLeft: pxToDp(67),
-    marginTop: pxToDp(70),
+    // height: pxToDp(438),
+    // marginLeft: pxToDp(67),
+    // marginTop: pxToDp(30),
     position: "absolute",
     zIndex: 10,
     left: 0,
     top: pxToDp(392)
   },
   sliderCmp: {
+    position: "absolute",
     width: pxToDp(544),
-    height: pxToDp(200),
+    // height: pxToDp(400),
     zIndex: 10,
-    left: pxToDp(33),
-    top: pxToDp(620),
+    left: pxToDp(100),
+    top: pxToDp(viewportHeight * 0.65 + 300),
   },
   reason: {
     position: "absolute",
