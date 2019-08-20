@@ -6,14 +6,17 @@ import {
   Image, 
   TouchableOpacity, 
   StyleSheet,
+  Alert,
 } from "react-native"; 
 import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
 import { RemPwd } from '../utils/enum';
 
 import { IndexModel } from '../request';
-import { _storeData, _retrieveData, _removeItem } from '../utils/utils';
 const indexModel = new IndexModel()
+import { _storeData, _retrieveData, _removeItem } from '../utils/utils';
+import Loader from '../components/loading'
+
 
 interface IState {
   inputVal:string
@@ -35,6 +38,7 @@ export default class LoginScreen extends Component<any> {
     password: ""
   }
   componentDidMount() {
+
     this.initLoginData()
   }
   /**
@@ -46,6 +50,10 @@ export default class LoginScreen extends Component<any> {
       this.setState({
         btnStatue: res
       })
+      if(res === RemPwd.unremember) {
+        _removeItem('account')
+        _removeItem('password')
+      }
     })
   }
 
@@ -53,18 +61,17 @@ export default class LoginScreen extends Component<any> {
    * 登录
    */
   handleLoginIn = () => {
-    // this.state.account &&  _storeData('account',this.state.account)
-    // this.state.password &&  _storeData('password',this.state.password)
-  
-    // indexModel.getAuth().then(res => {
-    //   this.props.navigation.replace('Work')
-    // }).catch(err => {
-    //   console.log(err)
-    // })
-   
-    this.props.navigation.replace('Work')
-
-
+    this.state.account && _storeData('account',this.state.account)
+    this.state.password && _storeData('password',this.state.password)
+    indexModel.getAuth().then(res => {
+      if(res.status) {
+        this.props.navigation.replace('Work')
+        // if(this.state.btnStatue === RemPwd.unremember) {
+        //   _removeItem('account')
+        //   _removeItem('password')
+        // }
+      }
+    })
   }
 
   //输入框的值
