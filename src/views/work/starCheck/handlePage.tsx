@@ -72,12 +72,10 @@ class HandelPage extends React.Component<any, IState>{
   /**获取待受理页面名单数据 */
   getAcceptList(myData: any) {
     let list = this.state.list
-    console.log('kkkk',list)
     indexModel.getAcceptList(myData).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if(res.data.list.length < 10) {
-          console.log(222222222)
           if(this.state.pageNo === 1) {
             this.setState({
               showFoot: 1,
@@ -91,7 +89,6 @@ class HandelPage extends React.Component<any, IState>{
           }
           
         }else {
-          console.log('asddasd',1233,list)
           this.setState({
             showFoot: 0,
             list: [...list,...res.data.list]
@@ -120,9 +117,11 @@ class HandelPage extends React.Component<any, IState>{
   }
   /**排序 */
   handleClickSort = () => {
+    /**重新初始化数据 */
     this.setState({
       pageNo: 1,
-      list: []
+      list: [],
+      showFoot: 2
     })
     setTimeout(() => {
       let sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
@@ -139,6 +138,7 @@ class HandelPage extends React.Component<any, IState>{
     this.setState({
       pageNo: 1,
       list: [],
+      showFoot: 2
     })
     const sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
     /**注意认证的参数！！！ */
@@ -151,7 +151,8 @@ class HandelPage extends React.Component<any, IState>{
   filterComfirm = () => {
     this.setState({
       pageNo: 1,
-      list: []
+      list: [],
+      showFoot: 2
     })
     let startDate = format(new Date(this.props.rightFilter.startDate))
     let endDate = format(new Date(this.props.rightFilter.endDate))
@@ -175,7 +176,6 @@ class HandelPage extends React.Component<any, IState>{
   /**底部加载更多 */
   _onEndReached = () => {
     // 如果是正在加载中或没有更多数据了，则返回
-
     if (this.state.showFoot != 0) {
       return;
     } else {
@@ -190,7 +190,6 @@ class HandelPage extends React.Component<any, IState>{
     //底部显示正在加载更多数据
     this.setState({ showFoot: 2 });
   }
-
 
   /**获取参数 */
   getParmas(myData: any) {
@@ -244,14 +243,20 @@ class HandelPage extends React.Component<any, IState>{
         //请求
         indexModel.accept(id).then(res => {
           if (res.status) {
-            this.getList({page: 1, limit: 10, sort})
+            list.splice(this.state.index,1)
+            this.setState({
+              list
+            })
           }
         })
         break;
       case AlertBtnTypes.sendBack:
         indexModel.sendBack(id, value).then(res => {
           if (res.status) {
-            this.getList({ page: 1, limit: 10, sort })
+            list.splice(this.state.index,1)
+            this.setState({
+              list
+            })
           }
         })
         break;
