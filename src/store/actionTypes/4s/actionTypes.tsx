@@ -1,6 +1,7 @@
 
 /**加载动画 */
-export const LOADING = 'LOADING'    
+export const LOADING = 'LOADING'   
+   
 
 /**排序 */
 export const SORT_ACTIVE = 'SORT_ACTIVE'    

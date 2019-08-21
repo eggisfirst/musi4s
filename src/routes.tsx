@@ -20,13 +20,14 @@ import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptance
 import DetailsPage from './views/work/starCheck/areaReports/checkRecord/detailsPage';
 
 
+
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
     Report: ReportScreen,
     Announcement: AnnouncementScreen,
     Personal: PersonalScreen,
   },{
-    initialRouteName: 'Personal',
+    initialRouteName: 'Work',
     tabBarOptions: {
       activeTintColor: '#007AFF',
       showIcon: true,
@@ -42,77 +43,73 @@ const AppNavigator = createBottomTabNavigator({
 )
 
 
-const routerStack = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-  },
-  DetailsPage,
-
-  CheckDetailsPage,
-
-  StarHome,
-
- 
-
-  AcceptanceDetailsPage,
-  AcceptancePage,
-  CheckRecordPage,
-  Work: {
-    screen: AppNavigator,
-    //主导航页面不显示头部
-    navigationOptions: {
-      header: null,
-    }
-  },
-  GencyShopPage,
-  HandlePage,
-  GradePage,
-  ReceptionPage,
- 
-  SearchPage,
-},{
-  mode: 'modal',
-  // 指定标头的呈现方式
-  headerMode: "screen",
-  //显示返回图标后的文字
-  headerBackTitleVisible: false,
-  cardOverlayEnabled: true,
-  //标题居中
-  headerLayoutPreset: "center",
-  defaultNavigationOptions: {
-    headerTintColor:"#000",
-  },
-  
-    //页面跳转动画
-  transitionConfig: () => ({
-    transitionSpec: {
-        duration: 300,
-        easing: Easing.out(Easing.poly(4)),
-        timing: Animated.timing,
+export default function configAppNavigator(isLoggedIn:boolean) {
+  return createAppContainer(createStackNavigator({
+    Login: {
+      screen: LoginScreen,
     },
-    screenInterpolator: sceneProps => {
-        const {layout, position, scene} = sceneProps;
-        const {index} = scene;
-        const Width = layout.initWidth;
-        //沿X轴平移
-        const translateX = position.interpolate({
-            inputRange: [index - 1, index, index + 1],
-            outputRange: [Width, 0, -(Width - 10)],
-        });
-        //透明度
-        const opacity = position.interpolate({
-            inputRange: [index - 1, index],
-            outputRange: [0,  1],
-        });
-        return {opacity, transform: [{translateX}]};
-    }
-  }),
-})
+    DetailsPage,
+  
+    CheckDetailsPage,
+  
+    StarHome,
+    AcceptanceDetailsPage,
+    AcceptancePage,
+    CheckRecordPage,
+    Work: {
+      screen: AppNavigator,
+      //主导航页面不显示头部
+      navigationOptions: {
+        header: null,
+      }
+    },
+    GencyShopPage,
+    HandlePage,
+    GradePage,
+    ReceptionPage,
+    
+    SearchPage,
+  },{
+    //初始进来的页面
+    initialRouteName: isLoggedIn ? 'Work' : 'Login',
+    mode: 'modal',
+    // 指定标头的呈现方式
+    headerMode: "screen",
+    //显示返回图标后的文字
+    headerBackTitleVisible: false,
+    cardOverlayEnabled: true,
+    //标题居中
+    headerLayoutPreset: "center",
+    defaultNavigationOptions: {
+      headerTintColor:"#000",
+    },
+    
+      //页面跳转动画
+    transitionConfig: () => ({
+      transitionSpec: {
+          duration: 300,
+          easing: Easing.out(Easing.poly(4)),
+          timing: Animated.timing,
+      },
+      screenInterpolator: sceneProps => {
+          const {layout, position, scene} = sceneProps;
+          const {index} = scene;
+          const Width = layout.initWidth;
+          //沿X轴平移
+          const translateX = position.interpolate({
+              inputRange: [index - 1, index, index + 1],
+              outputRange: [Width, 0, -(Width - 10)],
+          });
+          //透明度
+          const opacity = position.interpolate({
+              inputRange: [index - 1, index],
+              outputRange: [0,  1],
+          });
+          return {opacity, transform: [{translateX}]};
+      }
+    }),
+  }))
+}
 
-
-
-const AppContainer = createAppContainer(routerStack)
-
-export default AppContainer;
 
 

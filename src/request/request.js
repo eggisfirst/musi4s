@@ -6,12 +6,27 @@ import { Alert } from 'react-native';
 import { setLoading } from '../store/actions/global/loading';
 import store from '../store';
 
+baseUrl = 'http://10.11.8.247:8088/'
+  
+axios.interceptors.request.use(config => {
+  if(config.url.indexOf('oauth/token')!== -1) {
+    console.log('no')
+  }else {
+    console.log('yes')
+  }
+  return config
+}, error => {  //请求错误处理
+ 
+  Promise.reject(error)
+});
 class Request {
   baseUrl = 'http://10.11.8.247:8088/'
   // baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
   // baseUrl = 'https://op.derucci.com/'
   // baseUrl = 'https://qiang.derucci.com/'
   // tokenUrl = "https://op.derucci.com/"
+
+
 
   getSecretData({ url, data = {} }) {
     store.dispatch(setLoading(true)); 
@@ -37,11 +52,12 @@ class Request {
           })
         }else {
           if(res.code === 500) {
-              Alert.alert(res.msg)
-              return
+            store.dispatch(setLoading(false)); 
+            Alert.alert(res.msg)
+            return
           }
           /**返回错误信息 */
-          this._refreshToken().then(res => {
+          _refreshToken().then(res => {
             if (res.access_token) {
               token = res.access_token
               this.getSecretData()
@@ -49,8 +65,6 @@ class Request {
           })
         }
       })
-
-
     })
   }
 
@@ -90,28 +104,6 @@ class Request {
   })
   }
 
-  _refreshToken() {
-    return new Promise((resolve, reject) => {
-      _retrieveData('refresh_token').then(res => {
-        axios({
-          url: this.baseUrl + "oauth/token",
-          method: 'post',
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-          params: {
-            grant_type: 'refresh_token',
-            refresh_token: res,
-          },
-        }).then(res => {
-          resolve(res.data)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    })
-  }
-
-
-
   //加密参数
   _getSign(obj, token) {
     // console.log(obj)
@@ -137,8 +129,27 @@ class Request {
 
 
 }
-// const mapStateToProps = (state) => state;
-// export default connect(mapStateToProps, actions)(Request)
+
+/**刷新token */
+export default function refreshToken() {
+  return  new Promise((resolve,reject) => {
+    _retrieveData('refresh_token').then(res => {
+      axios({
+        url: this.baseUrl + "oauth/token",
+        method: 'post',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        params: {
+          grant_type: 'refresh_token',
+          refresh_token: res,
+        },
+      }).then(res => {
+        resolve(res.data)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  })
+}
 export { Request }
 
 

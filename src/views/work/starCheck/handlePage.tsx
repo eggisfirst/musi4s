@@ -18,6 +18,8 @@ import * as handlePageState from '../../../store/actions/4s/handlePageState';
 import { SponsorBox } from '../../../components/workCmp/sponsorCmp/sponsorBox';
 import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 import ProcessBox from '../../../components/workCmp/processCmp/processBox';
+import { IndexModel } from "../../../request";
+const indexModel = new IndexModel()
 const actions = {
   ...rightFliter,
   ...handlePageState,
@@ -58,7 +60,19 @@ class HandelPage extends React.Component<any,IState>{
     {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
     {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
   ]
- 
+  
+  /**获取页面名单数据 */
+  getList() {
+    const data = {
+      page: 1,
+      limit: 10,
+      sort: 'asc'
+    }
+    indexModel.getAcceptList(data).then(res => {
+      console.log(res)
+    })
+  }
+
   //安卓点击穿透处理
 
   /**退回 */
@@ -173,6 +187,7 @@ class HandelPage extends React.Component<any,IState>{
   componentDidMount() {
     this.getPageState()
     this.initFilter()
+    this.getList()
   }
 
  render (){

@@ -5,6 +5,7 @@ import pxToDp from "../../utils/fixcss";
 import { HeaderCmp } from '../../components/personalCmp/headerCmp';
 import { ListItem } from '../../components/personalCmp/listCmp';
 import { BtnCmp } from "../../components/personalCmp/btnCmp";
+import { _removeItem } from "../../utils/utils";
 
 export default class PersonalScreen extends React.Component<any> { 
   static navigationOptions = {
@@ -16,6 +17,12 @@ export default class PersonalScreen extends React.Component<any> {
         selectedImage={require('../../images/tabBar/personal_select.png')} />
     ),
    
+  }
+  /**退出登录 清除refresh_token*/
+  handleLogout = () => {
+    this.props.navigation.replace('Login')
+    _removeItem('refresh_token')
+    _removeItem('type')
   }
   render() {
     const list = [
@@ -33,6 +40,7 @@ export default class PersonalScreen extends React.Component<any> {
         version: "版本 1.0.1"
       },
     ]
+
     return (
       <View>
         <HeaderCmp />
@@ -43,7 +51,7 @@ export default class PersonalScreen extends React.Component<any> {
             </TouchableOpacity>
           )
         }
-        <BtnCmp handleLogout={() => {this.props.navigation.replace('Login')}}/>
+        <BtnCmp handleLogout={() => {this.handleLogout()}}/>
       </View>
     )
   }

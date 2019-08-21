@@ -1,7 +1,7 @@
 import * as Types from '../../actionTypes/4s/actionTypes';
 
 const initState = {
-  status: false
+  status: false,
 }
 
 interface action {

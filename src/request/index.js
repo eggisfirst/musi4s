@@ -15,6 +15,42 @@ class IndexModel extends Request {
       url: "v2/api/cert/approve/getUserInfo",
     })
   }
+
+  /**待受理名单 */
+  getAcceptList(data) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/region/acceptList",
+      data: data
+    })
+  }
+
+  /**退回 待受理*/
+  sendBack(id,remark) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/region/list",
+      data: {
+        id,
+        remark
+      }
+    })
+  }
+  /**受理 待受理 */
+  accept(id) {
+    return this.getSecretData({
+      url: "v2/api/cert//approve/region/accept",
+      data: {
+        id
+      }
+    })
+  }
+
+  /**待验收名单 */
+  getReceptionList(data) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/gradeList",
+      data: data
+    })
+  }
 }
 
 export { IndexModel }

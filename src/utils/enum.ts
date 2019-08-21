@@ -37,7 +37,7 @@ export enum AlertBtnTypes {
 
 /**星级认证状态 */
 export enum StarCheckTypes {
-  wait_handle = '待处理',
+  wait_handle = '待受理',
   wait_reception = '待验收',
   wait_sponsor = '待发起',
   processing_record = '认证进度'

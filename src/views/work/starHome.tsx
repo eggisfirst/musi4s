@@ -9,7 +9,8 @@ import pxToDp from '../../utils/fixcss';
 import { StarCheckTypes } from '../../utils/enum';
 
 
-import axios from 'axios'
+import { IndexModel } from '../../request';
+const indexModel = new IndexModel()
 
 export default class StarHome extends React.Component<any> {
   static navigationOptions = {
@@ -24,16 +25,33 @@ export default class StarHome extends React.Component<any> {
     }
   }
   componentDidMount() {
-    // axios({
-    //   url: "http://10.11.8.247:8088/v2/api/cert/approve/getUserInfo",
-    //   method: 'post',
-    //   headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    // }).then(res => {
-    //   console.log(res)
-    // })
+    this.getUserInfo()
   }
-  render() {
-    const list = [
+  /**获取用户信息 获取未完成信息数量*/
+  getUserInfo() {
+    indexModel.getUserInfo().then(res => {
+      if(res.status) {
+        const data = res.data
+        const list = this.state.list
+        for (const key in data) {
+          if(key === 'acceptListNumber') {
+            list[0].num = data[key]
+          }
+          else if(key === 'gradeListNumber') {
+            list[1].num = data[key]
+          }
+          else if(key === 'sponsorListNumber') {
+            list[2].num = data[key]
+          }
+        }
+        this.setState({
+          list
+        })
+      }
+    })
+  }
+  state = {
+     list : [
       {
         imgUrl:require("../../images/work/starHome/wait1.png"),
         num:0,
@@ -55,6 +73,9 @@ export default class StarHome extends React.Component<any> {
         type: StarCheckTypes.processing_record
       },
     ]
+  }
+  
+  render() {
     const imgArr = [
       {
         imgUrl:require('../../images/work/starHome/record.png'),
@@ -67,7 +88,7 @@ export default class StarHome extends React.Component<any> {
     ]
     return(
       <View>
-        <StarCheck list={list} navigation={this.props.navigation}/>
+        <StarCheck list={this.state.list} navigation={this.props.navigation}/>
         <ReportForm  list={imgArr} navigation={this.props.navigation}/>
       </View>
     )

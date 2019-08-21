@@ -65,6 +65,8 @@ export default class LoginScreen extends Component<any> {
     this.state.password && _storeData('password',this.state.password)
     indexModel.getAuth().then(res => {
       if(res.status) {
+        //用户级别
+        _storeData('type',res.type) 
         this.props.navigation.replace('Work')
         // if(this.state.btnStatue === RemPwd.unremember) {
         //   _removeItem('account')
