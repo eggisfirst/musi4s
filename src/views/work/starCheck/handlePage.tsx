@@ -19,6 +19,8 @@ import { SponsorBox } from '../../../components/workCmp/sponsorCmp/sponsorBox';
 import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
+import { _retrieveData } from "../../../utils/utils";
+import { format } from "../../../utils";
 const indexModel = new IndexModel()
 const actions = {
   ...rightFliter,
@@ -32,6 +34,9 @@ interface IState {
   index: number
   sponsorStatus: boolean
   processBoxStatus: boolean
+  type: string | number
+  list:Array<any> 
+  parmas: any
 }
 
 class HandelPage extends React.Component<any,IState>{
@@ -44,35 +49,89 @@ class HandelPage extends React.Component<any,IState>{
    
     index: -1,
     sponsorStatus: false,
-    processBoxStatus: false
-
+    processBoxStatus: false,
+    type: '',
+    list: [],
+    parmas: {
+      page: '',
+      limit: '',
+      sort: '',
+    }
+  }
+  
+  //请求
+  /**获取待受理页面名单数据 */
+  getAcceptList(myData:any) {
+    const data = this.getParmas(myData)
+    indexModel.getAcceptList(data).then(res => {
+      if(res.status) {
+        this.setState({
+          list:res.data.list
+        })
+      }
+    })
+  }
+  /**判断不同页面的请求名单数据 */
+  getList(data:any) {
+    if(this.props.handlePageState.HState === StarCheckTypes.wait_handle) {
+      this.getAcceptList(data)
+    }
   }
 
-  list =  [
-    {name: '广东广州何秋明', star: "三星", week: 48, score: 90, date: "2019.06.04",key:'1'},
-    {name: '广东广州马梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'2'},
-    {name: '广东广州冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'3'},
-    {name: '广东广州马冬',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'4'},
-    {name: '广东广州马冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'5'},
-    {name: '广东广州马冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'6'},
-    {name: '广东广州马冬梅',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'7'},
-    {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'8'},
-    {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'9'},
-    {name: '广东广州马',star: "一星",  week: 37, score: 82, date: "2019.05.04",key:'10'},
-  ]
-  
-  /**获取页面名单数据 */
-  getList() {
-    const data = {
-      page: 1,
-      limit: 10,
-      sort: 'asc'
-    }
-    indexModel.getAcceptList(data).then(res => {
-      console.log(res)
+
+  /**获取级别 */
+  getLevelType() {
+    _retrieveData('type').then(res => {
+      if(!res) {
+        return
+      }
+      this.setState({
+        type: res
+      })
     })
   }
 
+
+  /**排序 */
+  handleClickSort = () => {
+    const sort = this.props.sort.activeIndex === 0? 'asc' : 'desc'
+    this.getList({page:1,limit:10,sort})
+  }
+  /**筛选 */
+  filterComfirm = () => {
+    console.log(this.props.rightFilter.starIndex)
+    let startDate = format(new Date(this.props.rightFilter.startDate))
+    let endDate = format(new Date(this.props.rightFilter.endDate))
+    let sort = this.props.sort.activeIndex === 0? 'asc' : 'desc'
+    let starLevel = this.props.rightFilter.starIndex + 1
+    let status = this.props.rightFilter.situationIndex + 1
+    let data = {
+      startDate,
+      endDate,
+      page: 1,
+      limit: 10,
+      sort,
+      starLevel: starLevel,
+      status: this.props.handlePageState.HState === StarCheckTypes.wait_reception &&  status
+    }
+    let newData = this.getParmas(data)
+
+    console.log(newData)
+
+    // this.getList(data)
+  }
+
+  /**获取参数 */
+  getParmas(myData:any) {
+    let data = this.state.parmas
+    console.log('data',myData)
+    for (const key in myData) {
+      if(myData[key]) {
+        data[key] = myData[key]
+      }
+    }
+    return data
+  }
   //安卓点击穿透处理
 
   /**退回 */
@@ -98,6 +157,8 @@ class HandelPage extends React.Component<any,IState>{
   }
   /**退回和受理 */
   handleAlert = (status:AlertBtnTypes,value?: string) => {
+    const list = this.state.list
+    const id = list[this.state.index].id
     this._setAlertBoxStatus(BtnTitle.null)
     switch (status) {
       case AlertBtnTypes.cancle:
@@ -105,12 +166,20 @@ class HandelPage extends React.Component<any,IState>{
         break;
       case AlertBtnTypes.comfirm:
         //请求
-        this.list.splice(this.state.index,1)
-        console.log('confirm',this.list[this.state.index])
+        indexModel.accept(id).then(res => {
+          if(res.status) {
+            this.getList({page:1,limit:10,sort:'asc'})
+          }
+        })
+        // this.list.splice(this.state.index,1)
+        // console.log('confirm',this.list[this.state.index])
         break;
       case AlertBtnTypes.sendBack:
-        this.list.splice(this.state.index,1)
-        console.log(value)
+        indexModel.sendBack(id,value).then(res => {
+          if(res.status) {
+            this.getList({page:1,limit:10,sort:'asc'})
+          }
+        })
         break;
     }
   }
@@ -130,7 +199,7 @@ class HandelPage extends React.Component<any,IState>{
   handleSponsorComfirm = () => {
     //请求
     this._setSponsorStatus(false)
-    this.list.splice(this.state.index,1)
+    // this.list.splice(this.state.index,1)
   }
   /**取消认证 */
   handleSponsorCancle = () => {
@@ -187,11 +256,11 @@ class HandelPage extends React.Component<any,IState>{
   componentDidMount() {
     this.getPageState()
     this.initFilter()
-    this.getList()
+    this.getList({page:1,limit:10,sort:'asc'})
+    this.getLevelType()
   }
 
  render (){
-  // console.log(this.props.handlePageState.HState)
   const {navigation} = this.props
   const HState = this.props.handlePageState.HState
   const scoreType = {
@@ -205,18 +274,20 @@ class HandelPage extends React.Component<any,IState>{
                     eggHandleBack={() => {navigation.goBack()}}
                     eggHandleSearch={() => {navigation.push("SearchPage")}} />
       <View style={styles.filterContainer}>
-        <Sort />
+        <Sort handleClickSort={this.handleClickSort}/>
         <FilterIcon />
       </View>
         {
-          this.props.rightFilter.isActive && <FilterContentCmp type={this.state.starCheckType}/>
+          this.props.rightFilter.isActive && 
+          <FilterContentCmp type={this.state.starCheckType}
+                            filterComfirm={this.filterComfirm}/>
         }
       <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
-                data={this.list}
-                keyExtractor={item => item.key}
+                data={this.state.list}
+                keyExtractor={item => item.id}
                 renderItem={({ item,index }) => (
-                <ApplyItem  title={item.name} 
-                            star={item.star} 
+                <ApplyItem  title={item.distributor} 
+                            star={item.approveLevel} 
                             type={this.state.starCheckType}
                             index={index}
                             handleShowReceptionBox={this.handleShowReceptionBox}>
@@ -248,7 +319,7 @@ class HandelPage extends React.Component<any,IState>{
                   </View>
                   {
                     HState === StarCheckTypes.wait_handle || HState === StarCheckTypes.wait_reception?
-                      <ApplyFooter score={item.score} week={item.week} date={item.date}/> : <></>
+                      <ApplyFooter type={this.state.type} score={this.state.type == 3?item.scoreShop : item.scoreRegion} week={item.accumulativeCycle} date={item.createTime}/> : <></>
                   }
                   {
                     HState === StarCheckTypes.processing_record &&
@@ -263,6 +334,7 @@ class HandelPage extends React.Component<any,IState>{
       {
         this.state.alertBox !== BtnTitle.null &&  
         <AlertCmp title={this.state.alertBox} 
+                  data={this.state.list[this.state.index]}
                   comfirm={this.state.alertBox === BtnTitle.applying?  AlertBtnTypes.comfirm : undefined}
                   cancle={AlertBtnTypes.cancle}
                   sendBack={this.state.alertBox === BtnTitle.sendBack?  AlertBtnTypes.sendBack : undefined}

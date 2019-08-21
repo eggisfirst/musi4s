@@ -16,6 +16,9 @@ import { IndexModel } from '../request';
 const indexModel = new IndexModel()
 import { _storeData, _retrieveData, _removeItem } from '../utils/utils';
 import Loader from '../components/loading'
+import {getToken} from '../request/request';
+import store from '../store';
+import { setLoading, Token } from '../store/actions/global/loading';
 
 
 interface IState {
@@ -38,7 +41,6 @@ export default class LoginScreen extends Component<any> {
     password: ""
   }
   componentDidMount() {
-
     this.initLoginData()
   }
   /**
@@ -63,17 +65,28 @@ export default class LoginScreen extends Component<any> {
   handleLoginIn = () => {
     this.state.account && _storeData('account',this.state.account)
     this.state.password && _storeData('password',this.state.password)
-    indexModel.getAuth().then(res => {
-      if(res.status) {
-        //用户级别
-        _storeData('type',res.type) 
-        this.props.navigation.replace('Work')
-        // if(this.state.btnStatue === RemPwd.unremember) {
-        //   _removeItem('account')
-        //   _removeItem('password')
-        // }
+    /**请求token */
+    getToken().then(res => {
+      if(res.access_token) {
+        _storeData("refresh_token", res.refresh_token)
+        store.dispatch(Token(res.access_token))
+        indexModel.getAuth().then(res => {
+          if(res.status) {
+            //用户级别
+            _storeData('type',res.type) 
+            this.props.navigation.replace('Work')
+          }
+        })
+      }else {
+        store.dispatch(setLoading(false));
+        if (res.code === 500) {
+          Alert.alert(res.msg)
+            return
+          }
       }
     })
+   
+   
   }
 
   //输入框的值

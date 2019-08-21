@@ -3,10 +3,12 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { StarCheckTypes } from "../../../utils/enum";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import store from '../../../store'
+import { getStar } from "../../../utils";
 
 interface IProps {
   title: string
-  star: string
+  star: number
   type: StarCheckTypes  //认证进度的跟其他三个不同
   index: number
   handleShowReceptionBox: (index: number) => void
@@ -31,7 +33,7 @@ export const ApplyItem: React.FC<IProps> = (props) => {
                   </Text>
                   <Text style={styles.processText}>06-04  15：00</Text>
                 </View>
-                <Text style={styles.star}>认证星级：{props.star}</Text>
+                <Text style={styles.star}>认证星级：{getStar(props.star)}</Text>
               </View>
             </View>
             {props.children}
@@ -50,7 +52,7 @@ export const ApplyItem: React.FC<IProps> = (props) => {
                   {props.title + '发起申请！'}
                 </Text>
               </View>
-              <Text style={styles.star}>认证星级：{props.star}</Text>
+              <Text style={styles.star}>认证星级：{getStar(props.star)}</Text>
             </View>
           </View>
           {props.children}

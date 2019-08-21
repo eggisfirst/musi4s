@@ -7,3 +7,10 @@ export const setLoading = (status: boolean ) => {
   }
 }
 
+export const Token = (token: string ) => {
+  return {
+    type: Types.TOKEN,
+    token
+  }
+}
+

@@ -6,13 +6,14 @@ interface IProps {
   score: number
   week: number
   date: string
+  type: string | number
 }
 
 export const ApplyFooter:React.FC<IProps> = (props) =>{
     return(
       <View style={styles.container}>
         <View style={styles.footerLeft}>
-          <Text style={styles.textStyle}>区域评分:</Text>
+          <Text style={styles.textStyle}>{props.type == 3? '门店评分' : '区域评分'}:</Text>
           <Text style={styles.score}>{props.score}</Text>
           <Text style={styles.textStyle}>累计周期:</Text>
           <Text style={styles.textStyle}>{props.week}</Text>

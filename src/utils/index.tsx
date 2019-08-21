@@ -8,4 +8,21 @@
    }
   }
 
+export const getStar = (star: number) => {
+  if(star === 1) {
+    return '一星'
+  }
+  else if(star === 2) {
+    return '二星'
+  }
+  else if(star === 3) {
+    return '三星'
+  }
+  else if(star === 4) {
+    return '四星'
+  }
+  else if(star === 5) {
+    return '五星'
+  }
+}
  

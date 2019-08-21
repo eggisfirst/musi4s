@@ -2,6 +2,7 @@ import { View,Text, Modal, StyleSheet, Dimensions, Image, TouchableOpacity, Anim
 import React, { useState } from 'react'
 import pxToDp from "../utils/fixcss";
 import { AlertBtnTypes, BtnTitle } from "../utils/enum";
+import { getStar } from "../utils";
 
 interface IProps {
   title: BtnTitle
@@ -10,6 +11,7 @@ interface IProps {
   cancle?:AlertBtnTypes
   handleAlert?: ( status:AlertBtnTypes,val?:string) => void 
   boxValue?:string
+  data: any
 }
 
 
@@ -46,7 +48,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
             <>
               <Image style={styles.image} source={require("../images/applying.png")}/>
               <Text style={styles.titleStyle}>{BtnTitle.applying}</Text>
-              <Text style={styles.textStyle}>是否确定受理，XX供应商《一星认证》申请？</Text>
+              <Text style={styles.textStyle}>是否确定受理，{props.data.username}供应商《{getStar(props.data.approveLevel)}认证》申请？</Text>
             </>
           )
         }

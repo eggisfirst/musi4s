@@ -59,17 +59,17 @@ export default class StarHome extends React.Component<any> {
       },
       {
         imgUrl:require("../../images/work/starHome/wait2.png"),
-        num:12,
+        num:0,
         type: StarCheckTypes.wait_reception
       },
       {
         imgUrl:require("../../images/work/starHome/wait3.png"),
-        num:5,
+        num:0,
         type: StarCheckTypes.wait_sponsor
       },
       {
         imgUrl:require("../../images/work/starHome/wait4.png"),
-        num:6,
+        num:0,
         type: StarCheckTypes.processing_record
       },
     ]

@@ -1,6 +1,8 @@
 
 /**加载动画 */
 export const LOADING = 'LOADING'   
+/**获取token */
+export const TOKEN = 'TOKEN'   
    
 
 /**排序 */

@@ -7,14 +7,15 @@ import * as actions from '../../store/actions/filter/sort';
 import { SotrList } from '../../utils/enum';
 
 interface IProps {
-  // handleSortIndex: (i:number) => void
-  // handleSortActive: (status: boolean) => void
-  // sortList: Array<SotrList>
-  // isActive: boolean
-  // activeIndex: number
+  handleClickSort: () => void
+  handleSortIndex?: any
+  handleSortActive?: any
+  sortList?: any
+  isActive?: any
+  activeIndex?: any
 }
 
-class Sort extends React.Component<any,IProps> {
+class Sort extends React.Component<IProps> {
   //点击头部
   handleClick = () => {
     this._setActive()
@@ -25,6 +26,7 @@ class Sort extends React.Component<any,IProps> {
     if(this.props.activeIndex === i) {
       return
     }
+    this.props.handleClickSort()
     this.props.handleSortIndex(i)
   }
   _setActive = () => {

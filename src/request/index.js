@@ -19,7 +19,7 @@ class IndexModel extends Request {
   /**待受理名单 */
   getAcceptList(data) {
     return this.getSecretData({
-      url: "v2/api/cert/approve/region/acceptList",
+      url: "v2/api/cert/approve/acceptList",
       data: data
     })
   }
@@ -27,7 +27,7 @@ class IndexModel extends Request {
   /**退回 待受理*/
   sendBack(id,remark) {
     return this.getSecretData({
-      url: "v2/api/cert/approve/region/list",
+      url: "v2/api/cert/approve/reject",
       data: {
         id,
         remark
@@ -37,7 +37,7 @@ class IndexModel extends Request {
   /**受理 待受理 */
   accept(id) {
     return this.getSecretData({
-      url: "v2/api/cert//approve/region/accept",
+      url: "v2/api/cert/approve/accept",
       data: {
         id
       }

@@ -10,9 +10,22 @@ import { StarCheckTypes } from "../../utils/enum";
 
 interface IProps {
   type:StarCheckTypes  /**判断是哪个页面 */
+  starIndex?: any
+  handleSelectStarIndex?: any
+  situationIndex?:any
+  handleSituation? :any
+  selectStartDate?:any
+  selectEndDate?:any
+  startDate?:any
+  endDate?:any
+  starList?:any
+  situationList?:any
+  isActive?:any
+  handleFilterActive? :any
+  filterComfirm: () => void
 }
 
-class FilterContentCmp extends React.Component<any> {
+class FilterContentCmp extends React.Component<IProps> {
   state = {
     startStatus: false,
     endStatus: false,
@@ -45,6 +58,7 @@ class FilterContentCmp extends React.Component<any> {
   handleComfirm = () => {
     const isActive = this.props.isActive
     this.props.handleFilterActive(!isActive)
+    this.props.filterComfirm()
   }
 
   /**打开起始  日期选择器 */
