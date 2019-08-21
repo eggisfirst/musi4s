@@ -37,6 +37,7 @@ interface IState {
   type: string | number
   list:Array<any> 
   parmas: any
+  pageType: StarCheckTypes | undefined
 }
 
 class HandelPage extends React.Component<any,IState>{
@@ -56,14 +57,14 @@ class HandelPage extends React.Component<any,IState>{
       page: '',
       limit: '',
       sort: '',
-    }
+    },
+    pageType: undefined
   }
   
   //请求
   /**获取待受理页面名单数据 */
   getAcceptList(myData:any) {
-    const data = this.getParmas(myData)
-    indexModel.getAcceptList(data).then(res => {
+    indexModel.getAcceptList(myData).then(res => {
       if(res.status) {
         this.setState({
           list:res.data.list
@@ -73,7 +74,7 @@ class HandelPage extends React.Component<any,IState>{
   }
   /**判断不同页面的请求名单数据 */
   getList(data:any) {
-    if(this.props.handlePageState.HState === StarCheckTypes.wait_handle) {
+    if(this.props.navigation.state.params.type === StarCheckTypes.wait_handle) {
       this.getAcceptList(data)
     }
   }
@@ -94,12 +95,20 @@ class HandelPage extends React.Component<any,IState>{
 
   /**排序 */
   handleClickSort = () => {
+    setTimeout(() => {
+      let sort = this.props.sort.activeIndex === 0? 'asc' : 'desc'
+      this.getList({page:1,limit:10,sort})
+    }, 100);
+  }
+  /**筛选重置 */
+  filterReset = () => {
     const sort = this.props.sort.activeIndex === 0? 'asc' : 'desc'
+    /**注意认证的参数！！！ */
+    console.log('reset')
     this.getList({page:1,limit:10,sort})
   }
   /**筛选 */
   filterComfirm = () => {
-    console.log(this.props.rightFilter.starIndex)
     let startDate = format(new Date(this.props.rightFilter.startDate))
     let endDate = format(new Date(this.props.rightFilter.endDate))
     let sort = this.props.sort.activeIndex === 0? 'asc' : 'desc'
@@ -115,10 +124,8 @@ class HandelPage extends React.Component<any,IState>{
       status: this.props.handlePageState.HState === StarCheckTypes.wait_reception &&  status
     }
     let newData = this.getParmas(data)
-
-    console.log(newData)
-
-    // this.getList(data)
+    console.log('筛选')
+    this.getList(newData)
   }
 
   /**获取参数 */
@@ -128,6 +135,8 @@ class HandelPage extends React.Component<any,IState>{
     for (const key in myData) {
       if(myData[key]) {
         data[key] = myData[key]
+      }else {
+        delete data[key]
       }
     }
     return data
@@ -159,6 +168,7 @@ class HandelPage extends React.Component<any,IState>{
   handleAlert = (status:AlertBtnTypes,value?: string) => {
     const list = this.state.list
     const id = list[this.state.index].id
+    const sort = this.props.sort.activeIndex === 0? 'asc' : 'desc'
     this._setAlertBoxStatus(BtnTitle.null)
     switch (status) {
       case AlertBtnTypes.cancle:
@@ -168,16 +178,14 @@ class HandelPage extends React.Component<any,IState>{
         //请求
         indexModel.accept(id).then(res => {
           if(res.status) {
-            this.getList({page:1,limit:10,sort:'asc'})
+            this.getList({page:1,limit:10,sort})
           }
         })
-        // this.list.splice(this.state.index,1)
-        // console.log('confirm',this.list[this.state.index])
         break;
       case AlertBtnTypes.sendBack:
         indexModel.sendBack(id,value).then(res => {
           if(res.status) {
-            this.getList({page:1,limit:10,sort:'asc'})
+            this.getList({page:1,limit:10,sort})
           }
         })
         break;
@@ -254,6 +262,9 @@ class HandelPage extends React.Component<any,IState>{
     })
   }
   componentDidMount() {
+    this.setState({
+      pageType: this.props.navigation.state.params.type
+    })
     this.getPageState()
     this.initFilter()
     this.getList({page:1,limit:10,sort:'asc'})
@@ -262,7 +273,8 @@ class HandelPage extends React.Component<any,IState>{
 
  render (){
   const {navigation} = this.props
-  const HState = this.props.handlePageState.HState
+  // const HState = this.props.handlePageState.HState
+ 
   const scoreType = {
     shop: true,
     area: false,
@@ -280,7 +292,8 @@ class HandelPage extends React.Component<any,IState>{
         {
           this.props.rightFilter.isActive && 
           <FilterContentCmp type={this.state.starCheckType}
-                            filterComfirm={this.filterComfirm}/>
+                            filterComfirm={this.filterComfirm}
+                            filterReset={this.filterReset}/>
         }
       <FlatList style={{backgroundColor:"#f8f8f8",marginBottom: pxToDp(300)}} 
                 data={this.state.list}
@@ -293,36 +306,36 @@ class HandelPage extends React.Component<any,IState>{
                             handleShowReceptionBox={this.handleShowReceptionBox}>
                   <View style={styles.btnStyle}>
                     {
-                      HState === StarCheckTypes.wait_handle &&
+                      this.state.pageType === StarCheckTypes.wait_handle &&
                       <>
                         <ApplyBtn handleClick={this.handleSendBack} index={index} title={BtnTitle.sendBack} color={BtnTypes.Red}/>
                         <ApplyBtn handleClick={this.handleApplying} index={index} title={BtnTitle.applying} color={BtnTypes.Blue}/>
                       </>
                     }
                     {
-                      HState === StarCheckTypes.wait_reception &&
+                      this.state.pageType === StarCheckTypes.wait_reception &&
                       <>
                         <ApplyBtn  handleClick={this.handleReception} index={index} title={BtnTitle.reception} color={BtnTypes.Blue}/>
                       </>
                     }
                     {
-                      HState === StarCheckTypes.wait_sponsor &&
+                      this.state.pageType === StarCheckTypes.wait_sponsor &&
                       <View style={styles.sponsor}>
                         <Text style={styles.sponsorDate}>申请时间：2019.06.04</Text>
                         <ApplyBtn handleClick={this.handleSponsor} index={index} title={BtnTitle.sponsor} color={BtnTypes.Blue}/>
                       </View>
                     }
                     {
-                      HState === StarCheckTypes.processing_record &&
+                      this.state.pageType === StarCheckTypes.processing_record &&
                       <Text style={styles.processStatus_red}>已撤回</Text>
                     }
                   </View>
                   {
-                    HState === StarCheckTypes.wait_handle || HState === StarCheckTypes.wait_reception?
+                    this.state.pageType === StarCheckTypes.wait_handle || this.state.pageType === StarCheckTypes.wait_reception?
                       <ApplyFooter type={this.state.type} score={this.state.type == 3?item.scoreShop : item.scoreRegion} week={item.accumulativeCycle} date={item.createTime}/> : <></>
                   }
                   {
-                    HState === StarCheckTypes.processing_record &&
+                    this.state.pageType === StarCheckTypes.processing_record &&
                     <View style={styles.process_footer}>
                       <ScoreItem scoreType={scoreType}/>
                       <ScoreItem reason={'不符合规范'} />
@@ -356,6 +369,7 @@ class HandelPage extends React.Component<any,IState>{
     </View>
    )
  }
+
 }
 const mapStateToProps = (state:any) => state
 

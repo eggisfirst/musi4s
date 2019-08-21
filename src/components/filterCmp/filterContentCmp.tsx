@@ -23,6 +23,7 @@ interface IProps {
   isActive?:any
   handleFilterActive? :any
   filterComfirm: () => void
+  filterReset: () => void
 }
 
 class FilterContentCmp extends React.Component<IProps> {
@@ -53,6 +54,9 @@ class FilterContentCmp extends React.Component<IProps> {
     this.props.selectEndDate(new Date())
     this.props.handleSituation(-1)
     this.props.handleSelectStarIndex(-1)
+    this.props.filterReset()
+    const isActive = this.props.isActive
+    this.props.handleFilterActive(!isActive)
   }
   /**确认 */
   handleComfirm = () => {
