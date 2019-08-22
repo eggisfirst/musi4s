@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     fontSize: pxToDp(38),
     fontWeight: "bold",
     // width: pxToDp(600),
-    lineHeight: pxToDp(60)
+    lineHeight: pxToDp(60),
+    width: pxToDp(420)
   },
   star: {
     color: "#363636",

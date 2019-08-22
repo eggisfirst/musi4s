@@ -20,7 +20,7 @@ import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
 import { _retrieveData } from "../../../utils/utils";
-import { format } from "../../../utils";
+import { format, getApproveState } from "../../../utils";
 import { thisExpression } from "@babel/types";
 const indexModel = new IndexModel()
 const actions = {
@@ -515,6 +515,13 @@ class HandelPage extends React.Component<any, IState>{
       area: false,
       four: false
     }
+    const preceStyle = (index:any) => {
+      if(index === 1 || index === 4 || index === 5 || index === 7 || index === 8 || index === 9
+        || index === 11 || index === 12) {
+          return 1
+        }
+      return 2
+    }
     return (
       <View>
         <CheckHeader title={this.state.starCheckType}
@@ -567,7 +574,7 @@ class HandelPage extends React.Component<any, IState>{
                 }
                 {
                   this.state.starCheckType === StarCheckTypes.processing_record &&
-                  <Text style={styles.processStatus_red}>已撤回</Text>
+                  <Text style={preceStyle(item.status) !== 1? styles.processStatus_red : styles.processStatus_blue}>{getApproveState(item.status)}</Text>
                 }
               </View>
               {

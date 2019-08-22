@@ -49,7 +49,7 @@ export const getApproveState = (state: number | string) => {
     case 6:
       return '区域经理未通过'
     case 7:
-      return '区域经理发起认证（1-3星直接发起oa认证，4-5星流入到4s认证部)'
+      return '区域经理发起认证'
     case 8:
       return '4s认证部已受理'
     case 9:
