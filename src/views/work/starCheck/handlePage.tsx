@@ -40,6 +40,7 @@ interface IState {
   parmas: any
   showFoot: number
   pageNo: number
+  sponsorBoxData: any
 }
 
 class HandelPage extends React.Component<any, IState>{
@@ -63,8 +64,9 @@ class HandelPage extends React.Component<any, IState>{
       starLevel: '',
       status: ''
     },
-    showFoot: 0,
-    pageNo: 1
+    showFoot: 2,
+    pageNo: 1,
+    sponsorBoxData: {},
   }
 
   /**
@@ -77,22 +79,26 @@ class HandelPage extends React.Component<any, IState>{
       showFoot: 2
     })
   }
-   /**判断不同页面的请求名单数据 */
-   getList(data: any) {
+  /**判断不同页面的请求名单数据 */
+  getList(data: any) {
     const mydata = this.getParmas(data)
     if (this.props.navigation.state.params.type === StarCheckTypes.wait_handle) {
       this.getAcceptList(mydata)
     }
-    else if(this.props.navigation.state.params.type === StarCheckTypes.wait_reception) {
+    else if (this.props.navigation.state.params.type === StarCheckTypes.wait_reception) {
       this.getReceptionList(mydata)
     }
-    else if(this.props.navigation.state.params.type === StarCheckTypes.wait_sponsor) {
+    else if (this.props.navigation.state.params.type === StarCheckTypes.wait_sponsor) {
       this.getSponsorList(mydata)
     }
-    
+    else if (this.props.navigation.state.params.type === StarCheckTypes.processing_record) {
+      this.getLogList(mydata)
+    }
+
   }
-  //请求
-  /**获取待受理页面名单数据 */
+  //请求 -------------------
+
+  /**获取待受理名单 */
   getAcceptList(myData: any) {
     let list = this.state.list
     indexModel.getAcceptList(myData).then(res => {
@@ -123,7 +129,7 @@ class HandelPage extends React.Component<any, IState>{
   /**
    * 获取待验收名单
    */
-  getReceptionList(myData:any) {
+  getReceptionList(myData: any) {
     let list = this.state.list
     indexModel.getReceptionList(myData).then(res => {
       if (res.status) {
@@ -180,7 +186,78 @@ class HandelPage extends React.Component<any, IState>{
       }
     })
   }
-  
+  /**
+   * 获取认证进度列表
+   */
+  getLogList(myData: any) {
+    let list = this.state.list
+    indexModel.getLogList(myData).then(res => {
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < 10) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            showFoot: 0,
+            list: [...list, ...res.data.list]
+          })
+        }
+      }
+    })
+  }
+  /**
+   * 发起认证弹框
+   */
+  getApproveList(index: number) {
+    const qualificationId = this.state.list[index].id
+    indexModel.getApproveList(qualificationId).then(res => {
+      if (res.status) {
+        this.setState({
+          sponsorBoxData: res.data
+        })
+        this._setSponsorStatus(true, index)
+      }
+    })
+  }
+  /**
+   * 发送认证请求
+   */
+  sendApprove(index: number) {
+    const id = this.state.list[index].id
+    const list = this.state.list
+    indexModel.sendApprove(id).then(res => {
+      if (res.status) {
+        this._setSponsorStatus(false)
+        list.splice(this.state.index, 1)
+        this.setState({
+          list
+        })
+      }
+    })
+  }
+  getApproveFlowInfo(index: number) {
+    const id = this.state.list[index].id
+    indexModel.getApproveFlowInfo(id).then(res => {
+      if(res.status) {
+        this.setState({
+          processBoxStatus: true
+        })
+      }
+    })
+  }
+
+  //--------------------
   /**获取级别 */
   getLevelType() {
     _retrieveData('type').then(res => {
@@ -230,7 +307,7 @@ class HandelPage extends React.Component<any, IState>{
       limit: 10,
       sort,
       starLevel: starLevel,
-      status: this.state.starCheckType === StarCheckTypes.wait_reception && status
+      status: status
     }
     // let newData = this.getParmas(data)
     console.log('筛选')
@@ -240,19 +317,17 @@ class HandelPage extends React.Component<any, IState>{
   /**底部加载更多 */
   _onEndReached = () => {
     // 如果是正在加载中或没有更多数据了，则返回
-    if (this.state.showFoot != 0) {
-      return;
-    } else {
+      if (this.state.showFoot !== 0) {
+        return;
+      } 
       let page = this.state.pageNo + 1
       this.setState({
-        pageNo: page
+        pageNo: page,
+        showFoot: 2
       });
       const data = this.state.parmas
       data.page = page
       this.getList(data)
-    }
-    //底部显示正在加载更多数据
-    this.setState({ showFoot: 2 });
   }
 
   /**获取参数 */
@@ -282,8 +357,8 @@ class HandelPage extends React.Component<any, IState>{
   }
   /**发起验证 */
   handleSponsor = (index: number) => {
-    console.log('发起认证')
-    this._setSponsorStatus(true, index)
+    this.setState({ index })
+    this.getApproveList(index)
   }
   /**验收 */
   handleReception = (index: number) => {
@@ -340,8 +415,8 @@ class HandelPage extends React.Component<any, IState>{
   /**提交认证 */
   handleSponsorComfirm = () => {
     //请求
-    this._setSponsorStatus(false)
-    // this.list.splice(this.state.index,1)
+    this.sendApprove(this.state.index)
+
   }
   /**取消认证 */
   handleSponsorCancle = () => {
@@ -352,10 +427,8 @@ class HandelPage extends React.Component<any, IState>{
     if (this.state.starCheckType !== StarCheckTypes.processing_record) {
       return
     }
-    /**请求 */
-    this.setState({
-      processBoxStatus: true
-    })
+    this.getApproveFlowInfo(index)
+  
   }
   /**关闭认证弹框 */
   handleCloseProcessBox = () => {
@@ -392,7 +465,7 @@ class HandelPage extends React.Component<any, IState>{
   getPageState() {
     this.props.changeHandleState(this.props.navigation.state.params.type)
     this.setState({
-      starCheckType: this.props.navigation.state.params.type
+      starCheckType: this.props.navigation.state.params.type,
     })
   }
   componentDidMount() {
@@ -469,6 +542,7 @@ class HandelPage extends React.Component<any, IState>{
               star={item.approveLevel}
               type={this.state.starCheckType}
               index={index}
+              time={this.state.starCheckType === StarCheckTypes.processing_record && item.createTime}
               handleShowReceptionBox={this.handleShowReceptionBox}>
               <View style={styles.btnStyle}>
                 {
@@ -487,7 +561,7 @@ class HandelPage extends React.Component<any, IState>{
                 {
                   this.state.starCheckType === StarCheckTypes.wait_sponsor &&
                   <View style={styles.sponsor}>
-                    <Text style={styles.sponsorDate}>申请时间：2019.06.04</Text>
+                    <Text style={styles.sponsorDate}>申请时间：{item.createTime}</Text>
                     <ApplyBtn handleClick={this.handleSponsor} index={index} title={BtnTitle.sponsor} color={BtnTypes.Blue} />
                   </View>
                 }
@@ -498,13 +572,13 @@ class HandelPage extends React.Component<any, IState>{
               </View>
               {
                 this.state.starCheckType === StarCheckTypes.wait_handle || this.state.starCheckType === StarCheckTypes.wait_reception ?
-                  <ApplyFooter type={this.state.type} score={item.scoreShop } week={item.accumulativeCycle} date={item.createTime} /> : <></>
+                  <ApplyFooter type={this.state.type} score={item.scoreShop} week={item.accumulativeCycle} date={item.createTime} /> : <></>
               }
               {
                 this.state.starCheckType === StarCheckTypes.processing_record &&
                 <View style={styles.process_footer}>
-                  <ScoreItem scoreType={scoreType} />
-                  <ScoreItem reason={'不符合规范'} />
+                  <ScoreItem item={item} />
+                  <ScoreItem reason={item.status === 2 && item.remark} />
                 </View>
               }
             </ApplyItem>
@@ -522,7 +596,8 @@ class HandelPage extends React.Component<any, IState>{
         }
         {
           this.state.sponsorStatus &&
-          <SponsorBox duty={Duty.fourS}
+          <SponsorBox type={this.state.type}
+            sponsorBoxData={this.state.sponsorBoxData}
             handleSponsorCancle={this.handleSponsorCancle}
             handleSponsorComfirm={this.handleSponsorComfirm} />
         }

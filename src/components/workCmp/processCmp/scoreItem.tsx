@@ -9,28 +9,29 @@ interface IProps {
     area: boolean,
     four: boolean
   },
+  item?: any
   reason?: string
 }
 
 
-export const ScoreItem:React.FC<IProps> = ({scoreType,reason}) => {
+export const ScoreItem:React.FC<IProps> = ({item,reason}) => {
   return(
     <View style={styles.wrapper}>
       {
-        scoreType && scoreType.shop && 
-        <Text style={styles.text}>门店评分：<Text style={styles.red}>82</Text></Text>
+        item && item.scoreShop? 
+        <Text style={styles.text}>门店评分：<Text style={styles.red}>{item.scoreShop}</Text></Text> : <></>
       }
       {
-        scoreType && scoreType.area && 
-       <Text style={styles.text}>区域评分：<Text style={styles.red}>82</Text></Text>
+        item && item.scoreRegion?
+       <Text style={styles.text}>区域评分：<Text style={styles.red}>{item.scoreRegion}</Text></Text>: <></>
       }
       {
-        scoreType && scoreType.four && 
-       <Text style={styles.text}>4s评分：<Text style={styles.red}>82</Text></Text>
+        item && item.scoreCertification? 
+       <Text style={styles.text}>4s评分：<Text style={styles.red}>{item.scoreCertification}</Text></Text>: <></>
       }
       {
-        reason && 
-        <Text style={styles.text}>退回原因：{reason}</Text>
+        reason? 
+        <Text style={styles.text}>退回原因：{reason}</Text>:<></>
       }
     </View>
    )

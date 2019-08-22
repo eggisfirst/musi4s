@@ -10,17 +10,33 @@ import { SelectType } from "../../../../../utils/enum";
 
 import * as actions from '../../../../../store/actions/filter/select'
 import { connect } from 'react-redux';
-
+import { IndexModel } from "../../../../../request";
+const indexModel = new IndexModel()
 class CheckRecord extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
+  /**
+   * 获取历史记录
+   */
+  getCheckLog(pass='') {
+    const shopId = this.props.navigation.state.params.id
+    indexModel.getCheckLog(shopId,pass).then(res => {
+      if(res.status) {
+
+      }
+    })
+  }
+
   /**请求筛选：合格/不合格/全部的数据 */
   handleSelect = (index:number) => {
     console.log(1111,index)
+    const pass = index === 0? '' : index === 1? '1' : '2'
+    this.getCheckLog(pass)
   }
   /**获取传递过来的门店名 */
   componentDidMount() {
+    this.getCheckLog()
     // console.log(this.props.navigation.state.parmas)
   }
   /**页面卸载的时候重新初始化数据 */

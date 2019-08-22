@@ -8,11 +8,34 @@ import { HeaderCmp } from '../../../../../components/headerCmp/headerCmp';
 import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp";
 import { GencyCard } from "../../../../../components/workCmp/areaReportCmp/checkRecord/gencyCard";
 import { ReportType } from "../../../../../utils/enum";
+import { IndexModel } from "../../../../../request";
+const indexModel = new IndexModel()
 
+interface IState {
+  list: Array<any>
+}
 export default class Acceptance extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
+  state = {
+    list: []
+  }
+  /**
+   * 获取验收评分列表
+   * @param page 
+   * @param status 
+   */
+  getApproveCheckList(page: number) {
+    indexModel.getApproveCheckLogList(page).then(res => {
+      if(res.status) {
+        this.setState({
+          list: res.data.list
+        })
+      }
+    })
+  }
+
   /**请求筛选：合格/不合格/全部的数据 */
   handleSelect = (index:number) => {
     console.log(1111,index)
@@ -20,7 +43,9 @@ export default class Acceptance extends React.Component<any>{
   eggHandleSearch = () => {
 
   }
-
+  componentDidMount() {
+    this.getApproveCheckList(1)
+  }
 
   render (){
     const list: any[]= [
@@ -93,8 +118,11 @@ export default class Acceptance extends React.Component<any>{
                     Children={<SearchCmp eggHandleSearch={() => {this.props.navigation.push('SearchPage')}}/>}/>
         
         <ScrollView style={styles.scorllList}>
-          <GencyCard type={ReportType.acceptance} list={list} navigation={this.props.navigation}/>
-          <GencyCard type={ReportType.acceptance} list={list} navigation={this.props.navigation}/>
+        {
+            this.state.list.map((item, index) => (
+              <GencyCard key={index} type={ReportType.acceptance} listData={item} navigation={this.props.navigation} />
+            ))
+          }
         </ScrollView>
       </View>
     )

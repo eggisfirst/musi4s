@@ -6,10 +6,11 @@ import {StarBox} from './starBox';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationActions } from "react-navigation";
 import { ReportType } from "../../../../utils/enum";
+import { getStar } from "../../../../utils";
 
 
 interface IProps {
-  list: Array<any>
+  listData: any
   navigation: any
   type: ReportType
 }
@@ -19,9 +20,9 @@ export const GencyCard:React.FC<IProps> = (props) => {
   /**按需求显示多少条数据 */
   const getList = () => {
      if(loadState) {
-       return props.list
+       return props.listData.shopList
      }else {
-       return props.list.slice(0,4)
+       return props.listData.shopList.slice(0,4)
      }
   }
   /**点击加载全部数据 */
@@ -30,13 +31,15 @@ export const GencyCard:React.FC<IProps> = (props) => {
   }
   /**跳转到检查记录页面  传递shopname过去！！*/
   const handleClickToRecord =(index: number) => {
+    const id = props.listData.shopList[index].shopId
     /**跳转检查记录页面 */
     props.type === ReportType.check && props.navigation.push('CheckRecordPage',{
-      index
+      id
     })
     /**跳转验收认证详情页面 */
     props.type === ReportType.acceptance && props.navigation.push('AcceptanceDetailsPage',{
-      index
+      id,
+      shopName:props.listData.shopList[index].shopName
     })
   }
   const myRotate = {
@@ -46,21 +49,21 @@ export const GencyCard:React.FC<IProps> = (props) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image style={styles.via} source={require('../../../../images/personal/via.png')}/>
-        <Text style={styles.name}>广东深圳新国</Text>
+        <Text style={styles.name}>{props.listData.distributor}</Text>
         <View style={styles.starbox}>
-          <StarBox starTitle={"二星"+ props.type} starNum={2}/>
+          <StarBox starTitle={getStar(props.listData.starLevel)+ props.type} starNum={props.listData.starLevel}/>
         </View>
       </View>
       {
-        getList().map((item, index) => (
+        getList().map((item:any, index:number) => (
           <TouchableOpacity onPress={() => {handleClickToRecord(index)}} style={styles.shop} key={index} activeOpacity={0.6}>
-            <Text style={styles.shopText}>{item.name}</Text>
+            <Text style={styles.shopText}>{item.shopName}</Text>
             <Image style={styles.backIcon} source={require("../../../../images/work/areaReport/checkRecord/arrow.png")} />
           </TouchableOpacity>
         ))
       }
       {
-        props.list.length > 4 &&
+        getList().length > 4 &&
         <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => {loadMore()}}>
           <Text style={styles.shopText}>{loadState? '点击收起' : '点击加载更多'}</Text>
           <Image style={[styles.loadMoreIcon,loadState && myRotate ]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
@@ -90,7 +93,8 @@ const styles = StyleSheet.create({
   name: {
     color: "#363636",
     fontSize: pxToDp(38),
-    fontWeight: "bold"
+    fontWeight: "bold",
+    width: pxToDp(360)
   },
   header: {
     display: "flex",

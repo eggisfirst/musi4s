@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Modal, Animated, Easing, Dimensions, findNodeHandle } from 'react-native';
+import { StyleSheet, Text, View, Modal, Animated, Easing, Dimensions, findNodeHandl,ActivityIndicator } from 'react-native';
 
 let width = Dimensions.get('window').width;//获取设备的宽高
 let height = Dimensions.get('window').height;
 
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/global/loading';
+import pxToDp from '../utils/fixcss';
 
 
 class Loader extends React.Component {
@@ -35,7 +36,7 @@ class Loader extends React.Component {
         }
     }
     componentDidMount() {
-        this.startAnimation();
+        // this.startAnimation();
     }
 
     startAnimation() {
@@ -136,10 +137,15 @@ class Loader extends React.Component {
             // onRequestClose={() => console.log('onRequestClose...')}
             >
                 <View style={styles.container}>
-                    <Animated.View style={styles.loader} >
+                    <View style={styles.box}>
+                        <ActivityIndicator size= 'large' color="#fff"/>
+                        <Text style={styles.loaderText}>正在加载...</Text>
+                    </View>
+                    
+                    {/* <Animated.View style={styles.loader} >
                         {this.showComponents()}
                         <Text style={styles.loaderText}>loading...</Text>
-                    </Animated.View>
+                    </Animated.View> */}
                 </View>
 
             </Modal>
@@ -159,7 +165,16 @@ const styles = StyleSheet.create({
         height: height,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.2)',
+        // backgroundColor: 'rgba(0,0,0,0.2)',
+    },
+    box: {
+        width: pxToDp(200),
+        height:  pxToDp(200),
+        borderRadius: pxToDp(12),
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex'
     },
     loader: {
         flex: 1,
@@ -182,6 +197,7 @@ const styles = StyleSheet.create({
     },
     loaderText: {
         color: '#FFF',
-        marginTop: 50,
+        fontSize: pxToDp(24),
+        marginTop:pxToDp(20)
     }
 });

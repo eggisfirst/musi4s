@@ -11,6 +11,7 @@ interface IProps {
   star: number
   type: StarCheckTypes  //认证进度的跟其他三个不同
   index: number
+  time?: any
   handleShowReceptionBox: (index: number) => void
 }
 
@@ -31,7 +32,7 @@ export const ApplyItem: React.FC<IProps> = (props) => {
                   <Text style={styles.name} >
                     {props.title}
                   </Text>
-                  <Text style={styles.processText}>06-04  15：00</Text>
+                  <Text style={styles.processText}>{props.time}</Text>
                 </View>
                 <Text style={styles.star}>认证星级：{getStar(props.star)}</Text>
               </View>

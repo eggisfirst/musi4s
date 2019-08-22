@@ -6,95 +6,56 @@ import pxToDp from "../../../../../utils/fixcss";
 import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp";
 import { GencyCard } from '../../../../../components/workCmp/areaReportCmp/checkRecord/gencyCard';
 import { ReportType } from "../../../../../utils/enum";
+import { IndexModel } from "../../../../../request";
+const indexModel = new IndexModel()
 
+interface IState {
+  checkList: Array<any>
+}
 export default class CheckRecord extends React.Component<any>{
-  
-
   static navigationOptions = {
     header: null,
   }
-  eggHandleSearch = () => {
-    this.props.navigation.push('SearchPage') 
+  state: IState = {
+    checkList: []
   }
-  render (){
-    const {navigation} = this.props
-    const list: any[]= [
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-     
-    ]
-    return(
+  getCheckList(page: number) {
+    indexModel.getCheckList(page).then(res => {
+      if(res.status) {
+        this.setState({
+          checkList: res.data.list
+        })
+      }
+    })
+  }
+
+  componentDidMount() {
+    this.getCheckList(1)
+  }
+  eggHandleSearch = () => {
+    this.props.navigation.push('SearchPage')
+  }
+  render() {
+    const { navigation } = this.props
+   
+    return (
       <View style={styles.container}>
-        <BackGroundHeader 
-            title={'检查记录'} 
-            eggHandleBack={() => {navigation.goBack()}}
-            bgColor={'#007aff'}
-            fontColor={"#fff"}
-            setHeight={263}
-            imgUrl={require("../../../../../images/backicon.png")} />
+        <BackGroundHeader
+          title={'检查记录'}
+          eggHandleBack={() => { navigation.goBack() }}
+          bgColor={'#007aff'}
+          fontColor={"#fff"}
+          setHeight={263}
+          imgUrl={require("../../../../../images/backicon.png")} />
         <View style={styles.search}>
-          <SearchCmp eggHandleSearch={this.eggHandleSearch}/>
+          <SearchCmp eggHandleSearch={this.eggHandleSearch} />
         </View>
         <ScrollView>
-          <GencyCard type={ReportType.check} list={list} navigation={this.props.navigation}/>
+          {
+            this.state.checkList.map((item, index) => (
+              <GencyCard key={index} type={ReportType.check} listData={item} navigation={this.props.navigation} />
+            ))
+          }
         </ScrollView>
       </View>
     )
