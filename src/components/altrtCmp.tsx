@@ -11,7 +11,7 @@ interface IProps {
   cancle?:AlertBtnTypes
   handleAlert?: ( status:AlertBtnTypes,val?:string) => void 
   boxValue?:string
-  data: any
+  data?: any
 }
 
 

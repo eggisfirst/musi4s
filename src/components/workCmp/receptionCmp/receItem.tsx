@@ -4,14 +4,19 @@ import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
   toGrade:() => void
-  handleShowMap: () => void
+  handleShowMap: (index: number) => void
   shopItem: {
     name: string
     score1: number
     score2: number
     status: boolean
     date: string
-  }
+  },
+  index: number
+  /**
+   * 级别
+   */
+  type: number | string
 }
 export const ReceItem:React.FC<IProps> = (props:IProps) =>{
   
@@ -22,7 +27,7 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
         <View style={styles.score}>
           <Text style={styles.textStyle}>门店评分：</Text>
           <Text style={styles.redStyle}>{props.shopItem.score1}</Text>
-          <Text style={styles.textStyle}>区域评分：</Text>
+          <Text style={styles.textStyle}>{props.type === 3? '区域评分' : '4s评分'}：</Text>
           {
             props.shopItem.status? 
             <Text style={styles.redStyle}>{props.shopItem.score2}</Text>
@@ -43,7 +48,7 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
       </View>
 
       <View style={styles.botMsg}>
-        <TouchableOpacity style={styles.address} onPress={() => {props.handleShowMap()}}>
+        <TouchableOpacity style={styles.address} onPress={() => {props.handleShowMap(props.index)}}>
           <Image style={styles.add_icon} source={require("../../../images/work/reception/location.png")} />
           <Text style={styles.add_text}>门店地址</Text>
         </TouchableOpacity>

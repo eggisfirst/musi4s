@@ -21,6 +21,7 @@ import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
 import { _retrieveData } from "../../../utils/utils";
 import { format } from "../../../utils";
+import { thisExpression } from "@babel/types";
 const indexModel = new IndexModel()
 const actions = {
   ...rightFliter,
@@ -37,7 +38,6 @@ interface IState {
   type: string | number
   list: Array<any>
   parmas: any
-  pageType: StarCheckTypes | undefined
   showFoot: number
   pageNo: number
 }
@@ -63,11 +63,33 @@ class HandelPage extends React.Component<any, IState>{
       starLevel: '',
       status: ''
     },
-    pageType: undefined,
     showFoot: 0,
     pageNo: 1
   }
 
+  /**
+   * 筛选或者排序的时候初始话参数
+   */
+  initFilterData() {
+    this.setState({
+      pageNo: 1,
+      list: [],
+      showFoot: 2
+    })
+  }
+   /**判断不同页面的请求名单数据 */
+   getList(data: any) {
+    const mydata = this.getParmas(data)
+    if (this.props.navigation.state.params.type === StarCheckTypes.wait_handle) {
+      this.getAcceptList(mydata)
+    }
+    else if(this.props.navigation.state.params.type === StarCheckTypes.wait_reception) {
+      this.getReceptionList(mydata)
+    }
+    else if(this.props.navigation.state.params.type === StarCheckTypes.wait_sponsor) {
+      this.getSponsorList(mydata)
+    }
+  }
   //请求
   /**获取待受理页面名单数据 */
   getAcceptList(myData: any) {
@@ -75,35 +97,89 @@ class HandelPage extends React.Component<any, IState>{
     indexModel.getAcceptList(myData).then(res => {
       if (res.status) {
         /**是否第一次加载 */
-        if(res.data.list.length < 10) {
-          if(this.state.pageNo === 1) {
+        if (res.data.list.length < 10) {
+          if (this.state.pageNo === 1) {
             this.setState({
               showFoot: 1,
               list: res.data.list
             })
-          }else {
+          } else {
             this.setState({
               showFoot: 1,
-              list: [...list,...res.data.list]
+              list: [...list, ...res.data.list]
             })
           }
-          
-        }else {
+
+        } else {
           this.setState({
             showFoot: 0,
-            list: [...list,...res.data.list]
+            list: [...list, ...res.data.list]
           })
         }
       }
     })
   }
-  /**判断不同页面的请求名单数据 */
-  getList(data: any) {
-   const mydata = this.getParmas(data)
-    if (this.props.navigation.state.params.type === StarCheckTypes.wait_handle) {
-      this.getAcceptList(mydata)
-    }
+  /**
+   * 获取待验收名单
+   */
+  getReceptionList(myData:any) {
+    let list = this.state.list
+    indexModel.getReceptionList(myData).then(res => {
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < 10) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            showFoot: 0,
+            list: [...list, ...res.data.list]
+          })
+        }
+      }
+    })
   }
+  /**
+   * 获取待发起名单
+   */
+  getSponsorList(myData: any) {
+    let list = this.state.list
+    indexModel.getSponsorList(myData).then(res => {
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < 10) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            showFoot: 0,
+            list: [...list, ...res.data.list]
+          })
+        }
+      }
+    })
+  }
+  
   /**获取级别 */
   getLevelType() {
     _retrieveData('type').then(res => {
@@ -117,12 +193,7 @@ class HandelPage extends React.Component<any, IState>{
   }
   /**排序 */
   handleClickSort = () => {
-    /**重新初始化数据 */
-    this.setState({
-      pageNo: 1,
-      list: [],
-      showFoot: 2
-    })
+    this.initFilterData()
     setTimeout(() => {
       let sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
       const data = {
@@ -135,25 +206,17 @@ class HandelPage extends React.Component<any, IState>{
   }
   /**筛选重置 */
   filterReset = () => {
-    this.setState({
-      pageNo: 1,
-      list: [],
-      showFoot: 2
-    })
+    this.initFilterData()
     const sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
     /**注意认证的参数！！！ */
     console.log('reset')
     setTimeout(() => {
-      this.getList({page: 1, limit: 10,sort})
+      this.getList({ page: 1, limit: 10, sort })
     }, 100);
   }
   /**筛选 */
   filterComfirm = () => {
-    this.setState({
-      pageNo: 1,
-      list: [],
-      showFoot: 2
-    })
+    this.initFilterData()
     let startDate = format(new Date(this.props.rightFilter.startDate))
     let endDate = format(new Date(this.props.rightFilter.endDate))
     let sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
@@ -166,7 +229,7 @@ class HandelPage extends React.Component<any, IState>{
       limit: 10,
       sort,
       starLevel: starLevel,
-      status: this.props.handlePageState.HState === StarCheckTypes.wait_reception && status
+      status: this.state.starCheckType === StarCheckTypes.wait_reception && status
     }
     // let newData = this.getParmas(data)
     console.log('筛选')
@@ -181,7 +244,7 @@ class HandelPage extends React.Component<any, IState>{
     } else {
       let page = this.state.pageNo + 1
       this.setState({
-        pageNo: page 
+        pageNo: page
       });
       const data = this.state.parmas
       data.page = page
@@ -223,9 +286,8 @@ class HandelPage extends React.Component<any, IState>{
   }
   /**验收 */
   handleReception = (index: number) => {
-    console.log(index)
     this.props.navigation.navigate('ReceptionPage', {
-      index
+      id: this.state.list[index].id
     })
     // this._setHanleClick(index,BtnTitle.reception)
   }
@@ -243,7 +305,7 @@ class HandelPage extends React.Component<any, IState>{
         //请求
         indexModel.accept(id).then(res => {
           if (res.status) {
-            list.splice(this.state.index,1)
+            list.splice(this.state.index, 1)
             this.setState({
               list
             })
@@ -253,7 +315,7 @@ class HandelPage extends React.Component<any, IState>{
       case AlertBtnTypes.sendBack:
         indexModel.sendBack(id, value).then(res => {
           if (res.status) {
-            list.splice(this.state.index,1)
+            list.splice(this.state.index, 1)
             this.setState({
               list
             })
@@ -333,14 +395,14 @@ class HandelPage extends React.Component<any, IState>{
     })
   }
   componentDidMount() {
-    this.setState({
-      pageType: this.props.navigation.state.params.type
-    })
     this.getPageState()
     this.initFilter()
     this.getList({ page: 1, limit: 10, sort: 'asc' })
     this.getLevelType()
   }
+  // shouldComponentUpdate(nextProps: any,nextState: any) {
+  //   return !(nextState.list === this.state.list)
+  // }
 
   /**
  * 加载时加载动画
@@ -374,15 +436,11 @@ class HandelPage extends React.Component<any, IState>{
   }
   render() {
     const { navigation } = this.props
-    // const HState = this.props.handlePageState.HState
-
     const scoreType = {
       shop: true,
       area: false,
       four: false
     }
-
-
     return (
       <View>
         <CheckHeader title={this.state.starCheckType}
@@ -413,36 +471,36 @@ class HandelPage extends React.Component<any, IState>{
               handleShowReceptionBox={this.handleShowReceptionBox}>
               <View style={styles.btnStyle}>
                 {
-                  this.state.pageType === StarCheckTypes.wait_handle &&
+                  this.state.starCheckType === StarCheckTypes.wait_handle &&
                   <>
                     <ApplyBtn handleClick={this.handleSendBack} index={index} title={BtnTitle.sendBack} color={BtnTypes.Red} />
                     <ApplyBtn handleClick={this.handleApplying} index={index} title={BtnTitle.applying} color={BtnTypes.Blue} />
                   </>
                 }
                 {
-                  this.state.pageType === StarCheckTypes.wait_reception &&
+                  this.state.starCheckType === StarCheckTypes.wait_reception &&
                   <>
                     <ApplyBtn handleClick={this.handleReception} index={index} title={BtnTitle.reception} color={BtnTypes.Blue} />
                   </>
                 }
                 {
-                  this.state.pageType === StarCheckTypes.wait_sponsor &&
+                  this.state.starCheckType === StarCheckTypes.wait_sponsor &&
                   <View style={styles.sponsor}>
                     <Text style={styles.sponsorDate}>申请时间：2019.06.04</Text>
                     <ApplyBtn handleClick={this.handleSponsor} index={index} title={BtnTitle.sponsor} color={BtnTypes.Blue} />
                   </View>
                 }
                 {
-                  this.state.pageType === StarCheckTypes.processing_record &&
+                  this.state.starCheckType === StarCheckTypes.processing_record &&
                   <Text style={styles.processStatus_red}>已撤回</Text>
                 }
               </View>
               {
-                this.state.pageType === StarCheckTypes.wait_handle || this.state.pageType === StarCheckTypes.wait_reception ?
-                  <ApplyFooter type={this.state.type} score={this.state.type == 3 ? item.scoreShop : item.scoreRegion} week={item.accumulativeCycle} date={item.createTime} /> : <></>
+                this.state.starCheckType === StarCheckTypes.wait_handle || this.state.starCheckType === StarCheckTypes.wait_reception ?
+                  <ApplyFooter type={this.state.type} score={item.scoreShop } week={item.accumulativeCycle} date={item.createTime} /> : <></>
               }
               {
-                this.state.pageType === StarCheckTypes.processing_record &&
+                this.state.starCheckType === StarCheckTypes.processing_record &&
                 <View style={styles.process_footer}>
                   <ScoreItem scoreType={scoreType} />
                   <ScoreItem reason={'不符合规范'} />

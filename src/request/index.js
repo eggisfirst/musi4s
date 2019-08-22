@@ -8,7 +8,7 @@ class IndexModel extends Request {
       url: "v2/api/cert/approve/getAuth",
     })
   }
-  
+
   /**获取星级认证信息 */
   getUserInfo() {
     return this.getSecretData({
@@ -25,7 +25,7 @@ class IndexModel extends Request {
   }
 
   /**退回 待受理*/
-  sendBack(id,remark) {
+  sendBack(id, remark) {
     return this.getSecretData({
       url: "v2/api/cert/approve/reject",
       data: {
@@ -51,6 +51,40 @@ class IndexModel extends Request {
       data: data
     })
   }
+
+  /**
+   * 验收店铺列表
+   */
+  getReceShopList(qualificationId) {
+    return this.getSecretData({
+      url: 'v2/api/cert/approve/getShopList',
+      data: {
+        qualificationId
+      }
+    })
+  }
+  /**
+   * 获取店铺信息
+   * @param {*记录id} qualificationId 
+   * @param {*店铺id} shopId 
+   */
+  getShopInfo(qualificationId, shopId) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/getShopInfo",
+      data: {
+        qualificationId,
+        shopId,
+      }
+    })
+  }
+
+  getSponsorList(data) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/sponsorList",
+      data: data
+    })
+  }
+
 }
 
 export { IndexModel }

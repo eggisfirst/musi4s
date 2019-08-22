@@ -12,10 +12,10 @@ interface IState {
   targetLong: number
   toAppStatus: boolean
   address: string
-
 }
 interface Iprops {
   handleCloseMap: () => void
+  shopInfo: any
 }
 
 export default class MapCmp extends React.Component<Iprops>{
@@ -23,7 +23,7 @@ export default class MapCmp extends React.Component<Iprops>{
     curLat: 23.025205,
     curLong: 113.758683,
     toAppStatus: false,
-    address: "地址：广东省广州市天河区珠江新城花城大道马场路马会家居西区一楼1513慕思0769专卖店",
+    address: "广东省广州市天河区珠江新城花城大道马场路马会家居西区一楼1513慕思0769专卖店",
     targerLat: 23.1186700000,
     targetLong: 113.3464100000
 
