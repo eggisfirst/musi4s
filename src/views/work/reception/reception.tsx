@@ -12,7 +12,6 @@ import { _retrieveData } from "../../../utils/utils";
 const indexModel = new IndexModel()
 
 interface IState {
-  index: number //前一个页面的索引
   gradeState: Boolean
   mapStatue: boolean
   cardData: any
@@ -20,6 +19,8 @@ interface IState {
   time: any
   shopInfo: any
   type: number | string
+  gradeStatus: boolean
+  index: number
 }
 
 export default class index extends React.Component<any>{
@@ -28,21 +29,16 @@ export default class index extends React.Component<any>{
   }
   state: IState = {
     gradeState: false,
-    index: -1,
     mapStatue: false,
     cardData: {},
     shopList: [],
     time: '',
     shopInfo: {},
-    type: ''
+    type: '',
+    gradeStatus: false,
+    index: -1
   }
-  list = [
-    { name: '广州马会家居凯奇门店', status: true, score1: 48, score2: 90, date: "2019.06.04", key: '1' },
-    { name: '广州马会家居歌蒂娅门店', status: false, score1: 48, score2: 90, date: "2019.05.04", key: '2' },
-    { name: '广州马会家居兰博基尼门店', status: false, score1: 48, score2: 90, date: "2019.05.04", key: '3' },
-    { name: '广州马会家居凯奇门店', status: false, score1: 48, score2: 90, date: "2019.05.04", key: '4' },
-    { name: '广州马会家居凯奇门店', status: true, score1: 48, score2: 90, date: "2019.05.04", key: '5' },
-  ]
+ 
   //请求
   /**
    * 获取验收店铺列表
@@ -53,7 +49,8 @@ export default class index extends React.Component<any>{
         this.setState({
           cardData: res.data.distributor,
           shopList: res.data.shopList,
-          time: res.data.distributor.time
+          time: res.data.distributor.time,
+          gradeStatus: res.data.passFlag
         })
       }
     })
@@ -88,19 +85,37 @@ export default class index extends React.Component<any>{
   /**
    * 验收弹框提示
    */
-  toGrade = () => {
+  toGrade = (index: number) => {
+    this.setState({index})
+    const qualificationId = this.state.shopList[index].qualificationId
+    const shopId = this.state.shopList[index].shopId
+    const shopName = this.state.shopList[index].shopName
+    if(this.state.gradeStatus) {
+      this.props.navigation.navigate('GradePage', {
+        qualificationId,
+        shopId,
+        shopName
+      })
+      return
+    }
     this.setState({
       gradeState: true
     })
   }
+ 
   /**
    * 提示弹框的确认取消
    */
   handleAlert = (status: AlertBtnTypes) => {
+    const qualificationId = this.state.shopList[this.state.index].qualificationId
+    const shopId = this.state.shopList[this.state.index].shopId
+    const shopName = this.state.shopList[this.state.index].shopName
     switch (status) {
       case AlertBtnTypes.comfirm:
         this.props.navigation.navigate('GradePage', {
-          index: this.state.index
+          qualificationId,
+          shopId,
+          shopName
         })
         this.setState({
           gradeState: false

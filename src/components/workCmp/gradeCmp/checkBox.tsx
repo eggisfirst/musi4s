@@ -4,10 +4,7 @@ import pxToDp from "../../../utils/fixcss";
 
 
 interface IProps {
-  item: {
-    title: string
-    status: boolean
-  }
+  item: any
   index?: number
   handleToGrade?: (index: number) => void
 }
@@ -22,9 +19,9 @@ export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade}) => {
   }
   return(
     <View style={styles.wrapper}>
-      <Text style={styles.content}>年度经验</Text>
+      <Text style={styles.content}>{item.name}</Text>
       {
-        item.status? 
+        item.scoreFlag? 
         <View style={styles.hadGradeBtn}>
           <Image style={styles.icon} source={require('../../../images/work/grade/graded.png')} />
           <Text style={styles.hadGradeText}>已评分</Text>

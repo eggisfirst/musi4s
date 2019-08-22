@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 
 import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
-  toGrade:() => void
+  toGrade:(index: number) => void
   handleShowMap: (index: number) => void
   shopItem: any
   index: number
@@ -37,12 +37,12 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
             props.type === 3?
             props.shopItem.scoreRegion !== ''? 
             <Text style={styles.greenStyle}>已评分</Text> :
-            <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade()}}>
+            <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade(props.index)}}>
               <Text style={styles.toGradeTxt}>进入评分</Text>
             </TouchableOpacity> :
             props.shopItem.scoreCertification !== ''? 
             <Text style={styles.greenStyle}>已评分</Text> :
-            <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade()}}>
+            <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade(props.index)}}>
               <Text style={styles.toGradeTxt}>进入评分</Text>
             </TouchableOpacity> 
 

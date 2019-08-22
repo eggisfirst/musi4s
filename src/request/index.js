@@ -98,6 +98,22 @@ class IndexModel extends Request {
     })
   }
 
+
+  /**
+   * 获取评星页面数据
+   * @param {*申请认证id} qualificationId 
+   * @param {*店铺id} shopId 
+   */
+  getCategories(qualificationId,shopId) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/getCategories",
+      data: {
+        qualificationId,
+        shopId
+      }
+    })
+  }
+
 }
 
 export { IndexModel }

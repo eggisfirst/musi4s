@@ -4,16 +4,57 @@ import { View, Text, Platform, StatusBar, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from '../../../components/headerCmp/headerCmp';
 import { CheckBox } from '../../../components/workCmp/gradeCmp/checkBox';
+import { IndexModel } from "../../../request";
+import { getStar } from "../../../utils";
+const indexModel = new IndexModel()
 
-
+interface IState {
+  numberData: any
+  list: Array<any>
+  shopName: string
+}
 
 export default class GradePage extends React.Component<any>{
   static navigationOptions = {
     header: null
   }
+  state:IState = {
+    numberData: {},
+    list: [],
+    shopName: ''
+  }
+  //请求
+  /**
+   * 获取评星页面数据
+   * @param id 
+   * @param shopId 
+   */
+  getCategories(id: any,shopId: any) {
+    indexModel.getCategories(id,shopId).then(res => {
+      if(res.status) {
+        this.setState({
+          numberData: res.data.number,
+          list: res.data.list
+        })
+      }
+    })
+  }
+  /**
+   * 初始数据
+   */
+  initData() {
+    const {qualificationId,shopId,shopName} = this.props.navigation.state.params
+    this.getCategories(qualificationId,shopId)
+    this.setState({
+      shopName
+    })
+  }
   //跳转到评分页面
   handleToGrade = (index: number) => {
     console.log(index)
+  }
+  componentDidMount() {
+    this.initData()
   }
   render (){
     const {navigation} = this.props
@@ -36,25 +77,30 @@ export default class GradePage extends React.Component<any>{
     ]
     return(
       <View>
-        <HeaderCmp title={'五星认证评分'} eggHandleBack={() => {navigation.goBack()}}/>
+        <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {navigation.goBack()}}/>
         <View style={styles.sum}>
-          <Text style={styles.sum_title}>广州马会家居凯奇门店</Text>
-          <Text style={styles.sum_text}>共<Text style={styles.sum_blue}>18</Text>项 已评<Text style={styles.sum_green}>5</Text>项 剩余 <Text style={styles.sum_red}>14</Text>项未评</Text>
+          <Text style={styles.sum_title}>{this.state.shopName}</Text>
+          <Text style={styles.sum_text}>共<Text style={styles.sum_blue}>{this.state.numberData.total}</Text>项 已评<Text style={styles.sum_green}>{this.state.numberData.comment}</Text>项 剩余 <Text style={styles.sum_red}>{this.state.numberData.notComment}</Text>项未评</Text>
         </View>
         <View style={styles.checkWrapper}>
-          <Text style={styles.start_check_title}>一星检查</Text>
-          <View style={styles.checkBox} >
             {
-              list.map((item, index) => {
-                return (
-                  <CheckBox key={index} 
-                            item={item} 
-                            index={index} 
-                            handleToGrade={this.handleToGrade}/>
-                )
-              })
+              this.state.list.map((item:any, index:number) => (
+                <View key={index}>
+                  <Text style={styles.start_check_title}>{getStar(index + 1)}检查</Text>
+                  <View style={styles.checkBox} >
+                    {
+                      item.map((el:any, i:number) => (
+                        <CheckBox key={el.id} 
+                                  item={el} 
+                                  index={i} 
+                                  handleToGrade={this.handleToGrade}/>
+                    ))
+                    }
+                  </View>
+                </View>
+              ))
             }
-          </View>
+         
         </View>
       </View>
       )
