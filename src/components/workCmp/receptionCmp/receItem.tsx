@@ -5,13 +5,7 @@ import pxToDp from "../../../utils/fixcss";
 interface IProps {
   toGrade:() => void
   handleShowMap: (index: number) => void
-  shopItem: {
-    name: string
-    score1: number
-    score2: number
-    status: boolean
-    date: string
-  },
+  shopItem: any
   index: number
   /**
    * 级别
@@ -22,25 +16,35 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
   
   return(
     <View style={styles.wrapper}>
-      <View><Text style={styles.shopName}>{props.shopItem.name}</Text></View>
+      <View><Text style={styles.shopName}>{props.shopItem.shopName}</Text></View>
       <View style={styles.centerMsg}>
         <View style={styles.score}>
           <Text style={styles.textStyle}>门店评分：</Text>
-          <Text style={styles.redStyle}>{props.shopItem.score1}</Text>
+          <Text style={styles.redStyle}>{props.shopItem.scoreShop}</Text>
           <Text style={styles.textStyle}>{props.type === 3? '区域评分' : '4s评分'}：</Text>
           {
-            props.shopItem.status? 
-            <Text style={styles.redStyle}>{props.shopItem.score2}</Text>
+            props.type === 3? 
+            props.shopItem.scoreRegion? 
+            <Text style={styles.redStyle}>{props.shopItem.scoreRegion}</Text>
+            :  <Text style={styles.textStyle}>/</Text> :
+            props.shopItem.scoreCertification? 
+            <Text style={styles.redStyle}>{props.shopItem.scoreCertification}</Text>
             :  <Text style={styles.textStyle}>/</Text>
           }
         </View>
         <View style={styles.status}>
           {
-            props.shopItem.status? 
+            props.type === 3?
+            props.shopItem.scoreRegion !== ''? 
             <Text style={styles.greenStyle}>已评分</Text> :
             <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade()}}>
               <Text style={styles.toGradeTxt}>进入评分</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> :
+            props.shopItem.scoreCertification !== ''? 
+            <Text style={styles.greenStyle}>已评分</Text> :
+            <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade()}}>
+              <Text style={styles.toGradeTxt}>进入评分</Text>
+            </TouchableOpacity> 
 
           }
          

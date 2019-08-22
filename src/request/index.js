@@ -77,10 +77,23 @@ class IndexModel extends Request {
       }
     })
   }
-
+  /**
+   * 获取待发起名单
+   * @param {*} data 
+   */
   getSponsorList(data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/sponsorList",
+      data: data
+    })
+  }
+  /**
+   * 获取认证进度名单
+   * @param {*} data 
+   */
+  getLogList(data) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/logList",
       data: data
     })
   }

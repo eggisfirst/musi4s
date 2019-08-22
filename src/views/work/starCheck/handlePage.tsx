@@ -89,6 +89,7 @@ class HandelPage extends React.Component<any, IState>{
     else if(this.props.navigation.state.params.type === StarCheckTypes.wait_sponsor) {
       this.getSponsorList(mydata)
     }
+    
   }
   //请求
   /**获取待受理页面名单数据 */

@@ -153,10 +153,10 @@ export default class index extends React.Component<any>{
           <DealerCard cardData={this.state.cardData} />
         </View>
         <FlatList style={styles.shopList}
-          data={this.list}
-          keyExtractor={item => item.key}
+          data={this.state.shopList}
+          keyExtractor={item => item.shopId}
           renderItem={({ item, index }) => (
-            <ReceItem type={this.state.type} toGrade={this.toGrade} shopItem={item} index={index} handleShowMap={this.handleShowMap} />
+            <ReceItem type={this.state.type}  toGrade={this.toGrade} shopItem={item} index={index} handleShowMap={this.handleShowMap} />
           )}
         />
 

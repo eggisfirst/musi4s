@@ -69,18 +69,19 @@ export default class MapCmp extends React.Component<Iprops>{
     })
   }
   render() {
+    const shopInfo = this.props.shopInfo
     return(
       <View style={styles.wrapper}>
         <View style={styles.addressBox}>
-          <Text style={styles.title}>广州马会家居凯奇门店</Text>
-          <Text style={styles.address}>地址：{this.state.address}</Text>
+          <Text style={styles.title}>{shopInfo.shopName}</Text>
+          <Text style={styles.address}>地址：{shopInfo.address}</Text>
           
           <MapCanvas targerLat={this.state.targerLat} targetLong={this.state.targetLong}/>
           
-          <Text style={styles.text}>店长：广东广州何秋明</Text>
-          <Text style={styles.text}>联系电话：13802516801</Text>
-          <Text style={styles.text}>门店电话：020-87018070</Text>
-          <Text style={styles.text}>状态：未评分</Text>
+          <Text style={styles.text}>店长：{shopInfo.username}</Text>
+          <Text style={styles.text}>联系电话：{shopInfo.phone}</Text>
+          <Text style={styles.text}>门店电话：{shopInfo.shopPhone}</Text>
+          <Text style={styles.text}>状态：{this.props.shopInfo.passFlag?'已评分':'未评分'}</Text>
           <TouchableOpacity style={styles.toShop} onPress={() => {this.handleOpenToApp()}}>
             <Image source={require('../../images/work/toShop.png')} style={styles.toShopIcon} />
             <Text style={styles.toShopText}>导航到店</Text>

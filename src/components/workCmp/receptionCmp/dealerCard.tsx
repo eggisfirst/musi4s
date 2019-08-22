@@ -13,6 +13,7 @@ export const DealerCard:React.FC<IProps> = (props) =>{
    */
   const linking = (phone:any) => {
     if(!phone) {
+      Alert.alert('暂无电话号码')
       return
     }
     let tel = `tel:${phone}`// 目标电话
@@ -55,12 +56,9 @@ export const DealerCard:React.FC<IProps> = (props) =>{
             <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}} >{props.cardData.agentPhone}</Text>
           </View>
         </View>
-        {
-          props.cardData.agentPhone &&
-          <TouchableOpacity style={styles.callBtn} onPress={() => {linking(props.cardData.agentPhone)}}>
-            <Text style={styles.call}>一键通话</Text>
-          </TouchableOpacity>
-        }
+        <TouchableOpacity style={styles.callBtn} onPress={() => {linking(props.cardData.agentPhone)}}>
+          <Text style={styles.call}>一键通话</Text>
+        </TouchableOpacity>
       </View>
     </View>
    )
