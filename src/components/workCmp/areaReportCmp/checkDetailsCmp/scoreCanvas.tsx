@@ -5,7 +5,7 @@ import pxToDp from "../../../../utils/fixcss";
 import { CircleProgress } from './circle';
 
 interface IProps {
-  score: number
+  score: number | string
 }
 
 

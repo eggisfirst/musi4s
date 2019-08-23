@@ -32,9 +32,11 @@ export const GencyCard: React.FC<IProps> = (props) => {
   /**跳转到检查记录页面  传递shopname过去！！*/
   const handleClickToRecord = (index: number) => {
     const id = props.listData.shopList[index].shopId
+    const shopName = props.listData.shopList[index].shopName
     /**跳转检查记录页面 */
     props.type === ReportType.check && props.navigation.push('CheckRecordPage', {
-      id
+      id,
+      shopName
     })
     /**跳转验收认证详情页面 */
     props.type === ReportType.acceptance && props.navigation.push('AcceptanceDetailsPage', {

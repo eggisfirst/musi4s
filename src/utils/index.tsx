@@ -122,14 +122,14 @@ export const getApproveBoxState = (state: number | string) => {
 }
 
 /**
- * 返回认证弹框左边的节点
+ * 返回认证弹框右边有几个节点
  */
 export const approveBoxLeftInfo = (data: any) => {
   let i = 0
   for (const key in data) {
     if (data[key].length) {
       i += 1
-    }else {
+    } else {
       return i
     }
   }
@@ -141,9 +141,19 @@ export const approveBoxLeftInfo = (data: any) => {
 export const turnToArray = (data: any) => {
   let arr = []
   for (const key in data) {
-    if(data[key].length) {
-      arr.push({data:data[key]})
+    if (data[key].length) {
+      arr.push({ data: data[key] })
     }
   }
   return arr
+}
+
+/**
+ * 返回的时间参数去除时分秒
+ */
+export const removeSecond = (data: any) => {
+  const time = data.split(' ')
+  if(time) {
+    return time[0]
+  }
 }

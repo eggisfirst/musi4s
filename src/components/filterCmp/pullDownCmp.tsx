@@ -8,6 +8,9 @@ import * as actions from '../../store/actions/filter/pullDownSelect';
 interface IProps {
   pullDownData?: any
   pullDownSelect?: (index: number) => void
+  data: any,
+  select: (index: number) => void
+
 }
 
 interface IState {
@@ -35,6 +38,7 @@ interface IState {
    * 点击选择
    */
   handleSelect = (index: number) => {
+    this.props.select(index)
     this._setShowBoxStatus()
     if(this.props.pullDownData.activeIndex === index) {
       return
@@ -95,10 +99,10 @@ interface IState {
           this.state.selectBoxStatus && 
           <ScrollView style={styles.downSelect}>
             {
-              list.map((item, index) => (
+              this.props.data.map((item:any, index:number) => (
                 <TouchableOpacity onPress={() => {this.handleSelect(index)}} style={[styles.textBox,activeIndex === index && activeBgColor]} key={index}>
                   <Text style={[styles.selectText,activeIndex === index && activeColor]}>{item.name}</Text>
-                  <Text style={[styles.selectText,activeIndex === index && activeColor ]}>{item.score && item.score + '分'}</Text>
+                  <Text style={[styles.selectText,activeIndex === index && activeColor ]}>{item.deduct && item.deduct + '分'}</Text>
                 </TouchableOpacity>
               ))
             }

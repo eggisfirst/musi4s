@@ -3,22 +3,27 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import pxToDp from "../../../../utils/fixcss";
 
-export const MaxtermCmp: React.FC = () => {
+interface IProps {
+  data: any
+}
+
+
+export const MaxtermCmp: React.FC<IProps> = (props) => {
   return(
     <View style={styles.container}>
       <View style={styles.left}>
-        <Text style={styles.leftScore}>19<Text style={styles.score}>分</Text></Text>
-        <Text style={styles.allScore}>总分26</Text>
+        <Text style={styles.leftScore}>{props.data.score}<Text style={styles.score}>分</Text></Text>
+        <Text style={styles.allScore}>总分{props.data.total}</Text>
       </View>
       <View style={styles.center}>
-        <Text style={styles.title}>店面SI标准一阶段</Text>
+        <Text style={styles.title}>{props.data.name}</Text>
         <View style={styles.hasCircle}>
           <View style={styles.circle}></View>
-          <Text style={styles.text}>检查人：陈德远</Text>
+          <Text style={styles.text}>检查人: {props.data.inspector}</Text>
         </View>
         <View style={styles.hasCircle}>
           <View style={styles.circle}></View>
-          <Text style={styles.text}>检查时间：2019-07-14</Text>
+          <Text style={styles.text}>检查时间：{props.data.inspectTime}</Text>
         </View>
       </View>
       <View style={styles.right}>

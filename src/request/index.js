@@ -175,6 +175,77 @@ class IndexModel extends Request {
       }
     })
   }
+  /**
+   * 获取检查 检查详情头部星级选择条
+   * @param {*} shopId 
+   * @param {*} startTime 
+   * @param {*} endTime 
+   */
+  getCheckcategories(shopId,startTime,endTime) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/checkcategories",
+      data: {
+        shopId,
+        startTime,
+        endTime
+      }
+    })
+  }
+  /**
+   * 获取检查 检查详情页面的详情
+   * shopId,levelId,startTime,endTime
+   */
+  getCheckLogInfo(shopId,levelId,startTime,endTime) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/checkloginfo",
+      data: {
+        shopId,
+        levelId,
+        startTime,
+        endTime
+      }
+    })
+  }
+  
+  /**
+   * 获取检查 -- 检查记录详情的各项列表
+   * @param {*} shopId 
+   * @param {*} categoryId 
+   * @param {*} startTime 
+   * @param {*} endTime 
+   */
+  getStandard(shopId,categoryId,startTime,endTime) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/standards",
+      data: {
+        shopId,
+        categoryId,
+        startTime,
+        endTime
+      }
+    })
+  }
+  /**
+   * 检查 -----获取评分项明细
+   * @param {*} shopId 
+   * @param {*} standardId 
+   * @param {*} startTime 
+   * @param {*} endTime 
+   */
+  getStandardinfo(shopId,standardId,startTime,endTime) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/standardinfo",
+      data: {
+        shopId,
+        standardId,
+        startTime,
+        endTime
+      }
+    })
+  }
+
+
+
 
 
   /**

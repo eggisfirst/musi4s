@@ -7,14 +7,21 @@ import SelectCmp from '../../../../../components/filterCmp/selectCmp';
 import {StarCheckBox} from '../../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
 import { SelectType } from "../../../../../utils/enum";
 
-
 import * as actions from '../../../../../store/actions/filter/select'
 import { connect } from 'react-redux';
 import { IndexModel } from "../../../../../request";
 const indexModel = new IndexModel()
+
+interface IState {
+  list: Array<any>
+}
+
 class CheckRecord extends React.Component<any>{
   static navigationOptions = {
     header: null,
+  }
+  state = {
+    list: []
   }
   /**
    * 获取历史记录
@@ -23,7 +30,9 @@ class CheckRecord extends React.Component<any>{
     const shopId = this.props.navigation.state.params.id
     indexModel.getCheckLog(shopId,pass).then(res => {
       if(res.status) {
-
+        this.setState({
+          list: res.checkLogs
+        })
       }
     })
   }
@@ -91,10 +100,10 @@ class CheckRecord extends React.Component<any>{
                       color={"#fff"} activeColor={"#FFCB38"}
                       handleSelect={this.handleSelect}
                       mySelectList={['全部', '合格', '不合格']}/>
-          <Text style={styles.shop}>明世家博览馆慕思店</Text>
+          <Text style={styles.shop} numberOfLines={1}>{this.props.navigation.state.params.shopName}</Text>
         </View>
         <ScrollView>
-          <StarCheckBox list={list} navigation={this.props.navigation}/>
+          <StarCheckBox list={this.state.list} navigation={this.props.navigation}/>
         </ScrollView>
       </View>
     )
@@ -126,6 +135,7 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.5)",
     lineHeight: pxToDp(42),
     fontWeight: "500",
-    fontSize: pxToDp(26)
+    fontSize: pxToDp(26),
+    maxWidth: pxToDp(400)
   }
 })

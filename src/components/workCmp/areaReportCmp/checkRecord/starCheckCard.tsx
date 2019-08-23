@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import pxToDp from "../../../../utils/fixcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { removeSecond } from "../../../../utils";
 
 interface IProps {
   list: Array<any>
@@ -12,8 +13,16 @@ interface IProps {
 export const StarCheckBox:React.FC<IProps> = (props) => {
     /**点击跳转检查详情页面 */
     const handleClickToDetails = (index: number) => {
+      const shopId = props.list[index].shopId
+      const startTime = props.list[index].startTime
+      const endTime = props.list[index].endTime
+      const levelId = props.list[index].levelId
       props.navigation.push("CheckDetailsPage", {
-        index
+        shopId,
+        startTime,
+        endTime,
+        levelId,
+        type: 'check'
       })
     }
     const disqualification = {
@@ -34,10 +43,10 @@ export const StarCheckBox:React.FC<IProps> = (props) => {
           props.list.map((item:any, index:number) => (
             <TouchableOpacity activeOpacity={0.6} onPress={() => {handleClickToDetails(index)}} style={[styles.noBgContainer,index%2 !==0 && bgColor ]} key={index}>
               <Text style={styles.starCheck}>{item.name}</Text>
-              <Text style={styles.date}>{item.startDate}</Text>
-              <Text style={styles.date}>{item.endDate}</Text>
+              <Text style={styles.date}>{removeSecond(item.startTime)}</Text>
+              <Text style={styles.date}>{removeSecond(item.endTime)}</Text>
               <View style={styles.rightBox}>
-                <Text style={[styles.bluetext,item.score < 80 && disqualification]}>{item.score > 80 ? '合格' : '不合格'}</Text>
+                <Text style={[styles.bluetext,item.score < 80 && disqualification]}>{item.pass === 1 ? '合格' : '不合格'}</Text>
                 <Image style={styles.icon} source={require("../../../../images/work/areaReport/checkRecord/arrow.png")} />
               </View>
             </TouchableOpacity>
