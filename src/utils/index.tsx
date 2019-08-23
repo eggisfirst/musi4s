@@ -31,7 +31,7 @@ export const getStar = (star: number) => {
 }
 
 /**
- * 获取认证进度条状态
+ * 获取认证进度状态 
  * @param state 
  */
 export const getApproveState = (state: number | string) => {
@@ -66,12 +66,66 @@ export const getApproveState = (state: number | string) => {
       break;
   }
 }
+/**
+ * 获取认证进度条状态 其他节点 
+ * @param state 
+ */
+export const getApproveOtherBoxState = (state: number | string) => {
+  switch (state) {
+    case 1:
+      return '通过'
+    case 2:
+      return '退回'
+    case 3:
+      return '验收通过'
+    default:
+      break;
+  }
+}
+/**
+ * 获取认证进度条状态经销商 区域 4s认证部
+ * @param state 
+ */
+export const getApproveBoxState = (state: number | string) => {
+  switch (state) {
+    case 1:
+      return '已申请'
+    case 2:
+      return '已退回'
+    case 3:
+      return '已撤销'
+    case 4:
+      return '已受理'
+    case 5:
+      return '已评分'
+    case 6:
+      return '未通过'
+    case 7:
+      return '发起认证'
+    case 8:
+      return '已受理'
+    case 9:
+      return '已评分'
+    case 10:
+      return '未通过'
+    case 11:
+      return '发起认证'
+    case 12:
+      return 'OA认证通过'
+    case 13:
+      return 'OA认证未通过'
+    case 'no':
+      return 'no'
+    default:
+      break;
+  }
+}
 
 /**
  * 返回认证弹框左边的节点
  */
 export const approveBoxLeftInfo = (data: any) => {
-  let i = 1
+  let i = 0
   for (const key in data) {
     if (data[key].length) {
       i += 1
@@ -89,8 +143,6 @@ export const turnToArray = (data: any) => {
   for (const key in data) {
     if(data[key].length) {
       arr.push({data:data[key]})
-    }else {
-      arr.push({data: []})
     }
   }
   return arr

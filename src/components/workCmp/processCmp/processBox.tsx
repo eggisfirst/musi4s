@@ -4,11 +4,12 @@ import pxToDp from '../../../utils/fixcss';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { TimerShaft } from './ timerShaft';
 import { ApproveNode } from "../../../utils/enum";
+import { approveBoxLeftInfo, getApproveBoxState, getApproveOtherBoxState } from "../../../utils";
 
 interface IProps {
   handleCloseProcessBox: () => void
-  leftData: any
   rightData: any
+  leftData: any
 }
 interface IState {
   nodeList: Array<any>
@@ -83,14 +84,14 @@ export default class ProcessBox extends React.Component<IProps,IState>{
   }
   /**获取完整的包括未到节点的时间轴 */
   getAllList = () => {
-    if(this.state.nodeList.length === this.state.nodeStateList.length) {
-      const getAllList = this.state.nodeStateList
+    if(this.state.nodeList.length === this.props.rightData.length) {
+      const getAllList = this.props.rightData
       return getAllList
     }
     let getAllList:any = []
     this.state.nodeList.map((item, index) => {
-      if(this.state.nodeStateList[index] && this.state.nodeStateList[index].data) {
-        getAllList.push({data:this.state.nodeStateList[index].data})
+      if(this.props.rightData[index] && this.props.rightData[index].data) {
+        getAllList.push({data:this.props.rightData[index].data})
       }else {
         getAllList.push({status: 'no'})
       }
@@ -108,8 +109,8 @@ export default class ProcessBox extends React.Component<IProps,IState>{
     if(index === -1) {
       return pxToDp(36)
     }
-    if(this.state.nodeStateList[index]) {
-      const i = this.state.nodeStateList[index].data.length
+    if(this.props.rightData[index]) {
+      const i = this.props.rightData[index].data.length
       return pxToDp( (i)*40)
     }else {
       return pxToDp(56)
@@ -121,16 +122,60 @@ export default class ProcessBox extends React.Component<IProps,IState>{
       return pxToDp(93)
     }
   }
-  
+  /**
+   * 获取接口数据status对应的数据
+   * @param index 状态status
+   * @param type 前面三个节点 <=2,后面的节点>2
+   */
+  const preceStyle = (index: any,type:any) => {
+    /**后面的节点 */
+    if(type > 2) {
+      /**不通过 */
+      if(index === 2) {
+        return 2
+      }
+      return 1
+    }
+    /**前3个节点 */
+    if (index === 1 || index === 4 || index === 5 || index === 7 || index === 8 || index === 9 || index === 11) {
+      return 1
+    } else if (index === 'no') {
+      return 2
+    }
+    return 2
+  }
+  /**
+   * 获取弹框标题
+   * @param list 
+   */
+  const title = (list:any) => {
+    const len = list.length
+    const lastlen = list[len - 1].data.length
+    const status = list[len - 1].data[lastlen - 1].status
+    const title = preceStyle(status, len - 1)
+    if(len > 3) {
+      if(status === 2) {
+        return '认证失败'
+      }else if(status === 3) {
+        return '认证成功'
+      }
+      return '认证中'
+    }else {
+      if(title === 1) {
+        return '认证中'
+      }
+      return '认证失败'
+    }
+  }
   
   return(
     <View style={styles.mask}>
       <View style={styles.container}>
-        <Text style={styles.title}>进度--认证中</Text>
+        <Text style={styles.title}>进度--{title(this.props.rightData)}</Text>
 
         <ScrollView style={styles.content}>
           <View style={styles.linePosition}>
-            <TimerShaft getAllList={this.getAllList()} nodeStateList={this.state.nodeStateList}/>
+            <TimerShaft getAllList={this.getAllList()} nodeStateList={this.props.rightData}/>
           </View>
           {
             this.state.nodeList.map((item, index) => (
@@ -141,19 +186,23 @@ export default class ProcessBox extends React.Component<IProps,IState>{
           }
           <View style={styles.rightBox}>
             {
-              this.state.nodeStateList.map((item, index) => (
+              this.props.rightData.map((item:any, index:number) => (
                 <View style={{marginTop: pxToDp(40)}} key={index}>
                   <View style={styles.rightStatus} >
                     {
                       item.data && item.data.map((el:any, i:number) => (
                         <View key={i}>
                           {
-                            el.status? 
-                            <Text style={styles.rightText}>{el.time} {el.remark}</Text>
+                            preceStyle(el.status, index) === 1? 
+                            <Text style={styles.rightText}>{el.createTime} {index <=2? getApproveBoxState(el.status):getApproveOtherBoxState(el.status)}</Text>
                             : 
-                            <Text style={styles.rightText}>{el.time} <Text style={styles.rightTextRed} onPress={() => {console.log('to')}}>{el.remark}</Text>
+                            <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => {console.log(index)}}> {index <=2? getApproveBoxState(el.status):getApproveOtherBoxState(el.status)}</Text>
                             </Text>
                           }
+                           {
+                             preceStyle(el.status, index) === 2? 
+                              <Text style={styles.rightText}>备注:{el.remark}</Text> : <></>
+                            }
                         </View>
                       ))
                     }

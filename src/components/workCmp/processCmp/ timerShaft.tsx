@@ -29,14 +29,29 @@ export const TimerShaft:React.FC<IProps> = ({getAllList, nodeStateList}) => {
       return pxToDp(76)
     }
   }
-  /**获取未通过的节点 */
+  /**获取未通过的节点 的颜色 2 红色 1 蓝色 */
   const unFinishNode = (item: any,index: number) => {
-    for (const key of item.data) {
-      if(!key.status) {
-        return false
+    const len = item.data.length - 1
+    const i =  preceStyle(item.data[len].status, index)
+    return i
+  }
+
+  const preceStyle = (index: any,type:any) => {
+    /**后面的节点 */
+    if(type > 2) {
+      /**不通过 */
+      if(index === 2) {
+        return 2
       }
+      return 1
     }
-   
+    /**前3个节点 */
+    if (index === 1 || index === 4 || index === 5 || index === 7 || index === 8 || index === 9 || index === 11) {
+      return 1
+    } else if (index === 'no') {
+      return 2
+    }
+    return 2
   }
   return(
     <View >
@@ -54,7 +69,7 @@ export const TimerShaft:React.FC<IProps> = ({getAllList, nodeStateList}) => {
               </> : 
               <>
                 {
-                  unFinishNode(item,index) !== false? 
+                  unFinishNode(item, index) === 1 ?
                   <>
                     <View style={[styles.blueLine,{height: myMarginTop(index - 1)}]}></View>
                     <View style={styles.blue}>
