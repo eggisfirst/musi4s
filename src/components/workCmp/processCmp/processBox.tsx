@@ -7,6 +7,8 @@ import { ApproveNode } from "../../../utils/enum";
 
 interface IProps {
   handleCloseProcessBox: () => void
+  leftData: any
+  rightData: any
 }
 interface IState {
   nodeList: Array<any>

@@ -45,7 +45,7 @@ export const getApproveState = (state: number | string) => {
     case 4:
       return '区域经理已受理（评分中）'
     case 5:
-      return '区域经理已评分（通过'
+      return '区域经理已评分（通过)'
     case 6:
       return '区域经理未通过'
     case 7:
@@ -65,4 +65,33 @@ export const getApproveState = (state: number | string) => {
     default:
       break;
   }
+}
+
+/**
+ * 返回认证弹框左边的节点
+ */
+export const approveBoxLeftInfo = (data: any) => {
+  let i = 1
+  for (const key in data) {
+    if (data[key].length) {
+      i += 1
+    }else {
+      return i
+    }
+  }
+}
+/**
+ * 认证弹框数据对象转数组
+ * @param data 
+ */
+export const turnToArray = (data: any) => {
+  let arr = []
+  for (const key in data) {
+    if(data[key].length) {
+      arr.push({data:data[key]})
+    }else {
+      arr.push({data: []})
+    }
+  }
+  return arr
 }

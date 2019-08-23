@@ -20,7 +20,7 @@ import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
 import { _retrieveData } from "../../../utils/utils";
-import { format, getApproveState } from "../../../utils";
+import { format, getApproveState, approveBoxLeftInfo, turnToArray } from "../../../utils";
 import { thisExpression } from "@babel/types";
 const indexModel = new IndexModel()
 const actions = {
@@ -41,6 +41,8 @@ interface IState {
   showFoot: number
   pageNo: number
   sponsorBoxData: any
+  processLeftData: any
+  processRightData: any
 }
 
 class HandelPage extends React.Component<any, IState>{
@@ -67,6 +69,8 @@ class HandelPage extends React.Component<any, IState>{
     showFoot: 2,
     pageNo: 1,
     sponsorBoxData: {},
+    processLeftData: '',
+    processRightData: '',
   }
 
   /**
@@ -246,12 +250,18 @@ class HandelPage extends React.Component<any, IState>{
       }
     })
   }
+  /**
+   * 获取认证弹框进度
+   * @param index 
+   */
   getApproveFlowInfo(index: number) {
     const id = this.state.list[index].id
     indexModel.getApproveFlowInfo(id).then(res => {
-      if(res.status) {
+      if (res.status) {
         this.setState({
-          processBoxStatus: true
+          processBoxStatus: true,
+          processLeftData: approveBoxLeftInfo(res.data),
+          processRightData: turnToArray(res.data)
         })
       }
     })
@@ -317,17 +327,17 @@ class HandelPage extends React.Component<any, IState>{
   /**底部加载更多 */
   _onEndReached = () => {
     // 如果是正在加载中或没有更多数据了，则返回
-      if (this.state.showFoot !== 0) {
-        return;
-      } 
-      let page = this.state.pageNo + 1
-      this.setState({
-        pageNo: page,
-        showFoot: 2
-      });
-      const data = this.state.parmas
-      data.page = page
-      this.getList(data)
+    if (this.state.showFoot !== 0) {
+      return;
+    }
+    let page = this.state.pageNo + 1
+    this.setState({
+      pageNo: page,
+      showFoot: 2
+    });
+    const data = this.state.parmas
+    data.page = page
+    this.getList(data)
   }
 
   /**获取参数 */
@@ -428,7 +438,7 @@ class HandelPage extends React.Component<any, IState>{
       return
     }
     this.getApproveFlowInfo(index)
-  
+
   }
   /**关闭认证弹框 */
   handleCloseProcessBox = () => {
@@ -510,16 +520,17 @@ class HandelPage extends React.Component<any, IState>{
   }
   render() {
     const { navigation } = this.props
-    const scoreType = {
-      shop: true,
-      area: false,
-      four: false
-    }
-    const preceStyle = (index:any) => {
-      if(index === 1 || index === 4 || index === 5 || index === 7 || index === 8 || index === 9
-        || index === 11 || index === 12) {
-          return 1
-        }
+    /**
+     * 获取状态参数对应的style（红/蓝）
+     * @param index 
+     */
+    const preceStyle = (index: any) => {
+      if (index === 1 || index === 4 || index === 5 || index === 7 || index === 8 || index === 9
+        || index === 11) {
+        return 1
+      } else if (index === 12) {
+        return 3
+      }
       return 2
     }
     return (
@@ -574,7 +585,9 @@ class HandelPage extends React.Component<any, IState>{
                 }
                 {
                   this.state.starCheckType === StarCheckTypes.processing_record &&
-                  <Text style={preceStyle(item.status) !== 1? styles.processStatus_red : styles.processStatus_blue}>{getApproveState(item.status)}</Text>
+                  <Text style={preceStyle(item.status) === 1 ? styles.processStatus_blue :
+                    preceStyle(item.status) === 3 ? styles.processStatus_green :
+                      styles.processStatus_red}>{getApproveState(item.status)}</Text>
                 }
               </View>
               {
@@ -611,7 +624,9 @@ class HandelPage extends React.Component<any, IState>{
 
         {
           this.state.processBoxStatus &&
-          <ProcessBox handleCloseProcessBox={this.handleCloseProcessBox} />
+          <ProcessBox leftData={this.state.processLeftData}
+            rightData={this.state.processRightData}
+            handleCloseProcessBox={this.handleCloseProcessBox} />
         }
 
       </View>
@@ -658,6 +673,10 @@ const styles = StyleSheet.create({
   },
   processStatus_red: {
     color: "#FF2D55",
+    fontSize: pxToDp(30)
+  },
+  processStatus_green: {
+    color: "#4CD964",
     fontSize: pxToDp(30)
   },
   process_footer: {
