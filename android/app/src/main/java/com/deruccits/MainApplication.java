@@ -34,8 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
             new LinearGradientPackage(),
             new AMap3DPackage(),
             new DatePickerPackage(),
-            new RNGestureHandlerPackage(),
-             new AMap3DPackage()
+            new RNGestureHandlerPackage()
       );
     }
 

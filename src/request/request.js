@@ -75,8 +75,10 @@ _getToken() {
           password: MD5.hex_md5(123456)
         },
       }).then(res => {
+        console.log('获取token', res.data)
         resolve(res.data)
       }).catch(err => {
+        console.log('获取token失败')
         reject(err)
       })
     })

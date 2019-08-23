@@ -796,6 +796,9 @@
 							com.apple.Keychain = {
 								enabled = 0;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -1412,6 +1415,7 @@
 			baseConfigurationReference = DC9D54107D142BD4FBED2F4E /* Pods-derucciTS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = derucciTS/derucciTS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1441,6 +1445,7 @@
 			baseConfigurationReference = E4773F4E20BEEEE251554731 /* Pods-derucciTS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = derucciTS/derucciTS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;

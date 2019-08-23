@@ -44,15 +44,15 @@ const AppNavigator = createBottomTabNavigator({
 
 
 const routerStack = createStackNavigator({
-  DetailsPage,
-
-  CheckDetailsPage,
-
-  StarHome,
-
   Login: {
     screen: LoginScreen,
   },
+
+  StarHome,
+
+  DetailsPage,
+
+  CheckDetailsPage,
 
  
 

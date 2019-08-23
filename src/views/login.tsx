@@ -53,16 +53,19 @@ export default class LoginScreen extends Component<any> {
    * 登录
    */
   handleLoginIn = () => {
+    console.log('success!!!')
     // this.state.account &&  _storeData('account',this.state.account)
     // this.state.password &&  _storeData('password',this.state.password)
   
-    // indexModel.getAuth().then(res => {
-    //   this.props.navigation.replace('Work')
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    indexModel.getAuth().then(res => {
+      console.log('获取的数据：', res)
+      // this.props.navigation.replace('Work')
+    }).catch(err => {
+      console.log('数据获取失败')
+      console.log(err)
+    })
    
-    this.props.navigation.replace('Work')
+    // this.props.navigation.replace('Work')
 
 
   }

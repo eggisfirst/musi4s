@@ -3,10 +3,10 @@ import { Request } from './request'
 
 class IndexModel extends Request {
   /**获取职位 */
-  getAuth() {
+  getAuth(data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/getAuth",
-    })
+    }, data)
   }
   
   /**获取星级认证信息 */
