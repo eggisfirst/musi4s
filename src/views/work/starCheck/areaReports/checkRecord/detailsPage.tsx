@@ -4,47 +4,49 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert, Dimensions } from "rea
 import { HeaderCmp } from "../../../../../components/headerCmp/headerCmp";
 import PullDownCmp from "../../../../../components/filterCmp/pullDownCmp";
 import pxToDp from "../../../../../utils/fixcss";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as actions from '../../../../../store/actions/filter/pullDownSelect';
-import {SliderCmp} from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
+import { SliderCmp } from '../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
 import SwiperIndex from "../../../../../components/workCmp/areaReportCmp/checkDetailsCmp/swiperIndex";
 import { IndexModel } from "../../../../../request";
 const indexModel = new IndexModel()
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
-function wp (percentage: number) {
-    const value = (percentage * viewportWidth) / 100;
-    return Math.round(value);
+function wp(percentage: number) {
+  const value = (percentage * viewportWidth) / 100;
+  return Math.round(value);
 }
 
 interface IState {
   standards: any
   standardinfo: any
+  gradeDetailInfo: any
 }
 
 class DetailsPage extends React.Component<any>{
   static navigationOptions = {
     header: null
   }
-  state:IState = {
+  state: IState = {
     /**
      * 下拉框列表
      */
     standards: [],
-    standardinfo: {}
+    standardinfo: {},
+    gradeDetailInfo: {}
   }
   //----------请求----------
   /**
    * 获取检查 -- 检查详情的每个项目
    */
   getStandard() {
-    const {shopId,startTime,endTime,categoryId} = this.getCheckParams()
-    indexModel.getStandard(shopId,categoryId,startTime,endTime).then(res => {
-      if(res.status) {
+    const { shopId, startTime, endTime, categoryId } = this.getCheckParams()
+    indexModel.getStandard(shopId, categoryId, startTime, endTime).then(res => {
+      if (res.status) {
         this.setState({
-          standards:res.standards
+          standards: res.standards
         })
-        this.getStandardinfo(0,res.standards[0].standardId)
+        this.getStandardinfo(0, res.standards[0].standardId)
       }
     })
   }
@@ -52,28 +54,45 @@ class DetailsPage extends React.Component<any>{
    * 获取检查 --评分明细
    * @param index 
    */
-  getStandardinfo(index: number,id?:any) {
-    const {shopId,startTime,endTime} = this.getCheckParams()
-    const standardId = id? id : this.state.standards[index].standardId
-    indexModel.getStandardinfo(shopId,standardId,startTime,endTime).then(res => {
-      if(res.status) {
+  getStandardinfo(index: number, id?: any) {
+    const { shopId, startTime, endTime } = this.getCheckParams()
+    const standardId = id ? id : this.state.standards[index].standardId
+    indexModel.getStandardinfo(shopId, standardId, startTime, endTime).then(res => {
+      if (res.status) {
         this.setState({
           standardinfo: res.standardinfo
         })
       }
     })
   }
-
+  /**
+   * 获取评分 --下拉列表
+   */
   getGradeDetailList() {
     const { shopId, qualificationId, id, type } = this.getGradeParams()
-    indexModel.getGradeDetailList(shopId,qualificationId,id,type).then(res => {
-      if(res.status) {
+    indexModel.getGradeDetailList(shopId, qualificationId, id, type).then(res => {
+      if (res.status) {
         this.setState({
           standards: res.data
+        })
+        this.getGradeDetailInfo(res.data[0].id)
+      }
+    })
+  }
+  /**
+   * 获取评分-- 每一项扣分详情
+   * @param id 初始进来不传，id为上个页面带过来的id
+   */
+  getGradeDetailInfo(id: any) {
+    indexModel.getGradeDetailInfo(id).then(res => {
+      if (res.status) {
+        this.setState({
+          gradeDetailInfo: res.data
         })
       }
     })
   }
+
 
   //------------------------
 
@@ -107,18 +126,23 @@ class DetailsPage extends React.Component<any>{
    * 下拉选择
    * @param index 
    */
-  pullDownSelect(index: number) {
-    console.log('index',index)
+  pullDownSelect = (index: number) => {
+    console.log('index', index)
+    if (this.props.navigation.state.params.type === 'check') {
     // this.getStandardinfo(index)
+    }else {
+      const id = this.state.standards[index].id
+      this.getGradeDetailInfo(id)
+    }
   }
   /**
    * 初始化数据
    */
   initGetData() {
     this.props.pullDownSelect(0)
-    if(this.props.navigation.state.params.type === 'check') {
-    // this.getStandard()
-    }else {
+    if (this.props.navigation.state.params.type === 'check') {
+      // this.getStandard()
+    } else {
       this.getGradeDetailList()
     }
   }
@@ -132,7 +156,7 @@ class DetailsPage extends React.Component<any>{
 
 
 
-  render (){
+  render() {
     const navigation = this.props.navigation
 
     const standards = [
@@ -161,29 +185,29 @@ class DetailsPage extends React.Component<any>{
       dedect: 9,
       reason: '店面海报旧，海报位置不合理，卫生差不够干净不合理不合理不合理不合理不合理不合理不合理不合理，故扣9分。',
       urls: [
-        
+
       ]
     }
-    return(
+    return (
       <View style={styles.container}>
-        <HeaderCmp bgColor={"#fbfbfb"} title={this.getGradeParams().name} eggHandleBack={() => {navigation.goBack()}}/>
+        <HeaderCmp bgColor={"#fbfbfb"} title={this.getGradeParams().name} eggHandleBack={() => { navigation.goBack() }} />
         <View style={styles.pullDown}>
-          <PullDownCmp data={this.state.standards} select={this.pullDownSelect}/>
+          <PullDownCmp data={this.state.standards} select={this.pullDownSelect} />
         </View>
         <View style={styles.showPictureBox}>
-          <SwiperIndex />
+          <SwiperIndex urls={ navigation.state.params.type === 'check' && this.state.gradeDetailInfo.attachment} />
 
           <View style={styles.sliderCmp}>
-            <SliderCmp cutScore={standardinfo.dedect} maxNum={18}/>
-
+            <SliderCmp cutScore={navigation.state.params.type === 'check' ? standardinfo.dedect : this.state.gradeDetailInfo.deduct}
+              maxNum={18} />
             <View style={styles.reason}>
               <Text style={styles.reasontext}>扣分原因：</Text>
-              <Text style={styles.text}>{standardinfo.reason}</Text>
+              <Text style={styles.text}>{navigation.state.params.type === 'check' ? standardinfo.reason : this.state.gradeDetailInfo.reason}</Text>
             </View>
           </View>
 
         </View>
-     
+
       </View>
     )
   }

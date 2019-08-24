@@ -181,7 +181,7 @@ class IndexModel extends Request {
    * @param {*} startTime 
    * @param {*} endTime 
    */
-  getCheckcategories(shopId,startTime,endTime) {
+  getCheckcategories(shopId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/checkcategories",
       data: {
@@ -195,7 +195,7 @@ class IndexModel extends Request {
    * 获取检查 检查详情页面的详情
    * shopId,levelId,startTime,endTime
    */
-  getCheckLogInfo(shopId,levelId,startTime,endTime) {
+  getCheckLogInfo(shopId, levelId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/checkloginfo",
       data: {
@@ -206,7 +206,7 @@ class IndexModel extends Request {
       }
     })
   }
-  
+
   /**
    * 获取检查 -- 检查记录详情的各项列表
    * @param {*} shopId 
@@ -214,7 +214,7 @@ class IndexModel extends Request {
    * @param {*} startTime 
    * @param {*} endTime 
    */
-  getStandard(shopId,categoryId,startTime,endTime) {
+  getStandard(shopId, categoryId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/standards",
       data: {
@@ -232,7 +232,7 @@ class IndexModel extends Request {
    * @param {*} startTime 
    * @param {*} endTime 
    */
-  getStandardinfo(shopId,standardId,startTime,endTime) {
+  getStandardinfo(shopId, standardId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/standardinfo",
       data: {
@@ -291,7 +291,7 @@ class IndexModel extends Request {
    * @param {*每个模块的id} id 
    * @param {*3区域/4 4s} type 
    */
-  getGradeDetailList(shopId,qualificationId,id,type) {
+  getGradeDetailList(shopId, qualificationId, id, type) {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/gradeDetailList",
       data: {
@@ -302,6 +302,19 @@ class IndexModel extends Request {
       }
     })
   }
+  /**
+   * 获取验收评分-- 每一项扣分详情
+   * @param {*} id 
+   */
+  getGradeDetailInfo(id) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/approveCheckLog/gradeDetailInfo",
+      data:{
+        id
+      }
+    })
+  }
+
 }
 
 
