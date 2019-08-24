@@ -2,7 +2,7 @@ import React from "react";
 
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import pxToDp from "../../utils/fixcss";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as actions from '../../store/actions/filter/pullDownSelect';
 
 interface IProps {
@@ -23,8 +23,8 @@ interface IState {
     this.props.pullDownSelect(0)
   }
  */
- class PullDownCmp extends React.Component<IProps,IState>{
-  state:IState = {
+class PullDownCmp extends React.Component<IProps, IState>{
+  state: IState = {
     selectBoxStatus: false
   }
 
@@ -40,10 +40,10 @@ interface IState {
   handleSelect = (index: number) => {
     this.props.select(index)
     this._setShowBoxStatus()
-    if(this.props.pullDownData.activeIndex === index) {
+    if (this.props.pullDownData.activeIndex === index) {
       return
     }
-    if(this.props.pullDownSelect) {
+    if (this.props.pullDownSelect) {
       this.props.pullDownSelect(index)
     }
   }
@@ -55,19 +55,19 @@ interface IState {
       selectBoxStatus: !this.state.selectBoxStatus
     })
   }
-  render (){
+  render() {
     let activeIndex = this.props.pullDownData.activeIndex
 
     const activeBgColor = {
       backgroundColor: "#F3F8FF"
     }
     const activeRotate = {
-      transform: [{rotate:'-180deg'}]
+      transform: [{ rotate: '-180deg' }]
     }
     const activeColor = {
       color: "#007aff"
     }
-
+    console.log(this.props.data)
     const list = [
       {
         name: "店面面积",
@@ -89,27 +89,27 @@ interface IState {
         score: '-8'
       }
     ]
-    return(
+    return (
       <View>
-        <TouchableOpacity onPress={() => {this.handleShowBox()}} style={styles.container} activeOpacity={0.6}> 
-          <Text style={styles.text} numberOfLines={1}>{list[activeIndex].name}</Text>
-          <Image style={[styles.downIcon, this.state.selectBoxStatus && activeRotate]} source={require("../../images/work/areaReport/checkRecord/more.png")}/>
+        <TouchableOpacity onPress={() => { this.handleShowBox() }} style={styles.container} activeOpacity={0.6}>
+          <Text style={styles.text} numberOfLines={1}>{this.props.data.length && this.props.data[activeIndex].name}</Text>
+          <Image style={[styles.downIcon, this.state.selectBoxStatus && activeRotate]} source={require("../../images/work/areaReport/checkRecord/more.png")} />
         </TouchableOpacity>
         {
-          this.state.selectBoxStatus && 
+          this.state.selectBoxStatus &&
           <ScrollView style={styles.downSelect}>
             {
-              this.props.data.map((item:any, index:number) => (
-                <TouchableOpacity onPress={() => {this.handleSelect(index)}} style={[styles.textBox,activeIndex === index && activeBgColor]} key={index}>
-                  <Text style={[styles.selectText,activeIndex === index && activeColor]}>{item.name}</Text>
-                  <Text style={[styles.selectText,activeIndex === index && activeColor ]}>{item.deduct && item.deduct + '分'}</Text>
+              this.props.data.map((item: any, index: number) => (
+                <TouchableOpacity onPress={() => { this.handleSelect(index) }} style={[styles.textBox, activeIndex === index && activeBgColor]} key={index}>
+                  <Text style={[styles.selectText, activeIndex === index && activeColor]}>{item.name}</Text>
+                  <Text style={[styles.selectScoreText, activeIndex === index && activeColor]}>{item.deduct!=0 && '-' + item.deduct + '分'}</Text>
                 </TouchableOpacity>
               ))
             }
-          
+
           </ScrollView>
         }
-     
+
       </View>
     )
   }
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     color: "#090909",
     fontSize: pxToDp(30),
     flex: 0.8,
-    textAlign:"center",
+    textAlign: "center",
     paddingLeft: pxToDp(20),
     lineHeight: pxToDp(80)
   },
@@ -154,14 +154,23 @@ const styles = StyleSheet.create({
   textBox: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems:"center",
-    flexDirection:"row",
+    alignItems: "center",
+    flexDirection: "row",
     paddingLeft: pxToDp(57),
     paddingRight: pxToDp(57),
   },
   selectText: {
     color: "#090909",
     fontSize: pxToDp(30),
-    lineHeight: pxToDp(80)
+    lineHeight: pxToDp(80),
+    minHeight: pxToDp(80),
+    width: '85%'
+  },
+  selectScoreText: {
+    color: "#090909",
+    fontSize: pxToDp(30),
+    // lineHeight: pxToDp(80),
+    textAlign:"right",
+    width: '25%',
   },
 })

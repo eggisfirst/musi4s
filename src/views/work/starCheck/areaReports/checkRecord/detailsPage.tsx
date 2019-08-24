@@ -93,12 +93,13 @@ class DetailsPage extends React.Component<any>{
    * 获取评分页面过来的数据
    */
   getGradeParams() {
-    const { shopId, qualificationId, id, type } = this.props.navigation.state.params
+    const { shopId, qualificationId, id, type, name } = this.props.navigation.state.params
     return {
       shopId,
       qualificationId,
       id,
-      type
+      type,
+      name
     }
   }
 
@@ -165,7 +166,7 @@ class DetailsPage extends React.Component<any>{
     }
     return(
       <View style={styles.container}>
-        <HeaderCmp bgColor={"#fbfbfb"} title={"店面SI标准一阶段"} eggHandleBack={() => {navigation.goBack()}}/>
+        <HeaderCmp bgColor={"#fbfbfb"} title={this.getGradeParams().name} eggHandleBack={() => {navigation.goBack()}}/>
         <View style={styles.pullDown}>
           <PullDownCmp data={this.state.standards} select={this.pullDownSelect}/>
         </View>

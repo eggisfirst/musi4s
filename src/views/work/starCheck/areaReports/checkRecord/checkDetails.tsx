@@ -174,13 +174,14 @@ class CheckDetails extends React.Component<any>{
     })
   }
   //评分-- 跳转到详情页
-  linkToGradeDetail(id: any) {
+  linkToGradeDetail(id: any, name: string) {
     const { shopId, qualificationId, type } = this.getParams()
     this.props.navigation.push("DetailsPage", {
       shopId,
       qualificationId,
       type,
-      id
+      id,
+      name
     })
   }
 
@@ -276,7 +277,7 @@ class CheckDetails extends React.Component<any>{
               ))
               :
               this.state.categorierData.map((item: any, index: number) => (
-                <TouchableOpacity key={item.id} activeOpacity={0.6} onPress={() => { this.linkToGradeDetail(item.id) }}>
+                <TouchableOpacity key={item.id} activeOpacity={0.6} onPress={() => { this.linkToGradeDetail(item.id,item.name) }}>
                   <MaxtermCmp data={item} />
                 </TouchableOpacity>
 
