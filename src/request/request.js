@@ -25,6 +25,7 @@ axios.interceptors.request.use(config => {
 
 class Request {
   getSecretData({ url, data = {} }) {
+    console.log('again')
     return new Promise((resolve, reject) => {
       const sign = this._getSign(data)
       axios({
@@ -35,6 +36,43 @@ class Request {
           'sign': sign,
         },
         params: data,
+      }).then(res => {
+        store.dispatch(setLoading(false));
+        resolve(res.data)
+      }).catch(err => {
+        store.dispatch(setLoading(false));
+        /**返回错误信息 */
+        refreshToken().then(res => {
+          if (res.access_token) {
+            store.dispatch(Token(res.access_token))
+            this.getSecretData()
+          }else {
+            getToken().then(res => {
+              if(res.access_token) {
+                _storeData("refresh_token", res.refresh_token)
+                store.dispatch(Token(res.access_token))
+                this.getSecretData()
+              }
+            })
+          }
+        })
+      })
+    })
+
+  }
+
+  getJsonData({ url, data = {} }) {
+    console.log('again')
+    return new Promise((resolve, reject) => {
+      const sign = this._getSign(data)
+      axios({
+        url: baseUrl + url,
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'sign': sign,
+        },
+        data: data,
       }).then(res => {
         store.dispatch(setLoading(false));
         resolve(res.data)

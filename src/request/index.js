@@ -124,6 +124,31 @@ class IndexModel extends Request {
       }
     })
   }
+  /**
+   * 获取所有的检查项
+   * @param {*} categoryId 
+   * @param shopId
+   */
+  subcategories(categoryId,shopId) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/subcategories",
+      data: {
+        categoryId,
+        shopId
+      }
+    })
+  }
+  /**
+   * 提交评分
+   * @param {*} data 
+   */
+  submitForm(data) {
+    return this.getJsonData({
+      url: "v2/api/cert/approve/submit",
+      data: data
+    })
+  }
+  
 
   /**
    * 发起认证

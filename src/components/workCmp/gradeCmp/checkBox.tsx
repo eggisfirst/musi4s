@@ -6,15 +6,16 @@ import pxToDp from "../../../utils/fixcss";
 interface IProps {
   item: any
   index?: number
-  handleToGrade?: (index: number) => void
+  handleToGrade?: (index: number, i: number) => void
+  i?:number
 }
 
 
-export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade}) => {
+export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
   //跳转到评分页面
   const handleClick = () => {
-    if(handleToGrade && index !== undefined) {
-      handleToGrade(index)
+    if(handleToGrade && index !== undefined && i!== undefined) {
+      handleToGrade(index,i)
     }
   }
   return(

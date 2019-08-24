@@ -66,13 +66,13 @@ class HandelPage extends React.Component<any, IState>{
       starLevel: '',
       status: ''
     },
-    showFoot: 2,
+    showFoot: 0,
     pageNo: 1,
     sponsorBoxData: {},
     processLeftData: '',
     processRightData: '',
   }
-
+  canAction = false
   /**
    * 筛选或者排序的时候初始话参数
    */
@@ -80,7 +80,7 @@ class HandelPage extends React.Component<any, IState>{
     this.setState({
       pageNo: 1,
       list: [],
-      showFoot: 2
+      showFoot: 0
     })
   }
   /**判断不同页面的请求名单数据 */
@@ -123,9 +123,9 @@ class HandelPage extends React.Component<any, IState>{
 
         } else {
           this.setState({
-            showFoot: 0,
             list: [...list, ...res.data.list]
           })
+          this.preventLoadMoreTime()
         }
       }
     })
@@ -153,9 +153,9 @@ class HandelPage extends React.Component<any, IState>{
 
         } else {
           this.setState({
-            showFoot: 0,
             list: [...list, ...res.data.list]
           })
+          this.preventLoadMoreTime()
         }
       }
     })
@@ -183,9 +183,9 @@ class HandelPage extends React.Component<any, IState>{
 
         } else {
           this.setState({
-            showFoot: 0,
             list: [...list, ...res.data.list]
           })
+          this.preventLoadMoreTime()
         }
       }
     })
@@ -213,9 +213,12 @@ class HandelPage extends React.Component<any, IState>{
 
         } else {
           this.setState({
-            showFoot: 0,
-            list: [...list, ...res.data.list]
+            list: [...list, ...res.data.list],
           })
+          /**
+           * 防止连续加载两次
+           */
+          this.preventLoadMoreTime()
         }
       }
     })
@@ -268,6 +271,18 @@ class HandelPage extends React.Component<any, IState>{
   }
 
   //--------------------
+  /**
+   * 防止加载两次
+   */
+  preventLoadMoreTime() {
+    setTimeout(() => {
+      this.setState({
+        showFoot: 0,
+      })
+    }, 200);
+  }
+
+
   /**获取级别 */
   getLevelType() {
     _retrieveData('type').then(res => {
@@ -326,6 +341,9 @@ class HandelPage extends React.Component<any, IState>{
 
   /**底部加载更多 */
   _onEndReached = () => {
+    if (!this.canAction) {
+      return
+    }
     // 如果是正在加载中或没有更多数据了，则返回
     if (this.state.showFoot !== 0) {
       return;
@@ -339,6 +357,9 @@ class HandelPage extends React.Component<any, IState>{
     data.page = page
     this.getList(data)
   }
+
+
+
 
   /**获取参数 */
   getParmas(myData: any) {
@@ -533,6 +554,7 @@ class HandelPage extends React.Component<any, IState>{
       }
       return 2
     }
+
     return (
       <View>
         <CheckHeader title={this.state.starCheckType}
@@ -548,11 +570,30 @@ class HandelPage extends React.Component<any, IState>{
             filterComfirm={this.filterComfirm}
             filterReset={this.filterReset} />
         }
-        <FlatList style={{ backgroundColor: "#f8f8f8", marginBottom: pxToDp(300) }}
+        <FlatList style={{ backgroundColor: "#f8f8f8", marginBottom: pxToDp(300), minHeight: pxToDp(1330) }}
           data={this.state.list}
+          onScrollBeginDrag={() => {
+            console.log('onScrollBeginDrag');
+            this.canAction = true;
+          }}
+          onScrollEndDrag={() => {
+            console.log('onScrollEndDrag');
+            this.canAction = false;
+          }}
+          onMomentumScrollBegin={() => {
+            console.log('onMomentumScrollBegin');
+            this.canAction = true;
+          }}
+          onMomentumScrollEnd={() => {
+            console.log('onMomentumScrollEnd');
+            this.canAction = false;
+          }}
+
+
+
           ItemSeparatorComponent={this._separator}
           ListFooterComponent={this._renderFooter()}
-          onEndReached={this._onEndReached}
+          onEndReached={() => { this._onEndReached() }}
           onEndReachedThreshold={0.2}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) => (
