@@ -16,20 +16,25 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
   const qualificationId = props.list.qualificationId
   /**点击区域分数跳转 参数未处理（star，type）*/
   const handleToAreaDetail = (index: number) => {
+  const starLevel = props.list.gradeList[index].starLevel
+  const starLevelId = props.list.gradeList[index].starLevelId
     props.navigation.push('CheckDetailsPage', {
       type: 3,
       shopId,
       qualificationId,
-      starLevelId: index + 1
+      starLevelId,
+      starLevel
     })
   }
   /**点击4s分数跳转  参数未处理*/
   const handleToFourDetails = (index: number) => {
+    const starLevel = props.list.gradeList[index].starLevel
+    const starLevelId = props.list.gradeList[index].starLevelId
     props.navigation.push('CheckDetailsPage', {
       type: 4,
-       shopId,
+      shopId,
       qualificationId,
-      starLevelId: index + 1
+      starLevel
     })
   }
   /**判断返回几颗黄色几颗白色 */

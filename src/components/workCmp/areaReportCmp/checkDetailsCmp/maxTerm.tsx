@@ -4,26 +4,27 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import pxToDp from "../../../../utils/fixcss";
 
 interface IProps {
-  data: any
+  data?: any
+  checkData?: any
 }
 
 
-export const MaxtermCmp: React.FC<IProps> = (props) => {
+export const MaxtermCmp: React.FC<IProps> = ({data,checkData}) => {
   return(
     <View style={styles.container}>
       <View style={styles.left}>
-        <Text style={styles.leftScore}>{props.data.score}<Text style={styles.score}>分</Text></Text>
-        <Text style={styles.allScore}>总分{props.data.total}</Text>
+        <Text style={styles.leftScore}>{checkData? checkData.score : data.getTotal}<Text style={styles.score}>分</Text></Text>
+        <Text style={styles.allScore}>总分{checkData? checkData.total : data.total}</Text>
       </View>
       <View style={styles.center}>
-        <Text style={styles.title}>{props.data.name}</Text>
+        <Text style={styles.title}>{checkData? checkData.name:data.name}</Text>
         <View style={styles.hasCircle}>
           <View style={styles.circle}></View>
-          <Text style={styles.text}>检查人: {props.data.inspector}</Text>
+          <Text style={styles.text}>检查人: {checkData? checkData.inspector :data.createByName}</Text>
         </View>
         <View style={styles.hasCircle}>
           <View style={styles.circle}></View>
-          <Text style={styles.text}>检查时间：{props.data.inspectTime}</Text>
+          <Text style={styles.text}>检查时间：{checkData? checkData.inspectTime : data.createTimeS}</Text>
         </View>
       </View>
       <View style={styles.right}>

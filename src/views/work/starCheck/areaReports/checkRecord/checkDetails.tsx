@@ -20,23 +20,64 @@ interface IState {
    * {levelId,shopId,name}
    */
   starData: Array<any>
+  checkInfo: any
+  scoreData: any
+  categorierData: any
+  allStarLength: number
 }
 class CheckDetails extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
-  state = {
+  state: IState = {
+    /**
+     * 头部星级列表
+     */
     starTitle: [],
+    /**
+     * 用来获取levelid/shopid
+     *  */
     starData: [],
-    checkInfo: {}
+    allStarLength: -1,
+    /**
+     * 用来获取总分/各模块分数
+     */
+    checkInfo: {},
+    /**
+     * 分数模块的数据/得分/店门/周期？
+     */
+    scoreData: {},
+    /**
+     * 各模块的得分/数据
+     */
+    categorierData: []
   }
   //----------------
   /**
-   * 获取页面评分详情
+   * 获取评分进来的 页面评分详情
    */
-  getStarGrade(data: any) {
+  getStarGrade(data: any, index?: number) {
     indexModel.getStarGrade(data).then(res => {
-
+      if (res.status) {
+        const allLen = res.data.starList.length
+        /**
+         * 初始进来的index跟自己选择的index
+         */
+        let myIndex = index ? index : 
+        this.getInitStar(allLen, this.props.navigation.state.params.starLevel)
+        this.props.handleSelectStarActiveIndex(myIndex)
+        const scoreData = {
+          getTotal: res.data.getTotal,
+          shopName: res.data.shopName,
+        }
+        this.setState({
+          starTitle: this.getStarTitle(res.data.starList),
+          scoreData,
+          categorierData: res.data.gradeList,
+          starData: res.data.starList,
+          allStarLength: allLen
+        })
+      }
     })
   }
   /**
@@ -50,29 +91,32 @@ class CheckDetails extends React.Component<any>{
         this.props.handleSelectStarActiveIndex(0)
         this.setState({
           starTitle: this.getStarTitle(res.checkCategories),
-          starData: res.checkCategories
+          starData: res.checkCategories,
+          allStarLength: res.checkCategories.length
         })
       }
     })
   }
   /**
-   * 获取检查进来的页面评分详情
+   * 获取检查 --进来的页面评分详情
    */
   getCheckLogInfo() {
     const { shopId, levelId, startTime, endTime } = this.getCheckParams()
     indexModel.getCheckLogInfo(shopId, levelId, startTime, endTime).then(res => {
-
+      if (res.status) {
+        this.setState({
+          checkInfo: res.checkLogInfo
+        })
+      }
     })
   }
   //------------------
+
   /**
    * 获取检查记录进来的路由参数
    */
   getCheckParams() {
-    const shopId = this.props.navigation.state.params.shopId
-    const startTime = this.props.navigation.state.params.startTime
-    const endTime = this.props.navigation.state.params.endTime
-    const levelId = this.props.navigation.state.params.levelId
+    const { shopId, startTime, endTime, levelId } = this.props.navigation.state.params
     return {
       shopId,
       startTime,
@@ -97,8 +141,8 @@ class CheckDetails extends React.Component<any>{
    * 获取认证页面 --上级页面传过来的参数
    * @param data 
    */
-  getParmas(data: any) {
-    const { shopId, qualificationId, starLevelId, type } = data
+  getParams() {
+    const { shopId, qualificationId, starLevelId, type } = this.props.navigation.state.params
     return {
       shopId,
       qualificationId,
@@ -107,36 +151,36 @@ class CheckDetails extends React.Component<any>{
     }
   }
   /**
-   * 获取1-5星对应的5-1星
+   * 获取评分 1-5星对应的5-1星
    * @param num 
    */
-  getInitStar(num: number | string) {
-    switch (num) {
-      case 1:
-        return 4
-      case 2:
-        return 3
-      case 3:
-        return 2
-      case 4:
-        return 1
-      case 5:
-        return 0
-    }
+  getInitStar(len: any, num: any) {
+    return len - num
   }
 
   /**
    * 跳转检查详情页面
    */
-  linkToDetail(id: string | number) {
-    //检查---
+  //检查--- 跳转到详情页
+  linkToCheckDetail(id: any) {
     const { shopId, startTime, endTime } = this.getCheckParams()
     const categoryId = id
     this.props.navigation.push("DetailsPage", {
       shopId,
       categoryId,
       startTime,
-      endTime
+      endTime,
+      type: 'check'
+    })
+  }
+  //评分-- 跳转到详情页
+  linkToGradeDetail(id: any) {
+    const { shopId, qualificationId, type } = this.getParams()
+    this.props.navigation.push("DetailsPage", {
+      shopId,
+      qualificationId,
+      type,
+      id
     })
   }
 
@@ -148,23 +192,34 @@ class CheckDetails extends React.Component<any>{
       this.getCheckcategories()
       this.getCheckLogInfo()
     } else {
-      this.props.handleSelectStarActiveIndex(this.getInitStar(this.props.navigation.state.params.starLevelId))
-      const data = this.getParmas(this.props.navigation.state.params)
+      const data = this.getParams()
       this.getStarGrade(data)
     }
   }
   /**请求筛选星级的数据 */
   handleSelect = (index: number) => {
-    console.log(index)
+    if (this.props.navigation.state.params.type === 'check') {
+      //注意返回来的stardata的顺序？ 321 还是123
+       // const myIndex = this.state.allStarLength - index
+      // console.log(myIndex)
+    } else {
+      const { shopId, qualificationId, type } = this.getParams()
+      const starLevelId = this.state.starData[index].starLevelId
+      // const myIndex = this.state.allStarLength - index
+      const data = {
+        shopId,
+        qualificationId,
+        starLevelId,
+        type
+      }
+      this.getStarGrade(data, index)
+    }
+    console.log('index', index)
   }
   /**设置初始点击进来的星级 index-1*/
   componentDidMount() {
-
     //判断初始进来是验证还是检查
-
-
     this.initGetData()
-
   }
 
   render() {
@@ -210,14 +265,22 @@ class CheckDetails extends React.Component<any>{
           </View>
         </View>
         <ScrollView>
-          <ScoreCanvas score={checkInfo.checkLohInfo.score} />
+          <ScoreCanvas score={this.state.scoreData.getTotal} name={this.state.scoreData.shopName} />
           {
-            checkInfo.checkLohInfo.checkCategorier.map((item, index) => (
-              <TouchableOpacity key={item.categoryId} activeOpacity={0.6} onPress={() => { this.linkToDetail(item.categoryId) }}>
-                <MaxtermCmp data={item}  />
-              </TouchableOpacity>
+            this.props.navigation.state.params.type === 'check' ?
+              checkInfo.checkLohInfo.checkCategorier.map((item, index) => (
+                <TouchableOpacity key={item.categoryId} activeOpacity={0.6} onPress={() => { this.linkToCheckDetail(item.categoryId) }}>
+                  <MaxtermCmp checkData={item} />
+                </TouchableOpacity>
 
-            ))
+              ))
+              :
+              this.state.categorierData.map((item: any, index: number) => (
+                <TouchableOpacity key={item.id} activeOpacity={0.6} onPress={() => { this.linkToGradeDetail(item.id) }}>
+                  <MaxtermCmp data={item} />
+                </TouchableOpacity>
+
+              ))
           }
         </ScrollView>
       </View>

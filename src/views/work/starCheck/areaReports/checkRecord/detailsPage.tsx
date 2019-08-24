@@ -27,6 +27,9 @@ class DetailsPage extends React.Component<any>{
     header: null
   }
   state:IState = {
+    /**
+     * 下拉框列表
+     */
     standards: [],
     standardinfo: {}
   }
@@ -35,7 +38,7 @@ class DetailsPage extends React.Component<any>{
    * 获取检查 -- 检查详情的每个项目
    */
   getStandard() {
-    const {shopId,startTime,endTime,categoryId} = this.getCheckParmas()
+    const {shopId,startTime,endTime,categoryId} = this.getCheckParams()
     indexModel.getStandard(shopId,categoryId,startTime,endTime).then(res => {
       if(res.status) {
         this.setState({
@@ -50,7 +53,7 @@ class DetailsPage extends React.Component<any>{
    * @param index 
    */
   getStandardinfo(index: number,id?:any) {
-    const {shopId,startTime,endTime} = this.getCheckParmas()
+    const {shopId,startTime,endTime} = this.getCheckParams()
     const standardId = id? id : this.state.standards[index].standardId
     indexModel.getStandardinfo(shopId,standardId,startTime,endTime).then(res => {
       if(res.status) {
@@ -60,16 +63,25 @@ class DetailsPage extends React.Component<any>{
       }
     })
   }
+
+  getGradeDetailList() {
+    const { shopId, qualificationId, id, type } = this.getGradeParams()
+    indexModel.getGradeDetailList(shopId,qualificationId,id,type).then(res => {
+      if(res.status) {
+        this.setState({
+          standards: res.data
+        })
+      }
+    })
+  }
+
   //------------------------
 
   /**
    * 获取检查记录页面过来路由数据
    */
-  getCheckParmas() {
-    const shopId = this.props.navigation.state.params.shopId
-    const startTime = this.props.navigation.state.params.startTime
-    const endTime = this.props.navigation.state.params.endTime
-    const categoryId = this.props.navigation.state.params.categoryId
+  getCheckParams() {
+    const { shopId, startTime, endTime, categoryId } = this.props.navigation.state.params
     return {
       shopId,
       startTime,
@@ -77,6 +89,19 @@ class DetailsPage extends React.Component<any>{
       categoryId
     }
   }
+  /**
+   * 获取评分页面过来的数据
+   */
+  getGradeParams() {
+    const { shopId, qualificationId, id, type } = this.props.navigation.state.params
+    return {
+      shopId,
+      qualificationId,
+      id,
+      type
+    }
+  }
+
   /**
    * 下拉选择
    * @param index 
@@ -86,11 +111,22 @@ class DetailsPage extends React.Component<any>{
     // this.getStandardinfo(index)
   }
   /**
+   * 初始化数据
+   */
+  initGetData() {
+    this.props.pullDownSelect(0)
+    if(this.props.navigation.state.params.type === 'check') {
+    // this.getStandard()
+    }else {
+      this.getGradeDetailList()
+    }
+  }
+
+  /**
    * 初始进来的时候设置下拉选择框初始为0
    */
   componentDidMount() {
-    // this.getStandard()
-    this.props.pullDownSelect(0)
+    this.initGetData()
   }
 
 
@@ -131,7 +167,7 @@ class DetailsPage extends React.Component<any>{
       <View style={styles.container}>
         <HeaderCmp bgColor={"#fbfbfb"} title={"店面SI标准一阶段"} eggHandleBack={() => {navigation.goBack()}}/>
         <View style={styles.pullDown}>
-          <PullDownCmp data={standards} select={this.pullDownSelect}/>
+          <PullDownCmp data={this.state.standards} select={this.pullDownSelect}/>
         </View>
         <View style={styles.showPictureBox}>
           <SwiperIndex />

@@ -275,13 +275,31 @@ class IndexModel extends Request {
     })
   }
   /**
-   * 获取各星级评分详情
+   * 获取评分过来的  各星级评分详情
    * @param {*shopId,qualificationId,starLevelId,type} data 
    */
   getStarGrade(data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/starGrade",
       data: data
+    })
+  }
+  /**
+   * 获取验收 -- 检查详情下拉框的列表
+   * @param {*店铺id} shopId 
+   * @param {*认证id} qualificationId 
+   * @param {*每个模块的id} id 
+   * @param {*3区域/4 4s} type 
+   */
+  getGradeDetailList(shopId,qualificationId,id,type) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/approveCheckLog/gradeDetailList",
+      data: {
+        shopId,
+        qualificationId,
+        id,
+        type
+      }
     })
   }
 }
