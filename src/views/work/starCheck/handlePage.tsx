@@ -7,7 +7,7 @@ import FilterIcon from '../../../components/filterCmp/filterCmp';
 import FilterContentCmp from "../../../components/filterCmp/filterContentCmp";
 import { ApplyItem } from '../../../components/workCmp/starCheck/applyItem';
 import { ApplyBtn } from '../../../components/workCmp/starCheck/applyBtn';
-import { BtnTypes, BtnTitle, AlertBtnTypes, StarCheckTypes, Duty } from '../../../utils/enum';
+import { BtnTypes, BtnTitle, AlertBtnTypes, StarCheckTypes, Duty, SearchTypes } from '../../../utils/enum';
 import { ApplyFooter } from '../../../components/workCmp/starCheck/applyFooter';
 import { AlertCmp } from '../../../components/altrtCmp';
 
@@ -21,7 +21,6 @@ import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
 import { _retrieveData } from "../../../utils/utils";
 import { format, getApproveState, approveBoxLeftInfo, turnToArray } from "../../../utils";
-import { thisExpression } from "@babel/types";
 const indexModel = new IndexModel()
 const actions = {
   ...rightFliter,
@@ -43,6 +42,9 @@ interface IState {
   sponsorBoxData: any
   processLeftData: any
   processRightData: any
+  /**判断是不是搜索页面跳过来 */
+  searchIn: boolean
+  searchVal: string
 }
 
 class HandelPage extends React.Component<any, IState>{
@@ -64,13 +66,16 @@ class HandelPage extends React.Component<any, IState>{
       startDate: '',
       endDate: '',
       starLevel: '',
-      status: ''
+      status: '',
+      key: ''
     },
     showFoot: 0,
     pageNo: 1,
     sponsorBoxData: {},
     processLeftData: '',
     processRightData: '',
+    searchIn: false,
+    searchVal: ''
   }
   /**
    * 筛选或者排序的时候初始话参数
@@ -301,7 +306,8 @@ class HandelPage extends React.Component<any, IState>{
       const data = {
         page: 1,
         limit: 10,
-        sort
+        sort,
+        key: this.state.searchVal
       }
       this.getList(data)
     }, 100);
@@ -312,8 +318,14 @@ class HandelPage extends React.Component<any, IState>{
     const sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
     /**注意认证的参数！！！ */
     console.log('reset')
+    const data = {
+      page: 1,
+      limit: 10,
+      sort,
+      key: this.state.searchVal
+    }
     setTimeout(() => {
-      this.getList({ page: 1, limit: 10, sort })
+      this.getList(data)
     }, 100);
   }
   /**筛选 */
@@ -324,17 +336,18 @@ class HandelPage extends React.Component<any, IState>{
     let sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
     let starLevel = this.props.rightFilter.starIndex + 1
     let status = this.props.rightFilter.situationIndex + 1
+    let key = this.state.searchVal && this.state.searchVal
     let data = {
       startDate,
       endDate,
       page: 1,
       limit: 10,
       sort,
-      starLevel: starLevel,
-      status: status
+      starLevel,
+      status,
+      key
     }
     // let newData = this.getParmas(data)
-    console.log('筛选')
     this.getList(data)
   }
 
@@ -461,8 +474,6 @@ class HandelPage extends React.Component<any, IState>{
       processBoxStatus: false
     })
   }
-
-
   _setSponsorStatus = (sponsorStatus: boolean, index?: number) => {
     if (index !== undefined) {
       this.setState({
@@ -493,18 +504,47 @@ class HandelPage extends React.Component<any, IState>{
       starCheckType: this.props.navigation.state.params.type,
     })
   }
+  /**
+   * 判断是否搜索页面跳过来
+   */
+  isSearchIn() {
+    if(this.props.navigation.state.params != undefined && this.props.navigation.state.params.key) {
+        this.setState({
+          searchIn: true,
+          searchVal: this.props.navigation.state.params.key
+        })
+        if(this.props.navigation.state.params.type === SearchTypes.wait_handle) {
+          this.getAcceptList({page:1,limit:10,key:this.props.navigation.state.params.key})
+        }
+        else if(this.props.navigation.state.params.type === SearchTypes.wait_reception) {
+          this.getReceptionList({page:1,limit:10,key:this.props.navigation.state.params.key})
+        }
+        else if(this.props.navigation.state.params.type === SearchTypes.wait_sponsor) {
+          this.getSponsorList({page:1,limit:10,key:this.props.navigation.state.params.key})
+        }
+        else if(this.props.navigation.state.params.type === SearchTypes.processing_record) {
+          this.getLogList({page:1,limit:10,key:this.props.navigation.state.params.key})
+        }
+
+    }else {
+      this.setState({searchIn: false, searchVal: ''})
+      this.getList({ page: 1, limit: 10, sort: 'asc' })
+    }
+  }
+
   componentDidMount() {
     this.getPageState()
     this.initFilter()
-    this.getList({ page: 1, limit: 10, sort: 'asc' })
+    this.isSearchIn()
     this.getLevelType()
   }
-  // shouldComponentUpdate(nextProps: any,nextState: any) {
-  //   return !(nextState.list === this.state.list)
-  // }
+  /**
+   * 跳转搜索页面
+   */
   handleSearch = (type: string) => {
-    console.log('type',type)
-    // this.props.navigation.push("SearchPage")
+    this.props.navigation.push("SearchPage",{
+      type
+    })
   }
   /**
  * 加载时加载动画
@@ -555,8 +595,9 @@ class HandelPage extends React.Component<any, IState>{
     return (
       <View>
         <CheckHeader title={this.state.starCheckType}
+          searchIn={this.state.searchIn}
           eggHandleBack={() => { navigation.goBack() }}
-          eggHandleSearch={() => { this.handleSearch}} />
+          eggHandleSearch={this.handleSearch} />
         <View style={styles.filterContainer}>
           <Sort handleClickSort={this.handleClickSort} />
           <FilterIcon />

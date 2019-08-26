@@ -15,6 +15,7 @@ interface IState {
   list: Array<any>
   showFoot: number
   pageNo: number
+  searchIn: boolean
 }
 export default class Acceptance extends React.Component<any>{
   static navigationOptions = {
@@ -23,16 +24,17 @@ export default class Acceptance extends React.Component<any>{
   state: IState = {
     list: [],
     showFoot: 0,
-    pageNo: 1
+    pageNo: 1,
+    searchIn: false
   }
   /**
    * 获取验收评分列表
    * @param page 
    * @param status 
    */
-  getApproveCheckList(page: number,limit?:number,key?:string) {
+  getApproveCheckList(page: number, limit?: number, key?: string) {
     let list = this.state.list
-    indexModel.getApproveCheckLogList(page,limit,key).then(res => {
+    indexModel.getApproveCheckLogList(page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -85,8 +87,8 @@ export default class Acceptance extends React.Component<any>{
     });
     this.getApproveCheckList(page)
   }
-  eggHandleSearch = (type:SearchTypes) => {
-    this.props.navigation.push('SearchPage',{
+  eggHandleSearch = (type: SearchTypes) => {
+    this.props.navigation.push('SearchPage', {
       type
     })
   }
@@ -94,9 +96,11 @@ export default class Acceptance extends React.Component<any>{
     /**
      * 判断是否搜索页面跳转过来的
      */
-    if(this.props.navigation.state.params != undefined) {
-      this.getApproveCheckList(1,10,this.props.navigation.state.params.key)
-    }else {
+    if (this.props.navigation.state.params != undefined && this.props.navigation.state.params.key) {
+      this.setState({searchIn: true})
+      this.getApproveCheckList(1, 10, this.props.navigation.state.params.key)
+    } else {
+      this.setState({searchIn: false})
       this.getApproveCheckList(1)
     }
   }
@@ -133,10 +137,17 @@ export default class Acceptance extends React.Component<any>{
   render() {
     return (
       <View style={styles.container}>
-        <HeaderCmp title={'验收评分'}
-          eggHandleBack={() => { this.props.navigation.goBack() }}
-          Children={<SearchCmp type={SearchTypes.acceptance}
-            eggHandleSearch={this.eggHandleSearch} />} />
+        {
+          this.state.searchIn ?
+            <HeaderCmp title={'验收评分'}
+              eggHandleBack={() => { this.props.navigation.goBack() }}
+            /> :
+            <HeaderCmp title={'验收评分'}
+              eggHandleBack={() => { this.props.navigation.goBack() }}
+              Children={<SearchCmp type={SearchTypes.acceptance}
+                eggHandleSearch={this.eggHandleSearch} />} />
+        }
+
         <FlatList style={styles.scorllList}
           data={this.state.list}
           ItemSeparatorComponent={this._separator}

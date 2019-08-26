@@ -5,8 +5,15 @@ import { TextInput, FlatList } from "react-native-gesture-handler";
 import { BtnTitle, SearchTypes } from "../utils/enum";
 import { IndexModel } from "../request";
 const indexModel = new IndexModel()
-interface IProps {
 
+import { connect } from 'react-redux';
+import * as sort from '../store/actions/filter/sort'
+import * as rightFliter from '../store/actions/filter/rightFliter';
+import * as handlePageState from '../store/actions/4s/handlePageState';
+const actions = {
+  ...rightFliter,
+  ...handlePageState,
+  ...sort
 }
 
 interface IState {
@@ -18,7 +25,7 @@ interface IState {
   list: Array<any>
 }
 
-export default class Search extends React.Component<any, IState> {
+class Search extends React.Component<any, IState> {
   static navigationOptions = {
     header: null,
   }
@@ -39,7 +46,7 @@ export default class Search extends React.Component<any, IState> {
     indexModel.getCheckList(page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
-        if (res.data.list.length < 20) {
+        if (res.data.list.length < limit) {
           if (this.state.pageNo === 1) {
             this.setState({
               showFoot: 1,
@@ -74,7 +81,7 @@ export default class Search extends React.Component<any, IState> {
     indexModel.getApproveCheckLogList(page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
-        if (res.data.list.length < 20) {
+        if (res.data.list.length < limit) {
           if (this.state.pageNo === 1) {
             this.setState({
               showFoot: 1,
@@ -101,6 +108,151 @@ export default class Search extends React.Component<any, IState> {
     })
   }
   /**
+   * 待受理请求
+   */
+  getAcceptList(page: number, limit: number, key: string) {
+    const data = {
+      page,
+      limit,
+      key
+    }
+    let list = this.state.list
+    indexModel.getAcceptList(data).then(res => {
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < limit) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            list: [...list, ...res.data.list]
+          })
+          this.preventLoadMoreTime()
+        }
+      }
+    })
+  }
+  /**
+   * 待验收
+   */
+  getReceptionList(page: number, limit: number, key: string) {
+    const data = {
+      page,
+      limit,
+      key
+    }
+    let list = this.state.list
+    indexModel.getReceptionList(data).then(res => {
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < limit) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            list: [...list, ...res.data.list]
+          })
+          this.preventLoadMoreTime()
+        }
+      }
+    })
+  }
+  /**
+   * 获取待发起名单
+   */
+  getSponsorList(page: number, limit: number, key: string) {
+    const data = {
+      page,
+      limit,
+      key
+    }
+    let list = this.state.list
+    indexModel.getSponsorList(data).then(res => {
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < limit) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            list: [...list, ...res.data.list]
+          })
+          this.preventLoadMoreTime()
+        }
+      }
+    })
+  }
+  /**
+   * 获取认证进度列表
+   */
+  getLogList(page: number, limit: number, key: string) {
+    let list = this.state.list
+    const data = {
+      page,
+      limit,
+      key
+    }
+    indexModel.getLogList(data).then(res => {
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < limit) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            list: [...list, ...res.data.list],
+          })
+          /**
+           * 防止连续加载两次
+           */
+          this.preventLoadMoreTime()
+        }
+      }
+    })
+  }
+
+
+  /**
 * 防止加载两次
 */
   preventLoadMoreTime() {
@@ -119,6 +271,18 @@ export default class Search extends React.Component<any, IState> {
     }
     else if (this.getType() === SearchTypes.check) {
       this.getCheckList(page, limit, key)
+    }
+    else if (this.getType() === SearchTypes.wait_handle) {
+      this.getAcceptList(page, limit, key)
+    }
+    else if (this.getType() === SearchTypes.wait_reception) {
+      this.getReceptionList(page, limit, key)
+    }
+    else if (this.getType() === SearchTypes.wait_sponsor) {
+      this.getSponsorList(page, limit, key)
+    }
+    else if (this.getType() === SearchTypes.processing_record) {
+      this.getLogList(page, limit, key)
     }
   }
   /**
@@ -161,6 +325,18 @@ export default class Search extends React.Component<any, IState> {
     this.getData(page, 20, this.state.value)
   }
   /**
+   * handlepage的跳转
+   * @param type 
+   * @param index 
+   */
+  handlePageType(type: SearchTypes, index: number) {
+    this.props.navigation.push('HandlePage', {
+      key: this.state.list[index].distributor,
+      type
+    })
+  }
+
+  /**
    * 跳转到相应的页面
    */
   handleLinkTo = (index: number) => {
@@ -174,6 +350,34 @@ export default class Search extends React.Component<any, IState> {
         key: this.state.list[index].distributor
       })
     }
+    else if (this.getType() === SearchTypes.wait_handle) {
+      this.handlePageType(SearchTypes.wait_handle, index)
+    }
+    else if (this.getType() === SearchTypes.wait_reception) {
+      this.handlePageType(SearchTypes.wait_reception, index)
+    }
+    else if (this.getType() === SearchTypes.wait_sponsor) {
+      this.handlePageType(SearchTypes.wait_sponsor, index)
+    }
+    else if (this.getType() === SearchTypes.processing_record) {
+      this.handlePageType(SearchTypes.processing_record, index)
+    }
+  }
+  /**初始化筛选框 */
+  initFilter = () => {
+    /**排序 */
+    this.props.handleSortIndex(0)
+    /**筛选日期 */
+    this.props.selectStartDate(new Date())
+    this.props.selectEndDate(new Date())
+    /**认证进度里面的处理情况 */
+    this.props.handleSituation(-1)
+    /**星级选择 */
+    this.props.handleSelectStarIndex(-1)
+  }
+
+  componentWillUnmount() {
+    this.initFilter()
   }
   /**
 * 加载时加载动画
@@ -252,6 +456,10 @@ export default class Search extends React.Component<any, IState> {
     )
   }
 }
+
+const mapStateToProps = (state: any) => state
+
+export default connect(mapStateToProps, actions)(Search)
 
 const styles = StyleSheet.create({
   home: {

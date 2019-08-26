@@ -13,6 +13,7 @@ interface IState {
   list: Array<any>
   pageNo: number;
   showFoot: number;
+  searchIn: boolean
 }
 export default class CheckRecord extends React.Component<any>{
   static navigationOptions = {
@@ -21,15 +22,16 @@ export default class CheckRecord extends React.Component<any>{
   state: IState = {
     showFoot: 0,
     pageNo: 1,
-    list: []
+    list: [],
+    searchIn: false
   }
   /**
    * 请求数据
    * @param page 
    */
-  getCheckList(page: number, limit?:number,key?:string) {
+  getCheckList(page: number, limit?: number, key?: string) {
     let list = this.state.list
-    indexModel.getCheckList(page,limit,key).then(res => {
+    indexModel.getCheckList(page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -83,19 +85,23 @@ export default class CheckRecord extends React.Component<any>{
     });
     this.getCheckList(page)
   }
-
-  componentDidMount() {
-    /**
-     * 判断是否搜索页面跳转过来的
-     */
-    if(this.props.navigation.state.params != undefined) {
-      this.getCheckList(1,10,this.props.navigation.state.params.key)
-    }else {
+  /**
+  * 判断是否搜索页面跳转过来的
+  */
+  isSearchIn() {
+    if (this.props.navigation.state.params != undefined && this.props.navigation.state.params.key) {
+      this.setState({ searchIn: true })
+      this.getCheckList(1, 10, this.props.navigation.state.params.key)
+    } else {
+      this.setState({ searchIn: false })
       this.getCheckList(1)
     }
   }
+  componentDidMount() {
+    this.isSearchIn()
+  }
   eggHandleSearch = (type: SearchTypes) => {
-    this.props.navigation.push('SearchPage',{
+    this.props.navigation.push('SearchPage', {
       type
     })
   }
@@ -143,7 +149,10 @@ export default class CheckRecord extends React.Component<any>{
           setHeight={263}
           imgUrl={require("../../../../../images/backicon.png")} />
         <View style={styles.search}>
-          <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check}/>
+          {
+            !this.state.searchIn &&
+            <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check} />
+          }
         </View>
         <FlatList style={styles.scorllList}
           data={this.state.list}

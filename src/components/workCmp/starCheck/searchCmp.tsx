@@ -11,6 +11,7 @@ interface IProps {
 }
 
 export const SearchCmp: React.FC<IProps> = (props) => {
+  console.log(1111,props.type)
     return(
       <TouchableOpacity activeOpacity={0.8} onPress={() => {props.eggHandleSearch(props.type)}}>
         <View style={styles.rightContainer}>
