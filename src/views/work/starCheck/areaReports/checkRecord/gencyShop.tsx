@@ -5,7 +5,7 @@ import { BackGroundHeader } from "../../../../../components/headerCmp/background
 import pxToDp from "../../../../../utils/fixcss";
 import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp";
 import { GencyCard } from '../../../../../components/workCmp/areaReportCmp/checkRecord/gencyCard';
-import { ReportType } from "../../../../../utils/enum";
+import { ReportType, SearchTypes } from "../../../../../utils/enum";
 import { IndexModel } from "../../../../../request";
 const indexModel = new IndexModel()
 
@@ -27,9 +27,9 @@ export default class CheckRecord extends React.Component<any>{
    * 请求数据
    * @param page 
    */
-  getCheckList(page: number) {
+  getCheckList(page: number, limit?:number,key?:string) {
     let list = this.state.list
-    indexModel.getCheckList(page).then(res => {
+    indexModel.getCheckList(page,limit,key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -85,10 +85,19 @@ export default class CheckRecord extends React.Component<any>{
   }
 
   componentDidMount() {
-    this.getCheckList(1)
+    /**
+     * 判断是否搜索页面跳转过来的
+     */
+    if(this.props.navigation.state.params != undefined) {
+      this.getCheckList(1,10,this.props.navigation.state.params.key)
+    }else {
+      this.getCheckList(1)
+    }
   }
-  eggHandleSearch = () => {
-    this.props.navigation.push('SearchPage')
+  eggHandleSearch = (type: SearchTypes) => {
+    this.props.navigation.push('SearchPage',{
+      type
+    })
   }
 
   /**
@@ -134,7 +143,7 @@ export default class CheckRecord extends React.Component<any>{
           setHeight={263}
           imgUrl={require("../../../../../images/backicon.png")} />
         <View style={styles.search}>
-          <SearchCmp eggHandleSearch={this.eggHandleSearch} />
+          <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check}/>
         </View>
         <FlatList style={styles.scorllList}
           data={this.state.list}

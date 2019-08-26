@@ -15,7 +15,7 @@ export const CheckHeader:React.FC<IProps> = (props:IProps) => {
     <>
       <HeaderCmp  title={title} 
                   eggHandleBack={eggHandleBack}
-                  Children={<SearchCmp eggHandleSearch={eggHandleSearch}/>}>
+                  Children={<SearchCmp type={title} eggHandleSearch={eggHandleSearch}/>}>
       </HeaderCmp>
     </>
    )

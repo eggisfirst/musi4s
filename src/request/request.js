@@ -25,7 +25,6 @@ axios.interceptors.request.use(config => {
 
 class Request {
   getSecretData({ url, data = {} }) {
-    console.log('again')
     return new Promise((resolve, reject) => {
       const sign = this._getSign(data)
       axios({

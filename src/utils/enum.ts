@@ -43,6 +43,16 @@ export enum StarCheckTypes {
   processing_record = '认证进度'
 }
 
+export enum SearchTypes {
+  wait_handle = '待受理',
+  wait_reception = '待验收',
+  wait_sponsor = '待发起',
+  processing_record = '认证进度',
+  check = '检查',
+  acceptance = '验收'
+}
+
+
 /**排序 */
 export enum SotrList {
   timeUp = '申请时间升序',

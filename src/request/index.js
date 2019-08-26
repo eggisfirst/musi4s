@@ -129,7 +129,7 @@ class IndexModel extends Request {
    * @param {*} categoryId 
    * @param shopId
    */
-  subcategories(categoryId,shopId) {
+  subcategories(categoryId, shopId) {
     return this.getSecretData({
       url: "v2/api/cert/approve/subcategories",
       data: {
@@ -148,7 +148,7 @@ class IndexModel extends Request {
       data: data
     })
   }
-  
+
 
   /**
    * 发起认证
@@ -177,12 +177,13 @@ class IndexModel extends Request {
   /**
    * 获取检查记录
    */
-  getCheckList(page) {
+  getCheckList(page, limit = 10, key = '') {
     return this.getSecretData({
       url: "v2/api/cert/approve/checkList",
       data: {
         page,
-        limit: 10
+        limit,
+        key
       }
     })
   }
@@ -270,20 +271,18 @@ class IndexModel extends Request {
   }
 
 
-
-
-
   /**
    * 获取验收评分列表
    * @param {*页数} page 
    * @param {*全部1/及格2/不及格3} status 
    */
-  getApproveCheckLogList(page) {
+  getApproveCheckLogList(page, limit = 10, key = '') {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/list",
       data: {
         page,
-        limit: 10,
+        limit,
+        key
       }
     })
   }
@@ -334,7 +333,7 @@ class IndexModel extends Request {
   getGradeDetailInfo(id) {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/gradeDetailInfo",
-      data:{
+      data: {
         id
       }
     })

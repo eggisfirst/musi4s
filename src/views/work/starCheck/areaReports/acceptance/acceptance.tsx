@@ -7,7 +7,7 @@ import { StarCheckBox } from '../../../../../components/workCmp/areaReportCmp/ch
 import { HeaderCmp } from '../../../../../components/headerCmp/headerCmp';
 import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp";
 import { GencyCard } from "../../../../../components/workCmp/areaReportCmp/checkRecord/gencyCard";
-import { ReportType } from "../../../../../utils/enum";
+import { ReportType, SearchTypes } from "../../../../../utils/enum";
 import { IndexModel } from "../../../../../request";
 const indexModel = new IndexModel()
 
@@ -30,9 +30,9 @@ export default class Acceptance extends React.Component<any>{
    * @param page 
    * @param status 
    */
-  getApproveCheckList(page: number) {
+  getApproveCheckList(page: number,limit?:number,key?:string) {
     let list = this.state.list
-    indexModel.getApproveCheckLogList(page).then(res => {
+    indexModel.getApproveCheckLogList(page,limit,key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -85,12 +85,20 @@ export default class Acceptance extends React.Component<any>{
     });
     this.getApproveCheckList(page)
   }
-
-  eggHandleSearch = () => {
-
+  eggHandleSearch = (type:SearchTypes) => {
+    this.props.navigation.push('SearchPage',{
+      type
+    })
   }
   componentDidMount() {
-    this.getApproveCheckList(1)
+    /**
+     * 判断是否搜索页面跳转过来的
+     */
+    if(this.props.navigation.state.params != undefined) {
+      this.getApproveCheckList(1,10,this.props.navigation.state.params.key)
+    }else {
+      this.getApproveCheckList(1)
+    }
   }
   /**
 * 加载时加载动画
@@ -127,7 +135,8 @@ export default class Acceptance extends React.Component<any>{
       <View style={styles.container}>
         <HeaderCmp title={'验收评分'}
           eggHandleBack={() => { this.props.navigation.goBack() }}
-          Children={<SearchCmp eggHandleSearch={() => { this.props.navigation.push('SearchPage') }} />} />
+          Children={<SearchCmp type={SearchTypes.acceptance}
+            eggHandleSearch={this.eggHandleSearch} />} />
         <FlatList style={styles.scorllList}
           data={this.state.list}
           ItemSeparatorComponent={this._separator}
@@ -136,7 +145,7 @@ export default class Acceptance extends React.Component<any>{
           onEndReachedThreshold={0.2}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) => (
-            <GencyCard 
+            <GencyCard
               type={ReportType.acceptance}
               listData={item}
               navigation={this.props.navigation} />

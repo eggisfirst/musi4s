@@ -502,7 +502,10 @@ class HandelPage extends React.Component<any, IState>{
   // shouldComponentUpdate(nextProps: any,nextState: any) {
   //   return !(nextState.list === this.state.list)
   // }
-
+  handleSearch = (type: string) => {
+    console.log('type',type)
+    // this.props.navigation.push("SearchPage")
+  }
   /**
  * 加载时加载动画
  */
@@ -553,7 +556,7 @@ class HandelPage extends React.Component<any, IState>{
       <View>
         <CheckHeader title={this.state.starCheckType}
           eggHandleBack={() => { navigation.goBack() }}
-          eggHandleSearch={() => { navigation.push("SearchPage") }} />
+          eggHandleSearch={() => { this.handleSearch}} />
         <View style={styles.filterContainer}>
           <Sort handleClickSort={this.handleClickSort} />
           <FilterIcon />
