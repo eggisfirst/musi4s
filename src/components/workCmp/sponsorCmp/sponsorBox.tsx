@@ -176,13 +176,13 @@ export const SponsorBox: React.FC<IProps> = (props) => {
                   <Text style={styles.left1}>{item.key}：</Text>
                 }
                 <Text style={styles.right}>{getList(item.key)}</Text>
-                {
+                {/* {
                  item.status && getList(item.key)?
                   <>
                     <Text style={styles.toReport} onPress={() => { handleToReport(item.key) }}>{item.textVal}>></Text>
                   </>
                   :<></>
-                }
+                } */}
 
               </View>
             ))

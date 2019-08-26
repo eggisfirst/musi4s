@@ -34,7 +34,8 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
       type: 4,
       shopId,
       qualificationId,
-      starLevel
+      starLevel,
+      starLevelId
     })
   }
   /**判断返回几颗黄色几颗白色 */

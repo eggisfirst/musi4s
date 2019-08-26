@@ -98,6 +98,13 @@ export default class ProcessBox extends React.Component<IProps,IState>{
     })
     return getAllList
   }
+
+  /**
+   * 跳转到评分页面
+   */
+  toAcceptancePage = () => {
+    console.log('accc',this.props.rightData)
+  }
   componentDidMount() {
     this.getNodeList()
     this.getNodeState()
@@ -196,8 +203,16 @@ export default class ProcessBox extends React.Component<IProps,IState>{
                             preceStyle(el.status, index) === 1? 
                             <Text style={styles.rightText}>{el.createTime} {index <=2? getApproveBoxState(el.status):getApproveOtherBoxState(el.status)}</Text>
                             : 
-                            <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => {console.log(index)}}> {index <=2? getApproveBoxState(el.status):getApproveOtherBoxState(el.status)}</Text>
-                            </Text>
+                            <>
+                              {
+                                index <=2? 
+                                <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => {this.toAcceptancePage()}}> {getApproveBoxState(el.status)}</Text>
+                                </Text> :
+                                 <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveOtherBoxState(el.status)}</Text>
+                                 </Text>
+                              }
+                            </>
+                          
                           }
                            {
                              preceStyle(el.status, index) === 2? 
@@ -316,6 +331,11 @@ const styles = StyleSheet.create({
     fontSize:pxToDp(24),
     lineHeight: pxToDp(40),
     textDecorationLine:'underline'
+  },
+  rightTextRedWithOutLine: {
+    color: "#FF2D55",
+    fontSize:pxToDp(24),
+    lineHeight: pxToDp(40),
   }
 
 })

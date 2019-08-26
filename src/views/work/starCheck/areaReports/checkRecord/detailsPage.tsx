@@ -158,7 +158,6 @@ class DetailsPage extends React.Component<any>{
 
   render() {
     const navigation = this.props.navigation
-
     const standards = [
       {
         deduct: 0,
@@ -187,6 +186,8 @@ class DetailsPage extends React.Component<any>{
       urls: [
 
       ]
+    
+    
     }
     return (
       <View style={styles.container}>
