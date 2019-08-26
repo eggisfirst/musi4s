@@ -72,7 +72,6 @@ class HandelPage extends React.Component<any, IState>{
     processLeftData: '',
     processRightData: '',
   }
-  canAction = false
   /**
    * 筛选或者排序的时候初始话参数
    */
@@ -341,9 +340,6 @@ class HandelPage extends React.Component<any, IState>{
 
   /**底部加载更多 */
   _onEndReached = () => {
-    if (!this.canAction) {
-      return
-    }
     // 如果是正在加载中或没有更多数据了，则返回
     if (this.state.showFoot !== 0) {
       return;
@@ -357,8 +353,6 @@ class HandelPage extends React.Component<any, IState>{
     data.page = page
     this.getList(data)
   }
-
-
 
 
   /**获取参数 */
@@ -572,25 +566,6 @@ class HandelPage extends React.Component<any, IState>{
         }
         <FlatList style={{ backgroundColor: "#f8f8f8", marginBottom: pxToDp(300), minHeight: pxToDp(1330) }}
           data={this.state.list}
-          onScrollBeginDrag={() => {
-            console.log('onScrollBeginDrag');
-            this.canAction = true;
-          }}
-          onScrollEndDrag={() => {
-            console.log('onScrollEndDrag');
-            this.canAction = false;
-          }}
-          onMomentumScrollBegin={() => {
-            console.log('onMomentumScrollBegin');
-            this.canAction = true;
-          }}
-          onMomentumScrollEnd={() => {
-            console.log('onMomentumScrollEnd');
-            this.canAction = false;
-          }}
-
-
-
           ItemSeparatorComponent={this._separator}
           ListFooterComponent={this._renderFooter()}
           onEndReached={() => { this._onEndReached() }}

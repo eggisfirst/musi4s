@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, Platform, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Platform, StyleSheet, ScrollView, FlatList, ActivityIndicator } from "react-native";
 import { BackGroundHeader } from "../../../../../components/headerCmp/backgroundHeader";
 import pxToDp from "../../../../../utils/fixcss";
 import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp";
@@ -10,23 +10,78 @@ import { IndexModel } from "../../../../../request";
 const indexModel = new IndexModel()
 
 interface IState {
-  checkList: Array<any>
+  list: Array<any>
+  pageNo: number;
+  showFoot: number;
 }
 export default class CheckRecord extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
   state: IState = {
-    checkList: []
+    showFoot: 0,
+    pageNo: 1,
+    list: []
   }
+  /**
+   * 请求数据
+   * @param page 
+   */
   getCheckList(page: number) {
+    let list = this.state.list
     indexModel.getCheckList(page).then(res => {
-      if(res.status) {
-        this.setState({
-          checkList: res.data.list
-        })
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < 10) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            list: [...list, ...res.data.list],
+          })
+          /**
+           * 防止连续加载两次
+           */
+          this.preventLoadMoreTime()
+        }
       }
     })
+  }
+
+  /**
+* 防止加载两次
+*/
+  preventLoadMoreTime() {
+    setTimeout(() => {
+      this.setState({
+        showFoot: 0,
+      })
+    }, 200);
+  }
+  /**
+   * 触底刷新加载数据
+   */
+  _onEndReached() {
+    // 如果是正在加载中或没有更多数据了，则返回
+    if (this.state.showFoot !== 0) {
+      return;
+    }
+    let page = this.state.pageNo + 1
+    this.setState({
+      pageNo: page,
+      showFoot: 2
+    });
+    this.getCheckList(page)
   }
 
   componentDidMount() {
@@ -35,9 +90,40 @@ export default class CheckRecord extends React.Component<any>{
   eggHandleSearch = () => {
     this.props.navigation.push('SearchPage')
   }
+
+  /**
+* 加载时加载动画
+*/
+  _renderFooter() {
+    if (this.state.showFoot === 1) {
+      return (
+        <View style={{ height: 30, alignItems: 'center', justifyContent: 'flex-start', }}>
+          <Text style={{ color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5, }}>
+            没有更多数据了
+      </Text>
+        </View>
+      );
+    } else if (this.state.showFoot === 2) {
+      return (
+        <View style={styles.footer}>
+          <ActivityIndicator />
+          <Text>加载中...</Text>
+        </View>
+      );
+    } else if (this.state.showFoot === 0) {
+      return (
+        <View style={styles.footer}>
+          <Text></Text>
+        </View>
+      );
+    }
+  }
+  _separator() {
+    return <View style={{ height: 1, }} />;
+  }
   render() {
     const { navigation } = this.props
-   
+
     return (
       <View style={styles.container}>
         <BackGroundHeader
@@ -50,13 +136,20 @@ export default class CheckRecord extends React.Component<any>{
         <View style={styles.search}>
           <SearchCmp eggHandleSearch={this.eggHandleSearch} />
         </View>
-        <ScrollView>
-          {
-            this.state.checkList.map((item, index) => (
-              <GencyCard key={index} type={ReportType.check} listData={item} navigation={this.props.navigation} />
-            ))
-          }
-        </ScrollView>
+        <FlatList style={styles.scorllList}
+          data={this.state.list}
+          ItemSeparatorComponent={this._separator}
+          ListFooterComponent={this._renderFooter()}
+          onEndReached={() => { this._onEndReached() }}
+          onEndReachedThreshold={0.2}
+          keyExtractor={(item) => item.distributor}
+          renderItem={({ item }) => (
+            <GencyCard
+              type={ReportType.check}
+              listData={item}
+              navigation={this.props.navigation} />
+          )}
+        />
       </View>
     )
   }
@@ -73,5 +166,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: pxToDp(25),
     top: pxToDp(180)
-  }
+  },
+
+  scorllList: {
+    backgroundColor: "#f8f8f8"
+  },
+
+  footer: {
+    flexDirection: 'row',
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
 })

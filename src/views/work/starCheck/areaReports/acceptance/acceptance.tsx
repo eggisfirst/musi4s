@@ -1,8 +1,8 @@
 import React from "react";
 
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import pxToDp from "../../../../../utils/fixcss";
-import {StarCheckBox} from '../../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
+import { StarCheckBox } from '../../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
 
 import { HeaderCmp } from '../../../../../components/headerCmp/headerCmp';
 import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp";
@@ -13,13 +13,17 @@ const indexModel = new IndexModel()
 
 interface IState {
   list: Array<any>
+  showFoot: number
+  pageNo: number
 }
 export default class Acceptance extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
-  state = {
-    list: []
+  state: IState = {
+    list: [],
+    showFoot: 0,
+    pageNo: 1
   }
   /**
    * 获取验收评分列表
@@ -27,103 +31,117 @@ export default class Acceptance extends React.Component<any>{
    * @param status 
    */
   getApproveCheckList(page: number) {
+    let list = this.state.list
     indexModel.getApproveCheckLogList(page).then(res => {
-      if(res.status) {
-        this.setState({
-          list: res.data.list
-        })
+      if (res.status) {
+        /**是否第一次加载 */
+        if (res.data.list.length < 10) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data.list
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data.list]
+            })
+          }
+
+        } else {
+          this.setState({
+            list: [...list, ...res.data.list],
+          })
+          /**
+           * 防止连续加载两次
+           */
+          this.preventLoadMoreTime()
+        }
       }
     })
   }
-
-  /**请求筛选：合格/不合格/全部的数据 */
-  handleSelect = (index:number) => {
-    console.log(1111,index)
+  /**
+ * 防止加载两次
+ */
+  preventLoadMoreTime() {
+    setTimeout(() => {
+      this.setState({
+        showFoot: 0,
+      })
+    }, 200);
   }
+  /**
+   * 触底刷新
+   */
+  _onEndReached() {
+    // 如果是正在加载中或没有更多数据了，则返回
+    if (this.state.showFoot !== 0) {
+      return;
+    }
+    let page = this.state.pageNo + 1
+    this.setState({
+      pageNo: page,
+      showFoot: 2
+    });
+    this.getApproveCheckList(page)
+  }
+
   eggHandleSearch = () => {
 
   }
   componentDidMount() {
     this.getApproveCheckList(1)
   }
-
-  render (){
-    const list: any[]= [
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-      {
-        name: "通化市东昌区凯利家具中东店"
-      },
-     
-    ]
-    return(
+  /**
+* 加载时加载动画
+*/
+  _renderFooter() {
+    if (this.state.showFoot === 1) {
+      return (
+        <View style={{ height: 30, alignItems: 'center', justifyContent: 'flex-start', }}>
+          <Text style={{ color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5, }}>
+            没有更多数据了
+        </Text>
+        </View>
+      );
+    } else if (this.state.showFoot === 2) {
+      return (
+        <View style={styles.footer}>
+          <ActivityIndicator />
+          <Text>加载中...</Text>
+        </View>
+      );
+    } else if (this.state.showFoot === 0) {
+      return (
+        <View style={styles.footer}>
+          <Text></Text>
+        </View>
+      );
+    }
+  }
+  _separator() {
+    return <View style={{ height: 1, }} />;
+  }
+  render() {
+    return (
       <View style={styles.container}>
-        <HeaderCmp  title={'验收评分'} 
-                    eggHandleBack={() => {this.props.navigation.goBack()}}
-                    Children={<SearchCmp eggHandleSearch={() => {this.props.navigation.push('SearchPage')}}/>}/>
-        
-        <ScrollView style={styles.scorllList}>
-        {
-            this.state.list.map((item, index) => (
-              <GencyCard key={index} type={ReportType.acceptance} listData={item} navigation={this.props.navigation} />
-            ))
-          }
-        </ScrollView>
+        <HeaderCmp title={'验收评分'}
+          eggHandleBack={() => { this.props.navigation.goBack() }}
+          Children={<SearchCmp eggHandleSearch={() => { this.props.navigation.push('SearchPage') }} />} />
+        <FlatList style={styles.scorllList}
+          data={this.state.list}
+          ItemSeparatorComponent={this._separator}
+          ListFooterComponent={this._renderFooter()}
+          onEndReached={() => { this._onEndReached() }}
+          onEndReachedThreshold={0.2}
+          keyExtractor={item => item.id}
+          renderItem={({ item, index }) => (
+            <GencyCard 
+              type={ReportType.acceptance}
+              listData={item}
+              navigation={this.props.navigation} />
+          )}
+        />
       </View>
     )
   }
@@ -155,5 +173,13 @@ const styles = StyleSheet.create({
   },
   scorllList: {
     backgroundColor: "#f8f8f8"
-  }
+  },
+
+  footer: {
+    flexDirection: 'row',
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
 })

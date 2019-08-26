@@ -17,6 +17,7 @@ interface IProps {
 
 export const GencyCard: React.FC<IProps> = (props) => {
   const [loadState, setLoadState] = useState(false)
+  console.log(props.listData)
   /**按需求显示多少条数据 */
   const getList = () => {
     if (loadState) {

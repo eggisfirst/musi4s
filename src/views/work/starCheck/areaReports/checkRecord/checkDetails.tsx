@@ -57,7 +57,6 @@ class CheckDetails extends React.Component<any>{
    * 获取评分进来的 页面评分详情
    */
   getStarGrade(data: any, index?: number) {
-    console.log('index',index)
     indexModel.getStarGrade(data).then(res => {
       if (res.status) {
         const allLen = res.data.starList.length
