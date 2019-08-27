@@ -54,6 +54,7 @@ interface IState {
 class HandelPage extends React.Component<any, IState>{
   static navigationOptions = {
     header: null,
+    
   }
   state: IState = {
     alertBox: BtnTitle.null,
@@ -270,8 +271,6 @@ class HandelPage extends React.Component<any, IState>{
   getApproveFlowInfo(index: number) {
     const id = this.state.list[index].id
     const starLevel = this.state.list[index].approveLevel
-    console.log(starLevel,'starLevel')
-    console.log(id,'id')
     indexModel.getApproveFlowInfo(id).then(res => {
       if (res.status) {
         this.setState({

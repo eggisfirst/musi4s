@@ -29,6 +29,7 @@ const AppNavigator = createBottomTabNavigator({
   },{
     initialRouteName: 'Work',
     tabBarOptions: {
+      
       activeTintColor: '#007AFF',
       showIcon: true,
       style: {
@@ -38,7 +39,7 @@ const AppNavigator = createBottomTabNavigator({
         fontSize: pxToDp(18),
       },
       indicatorStyle: { height: 0 },
-    }
+    },
   },
 )
 
@@ -61,6 +62,7 @@ export default function configAppNavigator(isLoggedIn:boolean) {
       //主导航页面不显示头部
       navigationOptions: {
         header: null,
+
       }
     },
     GencyShopPage,
@@ -82,10 +84,13 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     headerLayoutPreset: "center",
     defaultNavigationOptions: {
       headerTintColor:"#000",
+      
     },
     
       //页面跳转动画
     transitionConfig: () => ({
+
+
       transitionSpec: {
           duration: 300,
           easing: Easing.out(Easing.poly(4)),

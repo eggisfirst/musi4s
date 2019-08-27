@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Linking, TouchableOpacity, Image} from "react-n
 import pxToDp from "../../utils/fixcss";
 import { MapCanvas } from './mapCanvas';
 import { MapToApp } from './mapToApp';
+import TouchStartAndRelease from '../gestures';
 
 interface IState {
   curLat: number
@@ -68,10 +69,20 @@ export default class MapCmp extends React.Component<Iprops>{
       toAppStatus: false
     })
   }
+  /**
+   * 手势下滑触发隐藏事件
+   */
+  handleHide= () => {
+    console.log('back')
+    this.props.handleCloseMap()
+  }
   render() {
     const shopInfo = this.props.shopInfo
     return(
-      <View style={styles.wrapper}>
+      <View style={styles.wrapper} >
+        <View style={styles.lineToHide}>
+            <TouchStartAndRelease  handleHide={this.handleHide}/>
+        </View>
         <View style={styles.addressBox}>
           <Text style={styles.title}>{shopInfo.shopName}</Text>
           <Text style={styles.address}>地址：{shopInfo.address}</Text>
@@ -86,13 +97,13 @@ export default class MapCmp extends React.Component<Iprops>{
             <Image source={require('../../images/work/toShop.png')} style={styles.toShopIcon} />
             <Text style={styles.toShopText}>导航到店</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.close} onPress={() => {this.props.handleCloseMap()}}>
+          {/* <TouchableOpacity style={styles.close} onPress={() => {this.props.handleCloseMap()}}>
             <Text style={styles.closeText}>关闭</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {
             this.state.toAppStatus && 
             <MapToApp handleCloseToApp={this.handleCloseToApp}
-                      address={this.state.address}
+                      address={shopInfo.address}
                       curLat={this.state.curLat}
                       curLong={this.state.curLong}
                       targerLat={this.state.targerLat}
@@ -170,5 +181,20 @@ const styles = StyleSheet.create({
   closeText: {
     color: "#007aff",
     fontSize: pxToDp(30)
+  },
+
+
+  lineToHide: {
+    position:"absolute",
+    left: pxToDp(250),
+    bottom:pxToDp(796),
+    width: pxToDp(240),
+    height: pxToDp(100),
+    zIndex: 999,
+    // borderRadius: pxToDp(12),
+    // backgroundColor: "#ccc",
+    borderTopWidth: pxToDp(10),
+    borderTopColor: "#ccc",
+    // borderTopLeftRadius: pxToDp(12),
   }
 })
