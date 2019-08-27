@@ -10,15 +10,18 @@ interface IProps {
   handleCloseProcessBox: () => void
   rightData: any
   leftData: any
+  starLevel: number
+  id: string
+  navigation: any
 }
 interface IState {
   nodeList: Array<any>
   nodeStateList: Array<any>
 }
 export default class ProcessBox extends React.Component<IProps,IState>{
-  state:IState = {
+  state: IState = {
     nodeList: [],
-    nodeStateList:[]
+    nodeStateList: []
   }
   /**获取左边固定的节点 */
   getNodeList = () => {
@@ -76,7 +79,7 @@ export default class ProcessBox extends React.Component<IProps,IState>{
           },
         ]
       },
-      
+
     ]
     this.setState({
       nodeStateList
@@ -84,16 +87,16 @@ export default class ProcessBox extends React.Component<IProps,IState>{
   }
   /**获取完整的包括未到节点的时间轴 */
   getAllList = () => {
-    if(this.state.nodeList.length === this.props.rightData.length) {
+    if (this.state.nodeList.length === this.props.rightData.length) {
       const getAllList = this.props.rightData
       return getAllList
     }
-    let getAllList:any = []
+    let getAllList: any = []
     this.state.nodeList.map((item, index) => {
-      if(this.props.rightData[index] && this.props.rightData[index].data) {
-        getAllList.push({data:this.props.rightData[index].data})
-      }else {
-        getAllList.push({status: 'no'})
+      if (this.props.rightData[index] && this.props.rightData[index].data) {
+        getAllList.push({ data: this.props.rightData[index].data })
+      } else {
+        getAllList.push({ status: 'no' })
       }
     })
     return getAllList
@@ -103,152 +106,161 @@ export default class ProcessBox extends React.Component<IProps,IState>{
    * 跳转到评分页面
    */
   toAcceptancePage = () => {
-    console.log('accc',this.props.rightData)
+    const len = this.props.rightData.length
+    const length = this.props.rightData[len - 1].data.length
+    let type = this.props.leftData === 2 ? 3 : 4
+    this.props.navigation.push('CheckDetailsPage', {
+      type,
+      shopId: this.props.rightData[len - 1].data[length - 1].shopId,
+      qualificationId: this.props.id,
+      starLevel: this.props.starLevel,
+      starLevelId: this.props.rightData[len - 1].data[length - 1].starLevelId
+    })
   }
   componentDidMount() {
     this.getNodeList()
     this.getNodeState()
   }
 
- render (){
-  /**获取每个节点的margintop */
-  const myMarginTop = (index: number) => {
-    if(index === -1) {
-      return pxToDp(36)
+  render() {
+    /**获取每个节点的margintop */
+    const myMarginTop = (index: number) => {
+      if (index === -1) {
+        return pxToDp(36)
+      }
+      if (this.props.rightData[index]) {
+        const i = this.props.rightData[index].data.length
+        return pxToDp((i) * 40)
+      } else {
+        return pxToDp(56)
+      }
     }
-    if(this.props.rightData[index]) {
-      const i = this.props.rightData[index].data.length
-      return pxToDp( (i)*40)
-    }else {
-      return pxToDp(56)
+    /**最后一个元素底部加距离 */
+    const myLastBottom = (type: string) => {
+      if (type === ApproveNode.headquarters) {
+        return pxToDp(93)
+      }
     }
-  }
-  /**最后一个元素底部加距离 */
-  const myLastBottom = (type: string) => {
-    if(type === ApproveNode.headquarters) {
-      return pxToDp(93)
-    }
-  }
-  /**
-   * 获取接口数据status对应的数据
-   * @param index 状态status
-   * @param type 前面三个节点 <=2,后面的节点>2
-   */
-  const preceStyle = (index: any,type:any) => {
-    /**后面的节点 */
-    if(type > 2) {
-      /**不通过 */
-      if(index === 2) {
+    /**
+     * 获取接口数据status对应的数据
+     * @param index 状态status
+     * @param type 前面三个节点 <=2,后面的节点>2
+     */
+    const preceStyle = (index: any, type: any) => {
+      /**后面的节点 */
+      if (type > 2) {
+        /**不通过 */
+        if (index === 2) {
+          return 2
+        }
+        return 1
+      }
+      /**前3个节点 */
+      if (index === 1 || index === 4 || index === 5 || index === 7 || index === 8 || index === 9 || index === 11) {
+        return 1
+      } else if (index === 'no') {
         return 2
       }
-      return 1
-    }
-    /**前3个节点 */
-    if (index === 1 || index === 4 || index === 5 || index === 7 || index === 8 || index === 9 || index === 11) {
-      return 1
-    } else if (index === 'no') {
       return 2
     }
-    return 2
-  }
-  /**
-   * 获取弹框标题
-   * @param list 
-   */
-  const title = (list:any) => {
-    const len = list.length
-    const lastlen = list[len - 1].data.length
-    const status = list[len - 1].data[lastlen - 1].status
-    const title = preceStyle(status, len - 1)
-    if(len > 3) {
-      if(status === 2) {
-        return '认证失败'
-      }else if(status === 3) {
-        return '认证成功'
-      }
-      return '认证中'
-    }else {
-      if(title === 1) {
+    /**
+     * 获取弹框标题
+     * @param list 
+     */
+    const title = (list: any) => {
+      const len = list.length
+      const lastlen = list[len - 1].data.length
+      const status = list[len - 1].data[lastlen - 1].status
+      const title = preceStyle(status, len - 1)
+      if (len > 3) {
+        if (status === 2) {
+          return '认证失败'
+        } else if (status === 3) {
+          return '认证成功'
+        }
         return '认证中'
+      } else {
+        if (title === 1) {
+          return '认证中'
+        }
+        return '认证失败'
       }
-      return '认证失败'
     }
-  }
-  
-  return(
-    <View style={styles.mask}>
-      <View style={styles.container}>
-        <Text style={styles.title}>进度--{title(this.props.rightData)}</Text>
 
-        <ScrollView style={styles.content}>
-          <View style={styles.linePosition}>
-            <TimerShaft getAllList={this.getAllList()} nodeStateList={this.props.rightData}/>
-          </View>
-          {
-            this.state.nodeList.map((item, index) => (
-              <View style={{marginTop: myMarginTop(index - 1)}} key={index} >
-                <Text style={[styles.lefttext,{marginBottom: myLastBottom(item)}]} >{item}</Text>
-              </View>
-            ))
-          }
-          <View style={styles.rightBox}>
+    return (
+      <View style={styles.mask}>
+        <View style={styles.container}>
+          <Text style={styles.title}>进度--{title(this.props.rightData)}</Text>
+
+          <ScrollView style={styles.content}>
+            <View style={styles.linePosition}>
+              <TimerShaft getAllList={this.getAllList()} nodeStateList={this.props.rightData} />
+            </View>
             {
-              this.props.rightData.map((item:any, index:number) => (
-                <View style={{marginTop: pxToDp(40)}} key={index}>
-                  <View style={styles.rightStatus} >
-                    {
-                      item.data && item.data.map((el:any, i:number) => (
-                        <View key={i}>
-                          {
-                            preceStyle(el.status, index) === 1? 
-                            <Text style={styles.rightText}>{el.createTime} {index <=2? getApproveBoxState(el.status):getApproveOtherBoxState(el.status)}</Text>
-                            : 
-                            <>
-                              {
-                                index <=2? 
-                                <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => {this.toAcceptancePage()}}> {getApproveBoxState(el.status)}</Text>
-                                </Text> :
-                                 <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveOtherBoxState(el.status)}</Text>
-                                 </Text>
-                              }
-                            </>
-                          
-                          }
-                           {
-                             preceStyle(el.status, index) === 2? 
-                              <Text style={styles.rightText}>备注:{el.remark}</Text> : <></>
-                            }
-                        </View>
-                      ))
-                    }
-                  </View>
+              this.state.nodeList.map((item, index) => (
+                <View style={{ marginTop: myMarginTop(index - 1) }} key={index} >
+                  <Text style={[styles.lefttext, { marginBottom: myLastBottom(item) }]} >{item}</Text>
                 </View>
               ))
             }
-           
-          </View>
+            <View style={styles.rightBox}>
+              {
+                this.props.rightData.map((item: any, index: number) => (
+                  <View style={{ marginTop: pxToDp(40) }} key={index}>
+                    <View style={styles.rightStatus} >
+                      {
+                        item.data && item.data.map((el: any, i: number) => (
+                          <View key={i}>
+                            {
+                              preceStyle(el.status, index) === 1 ?
+                                <Text style={styles.rightText}>{el.createTime} {index <= 2 ? getApproveBoxState(el.status) : getApproveOtherBoxState(el.status)}</Text>
+                                :
+                                <>
+                                  {
+                                    index <= 2 ?
+                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => { this.toAcceptancePage() }}> {getApproveBoxState(el.status)}</Text>
+                                      </Text> :
+                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveOtherBoxState(el.status)}</Text>
+                                      </Text>
+                                  }
+                                </>
 
-        </ScrollView>
+                            }
+                            {
+                              preceStyle(el.status, index) === 2 && index > 2 ?
+                                <Text style={styles.rightText}>备注:{el.remark}</Text> : <></>
+                            }
+                          </View>
+                        ))
+                      }
+                    </View>
+                  </View>
+                ))
+              }
 
-        <TouchableOpacity style={styles.botBtn} activeOpacity={0.6}
-                          onPress={() => {this.props.handleCloseProcessBox()}}>
-          <Text style={styles.botTxt}>知道了</Text>
-        </TouchableOpacity>
+            </View>
+
+          </ScrollView>
+
+          <TouchableOpacity style={styles.botBtn} activeOpacity={0.6}
+            onPress={() => { this.props.handleCloseProcessBox() }}>
+            <Text style={styles.botTxt}>知道了</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-   )
- }
+    )
+  }
 }
 
 const styles = StyleSheet.create({
   mask: {
     position: "absolute",
-    top:0,
-    left:0,
-    right:0,
-    bottom:0, 
-    zIndex:999999, 
-    width: pxToDp(750), 
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 999999,
+    width: pxToDp(750),
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
@@ -266,30 +278,30 @@ const styles = StyleSheet.create({
     backgroundColor: "#007aff",
     width: "100%",
     fontSize: pxToDp(38),
-    fontWeight:"bold",
+    fontWeight: "bold",
     color: "#fff",
     textAlign: "center"
   },
   content: {
-    width:"100%",
+    width: "100%",
     height: pxToDp(640),
     paddingLeft: pxToDp(21),
     paddingRight: pxToDp(21),
     // paddingTop: pxToDp(40),
     // paddingBottom: pxToDp(150),
-  
+
   },
   botBtn: {
-    width:"100%",
+    width: "100%",
     height: pxToDp(99),
     borderTopWidth: pxToDp(1),
     borderTopColor: "#e1e1e1",
   },
   botTxt: {
     lineHeight: pxToDp(99),
-    color:"#007aff",
+    color: "#007aff",
     fontSize: pxToDp(36),
-    textAlign:"center"
+    textAlign: "center"
   },
   linePosition: {
     position: "absolute",
@@ -304,7 +316,7 @@ const styles = StyleSheet.create({
     width: pxToDp(140),
     paddingRight: pxToDp(20),
     fontWeight: "500",
-    lineHeight:pxToDp(40)
+    lineHeight: pxToDp(40)
   },
 
   rightBox: {
@@ -328,13 +340,13 @@ const styles = StyleSheet.create({
   },
   rightTextRed: {
     color: "#FF2D55",
-    fontSize:pxToDp(24),
+    fontSize: pxToDp(24),
     lineHeight: pxToDp(40),
-    textDecorationLine:'underline'
+    textDecorationLine: 'underline'
   },
   rightTextRedWithOutLine: {
     color: "#FF2D55",
-    fontSize:pxToDp(24),
+    fontSize: pxToDp(24),
     lineHeight: pxToDp(40),
   }
 

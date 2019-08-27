@@ -44,7 +44,11 @@ interface IState {
   processRightData: any
   /**判断是不是搜索页面跳过来 */
   searchIn: boolean
-  searchVal: string
+  searchVal: string,
+  //认证弹框需要的星级
+  starLevel: number
+  //认证弹框需要的id
+  qualificationId: string
 }
 
 class HandelPage extends React.Component<any, IState>{
@@ -75,7 +79,9 @@ class HandelPage extends React.Component<any, IState>{
     processLeftData: '',
     processRightData: '',
     searchIn: false,
-    searchVal: ''
+    searchVal: '',
+    starLevel: -1,
+    qualificationId: ''
   }
   /**
    * 筛选或者排序的时候初始话参数
@@ -263,12 +269,17 @@ class HandelPage extends React.Component<any, IState>{
    */
   getApproveFlowInfo(index: number) {
     const id = this.state.list[index].id
+    const starLevel = this.state.list[index].approveLevel
+    console.log(starLevel,'starLevel')
+    console.log(id,'id')
     indexModel.getApproveFlowInfo(id).then(res => {
       if (res.status) {
         this.setState({
           processBoxStatus: true,
           processLeftData: approveBoxLeftInfo(res.data),
-          processRightData: turnToArray(res.data)
+          processRightData: turnToArray(res.data),
+          starLevel,
+          qualificationId: id
         })
       }
     })
@@ -508,26 +519,26 @@ class HandelPage extends React.Component<any, IState>{
    * 判断是否搜索页面跳过来
    */
   isSearchIn() {
-    if(this.props.navigation.state.params != undefined && this.props.navigation.state.params.key) {
-        this.setState({
-          searchIn: true,
-          searchVal: this.props.navigation.state.params.key
-        })
-        if(this.props.navigation.state.params.type === SearchTypes.wait_handle) {
-          this.getAcceptList({page:1,limit:10,key:this.props.navigation.state.params.key})
-        }
-        else if(this.props.navigation.state.params.type === SearchTypes.wait_reception) {
-          this.getReceptionList({page:1,limit:10,key:this.props.navigation.state.params.key})
-        }
-        else if(this.props.navigation.state.params.type === SearchTypes.wait_sponsor) {
-          this.getSponsorList({page:1,limit:10,key:this.props.navigation.state.params.key})
-        }
-        else if(this.props.navigation.state.params.type === SearchTypes.processing_record) {
-          this.getLogList({page:1,limit:10,key:this.props.navigation.state.params.key})
-        }
+    if (this.props.navigation.state.params != undefined && this.props.navigation.state.params.key) {
+      this.setState({
+        searchIn: true,
+        searchVal: this.props.navigation.state.params.key
+      })
+      if (this.props.navigation.state.params.type === SearchTypes.wait_handle) {
+        this.getAcceptList({ page: 1, limit: 10, key: this.props.navigation.state.params.key })
+      }
+      else if (this.props.navigation.state.params.type === SearchTypes.wait_reception) {
+        this.getReceptionList({ page: 1, limit: 10, key: this.props.navigation.state.params.key })
+      }
+      else if (this.props.navigation.state.params.type === SearchTypes.wait_sponsor) {
+        this.getSponsorList({ page: 1, limit: 10, key: this.props.navigation.state.params.key })
+      }
+      else if (this.props.navigation.state.params.type === SearchTypes.processing_record) {
+        this.getLogList({ page: 1, limit: 10, key: this.props.navigation.state.params.key })
+      }
 
-    }else {
-      this.setState({searchIn: false, searchVal: ''})
+    } else {
+      this.setState({ searchIn: false, searchVal: '' })
       this.getList({ page: 1, limit: 10, sort: 'asc' })
     }
   }
@@ -542,7 +553,7 @@ class HandelPage extends React.Component<any, IState>{
    * 跳转搜索页面
    */
   handleSearch = (type: string) => {
-    this.props.navigation.push("SearchPage",{
+    this.props.navigation.push("SearchPage", {
       type
     })
   }
@@ -686,7 +697,10 @@ class HandelPage extends React.Component<any, IState>{
           this.state.processBoxStatus &&
           <ProcessBox leftData={this.state.processLeftData}
             rightData={this.state.processRightData}
-            handleCloseProcessBox={this.handleCloseProcessBox} />
+            starLevel={this.state.starLevel}
+            id={this.state.qualificationId}
+            handleCloseProcessBox={this.handleCloseProcessBox}
+            navigation={this.props.navigation} />
         }
 
       </View>
