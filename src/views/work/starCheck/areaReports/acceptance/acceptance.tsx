@@ -110,8 +110,8 @@ export default class Acceptance extends React.Component<any>{
   _renderFooter() {
     if (this.state.showFoot === 1) {
       return (
-        <View style={{ height: 30, alignItems: 'center', justifyContent: 'flex-start', }}>
-          <Text style={{ color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5, }}>
+        <View style={{ height: pxToDp(100), alignItems: 'center', justifyContent: 'flex-start', }}>
+          <Text style={{ color: '#999999', fontSize: pxToDp(24), marginTop: pxToDp(10), marginBottom: pxToDp(40), }}>
             没有更多数据了
         </Text>
         </View>
@@ -197,9 +197,9 @@ const styles = StyleSheet.create({
 
   footer: {
     flexDirection: 'row',
-    height: 24,
+    height: pxToDp(100),
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: pxToDp(40),
   },
 })

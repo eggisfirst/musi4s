@@ -74,7 +74,7 @@ export default class LoginScreen extends Component<any> {
           if(res.status) {
             //用户级别
             _storeData('type',res.type) 
-            this.props.navigation.replace('Work')
+            this.props.navigation.navigate('Work')
           }
         })
       }else {
