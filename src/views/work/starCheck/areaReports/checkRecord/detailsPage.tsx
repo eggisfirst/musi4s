@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Dimensions } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Dimensions, ScrollView } from "react-native";
 import { HeaderCmp } from "../../../../../components/headerCmp/headerCmp";
 import PullDownCmp from "../../../../../components/filterCmp/pullDownCmp";
 import pxToDp from "../../../../../utils/fixcss";
@@ -192,23 +192,24 @@ class DetailsPage extends React.Component<any>{
     return (
       <View style={styles.container}>
         <HeaderCmp bgColor={"#fbfbfb"} title={this.getGradeParams().name} eggHandleBack={() => { navigation.goBack() }} />
-        <View style={styles.pullDown}>
-          <PullDownCmp data={this.state.standards} select={this.pullDownSelect} />
-        </View>
-        <View style={styles.showPictureBox}>
-          <SwiperIndex urls={ navigation.state.params.type === 'check' && this.state.gradeDetailInfo.attachment} />
-
-          <View style={styles.sliderCmp}>
-            <SliderCmp cutScore={navigation.state.params.type === 'check' ? standardinfo.dedect : this.state.gradeDetailInfo.deduct}
-              maxNum={18} />
-            <View style={styles.reason}>
-              <Text style={styles.reasontext}>扣分原因：</Text>
-              <Text style={styles.text}>{navigation.state.params.type === 'check' ? standardinfo.reason : this.state.gradeDetailInfo.reason}</Text>
-            </View>
+        <ScrollView  horizontal={false}>
+          <View style={styles.pullDown}>
+            <PullDownCmp data={this.state.standards} select={this.pullDownSelect} />
           </View>
+          <View style={styles.showPictureBox}>
+            <SwiperIndex urls={ navigation.state.params.type === 'check' && this.state.gradeDetailInfo.attachment} />
 
-        </View>
+            <View style={styles.sliderCmp}>
+              <SliderCmp cutScore={navigation.state.params.type === 'check' ? standardinfo.dedect : this.state.gradeDetailInfo.deduct}
+                maxNum={18} />
+              <View style={styles.reason}>
+                <Text style={styles.reasontext}>扣分原因：</Text>
+                <Text style={styles.text}>{navigation.state.params.type === 'check' ? standardinfo.reason : this.state.gradeDetailInfo.reason}</Text>
+              </View>
+            </View>
 
+          </View>
+          </ScrollView>
       </View>
     )
   }
@@ -221,45 +222,54 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    position: "relative"
+    position: "relative",
   },
   pullDown: {
     marginTop: pxToDp(51),
     marginLeft: pxToDp(91),
     position: "relative",
-    zIndex: 99
+    zIndex: 99,
+    height: pxToDp(106),
   },
   showPictureBox: {
     width: pxToDp(600),
     // height: pxToDp(438),
     // marginLeft: pxToDp(67),
-    // marginTop: pxToDp(30),
-    position: "absolute",
-    zIndex: 10,
-    left: 0,
-    top: pxToDp(392)
+    marginTop: pxToDp(30),
+    // position: "absolute",
+    // zIndex: 10,
+    // left: 0,
+    // top: pxToDp(392)
+    // top: pxToDp(202),
+    // height: pxToDp(1200),
   },
   sliderCmp: {
-    position: "absolute",
+    // position: "absolute",
     width: pxToDp(544),
     // height: pxToDp(400),
-    zIndex: 10,
-    left: pxToDp(100),
-    top: pxToDp(viewportHeight * 0.65 + 300),
+    // zIndex: 10,
+    // left: pxToDp(100),
+    // top: pxToDp(viewportHeight * 0.65 + 300),
+    // marginTop: pxToDp(viewportHeight * 0.65 + 300),
+    marginLeft: pxToDp(100),
+    marginTop: pxToDp(100),
   },
   reason: {
-    position: "absolute",
-    left: 0,
-    top: pxToDp(150)
+    width: "100%",
+    // height: pxToDp(500),
+    // borderWidth: 1
+    // position: "absolute",
+    // left: 0,
+    // top: pxToDp(150)
   },
   reasontext: {
     color: "#7c7c7c",
     fontSize: pxToDp(26),
-    marginBottom: pxToDp(26)
+    marginBottom: pxToDp(26),
   },
   text: {
     fontSize: pxToDp(26),
     color: "#303030",
-    lineHeight: pxToDp(40)
+    lineHeight: pxToDp(40),
   }
 })

@@ -44,8 +44,8 @@ export const SliderCmp: React.FC<IProps> = (props) => {
 const styles = StyleSheet.create({
   container: {
     width: pxToDp(490),
-    height: "100%",
-    marginLeft: pxToDp(20)
+    height: pxToDp(150),
+    marginLeft: pxToDp(20),
   },
   scoreRange: {
     display: 'flex',

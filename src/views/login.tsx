@@ -114,9 +114,9 @@ export default class LoginScreen extends Component<any> {
       maxLength:20,
       type: 'password'
     }
-    const circltStyle = {
-      display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"
-    }
+    // const circltStyle = {
+    //   display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"
+    // }
     return (
       <View style={styleSheet.container}>
         <View style={styleSheet.top}>
@@ -139,7 +139,8 @@ export default class LoginScreen extends Component<any> {
                 style={styleSheet.left} 
                 onPress={this.handleRememberPwd}>
                 <View style={styleSheet.leftRadio}>
-                  <View style={[styleSheet.circle,circltStyle]} ></View>
+                  <View style={[styleSheet.circle,
+                  {display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"}]} ></View>
                 </View>
                 <Text style={styleSheet.leftText} >记住密码</Text>
             </TouchableOpacity>
