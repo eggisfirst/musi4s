@@ -18,7 +18,7 @@ export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
       handleToGrade(index,i)
     }
   }
-  return(
+  return (
     <View style={styles.wrapper}>
       <Text style={styles.content}>{item.name}</Text>
       {
@@ -33,7 +33,7 @@ export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
 
       }
     </View>
-   )
+  )
 }
 
 const styles = StyleSheet.create({
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(76,217,100,0.3)",
     borderRadius: pxToDp(22),
     marginTop: pxToDp(20),
-    display:"flex",
+    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"

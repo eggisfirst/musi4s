@@ -195,8 +195,8 @@ export default class GradePage extends React.Component<any>{
   componentDidMount() {
     this.initData()
   }
-  render (){
-    const {navigation} = this.props
+  render() {
+    const { navigation } = this.props
     const list = [
       {
         status: false,
@@ -214,7 +214,7 @@ export default class GradePage extends React.Component<any>{
         title: "年度经营计划"
       }
     ]
-    return(
+    return (
       <View>
         <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {navigation.goBack()}}/>
         <View style={styles.sum}>
@@ -243,7 +243,7 @@ export default class GradePage extends React.Component<any>{
          
         </View>
       </View>
-      )
+    )
   }
 }
 
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     width: pxToDp(439),
     // height: pxToDp(80),
     backgroundColor: "#f8f8f8",
-    textShadowColor:`0px ${pxToDp(4)} ${pxToDp(10)} 0px rgba(225,228,230,1)`,
+    textShadowColor: `0px ${pxToDp(4)} ${pxToDp(10)} 0px rgba(225,228,230,1)`,
     borderTopRightRadius: pxToDp(10),
     borderBottomRightRadius: pxToDp(40),
     paddingLeft: pxToDp(31),
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(40)
   },
   sum_text: {
-    fontSize:pxToDp(24),
+    fontSize: pxToDp(24),
     color: "#909090",
   },
   sum_blue: {
@@ -285,14 +285,14 @@ const styles = StyleSheet.create({
   },
   start_check_title: {
     fontSize: pxToDp(45),
-    fontWeight:"bold",
+    fontWeight: "bold",
     color: "#363636"
   },
   checkBox: {
     display: "flex",
-    flexDirection:"row",
+    flexDirection: "row",
     flexWrap: "wrap",
-    
+
   },
- 
+
 })
