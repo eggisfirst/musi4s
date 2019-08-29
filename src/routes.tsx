@@ -13,6 +13,7 @@ import SearchPage from './views/search';
 import ReceptionPage from './views/work/reception/reception';
 import GradePage from './views/work/gradePage/grade';
 import CheckListPage from './views/work/starCheck/checkList';
+import CheckDetailPage from './views/work/starCheck/checkDetail';
 import GencyShopPage from './views/work/starCheck/areaReports/checkRecord/gencyShop';
 import CheckRecordPage from './views/work/starCheck/areaReports/checkRecord/checkRecord';
 import CheckDetailsPage from './views/work/starCheck/areaReports/checkRecord/checkDetails';
@@ -45,7 +46,7 @@ const AppNavigator = createBottomTabNavigator({
 
 const routerStack = createStackNavigator({
   CheckListPage,
-
+  CheckDetailPage,
   StarHome,
 
   Login: {
