@@ -11,6 +11,8 @@ interface IProps {
 
 
 export const SliderCmp: React.FC<IProps> = (props) => {
+
+
   /**刻度 */
   const scaleList = [1, 1, 1, 2, 1, 1, 1]
   /**扣的分数占18分的比例 */

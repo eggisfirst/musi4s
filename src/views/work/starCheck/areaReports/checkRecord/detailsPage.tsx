@@ -11,6 +11,12 @@ import SwiperIndex from "../../../../../components/workCmp/areaReportCmp/checkDe
 import { IndexModel } from "../../../../../request";
 const indexModel = new IndexModel()
 
+
+import axios from 'axios';
+import store from "../../../../../store";
+import { setLoading } from "../../../../../store/actions/global/loading";
+
+
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 function wp(percentage: number) {
   const value = (percentage * viewportWidth) / 100;
@@ -21,6 +27,8 @@ interface IState {
   standards: any
   standardinfo: any
   gradeDetailInfo: any
+
+  urls: any
 }
 
 class DetailsPage extends React.Component<any>{
@@ -33,7 +41,28 @@ class DetailsPage extends React.Component<any>{
      */
     standards: [],
     standardinfo: {},
-    gradeDetailInfo: {}
+    gradeDetailInfo: {},
+    urls: []
+  }
+  changeUrl(list:any) {
+    let arr:any = []
+    list.map((it:any) => {
+      arr.push({url: it})
+    })
+    return arr
+  }
+
+  test = () => { 
+    axios.get('../../../../../../data.json')
+    .then( (res) => {
+      const urls = this.changeUrl(res.data.standardinfo.urls)
+      store.dispatch(setLoading(false));
+        this.setState({
+          standards: res.data.standards,
+          urls: urls
+        })
+      
+    })
   }
   //----------请求----------
   /**
@@ -142,6 +171,8 @@ class DetailsPage extends React.Component<any>{
     this.props.pullDownSelect(0)
     if (this.props.navigation.state.params.type === 'check') {
       // this.getStandard()
+    this.test()
+
     } else {
       this.getGradeDetailList()
     }
@@ -197,7 +228,7 @@ class DetailsPage extends React.Component<any>{
             <PullDownCmp data={this.state.standards} select={this.pullDownSelect} />
           </View>
           <View style={styles.showPictureBox}>
-            <SwiperIndex urls={ navigation.state.params.type === 'check' && this.state.gradeDetailInfo.attachment} />
+            <SwiperIndex urls={this.state.urls}  />
 
             <View style={styles.sliderCmp}>
               <SliderCmp cutScore={navigation.state.params.type === 'check' ? standardinfo.dedect : this.state.gradeDetailInfo.deduct}

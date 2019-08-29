@@ -13,10 +13,11 @@ interface IProps {
 export const StarCheckBox:React.FC<IProps> = (props) => {
     /**点击跳转检查详情页面 */
     const handleClickToDetails = (index: number) => {
-      const shopId = props.list[index].shopId
-      const startTime = props.list[index].startTime
-      const endTime = props.list[index].endTime
-      const levelId = props.list[index].levelId
+      // const shopId = props.list[index].shopId
+      // const startTime = props.list[index].startTime
+      // const endTime = props.list[index].endTime
+      // const levelId = props.list[index].levelId
+      const {shopId,startTime,endTime,levelId} = props.list[index]
       props.navigation.push("CheckDetailsPage", {
         shopId,
         startTime,

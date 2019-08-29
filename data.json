@@ -1,0 +1,86 @@
+{
+  "list" : [
+    {
+      "name": "二星检查",
+      "startTime": "2018.07.01 00",
+      "endTime": "2018.07.05 00",
+      "pass": 1
+    },
+    {
+      "name": "二星检查",
+      "startTime": "2018.07.01 00",
+      "endTime": "2018.07.05 00",
+      "pass": 1
+    },
+    {
+      "name": "二星检查",
+      "startTime": "2018.07.01 00",
+      "endTime": "2018.07.05 00",
+      "pass": 1
+    }
+  ],
+  "checkCategories": [
+    {
+      "name": "一星检查",
+      "shopId":"111",            
+       "levelId": "11"          
+    },
+    {
+      "name": "二星检查",
+      "shopId":"111",            
+       "levelId": "11"         
+    },
+    {
+      "name": "三星检查",
+      "shopId":"111",            
+       "levelId": "11"          
+    }
+  ],
+  "checkLogInfo": {
+    "categoryId": "12432423423423",                               
+      "name": "一星检查",            
+      "score":80 ,              
+      "cycle":1 ,                
+      "checkCategories": [
+        {           
+          "categoryId": "21312342133",        
+          "name":  "门店门面检查",           
+             "total": 40,            
+             "deduct":8 ,          
+          "score":32 ,            
+          "inspector":"老王" ,           
+          "inspectTime": "2019-09-09"          
+         }
+      ]
+  },
+  "standards": [                           
+    {
+      "standardId": "3423423423423423",   
+      "name":  "卫生",          
+      "deduct":"0" 
+    }, 
+    {
+      "standardId": "3423423423423423",   
+      "name":  "店面面积",          
+      "deduct":"11" 
+    },
+    {
+      "standardId": "3423423423423423",   
+      "name":  "店面",          
+      "deduct":"2" 
+    }     
+  ],
+  "standardinfo":   {               
+    "deduct": 2,    
+    "reason": "11111" ,     
+    "urls":[  
+      "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=508387608,2848974022&fm=26&gp=0.jpg",
+      "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg",
+      "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1563980539,1672265910&fm=26&gp=0.jpg",
+      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4064075977,3738371861&fm=26&gp=0.jpg"
+    ]             
+    }
+}
+
+
+  

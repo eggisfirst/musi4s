@@ -12,6 +12,10 @@ import { connect } from 'react-redux';
 import { IndexModel } from "../../../../../request";
 const indexModel = new IndexModel()
 
+
+import axios from 'axios'
+import store from '../../../../../store'
+import { setLoading } from "../../../../../store/actions/global/loading";
 interface IState {
   list: Array<any>
 }
@@ -23,6 +27,20 @@ class CheckRecord extends React.Component<any>{
   state = {
     list: []
   }
+
+   test = () => { 
+    axios.get('../../../../../../data.json')
+    .then( (res) => {
+      console.log(res.data.list)
+      store.dispatch(setLoading(false));
+      this.setState({
+        list: res.data.list
+      })
+    })
+  }
+
+
+
   /**
    * 获取历史记录
    */
@@ -45,7 +63,11 @@ class CheckRecord extends React.Component<any>{
   }
   /**获取传递过来的门店名 */
   componentDidMount() {
-    this.getCheckLog()
+    // this.getCheckLog()
+
+
+    this.test()
+
     // console.log(this.props.navigation.state.parmas)
   }
   /**页面卸载的时候重新初始化数据 */
@@ -54,38 +76,6 @@ class CheckRecord extends React.Component<any>{
   }
 
   render (){
-    const list = [
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 90
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 90
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 70
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 90
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 70
-      },
-    ]
     return(
       <View style={styles.container}>
         <BackGroundHeader 

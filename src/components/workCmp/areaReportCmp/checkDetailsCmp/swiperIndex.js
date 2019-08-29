@@ -12,13 +12,18 @@ const IS_ANDROID = Platform.OS === 'android';
 const SLIDER_1_FIRST_ITEM = 1;
 
 export default class SwiperIndex extends Component {
+    
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         slider1ActiveSlide: SLIDER_1_FIRST_ITEM
+    //     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            slider1ActiveSlide: SLIDER_1_FIRST_ITEM
-        };
+    // }
+    state = {
+        slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
     }
+
     setActiveIndex = (index) => {
         console.log('index',index)
         this.setState({
@@ -59,7 +64,7 @@ export default class SwiperIndex extends Component {
                 <Carousel
                     layout={'stack'}
                     ref={c => this._slider1Ref = c}
-                    data={ENTRIES1}
+                    data={this.props.urls}
                     renderItem={this._renderItemWithParallax}
                     sliderWidth={sliderWidth}
                     itemWidth={itemWidth}
@@ -71,6 +76,7 @@ export default class SwiperIndex extends Component {
                     containerCustomStyle={styles.slider}
                     //   contentContainerCustomStyle={styles.sliderContentContainer}
                     loop={true}
+                    swipe={true}
                     loopClonesPerSide={2}
                     //   autoplay={true}
                     //   autoplayDelay={500}
