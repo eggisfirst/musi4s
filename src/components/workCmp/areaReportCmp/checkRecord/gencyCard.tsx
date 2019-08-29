@@ -2,68 +2,79 @@ import React, { useState } from "react";
 
 import { View, Text, StyleSheet, Image, ScrollView, Platform } from "react-native";
 import pxToDp from '../../../../utils/fixcss';
-import {StarBox} from './starBox';
+import { StarBox } from './starBox';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationActions } from "react-navigation";
 import { ReportType } from "../../../../utils/enum";
+import { getStar } from "../../../../utils";
 
 
 interface IProps {
-  list: Array<any>
+  listData: any
   navigation: any
   type: ReportType
 }
 
-export const GencyCard:React.FC<IProps> = (props) => {
+export const GencyCard: React.FC<IProps> = (props) => {
   const [loadState, setLoadState] = useState(false)
   /**按需求显示多少条数据 */
   const getList = () => {
-     if(loadState) {
-       return props.list
-     }else {
-       return props.list.slice(0,4)
-     }
+    if (loadState) {
+      return props.listData.shopList
+    } else {
+      return props.listData.shopList.slice(0, 4)
+    }
   }
   /**点击加载全部数据 */
   const loadMore = () => {
     setLoadState(!loadState)
   }
   /**跳转到检查记录页面  传递shopname过去！！*/
-  const handleClickToRecord =(index: number) => {
+  const handleClickToRecord = (index: number) => {
+    const id = props.listData.shopList[index].shopId
+    const shopName = props.listData.shopList[index].shopName
     /**跳转检查记录页面 */
-    props.type === ReportType.check && props.navigation.push('CheckRecordPage',{
-      index
+    props.type === ReportType.check && props.navigation.push('CheckRecordPage', {
+      id,
+      shopName
     })
     /**跳转验收认证详情页面 */
-    props.type === ReportType.acceptance && props.navigation.push('AcceptanceDetailsPage',{
-      index
+    props.type === ReportType.acceptance && props.navigation.push('AcceptanceDetailsPage', {
+      id,
+      shopName: props.listData.shopList[index].shopName
     })
   }
   const myRotate = {
-    transform:[{rotate:'180deg'}]
+    transform: [{ rotate: '180deg' }]
   }
-  return(
+  /**
+   * 检查记录得到是+1，认证记录是得到的数据
+   */
+  const title = props.type === ReportType.acceptance ? getStar(props.listData.starLevel) : getStar(props.listData.starLevel + 1)
+  const starNum = props.type === ReportType.acceptance ? props.listData.starLevel : props.listData.starLevel + 1
+  return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.via} source={require('../../../../images/personal/via.png')}/>
-        <Text style={styles.name}>广东深圳新国</Text>
+        <Image style={styles.via} source={require('../../../../images/personal/via.png')} />
+        <Text style={styles.name}>{props.listData.distributor}</Text>
         <View style={styles.starbox}>
-          <StarBox starTitle={"二星"+ props.type} starNum={2}/>
+          <StarBox starTitle={title + props.type}
+            starNum={starNum} />
         </View>
       </View>
       {
-        getList().map((item, index) => (
-          <TouchableOpacity onPress={() => {handleClickToRecord(index)}} style={styles.shop} key={index} activeOpacity={0.6}>
-            <Text style={styles.shopText}>{item.name}</Text>
+        getList().map((item: any, index: number) => (
+          <TouchableOpacity onPress={() => { handleClickToRecord(index) }} style={styles.shop} key={index} activeOpacity={0.6}>
+            <Text style={styles.shopText}>{item.shopName}</Text>
             <Image style={styles.backIcon} source={require("../../../../images/work/areaReport/checkRecord/arrow.png")} />
           </TouchableOpacity>
         ))
       }
       {
-        props.list.length > 4 &&
-        <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => {loadMore()}}>
-          <Text style={styles.shopText}>{loadState? '点击收起' : '点击加载更多'}</Text>
-          <Image style={[styles.loadMoreIcon,loadState && myRotate ]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
+        getList().length > 4 &&
+        <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => { loadMore() }}>
+          <Text style={styles.shopText}>{loadState ? '点击收起' : '点击加载更多'}</Text>
+          <Image style={[styles.loadMoreIcon, loadState && myRotate]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
         </TouchableOpacity>
       }
     </View>
@@ -72,7 +83,7 @@ export const GencyCard:React.FC<IProps> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width:pxToDp(710),
+    width: pxToDp(710),
     // height: pxToDp(480),
     borderRadius: pxToDp(20),
     backgroundColor: "#fff",
@@ -81,7 +92,7 @@ const styles = StyleSheet.create({
     shadowColor: '#ccc',
     shadowRadius: pxToDp(10),
     shadowOpacity: 0.3,
-    marginBottom: Platform.OS ==="ios"?  pxToDp(20):pxToDp(80)
+    marginBottom: Platform.OS === "ios" ? pxToDp(20) : pxToDp(80)
   },
   via: {
     width: pxToDp(121),
@@ -90,7 +101,8 @@ const styles = StyleSheet.create({
   name: {
     color: "#363636",
     fontSize: pxToDp(38),
-    fontWeight: "bold"
+    fontWeight: "bold",
+    width: pxToDp(360)
   },
   header: {
     display: "flex",
@@ -111,8 +123,8 @@ const styles = StyleSheet.create({
     width: pxToDp(686),
     lineHeight: pxToDp(60),
     display: "flex",
-    flexDirection:"row",
-    alignItems:"center",
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "#f8f8f8",
     borderRadius: pxToDp(12),
@@ -129,8 +141,8 @@ const styles = StyleSheet.create({
 
   loadMore: {
     display: "flex",
-    flexDirection:"row",
-    alignItems:"center",
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
   },
   backIcon: {

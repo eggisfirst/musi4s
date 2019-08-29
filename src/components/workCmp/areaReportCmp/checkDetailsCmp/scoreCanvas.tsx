@@ -5,7 +5,9 @@ import pxToDp from "../../../../utils/fixcss";
 import { CircleProgress } from './circle';
 
 interface IProps {
-  score: number
+  score: any
+  name: string
+  week? :any
 }
 
 
@@ -34,8 +36,8 @@ export const ScoreCanvas: React.FC<IProps> = (props) => {
         </View>
       </View>
     
-      <Text style={styles.shopname}>慕思家居专卖店</Text>
-      <Text style={styles.week}>第一周</Text>
+      <Text style={styles.shopname}>{props.name}</Text>
+      <Text style={styles.week}>{props.week? '第一周' : ''}</Text>
       <View style={styles.footer}></View>
     </View>
   )

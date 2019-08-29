@@ -3,24 +3,39 @@ import React from "react";
 import { View, Text, StyleSheet, Image, Platform, TouchableOpacity } from "react-native";
 import pxToDp from "../../../../utils/fixcss";
 import { Duty } from "../../../../utils/enum";
+import { getStar } from "../../../../utils";
 
 interface IProps {
   starNum: number
-  list: Array<any>
+  list: any
   navigation:any
 }
 
 export const AcceptanceCard:React.FC<IProps> = (props) => {
+  const shopId = props.list.shopId
+  const qualificationId = props.list.qualificationId
   /**点击区域分数跳转 参数未处理（star，type）*/
-  const handleToAreaDetail = () => {
+  const handleToAreaDetail = (index: number) => {
+  const starLevel = props.list.gradeList[index].starLevel
+  const starLevelId = props.list.gradeList[index].starLevelId
     props.navigation.push('CheckDetailsPage', {
-      type: Duty.area
+      type: 3,
+      shopId,
+      qualificationId,
+      starLevelId,
+      starLevel
     })
   }
   /**点击4s分数跳转  参数未处理*/
-  const handleToFourDetails = () => {
+  const handleToFourDetails = (index: number) => {
+    const starLevel = props.list.gradeList[index].starLevel
+    const starLevelId = props.list.gradeList[index].starLevelId
     props.navigation.push('CheckDetailsPage', {
-      type: Duty.fourS
+      type: 4,
+      shopId,
+      qualificationId,
+      starLevel,
+      starLevelId
     })
   }
   /**判断返回几颗黄色几颗白色 */
@@ -35,7 +50,7 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
   }
   /**最后一条数据不设置borderbottom */
   const lastItem = (index: number) => {
-    const len = props.list.length
+    const len = props.list.gradeList.length
     if(index === len - 1) {
       return false
     }
@@ -47,7 +62,7 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
     return(
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.starAccept}>五星认证</Text>
+          <Text style={styles.starAccept}>{getStar(props.list.gradeList.length)}认证</Text>
           {
             star().map((item, index) => {
               if(item) {
@@ -70,34 +85,34 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
           <Text style={styles.titleText}>评分时间</Text>
         </View>
         {
-          props.list.map((item, index) => (
+          props.list.gradeList.map((item:any, index:number) => (
             <View style={[styles.title,lastItem(index) === false && borderStyle ]} key={index}>
-              <Text style={styles.contentText}>{item.star}</Text>
+              <Text style={styles.contentText}>{getStar(item.starLevel)}</Text>
 
               {
-                item.areaScore !== '' && 
-                <TouchableOpacity style={styles.scoreText} onPress={() => {handleToAreaDetail()}}>
-                  <Text style={styles.scoreText}>{item.areaScore}</Text>
+                item.regionGet !== '' && 
+                <TouchableOpacity style={styles.scoreText} onPress={() => {handleToAreaDetail(index)}}>
+                  <Text style={styles.scoreText}>{item.regionGet}</Text>
                 </TouchableOpacity>
               }
               {
-                item.areaScore === '' && 
+                item.regionGet === '' && 
                 <Text style={styles.scoreText}>{'/'}</Text>
               }
 
               {
-                 item.fourS !== '' && 
-                <TouchableOpacity style={styles.scoreText} onPress={() => {handleToFourDetails()}}>
-                  <Text style={styles.scoreText}>{item.fourS}</Text>
+                 item.certificationGet !== '' && 
+                <TouchableOpacity style={styles.scoreText} onPress={() => {handleToFourDetails(index)}}>
+                  <Text style={styles.scoreText}>{item.certificationGet}</Text>
                 </TouchableOpacity>
               }
               {
-                item.fourS === '' && 
+                item.certificationGet === '' && 
                 <Text style={styles.scoreText}>{'/'}</Text>
               }
 
 
-              <Text style={styles.dateText}>{item.date}</Text>
+              <Text style={styles.dateText}>{item.certificationScoreTime || item.regionScoreTime}</Text>
             </View>
           ))
         }
@@ -167,7 +182,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(28),
     lineHeight: pxToDp(59),
-    flex: 0.3,
+    flex: 0.28,
     textAlign:"center",
     // borderWidth: 1
   },
@@ -175,7 +190,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(28),
     lineHeight: pxToDp(59),
-    flex: 0.25,
+    flex: 0.27,
     textAlign:"right"
   }
 })

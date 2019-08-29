@@ -2,11 +2,22 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 
+interface IProps {
+  cardData: any
+}
 
-export const DealerCard:React.FC = (props) =>{
-  const linking = () => {
-    let tel = 'tel:1008611'// 目标电话
-    Alert.alert('', '1008611',
+export const DealerCard:React.FC<IProps> = (props) =>{
+  /**
+   * 
+   * @param phone 电话
+   */
+  const linking = (phone:any) => {
+    if(!phone) {
+      Alert.alert('暂无电话号码')
+      return
+    }
+    let tel = `tel:${phone}`// 目标电话
+    Alert.alert('', phone,
       [ { text: '取消', onPress: () => { console.log('取消') } },
         { text: '呼叫',
           onPress: () => {
@@ -25,10 +36,10 @@ export const DealerCard:React.FC = (props) =>{
         <Image style={styles.icon} source={require('../../../images/work/reception/manage.png')}/>
         <Image style={styles.via} source={require('../../../images/personal/via.png')}/>
         <View style={styles.msg}>
-          <Text style={styles.name}>广东广州何秋明</Text>
+          <Text style={styles.name}>{props.cardData.distributor}</Text>
           <View style={styles.phoneMsg}>
             <Image style={styles.phone} source={require('../../../images/work/reception/phone.png')}/>
-            <Text style={styles.phoneNum}>电话：15900008200</Text>
+            <Text style={styles.phoneNum} onPress={() => {linking(props.cardData.phone)}}>电话：{props.cardData.phone}</Text>
           </View>
         </View>
         <Image style={styles.logo} source={require('../../../images/personal/logo.png')}/>
@@ -38,14 +49,14 @@ export const DealerCard:React.FC = (props) =>{
         <View>
           <View style={styles.recePerson}>
             <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}}>对接人：</Text>
-            <Text style={{color: "#E8D3A8",fontSize:pxToDp(36),fontWeight:"bold"}}>王权</Text>
+            <Text style={{color: "#E8D3A8",fontSize:pxToDp(36),fontWeight:"bold"}}>{props.cardData.agentName}</Text>
           </View>
           <View style={[styles.recePerson,styles.recePhone]} >
             <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}}>电话：</Text>
-            <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}}>13712333333</Text>
+            <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}} >{props.cardData.agentPhone}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.callBtn} onPress={() => {linking()}}>
+        <TouchableOpacity style={styles.callBtn} onPress={() => {linking(props.cardData.agentPhone)}}>
           <Text style={styles.call}>一键通话</Text>
         </TouchableOpacity>
       </View>

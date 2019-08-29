@@ -7,20 +7,67 @@ import SelectCmp from '../../../../../components/filterCmp/selectCmp';
 import {StarCheckBox} from '../../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
 import { SelectType } from "../../../../../utils/enum";
 
-
 import * as actions from '../../../../../store/actions/filter/select'
 import { connect } from 'react-redux';
+import { IndexModel } from "../../../../../request";
+const indexModel = new IndexModel()
+
+
+import axios from 'axios'
+import store from '../../../../../store'
+import { setLoading } from "../../../../../store/actions/global/loading";
+interface IState {
+  list: Array<any>
+}
 
 class CheckRecord extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
+  state = {
+    list: []
+  }
+
+   test = () => { 
+    axios.get('../../../../../../data.json')
+    .then( (res) => {
+      console.log(res.data.list)
+      store.dispatch(setLoading(false));
+      this.setState({
+        list: res.data.list
+      })
+    })
+  }
+
+
+
+  /**
+   * 获取历史记录
+   */
+  getCheckLog(pass='') {
+    const shopId = this.props.navigation.state.params.id
+    indexModel.getCheckLog(shopId,pass).then(res => {
+      if(res.status) {
+        this.setState({
+          list: res.checkLogs
+        })
+      }
+    })
+  }
+
   /**请求筛选：合格/不合格/全部的数据 */
   handleSelect = (index:number) => {
-    console.log(1111,index)
+    // console.log(1111,index)
+    const pass = index === 0? '' : index === 1? '1' : '2'
+    this.getCheckLog(pass)
   }
   /**获取传递过来的门店名 */
   componentDidMount() {
+    // this.getCheckLog()
+
+
+    this.test()
+
     // console.log(this.props.navigation.state.parmas)
   }
   /**页面卸载的时候重新初始化数据 */
@@ -29,38 +76,6 @@ class CheckRecord extends React.Component<any>{
   }
 
   render (){
-    const list = [
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 90
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 90
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 70
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 90
-      },
-      {
-        name: "二星检查",
-        startDate: "2018.07.01",
-        endDate: "2018.07.05",
-        score: 70
-      },
-    ]
     return(
       <View style={styles.container}>
         <BackGroundHeader 
@@ -75,10 +90,10 @@ class CheckRecord extends React.Component<any>{
                       color={"#fff"} activeColor={"#FFCB38"}
                       handleSelect={this.handleSelect}
                       mySelectList={['全部', '合格', '不合格']}/>
-          <Text style={styles.shop}>明世家博览馆慕思店</Text>
+          <Text style={styles.shop} numberOfLines={1}>{this.props.navigation.state.params.shopName}</Text>
         </View>
         <ScrollView>
-          <StarCheckBox list={list} navigation={this.props.navigation}/>
+          <StarCheckBox list={this.state.list} navigation={this.props.navigation}/>
         </ScrollView>
       </View>
     )
@@ -110,6 +125,7 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.5)",
     lineHeight: pxToDp(42),
     fontWeight: "500",
-    fontSize: pxToDp(26)
+    fontSize: pxToDp(26),
+    maxWidth: pxToDp(400)
   }
 })

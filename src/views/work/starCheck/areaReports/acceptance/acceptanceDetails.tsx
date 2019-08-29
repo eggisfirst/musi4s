@@ -4,51 +4,66 @@ import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
 import { HeaderCmp } from '../../../../../components/headerCmp/headerCmp';
 import {AcceptanceCard} from '../../../../../components/workCmp/areaReportCmp/acceptance/acceptanceCard';
 import pxToDp from "../../../../../utils/fixcss";
+import { IndexModel } from "../../../../../request";
+const indexModel = new IndexModel()
+
+interface IState {
+  list:Array<any>
+}
 
 export default class AcceptanceDetails extends React.Component<any>{
   static navigationOptions = {
     header: null,
   }
+  state:IState = {
+    list: []
+  }
+  /**
+   * 获取门店记录
+   */
+  getShopHistory() {
+    const id = this.props.navigation.state.params.id
+    indexModel.getShopHistory(id).then(res => {
+      if(res.status) {
+        this.setState({
+          list: res.data
+        })
+      }
+    }) 
+  }
   /**获取传递过来的shopname */
   componentDidMount() {
-
+    this.getShopHistory()
   }
   render (){
     const navigation = this.props.navigation
-    const list = [
-      {
-        star: "一星",
-        areaScore: 80,
-        fourS: 90,
-        date: "2018.06.03"
-      },
-      {
-        star: "二星",
-        areaScore: '',
-        fourS: '',
-        date: "2018.06.03"
-      },
-      {
-        star: "三星",
-        areaScore: 80,
-        fourS: '',
-        date: "2018.06.03"
-      },
-      
-    ]
+  
     return(
       <View style={styles.container}>
-        <HeaderCmp title={'吉林市船营区艾慕家具店'} eggHandleBack={() => {navigation.goBack()}}/>
+        <HeaderCmp title={navigation.state.params.shopName} eggHandleBack={() => {navigation.goBack()}}/>
         <ScrollView style={styles.scorllList}>
 
           <Text style={styles.new}>最新记录</Text>
-          <AcceptanceCard starNum={5} list={list} navigation={navigation}/>
-
-          <Text style={styles.history}>历史记录</Text>
-          <AcceptanceCard starNum={4} list={list} navigation={navigation}/>
-          <AcceptanceCard starNum={3} list={list} navigation={navigation}/>
-          <AcceptanceCard starNum={2} list={list} navigation={navigation}/>
-          <AcceptanceCard starNum={1} list={list} navigation={navigation}/>
+          {
+            this.state.list && this.state.list[0]?
+            <AcceptanceCard starNum={this.state.list[0].gradeList.length} 
+                            list={this.state.list[0]} 
+                            navigation={navigation}/> : <></>
+          }
+          {
+            this.state.list && this.state.list.length > 1?
+            <>
+              <Text style={styles.history}>历史记录</Text>
+              {
+                this.state.list.slice(1).map((item, index) => (
+                  <View key={item.qualificationId}>
+                    <AcceptanceCard starNum={item.gradeList.length} list={item} navigation={navigation}/>
+                  </View>
+                ))
+              }
+            </> : <></>
+          }
+         
 
         </ScrollView>
       </View>

@@ -1,4 +1,10 @@
 
+/**加载动画 */
+export const LOADING = 'LOADING'   
+/**获取token */
+export const TOKEN = 'TOKEN'   
+   
+
 /**排序 */
 export const SORT_ACTIVE = 'SORT_ACTIVE'    
 export const SORT_ACTIVEINDEX = 'SORT_ACTIVEINDEX'

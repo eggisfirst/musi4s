@@ -3,14 +3,17 @@
 import React from "react";
 import { View,Text, Platform, Image, StyleSheet, TouchableOpacity } from "react-native";
 import pxToDp from "../../../utils/fixcss";
+import { StarCheckTypes, SearchTypes } from "../../../utils/enum";
 
 interface IProps {
-  eggHandleSearch: () => void
+  eggHandleSearch: (type: SearchTypes) => void
+  type: SearchTypes
 }
 
-export const SearchCmp: React.FC<IProps> = (IProps) => {
+export const SearchCmp: React.FC<IProps> = (props) => {
+  // console.log(1111,props.type)
     return(
-      <TouchableOpacity activeOpacity={0.8} onPress={() => {IProps.eggHandleSearch()}}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => {props.eggHandleSearch(props.type)}}>
         <View style={styles.rightContainer}>
           <Image  style={styles.search}
                   source={require("../../../images/work/starCheck/search.png")} />

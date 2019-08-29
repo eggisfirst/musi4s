@@ -5,15 +5,20 @@ import {
   Image, 
   TouchableOpacity, 
   StyleSheet,
+  Alert,
 } from "react-native"; 
 import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
 import { RemPwd } from '../utils/enum';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import { IndexModel } from '../request';
-import { _storeData, _retrieveData, _removeItem } from '../utils/utils';
 const indexModel = new IndexModel()
+import { _storeData, _retrieveData, _removeItem } from '../utils/utils';
+import Loader from '../components/loading'
+import {getToken} from '../request/request';
+import store from '../store';
+import { setLoading, Token } from '../store/actions/global/loading';
+
 
 interface IState {
   inputVal:string
@@ -46,6 +51,10 @@ export default class LoginScreen extends Component<any> {
       this.setState({
         btnStatue: res
       })
+      if(res === RemPwd.unremember) {
+        _removeItem('account')
+        _removeItem('password')
+      }
     })
   }
 
@@ -53,21 +62,30 @@ export default class LoginScreen extends Component<any> {
    * 登录
    */
   handleLoginIn = () => {
-    console.log('success!!!')
-    // this.state.account &&  _storeData('account',this.state.account)
-    // this.state.password &&  _storeData('password',this.state.password)
-  
-    indexModel.getAuth().then(res => {
-      console.log('获取的数据：', res)
-      // this.props.navigation.replace('Work')
-    }).catch(err => {
-      console.log('数据获取失败')
-      console.log(err)
+    this.state.account && _storeData('account',this.state.account)
+    this.state.password && _storeData('password',this.state.password)
+    /**请求token */
+    getToken().then(res => {
+      if(res.access_token) {
+        _storeData("refresh_token", res.refresh_token)
+        store.dispatch(Token(res.access_token))
+        indexModel.getAuth().then(res => {
+          if(res.status) {
+            //用户级别
+            _storeData('type',res.type) 
+            this.props.navigation.navigate('Work')
+          }
+        })
+      }else {
+        store.dispatch(setLoading(false));
+        if (res.code === 500) {
+          Alert.alert(res.msg)
+            return
+          }
+      }
     })
    
-    // this.props.navigation.replace('Work')
-
-
+   
   }
 
   //输入框的值
@@ -95,9 +113,9 @@ export default class LoginScreen extends Component<any> {
       maxLength:20,
       type: 'password'
     }
-    const circltStyle = {
-      display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"
-    }
+    // const circltStyle = {
+    //   display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"
+    // }
     return (
       <View style={styleSheet.container}>
         <View style={styleSheet.top}>
@@ -120,7 +138,8 @@ export default class LoginScreen extends Component<any> {
                 style={styleSheet.left} 
                 onPress={this.handleRememberPwd}>
                 <View style={styleSheet.leftRadio}>
-                  <View style={[styleSheet.circle,circltStyle]} ></View>
+                  <View style={[styleSheet.circle,
+                  {display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"}]} ></View>
                 </View>
                 <Text style={styleSheet.leftText} >记住密码</Text>
             </TouchableOpacity>

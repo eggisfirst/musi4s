@@ -10,29 +10,35 @@ interface IProps {
 }
 
 
-export const SliderCmp:React.FC<IProps> = (props) =>{
+export const SliderCmp: React.FC<IProps> = (props) => {
+
+
   /**刻度 */
-  const scaleList = [1,1, 1,2,1,1,1]
+  const scaleList = [1, 1, 1, 2, 1, 1, 1]
   /**扣的分数占18分的比例 */
-  const sliderActivePrecent = (props.cutScore/props.maxNum)*100 + "%"
-  return(
+  const sliderActivePrecent = (props.cutScore / props.maxNum) * 100 + "%"
+  return (
     <View style={styles.container}>
       <View style={styles.scoreRange}>
         <Text style={styles.score}>0</Text>
         {
           scaleList.map((item, index) => (
-            <View key={index} style={item === 1? styles.scale1 : styles.scale2}></View>
+            <View key={index} style={item === 1 ? styles.scale1 : styles.scale2}></View>
           ))
         }
         <Text style={styles.score}>{props.maxNum}</Text>
       </View>
-      <ImageBackground style={[styles.bubble,{left: sliderActivePrecent}]} source={require("../../../../../images/work/areaReport/checkRecord/bubble.png")}>
-        <Text style={styles.cutScore}>扣{props.cutScore}分</Text>
-      </ImageBackground>
+      {
+        props.cutScore ?
+          <ImageBackground style={[styles.bubble, { left: sliderActivePrecent }]} source={require("../../../../../images/work/areaReport/checkRecord/bubble.png")}>
+            <Text style={styles.cutScore}>扣{props.cutScore}分</Text>
+          </ImageBackground> : <></>
+      }
+
       <View style={styles.slider}>
-        <LinearGradient style={[styles.activeSlider,{width:sliderActivePrecent }]} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFBB02', '#FFA15B', '#FF6A5D']}></LinearGradient>
+        <LinearGradient style={[styles.activeSlider, { width: sliderActivePrecent }]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#FFBB02', '#FFA15B', '#FF6A5D']}></LinearGradient>
       </View>
-      
+
     </View>
   )
 }
@@ -40,8 +46,8 @@ export const SliderCmp:React.FC<IProps> = (props) =>{
 const styles = StyleSheet.create({
   container: {
     width: pxToDp(490),
-    height: "100%",
-    marginLeft: pxToDp(20)
+    height: pxToDp(150),
+    marginLeft: pxToDp(20),
   },
   scoreRange: {
     display: 'flex',
@@ -74,7 +80,7 @@ const styles = StyleSheet.create({
   },
 
   slider: {
-    width:  pxToDp(490),
+    width: pxToDp(490),
     height: pxToDp(24),
     borderRadius: pxToDp(12),
     backgroundColor: "#f5f5f5",

@@ -6,13 +6,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Duty } from "../../../utils/enum";
 
 interface IProps {
-  duty: Duty  //判断4s或者区域
+  type: string | number  //判断4s或者区域
   handleSponsorCancle: () => void
   handleSponsorComfirm: () => void
+  sponsorBoxData: any
 }
 
 
-export const SponsorBox:React.FC<IProps> = (props) => {
+export const SponsorBox: React.FC<IProps> = (props) => {
   const list = [
     {
       key: '省份城市',
@@ -50,7 +51,7 @@ export const SponsorBox:React.FC<IProps> = (props) => {
       key: '认证星级',
       value: "1星"
     },
-    
+
   ]
   const scoreList1 = [
     {
@@ -70,7 +71,7 @@ export const SponsorBox:React.FC<IProps> = (props) => {
       textVal: "查看区域评分报表",
     },
     {
-      key: "评分日期",
+      key: "区域评分日期",
       value: "2018.05.02 16:00",
       status: false
     },
@@ -83,23 +84,67 @@ export const SponsorBox:React.FC<IProps> = (props) => {
       textVal: "查看4s部评分报表",
     },
     {
-      key: "评分日期",
+      key: "4s评分日期",
       value: "2018.05.02 16:00",
       status: false
     },
   ]
-  const socreList = props.duty === Duty.area? scoreList1 : [...scoreList1,...scoreList2]
-  const container = props.duty === Duty.area? styles.areaHeight : styles.fourHeight
+  const socreList = props.type === 3 ? scoreList1 : [...scoreList1, ...scoreList2]
+  const container = props.type === 3 ? styles.areaHeight : styles.fourHeight
 
+  /**
+   * 返回接口对应的value
+   * @param val 传入list里面的key值
+   */
+  const getList = (val: string) => {
+    const data = props.sponsorBoxData
+    switch (val) {
+      case '省份城市':
+        return data.provinceCity
+      case '区域':
+        return data.regionName
+      case '城市级别':
+        return data.cityLevel
+      case '经销商':
+        return data.distributor
+      case '联系方式':
+        return data.phone
+      case '代理系列':
+        return data.brand
+      case '门店数量':
+        return data.shopNumber
+      case '原有星级':
+        return data.originalStarLevel
+      case '认证星级':
+        return data.starLevel
+      case '门店评分':
+        return data.scoreShop
+      case '评分周期':
+        return data.cycle
+      case '区域评分':
+        return data.scoreRegion
+      case '4s部评分':
+        return data.scoreCertification
+      case '区域评分日期':
+        return data.scoreRegionTimeS
+      case '4s评分日期':
+        return data.scoreCertificationTimeS
+      default:
+        break;
+    }
 
-  //跳转到报表
-  const handleToReport = () => {
-    console.log('gogoggo')
   }
 
- 
+  //跳转到报表
+  const handleToReport = (key: string) => {
+    if(key === '区域评分') {
 
-  return(
+    }else if(key === '4s部评分') {
+    }
+    console.log('gogoggo',key)
+  }
+
+  return (
     <View style={styles.mask}>
       <View style={container}>
         <Image style={styles.header} source={require("../../../images/work/sponsor/box_header.png")} />
@@ -110,13 +155,13 @@ export const SponsorBox:React.FC<IProps> = (props) => {
               <View style={styles.content} key={index}>
                 <View style={styles.left}>
                   {
-                    item.key.split("").map((item,index) => (
+                    item.key.split("").map((item, index) => (
                       <Text key={index} style={styles.leftText}>{item}</Text>
                     ))
                   }
                 </View>
                 <Text>：</Text>
-                <Text style={styles.right}>{item.value}</Text>
+                <Text style={styles.right} numberOfLines={1}>{getList(item.key)}</Text>
               </View>
             ))
           }
@@ -125,60 +170,65 @@ export const SponsorBox:React.FC<IProps> = (props) => {
           {
             socreList.map((item, index) => (
               <View key={index} style={styles.content}>
-                <Text style={styles.left1}>{item.key}：</Text>
-                <Text style={styles.right}>{item.value}</Text>
                 {
-                  item.status && 
-                  <>
-                    <Text style={styles.toReport} onPress={() => {handleToReport()}}>{item.textVal}>></Text>                  
-                  </>
+                  item.key === '4s评分日期' || item.key === '区域评分日期'?
+                  <Text style={styles.left1}>评分日期：</Text> :
+                  <Text style={styles.left1}>{item.key}：</Text>
                 }
-                  
+                <Text style={styles.right}>{getList(item.key)}</Text>
+                {/* {
+                 item.status && getList(item.key)?
+                  <>
+                    <Text style={styles.toReport} onPress={() => { handleToReport(item.key) }}>{item.textVal}>></Text>
+                  </>
+                  :<></>
+                } */}
+
               </View>
             ))
           }
         </View>
         <View style={styles.btn}>
-          <TouchableOpacity style={styles.btnWrap} onPress={() => {props.handleSponsorCancle()}}>
+          <TouchableOpacity style={styles.btnWrap} onPress={() => { props.handleSponsorCancle() }}>
             <Text style={styles.cancle}>取消</Text>
           </TouchableOpacity>
-          <TouchableOpacity  style={[styles.btnWrap,styles.borderLeft]} onPress={() => {props.handleSponsorComfirm()}}>
+          <TouchableOpacity style={[styles.btnWrap, styles.borderLeft]} onPress={() => { props.handleSponsorComfirm() }}>
             <Text style={styles.comfirm}>提交</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
-   )
+  )
 }
 
 const styles = StyleSheet.create({
   mask: {
     position: 'absolute',
     top: 0,
-    left:0,
-    right:0,
-    bottom:0, 
-    zIndex:9999, 
-    width: '100%', 
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,
+    width: '100%',
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
     display: "flex",
     flexDirection: 'row',
-    justifyContent:"center",
+    justifyContent: "center",
   },
   areaHeight: {
     width: pxToDp(620),
     height: pxToDp(1050),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
-    marginTop:pxToDp(200)
+    marginTop: pxToDp(200)
   },
   fourHeight: {
     width: pxToDp(620),
     height: pxToDp(1150),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
-    marginTop:pxToDp(279)
+    marginTop: pxToDp(279)
   },
   header: {
     width: pxToDp(408),
@@ -189,7 +239,7 @@ const styles = StyleSheet.create({
     marginLeft: pxToDp(-204)
   },
   sponsorBox: {
-    marginTop:pxToDp(130),
+    marginTop: pxToDp(130),
     marginLeft: pxToDp(33),
     marginRight: pxToDp(33),
     borderBottomWidth: pxToDp(1),
@@ -210,10 +260,10 @@ const styles = StyleSheet.create({
   },
   left: {
     width: pxToDp(120),
-    display:"flex",
-    justifyContent:"space-between",
-    alignItems:"center",
-    flexDirection:"row"
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row"
   },
   leftText: {
     color: "#363636",
@@ -231,9 +281,10 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(28),
     lineHeight: pxToDp(50),
+    maxWidth: pxToDp(430)
   },
   scoreBox: {
-    marginTop:pxToDp(20),
+    marginTop: pxToDp(20),
     marginLeft: pxToDp(33),
     marginRight: pxToDp(33),
   },
@@ -245,19 +296,19 @@ const styles = StyleSheet.create({
   btn: {
     width: pxToDp(610),
     height: pxToDp(100),
-    display:"flex",
-    flexDirection:"row",
+    display: "flex",
+    flexDirection: "row",
     borderTopColor: "#e1e1e1",
     borderTopWidth: pxToDp(1),
-    marginTop:pxToDp(40)
+    marginTop: pxToDp(40)
   },
   btnWrap: {
     width: pxToDp(310),
-    height:pxToDp(100),
+    height: pxToDp(100),
     display: "flex",
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"center",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   borderLeft: {
     borderLeftWidth: pxToDp(1),

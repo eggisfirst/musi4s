@@ -6,6 +6,8 @@ import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import MiddleCategoryCmp from '../../../components/workCmp/starCheck/check/middleCategoryCmp'
 import { changeCheckList } from '../../../store/actions/4s/checkList';
+import { IndexModel } from "../../../request";
+const indexModel = new IndexModel()
 const actions = {
   ...changeCheckList,
 }
@@ -28,13 +30,37 @@ class CheckListPage extends React.Component<any, IState>{
     console.log('跳转检查小项', index)
   }
 
+  /**
+   * 显示/隐藏中类检查项
+   */
   showClick = (index: number): void => {
     this.props.checkList[index].status = !this.props.checkList[index].status
     this.props.changeCheckList(this.props.checkList)
   }
 
+  /**
+   * 跳转检查详情页面
+   */
+  toDetail = (index: number): void => {
+    this.props.navigation.push('CheckDetailPage')
+  }
+
+  /**
+   * 获取店铺检查列表
+   */
+  getShopHistory = () => {
+    indexModel.getShopHistory('1140542075666898945').then(res => {
+      // indexModel.getShopHistory(this.props.navigation.state.shopId).then(res => {
+      console.log('获取抽奖列表接口：', res)
+      if (res.status) {
+
+      }
+    })
+  }
+
   componentDidMount() {
-    console.log('redux数据；', this.props.checkList)
+    this.getShopHistory()
+    console.log('url数据；', this.props.navigation.state)
   }
 
   render() {
@@ -47,12 +73,14 @@ class CheckListPage extends React.Component<any, IState>{
         status={item.status}
         index={index}
         showClick={this.showClick}
+        toDetail={this.toDetail}
       />
     })
     return (
       <View>
         <CheckHeader
           title={'店面SI标准一阶段'}
+          // title={this.props.navigation.state.title}
           eggHandleBack={() => { navigation.goBack() }}
           eggHandleSearch={() => { navigation.push("SearchPage") }}
         />

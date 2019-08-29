@@ -63,10 +63,9 @@ class SelectCmp extends React.Component<IProps,IState>{
   render (){
     /**判断是哪个数据 */
     const selectList =  this.props.mySelectList
-
+    
     const activeIndex = this.props.selectType === SelectType.qualified? 
                         this.props.selectFilter.activeIndex : this.props.selectFilter.selectActiveIndex 
-
     const activeColor = {
       color: this.props.activeColor
     }
@@ -89,13 +88,12 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    // justifyContent: "space-between",
+    alignItems: "center",
   },
   text: {
     fontSize: pxToDp(28),
     fontWeight: "500",
-    marginRight: pxToDp(36)
-  
+    marginRight: pxToDp(36),
   }
 })

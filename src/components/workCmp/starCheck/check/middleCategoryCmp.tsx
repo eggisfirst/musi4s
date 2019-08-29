@@ -6,18 +6,13 @@ export default class middleCategory extends React.Component<any> {
   static navigationOptions = {
     header: null,
   }
-  toDetail = (index: number) => {
-    this.props.navigation.push('CheckDetailPage')
-    console.log('dinajia:', this.props.navigation)
-  }
   
   render() {
     const { navigation } = this.props
-    console.log(this.props)
     const TextList = this.props.list.map((element: any, index: number) => {
       return <View key={`detail${index}`} style={[styles.liBox, {justifyContent: 'space-between',}]}>
               <TouchableOpacity
-                onPress={() => this.toDetail(index)}
+                onPress={() => this.props.toDetail(index)}
               >
                 <Text style={styles.li}>{element.name}</Text>
               </TouchableOpacity>
