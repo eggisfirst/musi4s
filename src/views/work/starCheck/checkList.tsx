@@ -1,38 +1,23 @@
 import React from "react";
+import { connect } from 'react-redux';
 
 import { View, Text, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import MiddleCategoryCmp from '../../../components/workCmp/starCheck/check/middleCategoryCmp'
-
+import { changeCheckList } from '../../../store/actions/4s/checkList';
+const actions = {
+  ...changeCheckList,
+}
 interface IState {
   total: number
   deduct: number
-  list: Array<{name:string,status:boolean}>
 }
 
-export default class CheckList extends React.Component<any, IState>{
+class CheckListPage extends React.Component<any, IState>{
   state: IState = {
     total: 23,
     deduct: 9,
-    list: [
-      // {
-      //   name: '店面',
-      //   status: false,
-      // },
-      // {
-      //   name: '店面面积',
-      //   status: false,
-      // },
-      // {
-      //   name: '店面类型',
-      //   status: false,
-      // },
-      // {
-      //   name: '装修时间/到期时间',
-      //   status: false,
-      // }
-    ]
   }
 
   static navigationOptions = {
@@ -43,33 +28,27 @@ export default class CheckList extends React.Component<any, IState>{
     console.log('跳转检查小项', index)
   }
 
-  componentDidMount() {
-    this.setState({
-      list: 
-      [
-        {
-          name: '店面1',
-          status: true,
-        },
-        {
-          name: '店面面积1',
-          status: false,
-        },
-        {
-          name: '店面类型',
-          status: false,
-        },
-        {
-          name: '装修时间/到期时间',
-          status: false,
-        },
-      ]
-    })
+  showClick = (index: number): void => {
+    this.props.checkList[index].status = !this.props.checkList[index].status
+    this.props.changeCheckList(this.props.checkList)
+  }
 
+  componentDidMount() {
+    console.log('redux数据；', this.props.checkList)
   }
 
   render() {
     const { navigation } = this.props
+    const MiddleCategoryCmpList = this.props.checkList.map((item: any, index: number) => {
+      return <MiddleCategoryCmp
+        key={`middleCategory${index}`}
+        list={item.list}
+        title={item.title}
+        status={item.status}
+        index={index}
+        showClick={this.showClick}
+      />
+    })
     return (
       <View>
         <CheckHeader
@@ -79,7 +58,7 @@ export default class CheckList extends React.Component<any, IState>{
         />
 
         <View style={styles.grad}>
-          <Text style={styles.gradText}>分数统计：</Text>
+          <Text onPress={this.changeCheckList} style={styles.gradText}>分数统计：</Text>
           <View style={styles.grad}>
             <Text style={styles.gradTotal}>总分 {this.state.total} | </Text>
             <Text style={styles.gradDeduct}>扣分 {this.state.deduct}</Text>
@@ -87,19 +66,34 @@ export default class CheckList extends React.Component<any, IState>{
         </View>
 
         <View>
-          <MiddleCategoryCmp list={this.state.list} />
+          {MiddleCategoryCmpList}
+          {/* <MiddleCategoryCmp
+            list={this.state.list}
+            title={'SI/VI应用规范及维护'}
+          />
+          <MiddleCategoryCmp
+            list={this.state.list}
+            title={'SI/VI检查'}
+          /> */}
         </View>
       </View>
     )
   }
 }
 
+const mapStateToProps = (state: any) => state
+const mapDispatchToProps = (dispatch: any) => ({
+  changeCheckList: (arr: object[]) => dispatch(changeCheckList(arr))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckListPage)
+
 const styles: any = StyleSheet.create({
   grad: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingLeft: pxToDp(32),
-    paddingRight: pxToDp(32),
+    paddingLeft: pxToDp(30),
+    paddingRight: pxToDp(30),
     backgroundColor: '#f8f8f8',
     height: pxToDp(110),
   },
