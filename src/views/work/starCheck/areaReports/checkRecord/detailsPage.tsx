@@ -47,7 +47,14 @@ class DetailsPage extends React.Component<any>{
   changeUrl(list:any) {
     let arr:any = []
     list.map((it:any) => {
-      arr.push({url: it})
+      var reg = /\.mp4$/gm
+
+      if(reg.test(it)) {
+        arr.push({url: it,type:'mp4'})
+      }else {
+        arr.push({url: it,type:'image'})
+      }
+     
     })
     return arr
   }
@@ -264,7 +271,7 @@ const styles = StyleSheet.create({
   },
   showPictureBox: {
     position: "relative",
-    zIndex: 10,
+    zIndex: 10000,
     width: pxToDp(600),
     // height: pxToDp(438),
     // marginLeft: pxToDp(67),

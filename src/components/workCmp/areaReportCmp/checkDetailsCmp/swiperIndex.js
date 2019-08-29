@@ -76,7 +76,7 @@ export default class SwiperIndex extends Component {
                     containerCustomStyle={styles.slider}
                     //   contentContainerCustomStyle={styles.sliderContentContainer}
                     loop={true}
-                    swipe={true}
+                    swipe={false}
                     loopClonesPerSide={2}
                     //   autoplay={true}
                     //   autoplayDelay={500}
