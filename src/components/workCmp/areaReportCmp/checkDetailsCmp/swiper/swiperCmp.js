@@ -53,7 +53,7 @@ export default class SwiperCmp extends Component {
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-              onPress={() => { alert(`You've clicked '${title}'`); }}
+              onPress={() => { console.log(`You've clicked '${title}'`); }}
               >
                 <View style={styles.shadow} />
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
