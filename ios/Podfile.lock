@@ -16,6 +16,11 @@ PODS:
   - react-native-amap3d (1.1.1):
     - AMap3DMap (~> 6.6.0)
     - React
+  - react-native-video (5.0.0):
+    - React
+    - react-native-video/Video (= 5.0.0)
+  - react-native-video/Video (5.0.0):
+    - React
   - React/Core (0.59.9):
     - yoga (= 0.59.9.React)
   - React/CxxBridge (0.59.9):
@@ -69,6 +74,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - react-native-amap3d (from `../node_modules/react-native-amap3d/lib/ios`)
+  - react-native-video (from `../node_modules/react-native-video`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -99,6 +105,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-amap3d:
     :path: "../node_modules/react-native-amap3d/lib/ios"
+  react-native-video:
+    :path: "../node_modules/react-native-video"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNSVG:
@@ -116,10 +124,11 @@ SPEC CHECKSUMS:
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
   react-native-amap3d: 7ee6406ae17b263f4ae4bbb9eacd1bc53cc8bd4f
+  react-native-video: 6555881252c8ca039760e1cd6df28ac28ffb2baf
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
   RNSVG: a53a5de0d90ec96a6502cc3a4534dfcc0c130622
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: 69f805a3e9b6be7f1e13fe1443d022862493f066
+PODFILE CHECKSUM: 368ea1eb90414cbfdbcb794201e011a9d1a52a27
 
 COCOAPODS: 1.7.5
