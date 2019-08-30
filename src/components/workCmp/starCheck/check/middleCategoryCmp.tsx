@@ -1,22 +1,46 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import pxToDp from "../../../../utils/fixcss";
 
 export default class middleCategory extends React.Component<any> {
-  state: any = {
-    title: 'SI/VI应用规范及维护',
+  static navigationOptions = {
+    header: null,
   }
+  
   render() {
+    const { navigation } = this.props
     const TextList = this.props.list.map((element: any, index: number) => {
-      return <View key={`detail${index}`} style={styles.liBox}>
-              <Text style={styles.li}>{element.name}</Text>
+      return <View key={`detail${index}`} style={[styles.liBox, {justifyContent: 'space-between',}]}>
+              <TouchableOpacity
+                onPress={() => this.props.toDetail(index)}
+              >
+                <Text style={styles.li}>{element.name}</Text>
+              </TouchableOpacity>
+              {element.status && <Image
+                source={require("../../../../images/work/starCheck/yes_blue.png")}
+                style={styles.yesImage}
+              ></Image>}
             </View>
     })
     return (
-      <View>
-        <View style={styles.liBox}>
-          <Text style={styles.title}>中类组件</Text>
+      <View style={this.props.status ? {} : {
+        height: pxToDp(130),
+        overflow: "hidden",
+      }}>
+        {/* 检查标题 */}
+        <View style = {[styles.liBox, !this.props.status && {justifyContent: 'center'}]}>
+          <TouchableOpacity
+            onPress={() => this.props.showClick(this.props.index)}
+          >
+            <Text style={[styles.title, !this.props.status && styles.title_open]}>{this.props.title}</Text>
+          </TouchableOpacity>
+          <Image
+            source={require('../../../../images/work/starCheck/more_blue.png')}
+            style={[styles.openImage, this.props.status && {display: 'none'}]}
+          ></Image>
         </View>
+
+        {/* 检查条目 */}
         {TextList}
       </View>
     )
@@ -27,6 +51,9 @@ const styles = StyleSheet.create({
   liBox: {
     borderColor: '#eee',
     borderBottomWidth: pxToDp(1),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     color: '#767A7F',
@@ -36,6 +63,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: pxToDp(12),
     paddingLeft: pxToDp(32),
     paddingRight: pxToDp(32),
+  },
+  title_open: {
+    textAlign: 'center',
+    color: '#007aff',
+    paddingRight: pxToDp(10),
+  },
+  openImage: {
+    width: pxToDp(26),
+    height: pxToDp(14),
+  },
+  yesImage: {
+    width: pxToDp(31),
+    height: pxToDp(22),
+    marginRight: pxToDp(32),
   },
   li: {
     color: '#000',

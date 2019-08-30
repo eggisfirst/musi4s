@@ -11,6 +11,9 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - JCore (2.1.1)
+  - JPush (3.2.2):
+    - JCore (< 3.0.0, >= 2.0.0)
   - React (0.59.9):
     - React/Core (= 0.59.9)
   - react-native-amap3d (1.1.1):
@@ -73,6 +76,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - JPush
   - react-native-amap3d (from `../node_modules/react-native-amap3d/lib/ios`)
   - react-native-video (from `../node_modules/react-native-video`)
   - React/Core (from `../node_modules/react-native`)
@@ -91,6 +95,8 @@ SPEC REPOS:
     - AMap3DMap
     - AMapFoundation
     - boost-for-react-native
+    - JCore
+    - JPush
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -122,6 +128,8 @@ SPEC CHECKSUMS:
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
+  JCore: 4072327557f0b83cc22dd4041f2f839740c0077b
+  JPush: 0e9088c85c73275629facc311fe5992dfac36eeb
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
   react-native-amap3d: 7ee6406ae17b263f4ae4bbb9eacd1bc53cc8bd4f
   react-native-video: 6555881252c8ca039760e1cd6df28ac28ffb2baf

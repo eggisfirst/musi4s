@@ -4,6 +4,7 @@ import rightFilter from './filter/rightFilter';
 import handlePageState from './4s/handlePageState';
 import selectFilter from './filter/select';
 import pullDownData from './filter/pullDownSelect';
+import checkList from './4s/checkList';
 import Loading from './global/loading';
 
 
@@ -14,5 +15,6 @@ export default combineReducers({
   rightFilter,
   handlePageState,
   selectFilter,
-  pullDownData
+  pullDownData,
+  checkList,
 })

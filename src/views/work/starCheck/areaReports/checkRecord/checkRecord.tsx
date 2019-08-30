@@ -57,7 +57,7 @@ class CheckRecord extends React.Component<any>{
 
   /**请求筛选：合格/不合格/全部的数据 */
   handleSelect = (index:number) => {
-    console.log(1111,index)
+    // console.log(1111,index)
     const pass = index === 0? '' : index === 1? '1' : '2'
     this.getCheckLog(pass)
   }

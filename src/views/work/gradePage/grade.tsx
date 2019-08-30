@@ -185,9 +185,15 @@ export default class GradePage extends React.Component<any>{
 
   //跳转到评分页面
   handleToGrade = (index: number, i: number) => {
-    const id = this.state.list[index][i].id
+    const list = this.state.list
     const {shopId,qualificationId} = this.props.navigation.state.params
-    this.test(id,shopId)
+    console.log('跳转评分页面。')
+    this.props.navigation.navigate('CheckListPage', {
+      qualificationId,
+      shopId,
+      title: list[index][i].name,
+    })
+    // this.test(id,shopId)
    
     // this.test1(JSON.stringify(data))
 

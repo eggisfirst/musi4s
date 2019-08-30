@@ -29,3 +29,6 @@ export const SELECT_END_DATE = 'SELECT_END_DATE'
 
 /**首页的星级认证状态 */
 export const HANDLEPAGE_STATE = 'HANDLEPAGE_STATE'
+
+/**检查列表 */
+export const CHECK_LIST = 'CHECK_LIST'
