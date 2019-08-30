@@ -7,6 +7,7 @@ import SliderEntry from './swiper/swiperCmp';
 import styles, { colors } from './swiper/styles/index.styles';
 import { ENTRIES1, ENTRIES2 } from './swiper/static/index';
 import { scrollInterpolators, animatedStyles } from './swiper/utils/animation';
+import pxToDp from '../../../../utils/fixcss';
 
 const IS_ANDROID = Platform.OS === 'android';
 const SLIDER_1_FIRST_ITEM = 1;
@@ -61,7 +62,9 @@ export default class SwiperIndex extends Component {
             <View style={styles.exampleContainer}>
                 {/* <Text style={styles.title}>{`Example ${number}`}</Text> */}
                 {/* <Text style={styles.subtitle}>{title}</Text> */}
-                <Carousel
+                {
+                    this.props.urls && this.props.urls.length > 0 ?
+                    <Carousel
                     layout={'stack'}
                     ref={c => this._slider1Ref = c}
                     data={this.props.urls}
@@ -82,7 +85,10 @@ export default class SwiperIndex extends Component {
                     //   autoplayDelay={500}
                     //   autoplayInterval={3000}
                     onSnapToItem={(index) =>{this.setActiveIndex(index)}}
-                />
+                /> :
+                <Text style={{marginLeft: pxToDp(300),marginTop: pxToDp(200)}}>暂无数据</Text>
+                }
+               
                 {/* <Pagination
                   dotsLength={ENTRIES1.length}
                   activeDotIndex={slider1ActiveSlide}

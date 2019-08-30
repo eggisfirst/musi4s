@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import pxToDp from '../../../../../../utils/fixcss';
 
 export const colors = {
     black: '#1a1917',
@@ -23,6 +24,7 @@ export default StyleSheet.create({
         flex: 1
     },
     exampleContainer: {
+        minHeight: pxToDp(600)
         // paddingVertical: 30
     },
     exampleContainerDark: {

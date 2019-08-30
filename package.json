@@ -36,6 +36,7 @@
     "jest": "^24.8.0",
     "metro-react-native-babel-preset": "^0.55.0",
     "react-native-amap3d": "^1.1.1",
+    "react-native-video": "^5.0.0",
     "react-test-renderer": "16.8.3",
     "typescript": "^3.5.2"
   },

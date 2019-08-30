@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Dimensions, Image, Text, Slider, TouchableWithoutFeedback, TouchableOpacity, Button, StyleSheet} from 'react-native';
 import Video from 'react-native-video';
-import Orientation from 'react-native-orientation';
+// import Orientation from 'react-native-orientation';
 import pxToDp from "../../../../../utils/fixcss";
 const screenWidth = Dimensions.get('window').width;
 import store from '../../../../../store';

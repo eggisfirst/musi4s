@@ -304,7 +304,11 @@ class CheckDetails extends React.Component<any>{
           </View>
         </View>
         <ScrollView>
+          {
+            this.state.scoreData.getTotal != undefined &&
           <ScoreCanvas score={this.state.scoreData.getTotal} name={this.state.scoreData.shopName} />
+
+          }
           {
             this.props.navigation.state.params.type === 'check' ?
             this.state.categorierData.map((item:any, index:number) => (
