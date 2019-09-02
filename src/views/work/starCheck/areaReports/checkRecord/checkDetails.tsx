@@ -221,10 +221,10 @@ class CheckDetails extends React.Component<any>{
    */
   initGetData() {
     if (this.props.navigation.state.params.type === 'check') {
-      // this.getCheckcategories()
+      this.getCheckcategories()
       const data = this.getCheckParams()
-      this.starTest()
-      // this.getCheckLogInfo(data)
+      // this.starTest()
+      this.getCheckLogInfo(data)
     } else {
       const data = this.getParams()
       this.getStarGrade(data)

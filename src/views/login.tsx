@@ -70,9 +70,9 @@ export default class LoginScreen extends Component<any> {
         _storeData("refresh_token", res.refresh_token)
         store.dispatch(Token(res.access_token))
         indexModel.getAuth().then(res => {
-          if(res.status) {
+          if(res.type) {
             //用户级别
-            _storeData('type',res.type) 
+            _storeData('type',JSON.stringify(res.type)) 
             this.props.navigation.navigate('Work')
           }
         })

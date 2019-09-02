@@ -44,15 +44,34 @@ class DetailsPage extends React.Component<any>{
     gradeDetailInfo: {},
     urls: []
   }
+  /**
+   * 检查记录 --生成urls
+   * @param list 
+   */
   changeUrl(list:any) {
     let arr:any = []
     list.map((it:any) => {
       var reg = /\.mp4$/gm
-
       if(reg.test(it)) {
         arr.push({url: it,type:'mp4'})
       }else {
         arr.push({url: it,type:'image'})
+      }
+     
+    })
+    return arr
+  }
+  /**
+   * 验证评分生成urls
+   */
+  getUrls(list: any) {
+    let arr:any = []
+    list.map((it:any) => {
+      var reg = /\.mp4$/gm
+      if(reg.test(it.url)) {
+        arr.push({url: it.url,type:'mp4'})
+      }else {
+        arr.push({url: it.url,type:'image'})
       }
      
     })
@@ -122,8 +141,10 @@ class DetailsPage extends React.Component<any>{
   getGradeDetailInfo(id: any) {
     indexModel.getGradeDetailInfo(id).then(res => {
       if (res.status) {
+        // console.log(123,this.getUrls(res.data.attachment))
         this.setState({
-          gradeDetailInfo: res.data
+          gradeDetailInfo: res.data,
+          urls: this.getUrls(res.data.attachment)
         })
       }
     })
@@ -271,7 +292,7 @@ const styles = StyleSheet.create({
   },
   showPictureBox: {
     position: "relative",
-    zIndex: 10000,
+    zIndex: 10,
     width: pxToDp(600),
     // height: pxToDp(438),
     // marginLeft: pxToDp(67),
