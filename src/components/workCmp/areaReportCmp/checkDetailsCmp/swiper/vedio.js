@@ -116,7 +116,7 @@ export default class VideoPlayScreen extends Component {
                   style={{flex: 1,width: pxToDp(10),height: pxToDp(10)}}
                   maximumTrackTintColor={'#999999'}
                   minimumTrackTintColor={'#00c06d'}
-                  thumbImage={require('./images/slider.png')}
+                  // thumbImage={require('./images/slider.png')}
                   value={this.state.currentTime}
                   minimumValue={0}
                   maximumValue={this.state.duration}
