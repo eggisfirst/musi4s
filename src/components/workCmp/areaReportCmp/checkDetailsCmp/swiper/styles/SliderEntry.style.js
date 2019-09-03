@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { colors } from './index.styles';
+import pxToDp from '../../../../../../utils/fixcss';
 
 const IS_IOS = Platform.OS === 'ios';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -22,6 +23,7 @@ export default StyleSheet.create({
     slideInnerContainer: {
         width: itemWidth,
         height: itemWidth*1.33,
+        // width: pxToDp(750),
         // paddingHorizontal: itemHorizontalMargin,
         // paddingBottom: 14 // needed for shadow
     },
@@ -56,7 +58,8 @@ export default StyleSheet.create({
         borderRadius: IS_IOS ? entryBorderRadius : 0,
         // borderTopLeftRadius: entryBorderRadius,
         // borderTopRightRadius: entryBorderRadius,
-        borderRadius: entryBorderRadius
+        borderRadius: entryBorderRadius,
+      
     },
     // image's border radius is buggy on iOS; let's hack it!
     radiusMask: {

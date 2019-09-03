@@ -5,6 +5,7 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
+import com.brentvatne.react.ReactVideoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.horcrux.svg.SvgPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new ImagePickerPackage(),
             new ReactSliderPackage(),
+            new ReactVideoPackage(),
             new AsyncStoragePackage(),
             new SvgPackage(),
             new LinearGradientPackage(),

@@ -58,15 +58,15 @@ class CheckRecord extends React.Component<any>{
   /**请求筛选：合格/不合格/全部的数据 */
   handleSelect = (index:number) => {
     // console.log(1111,index)
-    const pass = index === 0? '' : index === 1? '1' : '2'
+    const pass = index === 0? '' : index === 1? '1' : '0'
     this.getCheckLog(pass)
   }
   /**获取传递过来的门店名 */
   componentDidMount() {
-    // this.getCheckLog()
+    this.getCheckLog()
 
 
-    this.test()
+    // this.test()
 
     // console.log(this.props.navigation.state.parmas)
   }
@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(42),
     fontWeight: "500",
     fontSize: pxToDp(26),
-    maxWidth: pxToDp(400)
+    maxWidth: pxToDp(370)
   }
 })

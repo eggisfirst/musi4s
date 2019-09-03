@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
 import styles from './styles/SliderEntry.style';
+import Vedio from './vedio'
+import pxToDp from '../../../../../utils/fixcss';
 
+
+// import Nvedio from './nvedios'
 export default class SwiperCmp extends Component {
 
     static propTypes = {
@@ -14,8 +18,9 @@ export default class SwiperCmp extends Component {
     };
 
     get image () {
-        const { data: { url }, parallax, parallaxProps, even } = this.props;
+        const { data: { url }, parallax, parallaxProps, even,data: {type} } = this.props;
         return parallax ? (
+            type === 'image' ? 
             <ParallaxImage
               source={{ uri: url }}
               containerStyle={[styles.imageContainer, even ? styles.imageContainerEven : {}]}
@@ -24,7 +29,7 @@ export default class SwiperCmp extends Component {
               showSpinner={true}
               spinnerColor={even ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
               {...parallaxProps}
-            />
+            /> : <Vedio videoUrl={url}/>
         ) : (
             <Image
               source={{ uri: url }}
@@ -49,9 +54,9 @@ export default class SwiperCmp extends Component {
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-              onPress={() => { alert(`You've clicked '${title}'`); }}
+              onPress={() => { console.log(`You've clicked '${title}'`); }}
               >
-                <View style={styles.shadow} />
+                {/* <View style={styles.shadow} /> */}
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
                     { this.image }
                     {/* <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} /> */}
@@ -69,3 +74,4 @@ export default class SwiperCmp extends Component {
         );
     }
 }
+

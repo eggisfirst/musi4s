@@ -71,11 +71,11 @@ export const GencyCard: React.FC<IProps> = (props) => {
         ))
       }
       {
-        getList().length > 4 &&
+        props.listData.shopList.length > 4 ?
         <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => { loadMore() }}>
           <Text style={styles.shopText}>{loadState ? '点击收起' : '点击加载更多'}</Text>
           <Image style={[styles.loadMoreIcon, loadState && myRotate]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
-        </TouchableOpacity>
+        </TouchableOpacity> : null
       }
     </View>
   )
@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(20),
     backgroundColor: "#fff",
     marginLeft: pxToDp(20),
-    marginTop: pxToDp(28),
+    marginTop: pxToDp(20), 
     shadowColor: '#ccc',
     shadowRadius: pxToDp(10),
     shadowOpacity: 0.3,
-    marginBottom: Platform.OS === "ios" ? pxToDp(20) : pxToDp(80)
+    // marginBottom: Platform.OS === "ios" ? pxToDp(20) : pxToDp(20)
   },
   via: {
     width: pxToDp(121),
@@ -102,7 +102,9 @@ const styles = StyleSheet.create({
     color: "#363636",
     fontSize: pxToDp(38),
     fontWeight: "bold",
-    width: pxToDp(360)
+    width: pxToDp(360),
+    // borderWidth: 1,
+    lineHeight: pxToDp(60)
   },
   header: {
     display: "flex",

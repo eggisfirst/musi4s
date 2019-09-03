@@ -16,7 +16,8 @@ export const SliderCmp: React.FC<IProps> = (props) => {
   /**刻度 */
   const scaleList = [1, 1, 1, 2, 1, 1, 1]
   /**扣的分数占18分的比例 */
-  const sliderActivePrecent = (props.cutScore / props.maxNum) * 100 + "%"
+  // const sliderActivePrecent = (props.cutScore / props.maxNum) * 100 + "%"
+  const sliderActivePrecent = props.cutScore == undefined ? '0%' : (props.cutScore / props.maxNum) * 100 + "%"
   return (
     <View style={styles.container}>
       <View style={styles.scoreRange}>

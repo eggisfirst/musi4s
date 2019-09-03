@@ -1,10 +1,9 @@
 import React from "react"; 
-import { View, StyleSheet, TouchableOpacity, Button } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Button, Alert } from "react-native";
 import {TabBarItem} from "../../components/tabBarItem"
 import {IndexIcon} from '../../components/workCmp/indexIcon'
 import pxToDp from "../../utils/fixcss";
 import {TabBar} from "../../components/tabBar";
-
 
 export default class WorkScreen extends React.Component<any>{ 
   static navigationOptions = {
@@ -16,6 +15,8 @@ export default class WorkScreen extends React.Component<any>{
         selectedImage={require('../../images/tabBar/work_select.png')} />
     ),
   }
+
+
   render() {
     const list = [
       {

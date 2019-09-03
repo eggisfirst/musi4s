@@ -48,18 +48,9 @@ const AppNavigator = createBottomTabNavigator({
 
 export default function configAppNavigator(isLoggedIn:boolean) {
   return createAppContainer(createStackNavigator({
-    CheckListPage,
-    CheckDetailPage,
     Login: {
       screen: LoginScreen,
     },
-    DetailsPage,
-  
-    CheckDetailsPage,
-    StarHome,
-    AcceptanceDetailsPage,
-    AcceptancePage,
-    CheckRecordPage,
     Work: {
       screen: AppNavigator,
       //主导航页面不显示头部
@@ -68,6 +59,18 @@ export default function configAppNavigator(isLoggedIn:boolean) {
 
       }
     },
+    
+    CheckListPage,
+    CheckDetailPage,
+   
+    DetailsPage,
+  
+    CheckDetailsPage,
+    StarHome,
+    AcceptanceDetailsPage,
+    AcceptancePage,
+    CheckRecordPage,
+   
     GencyShopPage,
     HandlePage,
     GradePage,
@@ -76,8 +79,8 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     SearchPage,
   },{
     //初始进来的页面
-    // initialRouteName: isLoggedIn ? 'Work' : 'Login',
-    initialRouteName: 'CheckListPage',
+    initialRouteName: isLoggedIn ? 'Work' : 'Login',
+    // initialRouteName: 'CheckListPage',
     mode: 'modal',
     // 指定标头的呈现方式
     headerMode: "screen",
