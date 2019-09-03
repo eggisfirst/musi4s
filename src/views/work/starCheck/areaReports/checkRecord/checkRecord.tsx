@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(42),
     fontWeight: "500",
     fontSize: pxToDp(26),
-    maxWidth: pxToDp(400)
+    maxWidth: pxToDp(370)
   }
 })

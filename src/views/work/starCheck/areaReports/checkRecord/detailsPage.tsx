@@ -98,10 +98,10 @@ class DetailsPage extends React.Component<any>{
     const { shopId, startTime, endTime, categoryId } = this.getCheckParams()
     indexModel.getStandard(shopId, categoryId, startTime, endTime).then(res => {
       if (res.status) {
-        this.setState({
-          standards: res.standards
-        })
-        this.getStandardinfo(0, res.standards[0].standardId)
+        // this.setState({
+        //   standards: res.standards
+        // })
+        // this.getStandardinfo(0, res.standards[0].standardId)
       }
     })
   }
@@ -198,7 +198,7 @@ class DetailsPage extends React.Component<any>{
   initGetData() {
     this.props.pullDownSelect(0)
     if (this.props.navigation.state.params.type === 'check') {
-      // this.getStandard()
+      this.getStandard()
     this.test()
 
     } else {

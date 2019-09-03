@@ -14,15 +14,16 @@ const indexModel = new IndexModel()
 
 export default class StarHome extends React.Component<any> {
   static navigationOptions = {
-    headerTitle: <Header/>, 
-    headerTintColor:"#fff",
-    headerStyle: {
-      height:pxToDp(353),
-      width:pxToDp(750),
-      marginTop:Platform.OS ==="ios"?  pxToDp(-90):0,
-      borderBottomWidth: 0,
-      elevation: 0,
-    }
+    header: null
+    // headerTitle: <Header/>, 
+    // headerTintColor:"#fff",
+    // headerStyle: {
+    //   height:pxToDp(353),
+    //   width:pxToDp(750),
+    //   marginTop:Platform.OS ==="ios"?  pxToDp(-90):0,
+    //   borderBottomWidth: 0,
+    //   elevation: 0,
+    // }
   }
   componentDidMount() {
     this.getUserInfo()
@@ -88,6 +89,7 @@ export default class StarHome extends React.Component<any> {
     ]
     return(
       <View>
+        <Header eggHandleBack={()=> {this.props.navigation.goBack()}}/>
         <StarCheck list={this.state.list} navigation={this.props.navigation}/>
         <ReportForm  list={imgArr} navigation={this.props.navigation}/>
       </View>
