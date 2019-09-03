@@ -4,6 +4,8 @@ import {
   Text,
   StyleSheet,
   View,
+  ImageBackground,
+  TouchableOpacity
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
 
@@ -35,9 +37,16 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     return(
       <View style={styleSheet.imgUploadWrapper}>
         <View style={styleSheet.imgUploadWrapper}>
-            {imgBoxList}
-            <View style={[styleSheet.imgBox,styleSheet.addImg]}><Text>+</Text></View>
-          </View>
+          {imgBoxList}
+          <ImageBackground
+            style={styleSheet.addBox}
+            source={require("../../images/work/starCheck/addImg.png")}>
+            <TouchableOpacity
+              onPress={this.upload}
+              style={styleSheet.addBtn}
+            ></TouchableOpacity>
+          </ImageBackground>
+        </View>
       </View>
     )
   }
@@ -58,9 +67,17 @@ const styleSheet = StyleSheet.create({
     marginBottom: pxToDp(20),
     backgroundColor: '#333',
   },
+  addBox: {
+    width: pxToDp(200),
+    height: pxToDp(200),
+  },
   addImg: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  addBtn: {
+    width: pxToDp(200),
+    height: pxToDp(200),
+  }
 })

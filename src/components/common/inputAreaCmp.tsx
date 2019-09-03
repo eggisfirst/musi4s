@@ -31,6 +31,7 @@ export default class InputAreaCmp extends Component<IProps,IState> {
     return(
       <View style={styles.inputAreaBox}>
         <TextInput
+          textContentType='none'
           value={this.state.inputAreaVal}
           onChangeText={(text) => this.setInputAreaVal(text)}
           style={styles.textarea}

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import { changeCheckList } from '../../../store/actions/4s/checkList';
@@ -9,17 +9,25 @@ import { changeCheckList } from '../../../store/actions/4s/checkList';
 import InputAreaCmp from '../../../components/common/inputAreaCmp';
 import BigBtn from '../../../components/common/bigBtn';
 import ImgUploadCmp from '../../../components/common/imgUploadCmp';
-import Slider from '@react-native-community/slider';
+import ScoreSlider from '../../../components/common/scoreSlider';
+import { IndexModel } from "../../../request";
+const indexModel = new IndexModel()
 
 const actions = {
   ...changeCheckList,
 }
+
+// interface IPros {
+//   minimumValue?: number
+//   maximumValue?: number
+// }
 
 interface IState {
   total: number
   deduct: number
   imageList: object[]
   inputAreaVal: string
+  score: number
 }
 
 class CheckDetailPage extends React.Component<any, IState>{
@@ -27,7 +35,8 @@ class CheckDetailPage extends React.Component<any, IState>{
     total: 23,
     deduct: 9,
     imageList: [],
-    inputAreaVal: ''
+    inputAreaVal: '',
+    score: 0,
   }
 
   static navigationOptions = {
@@ -44,11 +53,41 @@ class CheckDetailPage extends React.Component<any, IState>{
   }
 
   setInputAreaVal = (text: string): void => {
-    this.setState({inputAreaVal: text})
+    this.setState({ inputAreaVal: text })
   }
 
-  save = ():void => {
-    console.log('点击事件。')
+  save = (): void => {
+    console.log(`输入框的值：${this.state.inputAreaVal}`, `扣分：${this.state.score}`)
+  }
+
+  scoreChange = (score: number) => {
+    this.setState({ score: score })
+  }
+
+  sentScore = () => {
+    let data: object = {
+      levelId: "1140447743186251778", //星级id，一星检查id
+      shopId: "1129280494286794754", //门店id
+      qualificationId: "1129280494286794754", //认证id
+      categoryList: [ //打分分类列表，必须提交全部
+        {
+          categoryId: "1140918983948636162", //分类id
+          standardList: [ //打分细项列表，必须提交全部
+            {
+              standardId: "1143774370314014721", //打分细项id
+              deduct: 10, //扣分分数
+              reason: "不需要不需要理由", //扣分理由
+              urls: [ //上传文件url集合
+                "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
+                "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
+              ]
+            },
+          ]
+        }]
+    }
+    indexModel.submitForm(data).then(res => {
+      console.log('数据请求成功：', res)
+    })
   }
 
   componentDidMount() {
@@ -70,30 +109,25 @@ class CheckDetailPage extends React.Component<any, IState>{
             setInputAreaVal={this.setInputAreaVal}
           ></InputAreaCmp>
 
-
           {/* 图片上传组件 */}
           <ImgUploadCmp></ImgUploadCmp>
         </View>
 
-        <View style={styles.sliderBox}>
-        <Slider
-          style={{width: 200, height: 40}}
+        {/* 滑动选择分数组件 */}
+        <ScoreSlider
+          step={1}
           minimumValue={0}
-          maximumValue={1}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
-        />
+          maximumValue={10}
+          value={this.state.score}
+          scoreChange={this.scoreChange}
+        ></ScoreSlider>
+
+        <View style={styles.bitBtnBox}>
+          <BigBtn
+            onClick={this.save}
+            text={'保存'}
+          ></BigBtn>
         </View>
-
-        {/* <View style={styles.gradBox}>
-          <Text style={styles.gradTitle}>扣分：</Text>
-          <SliderCmp cutScore={navigation.state.params.type === 'check' ? 50 : 40}
-                maxNum={100} />
-        </View> */}
-
-        <BigBtn
-          onClick={this.save}
-        ></BigBtn>
       </View>
     )
   }
@@ -110,6 +144,8 @@ const styles: any = StyleSheet.create({
   contentBox: {
     display: 'flex',
     alignItems: 'center',
+    borderBottomColor: '#f8f8f8',
+    borderBottomWidth: pxToDp(10),
   },
   gradBox: {
     width: pxToDp(640),
@@ -119,12 +155,8 @@ const styles: any = StyleSheet.create({
   gradTitle: {
     lineHeight: pxToDp(100),
   },
-  // sliderBox: {
-  //   marginLeft: pxToDp(55),
-  //   width: pxToDp(640),
-  //   height: pxToDp(10),
-  // },
-  // slider: {
-    
-  // },
+  bitBtnBox: {
+    width: pxToDp(640),
+    marginLeft: pxToDp(55),
+  }
 })

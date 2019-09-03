@@ -178,9 +178,6 @@ export default class GradePage extends React.Component<any>{
         },
       ]
     }
-    indexModel.submitForm(data).then(res => {
-    
-    })
   }
 
   //跳转到评分页面

@@ -9,6 +9,7 @@ import pxToDp from '../../utils/fixcss';
 
 interface IProps {
   onClick:() => void
+  text: string
 }
 
 export default class BigBtn extends Component<IProps> {
@@ -19,7 +20,7 @@ export default class BigBtn extends Component<IProps> {
         style={styleSheet.button}
         onPress={this.props.onClick}
       >
-        <Text style={styleSheet.btnText}>登录</Text>
+        <Text style={styleSheet.btnText}>{this.props.text}</Text>
       </TouchableOpacity>
     )
   }

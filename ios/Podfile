@@ -34,6 +34,8 @@ target 'derucciTS' do
 
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
 end
 
 post_install do |installer|
