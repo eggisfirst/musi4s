@@ -12,11 +12,11 @@ export default class middleCategory extends React.Component<any> {
     const TextList = this.props.list.map((element: any, index: number) => {
       return <View key={`detail${index}`} style={[styles.liBox, {justifyContent: 'space-between',}]}>
               <TouchableOpacity
-                onPress={() => this.props.toDetail(index)}
+                onPress={() => this.props.toDetail(index, this.props.index)}
               >
                 <Text style={styles.li}>{element.name}</Text>
               </TouchableOpacity>
-              {element.status && <Image
+              {element.type && <Image
                 source={require("../../../../images/work/starCheck/yes_blue.png")}
                 style={styles.yesImage}
               ></Image>}

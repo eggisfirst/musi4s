@@ -3,39 +3,39 @@ import * as Types from '../../actionTypes/4s/actionTypes';
 const initState = [
   {
     status: true,
-    list: [
+    standardList: [
       {
-        name: '店面',
-        status: true,
+        name: '店面1',
+        type: true,
       },
       {
-        name: '店面面积',
-        status: true,
+        name: '店面面积1',
+        type: true,
       },
       {
-        name: '店面类型',
-        status: false,
+        name: '店面类型1',
+        type: false,
       },
     ],
-    title: 'SI/VI应用规范及维护'
+    name: 'SI/VI应用规范及维护'
   },
   {
     status: false,
-    list: [
+    standardList: [
       {
-        name: '门头清洁维护',
-        status: false,
+        name: '门头清洁维护1',
+        type: false,
       },
       {
-        name: '门头清洁维护',
-        status: false,
+        name: '门头清洁维护1',
+        type: false,
       },
       {
-        name: '门头清洁维护',
-        status: false,
+        name: '门头清洁维护1',
+        type: false,
       },
     ],
-    title: 'SI/VI应用规范及维护'
+    name: 'SI/VI应用规范及维护'
   },
 ]
 

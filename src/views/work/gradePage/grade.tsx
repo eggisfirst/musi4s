@@ -191,6 +191,7 @@ export default class GradePage extends React.Component<any>{
     this.props.navigation.navigate('CheckListPage', {
       qualificationId,
       shopId,
+      categoryId: list[index][i].id,
       title: list[index][i].name,
     })
     // this.test(id,shopId)

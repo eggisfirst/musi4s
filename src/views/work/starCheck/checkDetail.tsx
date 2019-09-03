@@ -1,10 +1,15 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import { changeCheckList } from '../../../store/actions/4s/checkList';
+// import { SliderCmp } from '../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
+import InputAreaCmp from '../../../components/common/inputAreaCmp';
+import BigBtn from '../../../components/common/bigBtn';
+import ImgUploadCmp from '../../../components/common/imgUploadCmp';
+import Slider from '@react-native-community/slider';
 
 const actions = {
   ...changeCheckList,
@@ -13,12 +18,16 @@ const actions = {
 interface IState {
   total: number
   deduct: number
+  imageList: object[]
+  inputAreaVal: string
 }
 
 class CheckDetailPage extends React.Component<any, IState>{
   state: IState = {
     total: 23,
     deduct: 9,
+    imageList: [],
+    inputAreaVal: ''
   }
 
   static navigationOptions = {
@@ -34,8 +43,16 @@ class CheckDetailPage extends React.Component<any, IState>{
     this.props.changeCheckList(this.props.checkList)
   }
 
+  setInputAreaVal = (text: string): void => {
+    this.setState({inputAreaVal: text})
+  }
+
+  save = ():void => {
+    console.log('点击事件。')
+  }
+
   componentDidMount() {
-    console.log('redux数据；', this.props.checkList)
+    console.log('url参数', this.props.navigation.state.params)
   }
 
   render() {
@@ -43,10 +60,40 @@ class CheckDetailPage extends React.Component<any, IState>{
     return (
       <View>
         <CheckHeader
-          title={'店面SI标准一阶段'}
+          title={this.props.navigation.state.params.name}
           eggHandleBack={() => { navigation.goBack() }}
-          eggHandleSearch={() => { navigation.push("SearchPage") }}
+        // eggHandleSearch={() => { navigation.push("SearchPage") }}
         />
+        <View style={styles.contentBox}>
+          {/* 文本域 */}
+          <InputAreaCmp
+            setInputAreaVal={this.setInputAreaVal}
+          ></InputAreaCmp>
+
+
+          {/* 图片上传组件 */}
+          <ImgUploadCmp></ImgUploadCmp>
+        </View>
+
+        <View style={styles.sliderBox}>
+        <Slider
+          style={{width: 200, height: 40}}
+          minimumValue={0}
+          maximumValue={1}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+        />
+        </View>
+
+        {/* <View style={styles.gradBox}>
+          <Text style={styles.gradTitle}>扣分：</Text>
+          <SliderCmp cutScore={navigation.state.params.type === 'check' ? 50 : 40}
+                maxNum={100} />
+        </View> */}
+
+        <BigBtn
+          onClick={this.save}
+        ></BigBtn>
       </View>
     )
   }
@@ -60,5 +107,24 @@ const mapDispatchToProps = (dispatch: any) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(CheckDetailPage)
 
 const styles: any = StyleSheet.create({
-
+  contentBox: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  gradBox: {
+    width: pxToDp(640),
+    marginLeft: pxToDp(50),
+    marginTop: pxToDp(12),
+  },
+  gradTitle: {
+    lineHeight: pxToDp(100),
+  },
+  // sliderBox: {
+  //   marginLeft: pxToDp(55),
+  //   width: pxToDp(640),
+  //   height: pxToDp(10),
+  // },
+  // slider: {
+    
+  // },
 })
