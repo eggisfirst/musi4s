@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Dimensions, Image, Text, Slider, TouchableWithoutFeedback, TouchableOpacity, Button, StyleSheet} from 'react-native';
+import {View,Slider, Dimensions, Image, Text, TouchableWithoutFeedback, TouchableOpacity, Button, StyleSheet} from 'react-native';
 import Video from 'react-native-video';
+// import Slider from '@react-native-community/slider'
 // import Orientation from 'react-native-orientation';
 import pxToDp from "../../../../../utils/fixcss";
 const screenWidth = Dimensions.get('window').width;
@@ -149,11 +150,13 @@ export default class VideoPlayScreen extends Component {
   
   _onBuffering = () => {
     console.log('视频缓冲中...')
+
     // store.dispatch(setLoading(true));
   };
   
   _onLoaded = (data) => {
     console.log('视频加载完成');
+    // store.dispatch(setLoading(false));
     this.setState({
       duration: data.duration,
     });
@@ -231,10 +234,10 @@ export default class VideoPlayScreen extends Component {
   
   /// 点击了工具栏上的全屏按钮
   onControlShrinkPress() {
-    const isFullScreen = !this.state.isFullScreen
-    this.setState({
-      isFullScreen
-    })
+    // const isFullScreen = !this.state.isFullScreen
+    // this.setState({
+    //   isFullScreen
+    // })
     // if (this.state.isFullScreen) {
     //   Orientation.lockToPortrait();
     // } else {

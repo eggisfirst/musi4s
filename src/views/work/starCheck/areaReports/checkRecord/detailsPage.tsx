@@ -101,7 +101,8 @@ class DetailsPage extends React.Component<any>{
         this.setState({
           standards: res.standards
         })
-        this.getStandardinfo(0, res.standards[0].standardId)
+        res.standards[0] && this.getStandardinfo(0, res.standards[0].standardId)
+        
       }
     })
   }
