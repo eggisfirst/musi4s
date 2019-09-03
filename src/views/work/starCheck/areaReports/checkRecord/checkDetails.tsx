@@ -208,7 +208,7 @@ class CheckDetails extends React.Component<any>{
    * 跳转检查详情页面
    */
   //检查--- 跳转到详情页
-  linkToCheckDetail(id: any) {
+  linkToCheckDetail(id: any,name:string) {
     const { shopId, startTime, endTime } = this.getCheckParams()
     const categoryId = id
     this.props.navigation.push("DetailsPage", {
@@ -216,7 +216,8 @@ class CheckDetails extends React.Component<any>{
       categoryId,
       startTime,
       endTime,
-      type: 'check'
+      type: 'check',
+      name
     })
   }
   //评分-- 跳转到详情页
@@ -301,7 +302,7 @@ class CheckDetails extends React.Component<any>{
           {
             this.props.navigation.state.params.type === 'check' ?
             this.state.categorierData.map((item:any, index:number) => (
-                <TouchableOpacity key={item.categoryId} activeOpacity={0.6} onPress={() => { this.linkToCheckDetail(item.categoryId) }}>
+                <TouchableOpacity key={item.categoryId} activeOpacity={0.6} onPress={() => { this.linkToCheckDetail(item.categoryId,item.name) }}>
                   <MaxtermCmp checkData={item} />
                 </TouchableOpacity>
 

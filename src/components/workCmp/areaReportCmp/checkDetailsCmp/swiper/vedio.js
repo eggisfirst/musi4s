@@ -47,7 +47,7 @@ export default class VideoPlayScreen extends Component {
         <View style={{ width: this.state.videoWidth, height:pxToDp(485)*1.32, backgroundColor:'#000000' }}>
           <Video
             ref={(ref) => this.videoPlayer = ref}
-            source={{uri: this.state.videoUrl}}
+            source={{uri: this.props.videoUrl}}
             rate={1.0}
             volume={1.0}
             muted={false}
@@ -321,12 +321,13 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   full: {
-    position: 'absolute',
-    top: 0,
-    left: -pxToDp(135),
-    bottom: 0,
-    right: 0,
+    // position: "relative",
+    // top: 0,
+    // left: -pxToDp(135),
+    // bottom: 0,
+    // right: 0,
     width: pxToDp(750),
+    // height: pxToDp(600),
   },
   playButton: {
     width: pxToDp(100),

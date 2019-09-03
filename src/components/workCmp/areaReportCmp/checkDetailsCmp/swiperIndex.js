@@ -23,13 +23,19 @@ export default class SwiperIndex extends Component {
     // }
     state = {
         slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
+        itemWidth: itemWidth
     }
-
+    /**
+     * 设置切换到哪一张
+     */
     setActiveIndex = (index) => {
-        console.log('index',index)
+        
+        console.log('index',this.props.urls[index])
+       
         this.setState({
             slider1ActiveSlide: index
         })
+     
     }
 
     _renderItem({ item, index }) {
@@ -66,6 +72,7 @@ export default class SwiperIndex extends Component {
                     this.props.urls && this.props.urls.length > 0 ?
                     <Carousel
                     layout={'stack'}
+                    layoutCardOffset={18}
                     ref={c => this._slider1Ref = c}
                     data={this.props.urls}
                     renderItem={this._renderItemWithParallax}

@@ -71,11 +71,11 @@ export const GencyCard: React.FC<IProps> = (props) => {
         ))
       }
       {
-        getList().length > 4 &&
+        props.listData.shopList.length > 4 ?
         <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => { loadMore() }}>
           <Text style={styles.shopText}>{loadState ? '点击收起' : '点击加载更多'}</Text>
           <Image style={[styles.loadMoreIcon, loadState && myRotate]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
-        </TouchableOpacity>
+        </TouchableOpacity> : null
       }
     </View>
   )

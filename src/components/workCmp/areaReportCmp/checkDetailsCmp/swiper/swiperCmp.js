@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
 import styles from './styles/SliderEntry.style';
 import Vedio from './vedio'
+import pxToDp from '../../../../../utils/fixcss';
 
 
 // import Nvedio from './nvedios'
@@ -28,7 +29,7 @@ export default class SwiperCmp extends Component {
               showSpinner={true}
               spinnerColor={even ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
               {...parallaxProps}
-            /> : <Vedio />
+            /> : <Vedio videoUrl={url}/>
         ) : (
             <Image
               source={{ uri: url }}
@@ -55,7 +56,7 @@ export default class SwiperCmp extends Component {
               style={styles.slideInnerContainer}
               onPress={() => { console.log(`You've clicked '${title}'`); }}
               >
-                <View style={styles.shadow} />
+                {/* <View style={styles.shadow} /> */}
                 <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
                     { this.image }
                     {/* <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} /> */}

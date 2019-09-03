@@ -48,16 +48,16 @@ class DetailsPage extends React.Component<any>{
    * 检查记录 --生成urls
    * @param list 
    */
-  changeUrl(list:any) {
-    let arr:any = []
-    list.map((it:any) => {
+  changeUrl(list: any) {
+    let arr: any = []
+    list.map((it: any) => {
       var reg = /\.mp4$/gm
-      if(reg.test(it)) {
-        arr.push({url: it,type:'mp4'})
-      }else {
-        arr.push({url: it,type:'image'})
+      if (reg.test(it)) {
+        arr.push({ url: it, type: 'mp4' })
+      } else {
+        arr.push({ url: it, type: 'image' })
       }
-     
+
     })
     return arr
   }
@@ -65,30 +65,30 @@ class DetailsPage extends React.Component<any>{
    * 验证评分生成urls
    */
   getUrls(list: any) {
-    let arr:any = []
-    list.map((it:any) => {
+    let arr: any = []
+    list.map((it: any) => {
       var reg = /\.mp4$/gm
-      if(reg.test(it.url)) {
-        arr.push({url: it.url,type:'mp4'})
-      }else {
-        arr.push({url: it.url,type:'image'})
+      if (reg.test(it.url)) {
+        arr.push({ url: it.url, type: 'mp4' })
+      } else {
+        arr.push({ url: it.url, type: 'image' })
       }
-     
+
     })
     return arr
   }
 
-  test = () => { 
+  test = () => {
     axios.get('../../../../../../data.json')
-    .then( (res) => {
-      const urls = this.changeUrl(res.data.standardinfo.urls)
-      store.dispatch(setLoading(false));
+      .then((res) => {
+        const urls = this.changeUrl(res.data.standardinfo.urls)
+        store.dispatch(setLoading(false));
         this.setState({
           standards: res.data.standards,
           urls: urls
         })
-      
-    })
+
+      })
   }
   //----------请求----------
   /**
@@ -98,10 +98,10 @@ class DetailsPage extends React.Component<any>{
     const { shopId, startTime, endTime, categoryId } = this.getCheckParams()
     indexModel.getStandard(shopId, categoryId, startTime, endTime).then(res => {
       if (res.status) {
-        // this.setState({
-        //   standards: res.standards
-        // })
-        // this.getStandardinfo(0, res.standards[0].standardId)
+        this.setState({
+          standards: res.standards
+        })
+        this.getStandardinfo(0, res.standards[0].standardId)
       }
     })
   }
@@ -114,8 +114,10 @@ class DetailsPage extends React.Component<any>{
     const standardId = id ? id : this.state.standards[index].standardId
     indexModel.getStandardinfo(shopId, standardId, startTime, endTime).then(res => {
       if (res.status) {
+        const urls = res.standardinfo.urls && res.standardinfo.urls.length ? this.changeUrl(res.standardinfo.urls) : []
         this.setState({
-          standardinfo: res.standardinfo
+          standardinfo: res.standardinfo,
+          urls
         })
       }
     })
@@ -186,8 +188,8 @@ class DetailsPage extends React.Component<any>{
   pullDownSelect = (index: number) => {
     console.log('index', index)
     if (this.props.navigation.state.params.type === 'check') {
-    // this.getStandardinfo(index)
-    }else {
+      this.getStandardinfo(index)
+    } else {
       const id = this.state.standards[index].id
       this.getGradeDetailInfo(id)
     }
@@ -199,7 +201,7 @@ class DetailsPage extends React.Component<any>{
     this.props.pullDownSelect(0)
     if (this.props.navigation.state.params.type === 'check') {
       this.getStandard()
-    this.test()
+      // this.test()
 
     } else {
       this.getGradeDetailList()
@@ -245,30 +247,30 @@ class DetailsPage extends React.Component<any>{
       urls: [
 
       ]
-    
-    
     }
+
+    const name = navigation.state.params.name
     return (
       <View style={styles.container}>
-        <HeaderCmp bgColor={"#fbfbfb"} title={this.getGradeParams().name} eggHandleBack={() => { navigation.goBack() }} />
-        <ScrollView  horizontal={false}>
+        <HeaderCmp bgColor={"#fbfbfb"} title={name} eggHandleBack={() => { navigation.goBack() }} />
+        <ScrollView horizontal={false}>
           <View style={styles.pullDown}>
             <PullDownCmp data={this.state.standards} select={this.pullDownSelect} />
           </View>
           <View style={styles.showPictureBox}>
-            <SwiperIndex urls={this.state.urls}  />
+            <SwiperIndex urls={this.state.urls} />
 
             <View style={styles.sliderCmp}>
-              <SliderCmp cutScore={navigation.state.params.type === 'check' ? standardinfo.dedect : this.state.gradeDetailInfo.deduct}
+              <SliderCmp cutScore={navigation.state.params.type === 'check' ? this.state.standardinfo.deduct : this.state.gradeDetailInfo.deduct}
                 maxNum={18} />
               <View style={styles.reason}>
                 <Text style={styles.reasontext}>扣分原因：</Text>
-                <Text style={styles.text}>{navigation.state.params.type === 'check' ? standardinfo.reason : this.state.gradeDetailInfo.reason}</Text>
+                <Text style={styles.text}>{navigation.state.params.type === 'check' ? this.state.standardinfo.reason : this.state.gradeDetailInfo.reason}</Text>
               </View>
             </View>
 
           </View>
-          </ScrollView>
+        </ScrollView>
       </View>
     )
   }
@@ -293,7 +295,7 @@ const styles = StyleSheet.create({
   showPictureBox: {
     position: "relative",
     zIndex: 10,
-    width: pxToDp(600),
+    width: pxToDp(750),
     // height: pxToDp(438),
     // marginLeft: pxToDp(67),
     marginTop: pxToDp(200),
