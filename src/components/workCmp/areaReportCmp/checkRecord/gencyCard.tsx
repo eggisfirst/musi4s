@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     shadowColor: '#ccc',
     shadowRadius: pxToDp(10),
     shadowOpacity: 0.3,
-    marginBottom: Platform.OS === "ios" ? pxToDp(20) : pxToDp(80)
+    marginBottom: Platform.OS === "ios" ? pxToDp(20) : pxToDp(20)
   },
   via: {
     width: pxToDp(121),

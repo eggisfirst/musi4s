@@ -82,7 +82,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
           <>
             {
               props.cancle === AlertBtnTypes.cancle && (
-                <TouchableOpacity activeOpacity={1}
+                <TouchableOpacity activeOpacity={0.6}
                                   onPress={() => {handleClick(AlertBtnTypes.cancle)}} 
                                   style={{borderColor: "#e1e1e1",borderRightWidth:pxToDp(1)}}>
                                   <Text style={styles.cancle} >{AlertBtnTypes.cancle}</Text>
@@ -91,14 +91,14 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
             }
             {
               props.comfirm === AlertBtnTypes.comfirm && (
-                <TouchableOpacity activeOpacity={1} onPress={() => {handleClick(AlertBtnTypes.comfirm)}}>
+                <TouchableOpacity activeOpacity={0.6} onPress={() => {handleClick(AlertBtnTypes.comfirm)}}>
                   <Text style={styles.comfirm} >{AlertBtnTypes.comfirm}</Text>
                 </TouchableOpacity>
               )
             }
             {
               props.sendBack === AlertBtnTypes.sendBack && (
-                <TouchableOpacity activeOpacity={1}  onPress={() => {handleClick(AlertBtnTypes.sendBack)}}>
+                <TouchableOpacity activeOpacity={0.6}  onPress={() => {handleClick(AlertBtnTypes.sendBack)}}>
                   <Text style={styles.comfirm}>{AlertBtnTypes.sendBack}</Text>
                 </TouchableOpacity>
               )

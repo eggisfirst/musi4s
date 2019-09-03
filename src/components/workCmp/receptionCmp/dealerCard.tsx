@@ -6,62 +6,68 @@ interface IProps {
   cardData: any
 }
 
-export const DealerCard:React.FC<IProps> = (props) =>{
+export const DealerCard: React.FC<IProps> = (props) => {
   /**
    * 
    * @param phone 电话
    */
-  const linking = (phone:any) => {
-    if(!phone) {
+  const linking = (phone: any) => {
+    if (!phone) {
       Alert.alert('暂无电话号码')
       return
     }
     let tel = `tel:${phone}`// 目标电话
     Alert.alert('', phone,
-      [ { text: '取消', onPress: () => { console.log('取消') } },
-        { text: '呼叫',
-          onPress: () => {
-            Linking.canOpenURL(tel).then((supported) => {
-              if (!supported) {
-                console.log('Can not handle tel:' + tel)
-              } else {
-                return Linking.openURL(tel)
-              }
-            }).catch(error => console.log('tel error', error))
-          } }])
+      [{ text: '取消', onPress: () => { console.log('取消') } },
+      {
+        text: '呼叫',
+        onPress: () => {
+          Linking.canOpenURL(tel).then((supported) => {
+            if (!supported) {
+              console.log('Can not handle tel:' + tel)
+            } else {
+              return Linking.openURL(tel)
+            }
+          }).catch(error => console.log('tel error', error))
+        }
+      }])
   }
-  return(
+  return (
     <View style={styles.wrapper}>
       <View style={styles.topMsg}>
-        <Image style={styles.icon} source={require('../../../images/work/reception/manage.png')}/>
-        <Image style={styles.via} source={require('../../../images/personal/via.png')}/>
+        <Image style={styles.icon} source={require('../../../images/work/reception/manage.png')} />
+        <Image style={styles.via} source={require('../../../images/personal/via.png')} />
         <View style={styles.msg}>
           <Text style={styles.name}>{props.cardData.distributor}</Text>
           <View style={styles.phoneMsg}>
-            <Image style={styles.phone} source={require('../../../images/work/reception/phone.png')}/>
-            <Text style={styles.phoneNum} onPress={() => {linking(props.cardData.phone)}}>电话：{props.cardData.phone}</Text>
+            <Image style={styles.phone} source={require('../../../images/work/reception/phone.png')} />
+            <Text style={styles.phoneNum} onPress={() => { linking(props.cardData.phone) }}>电话：{props.cardData.phone}</Text>
           </View>
         </View>
-        <Image style={styles.logo} source={require('../../../images/personal/logo.png')}/>
+        <Image style={styles.logo} source={require('../../../images/personal/logo.png')} />
       </View>
 
       <View style={styles.botMsg}>
         <View>
           <View style={styles.recePerson}>
-            <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}}>对接人：</Text>
-            <Text style={{color: "#E8D3A8",fontSize:pxToDp(36),fontWeight:"bold"}}>{props.cardData.agentName}</Text>
+            <Text style={{ color: "#E8D3A8", fontSize: pxToDp(28) }}>对接人：</Text>
+            <Text style={{ color: "#E8D3A8", fontSize: pxToDp(36), fontWeight: "bold" }}>{props.cardData.agentName}</Text>
           </View>
-          <View style={[styles.recePerson,styles.recePhone]} >
-            <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}}>电话：</Text>
-            <Text style={{color: "#E8D3A8",fontSize:pxToDp(28)}} >{props.cardData.agentPhone}</Text>
+          <View style={[styles.recePerson, styles.recePhone]} >
+            <Text style={{ color: "#E8D3A8", fontSize: pxToDp(28) }}>电话：</Text>
+            <Text style={{ color: "#E8D3A8", fontSize: pxToDp(28) }} >{props.cardData.agentPhone}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.callBtn} onPress={() => {linking(props.cardData.agentPhone)}}>
-          <Text style={styles.call}>一键通话</Text>
-        </TouchableOpacity>
+        {
+          props.cardData.agentPhone ?
+            <TouchableOpacity style={styles.callBtn} onPress={() => { linking(props.cardData.agentPhone) }}>
+              <Text style={styles.call}>一键通话</Text>
+            </TouchableOpacity> : null
+        }
+
       </View>
     </View>
-   )
+  )
 }
 
 const styles = StyleSheet.create({
@@ -75,10 +81,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: pxToDp(190),
     display: "flex",
-    justifyContent:"space-between",
-    alignItems:"center",
+    justifyContent: "space-between",
+    alignItems: "center",
     flexDirection: "row",
-  
+
   },
   icon: {
     width: pxToDp(28),
@@ -97,21 +103,21 @@ const styles = StyleSheet.create({
   logo: {
     width: pxToDp(130),
     height: pxToDp(150),
-    marginRight:pxToDp(40)
+    marginRight: pxToDp(40)
   },
 
   msg: {
     width: pxToDp(350),
   },
   name: {
-    color:"#363636",
+    color: "#363636",
     fontSize: pxToDp(38),
     fontWeight: "bold"
   },
   phoneMsg: {
-    display:"flex",
+    display: "flex",
     flexDirection: "row",
-    alignItems:"center",
+    alignItems: "center",
     marginTop: pxToDp(20)
   },
   phoneNum: {
@@ -124,20 +130,20 @@ const styles = StyleSheet.create({
   botMsg: {
     width: '100%',
     height: pxToDp(140),
-    backgroundColor:'linear-gradient(-90deg,rgba(82,88,106,1),rgba(49,53,66,1))',
+    backgroundColor: 'linear-gradient(-90deg,rgba(82,88,106,1),rgba(49,53,66,1))',
     borderBottomRightRadius: pxToDp(20),
     borderBottomLeftRadius: pxToDp(20),
     paddingLeft: pxToDp(39),
     paddingRight: pxToDp(39),
     display: "flex",
-    flexDirection:"row",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
   },
   recePerson: {
-    display:"flex",
-    flexDirection:"row",
-    alignItems:"center",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
 
   },
   recePhone: {
@@ -149,12 +155,12 @@ const styles = StyleSheet.create({
     width: pxToDp(170),
     height: pxToDp(60),
     borderRadius: pxToDp(30),
-    backgroundColor:'rgba(255,255,255,0.3)'
+    backgroundColor: 'rgba(255,255,255,0.3)'
   },
   call: {
     fontSize: pxToDp(30),
     color: "#fff",
-    textAlign:"center",
+    textAlign: "center",
     lineHeight: pxToDp(60),
     fontWeight: "500"
   }
