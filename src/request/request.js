@@ -7,6 +7,7 @@ import { setLoading,Token } from '../store/actions/global/loading';
 import store from '../store';
 
 baseUrl = 'http://10.11.8.247:8088/'
+// baseUrl = 'http://10.11.8.8:8088/'
 // baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // baseUrl = 'https://op.derucci.com/'
 // baseUrl = 'https://qiang.derucci.com/'
@@ -21,6 +22,20 @@ axios.interceptors.request.use(config => {
   Promise.reject(error)
 });
 
+//返回拦截器
+axios.interceptors.response.use(
+  function(response) {
+    store.dispatch(setLoading(false));
+    console.log(111,response)
+    return response
+  },
+  function(error) {
+    console.log(222,error)
+    store.dispatch(setLoading(false));
+    Alert.alert('网络错误')
+    return Promise.reject(error)
+  }
+)
 
 
 class Request {

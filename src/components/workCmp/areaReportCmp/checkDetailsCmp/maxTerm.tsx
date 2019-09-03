@@ -2,6 +2,7 @@ import React from "react";
 
 import { View, Text, StyleSheet, Image } from "react-native";
 import pxToDp from "../../../../utils/fixcss";
+import { removeSecond } from "../../../../utils";
 
 interface IProps {
   data?: any
@@ -24,7 +25,7 @@ export const MaxtermCmp: React.FC<IProps> = ({data,checkData}) => {
         </View>
         <View style={styles.hasCircle}>
           <View style={styles.circle}></View>
-          <Text style={styles.text}>检查时间：{checkData? checkData.inspectTime : data.createTimeS}</Text>
+          <Text style={styles.text}>检查时间：{checkData? (checkData.inspectTime && removeSecond(checkData.inspectTime)): data.createTimeS}</Text>
         </View>
       </View>
       <View style={styles.right}>

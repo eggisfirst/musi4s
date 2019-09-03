@@ -89,6 +89,33 @@ class CheckDetails extends React.Component<any>{
       }
     })
   }
+
+    /**
+   * 获取检查 --进来的页面评分详情
+   */
+  getCheckLogInfo(data: any,index?:number) {
+    const { shopId, levelId, startTime, endTime } = data
+    indexModel.getCheckLogInfo(shopId, levelId, startTime, endTime).then(res => {
+      if (res.status) {
+         /**
+         * 初始进来的index跟自己选择的index
+         */
+        let myIndex = index!== undefined ? index : 0
+        this.props.handleSelectStarActiveIndex(myIndex)
+
+        const scoreData = {
+          getTotal: res.checkLogInfo.score,
+          shopName: res.checkLogInfo.name,
+        }
+        this.setState({
+          checkInfo: res.checkLogInfo,
+          scoreData,
+          categorierData: res.checkLogInfo.checkCategories
+
+        })
+      }
+    })
+  }
   /**
    * 检查记录进来的检查详情
    * 1星返回12星，如果没有打分返回1星
@@ -128,19 +155,7 @@ class CheckDetails extends React.Component<any>{
   }
 
 
-  /**
-   * 获取检查 --进来的页面评分详情
-   */
-  getCheckLogInfo(data: any) {
-    const { shopId, levelId, startTime, endTime } = data
-    indexModel.getCheckLogInfo(shopId, levelId, startTime, endTime).then(res => {
-      if (res.status) {
-        this.setState({
-          checkInfo: res.checkLogInfo
-        })
-      }
-    })
-  }
+
   //------------------
 
   /**
@@ -237,10 +252,11 @@ class CheckDetails extends React.Component<any>{
       //注意返回来的stardata的顺序？ 321 还是123
        // const myIndex = this.state.allStarLength - index
       // console.log(myIndex)
-      // const levelId = this.state.starData[index].starLevelId
-      // const {shopId, startTime, endTime } = this.getCheckParams()
-      // const data = {shopId, startTime, endTime,levelId}
-      // this.getCheckLogInfo(data)
+      const levelId = this.state.starData[index].levelId
+      const shopId = this.state.starData[index].shopId
+      const {startTime, endTime } = this.getCheckParams()
+      const data = {shopId, startTime, endTime,levelId}
+      this.getCheckLogInfo(data,index)
     } else {
       const { shopId, qualificationId, type } = this.getParams()
       const starLevelId = this.state.starData[index].starLevelId
@@ -263,34 +279,7 @@ class CheckDetails extends React.Component<any>{
 
   render() {
     const navigation = this.props.navigation
-    const checkInfo = {
-      checkLohInfo: {
-        categoryId: '123',
-        name: '一星检查',
-        score: '80',
-        cycle: "1",
-        checkCategorier: [
-          {
-            name: '门店门面检查',
-            total: '40',
-            deduct: '8',
-            score: '32',
-            inspector: '老外',
-            inspectTime: '2019-08-08',
-            categoryId: '111'
-          },
-          {
-            name: '门店门面检查',
-            total: '40',
-            deduct: '8',
-            score: '22',
-            inspector: '老外',
-            inspectTime: '2019-08-08',
-            categoryId: '222'
-          }
-        ]
-      }
-    }
+  
     return (
       <View style={styles.container}>
         <HeaderCmp title={"检查详情"} eggHandleBack={() => { navigation.goBack() }} />

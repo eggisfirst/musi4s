@@ -97,3 +97,4 @@ export enum ReportType {
   check = '检查',
   acceptance = '认证'
 }
+
