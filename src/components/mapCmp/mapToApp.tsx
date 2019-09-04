@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 0,
         left: 0,
+        zIndex: 999,
         width: pxToDp(750),
         height: pxToDp(906),
         borderTopLeftRadius: pxToDp(60),
@@ -69,7 +70,8 @@ const styles = StyleSheet.create({
         left: pxToDp(25),
         bottom: pxToDp(190),
         borderRadius: pxToDp(20),
-        opacity: 0.95
+        opacity: 0.95,
+        zIndex: 999,
     },
     mapItem: {
         width: "100%",

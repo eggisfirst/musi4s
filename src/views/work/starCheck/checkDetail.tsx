@@ -40,7 +40,7 @@ class CheckDetailPage extends React.Component<any, IState>{
   }
 
   static navigationOptions = {
-    header: null
+    header: null,
   }
   //跳转到评分列表页面
   handleToCheckList = (index: number): void => {

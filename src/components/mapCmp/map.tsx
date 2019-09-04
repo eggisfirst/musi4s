@@ -80,10 +80,11 @@ export default class MapCmp extends React.Component<Iprops>{
     const shopInfo = this.props.shopInfo
     return(
       <View style={styles.wrapper} >
+       
+        <View style={styles.addressBox}>
         <View style={styles.lineToHide}>
             <TouchStartAndRelease  handleHide={this.handleHide}/>
         </View>
-        <View style={styles.addressBox}>
           <Text style={styles.title}>{shopInfo.shopName}</Text>
           <Text style={styles.address}>地址：{shopInfo.address}</Text>
           
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   toShop: {
     position: "absolute",
     right: pxToDp(20),
-    bottom: pxToDp(180)
+    bottom: pxToDp(120)
   },
   toShopIcon: {
     width: pxToDp(100),
@@ -185,12 +186,12 @@ const styles = StyleSheet.create({
 
 
   lineToHide: {
-    position:"absolute",
-    left: pxToDp(250),
-    bottom:pxToDp(796),
-    width: pxToDp(240),
-    height: pxToDp(100),
-    zIndex: 999,
+    // position:"absolute",
+    // left: pxToDp(250),
+    // bottom:pxToDp(796),
+    width: pxToDp(250),
+    height: pxToDp(20),
+    marginLeft: pxToDp(230),
     // borderRadius: pxToDp(12),
     // backgroundColor: "#ccc",
     borderTopWidth: pxToDp(10),
