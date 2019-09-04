@@ -45,7 +45,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>需要访问相机</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>照片</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string></string>
 	<key>NSAppleMusicUsageDescription</key>
