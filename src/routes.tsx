@@ -56,7 +56,7 @@ export default function configAppNavigator(isLoggedIn:boolean) {
       //主导航页面不显示头部
       navigationOptions: {
         header: null,
-       
+        
       }
     },
     
@@ -81,7 +81,7 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     //初始进来的页面
     initialRouteName: isLoggedIn ? 'Work' : 'Login',
     // initialRouteName: 'CheckListPage',
-    mode: 'modal',
+    mode: 'card',
     // 指定标头的呈现方式
     headerMode: "screen",
     //显示返回图标后的文字
@@ -91,7 +91,10 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     headerLayoutPreset: "center",
     defaultNavigationOptions: {
       headerTintColor:"#000",
-      gesturesEnabled: true
+      gesturesEnabled: true,
+      gestureResponseDistance: {
+        horizontal: 10
+      },
     },
     
       //页面跳转动画
