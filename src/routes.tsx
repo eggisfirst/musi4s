@@ -79,8 +79,8 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     SearchPage,
   },{
     //初始进来的页面
-    initialRouteName: isLoggedIn ? 'Work' : 'Login',
-    // initialRouteName: 'CheckListPage',
+    // initialRouteName: isLoggedIn ? 'Work' : 'Login',
+    initialRouteName: 'CheckListPage',
     mode: 'modal',
     // 指定标头的呈现方式
     headerMode: "screen",

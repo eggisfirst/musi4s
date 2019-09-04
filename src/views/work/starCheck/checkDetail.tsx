@@ -57,6 +57,7 @@ class CheckDetailPage extends React.Component<any, IState>{
   }
 
   save = (): void => {
+    this.sentScore()
     console.log(`输入框的值：${this.state.inputAreaVal}`, `扣分：${this.state.score}`)
   }
 
