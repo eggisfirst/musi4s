@@ -113,7 +113,7 @@ export default class CheckRecord extends React.Component<any>{
     if (this.state.showFoot === 1) {
       return (
         <View style={{ height: pxToDp(100), alignItems: 'center', justifyContent: 'flex-start', }}>
-          <Text style={{ color: '#999999', fontSize: pxToDp(24), marginTop: pxToDp(10), marginBottom: pxToDp(40), }}>
+          <Text style={{ color: '#999999', fontSize: pxToDp(24), marginTop: pxToDp(20), marginBottom: pxToDp(40), }}>
             没有更多数据了
       </Text>
         </View>

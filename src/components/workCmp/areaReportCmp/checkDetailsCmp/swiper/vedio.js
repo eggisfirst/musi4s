@@ -29,7 +29,7 @@ export default class VideoPlayScreen extends Component {
     this.state = {
       videoUrl: "http://124.129.157.208:8810/SD/2017qingdao/xiaoxueEnglish/grade3/b/1.mp4",
       videoCover: "http://124.129.157.208:8889/data/uploads/kecheng/2018/01/18/5a600b2c99836.png@0o_0l_220w.png",
-      videoWidth: pxToDp(485),
+      videoWidth: pxToDp(500),
       videoHeight: pxToDp(485)*1.33, // 默认16：9的宽高比
       showVideoCover: false,    // 是否显示视频封面
       showVideoControl: false, // 是否显示视频控制组件
@@ -44,8 +44,9 @@ export default class VideoPlayScreen extends Component {
   render() {
     const fullScreen = this.state.isFullScreen? styles.full : styles.container
     return (
-      <View style={fullScreen} onLayout={this._onLayout}>
-        <View style={{ width: this.state.videoWidth, height:pxToDp(485)*1.32, backgroundColor:'#000000' }}>
+      // onLayout={this._onLayout}
+      <View style={fullScreen} >
+        <View style={{ width: this.state.videoWidth, height: pxToDp(485)*1.32, backgroundColor:'#000000' }}>
           <Video
             ref={(ref) => this.videoPlayer = ref}
             source={{uri: this.props.videoUrl}}
@@ -64,7 +65,7 @@ export default class VideoPlayScreen extends Component {
             onEnd={this._onPlayEnd}
             onError={this._onPlayError}
             onBuffer={this._onBuffering}
-            style={{width: this.state.videoWidth, height:  pxToDp(485)*1.33}}
+            style={{width: this.state.videoWidth, height:  pxToDp(485)*1.32}}
           />
           {
             this.state.showVideoCover ?
@@ -124,12 +125,12 @@ export default class VideoPlayScreen extends Component {
                   onValueChange={(currentTime) => { this.onSliderValueChanged(currentTime) }}
                 />
                 <Text style={styles.time}>{formatTime(this.state.duration)}</Text>
-                <TouchableOpacity activeOpacity={0.3} onPress={() => { this.onControlShrinkPress() }}>
+                {/* <TouchableOpacity activeOpacity={0.3} onPress={() => { this.onControlShrinkPress() }}>
                   <Image
                     style={styles.shrinkControl}
                     source={this.state.isFullScreen ? require('./images/closefull.png') : require('./images/full.png')}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View> : null
           }
         </View>

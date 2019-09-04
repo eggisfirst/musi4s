@@ -25,6 +25,7 @@ export default class StarHome extends React.Component<any> {
     //   elevation: 0,
     // }
   }
+
   componentDidMount() {
     this.getUserInfo()
   }

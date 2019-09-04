@@ -27,9 +27,9 @@ axios.interceptors.response.use(
   function(response) {
     store.dispatch(setLoading(false));
     console.log(111,response)
-    // if(response.data.code !== 0) {
-    //   Alert.alert('请求失败')
-    // }
+    if(response.data.code == 500) {
+      Alert.alert('请求失败')
+    }
     return response
   },
   function(error) {
