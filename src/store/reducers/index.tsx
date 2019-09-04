@@ -6,6 +6,7 @@ import selectFilter from './filter/select';
 import pullDownData from './filter/pullDownSelect';
 import checkList from './4s/checkList';
 import Loading from './global/loading';
+import video from './4s/video';
 
 
 
@@ -17,4 +18,5 @@ export default combineReducers({
   selectFilter,
   pullDownData,
   checkList,
+  video
 })
