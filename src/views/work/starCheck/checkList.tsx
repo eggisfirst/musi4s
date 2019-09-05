@@ -1,54 +1,102 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import MiddleCategoryCmp from '../../../components/workCmp/starCheck/check/middleCategoryCmp'
+import BotBtn from '../../../components/common/botBtn'
+import {CheckAlert} from '../../../components/workCmp/starCheck/checkAlert'
 import { IndexModel } from "../../../request";
 import store from '../../../store';
-import { changeCheckList } from '../../../store/actions/4s/checkList';
+import * as actions from '../../../store/actions/4s/checkList';
 
 const indexModel = new IndexModel()
 // const actions = {
 //   ...changeCheckList,
 // }
 interface IState {
-  total: number
-  deduct: number
+  deductTotal: number
+  scoreTotal: number
+  levelId: string
+  checkAlertStatus: boolean
 }
 
 class CheckListPage extends React.Component<any, IState>{
   state: IState = {
-    total: 23,
-    deduct: 9,
+    deductTotal: 0,
+    scoreTotal: 0,
+    levelId: '',
+    checkAlertStatus: true
   }
 
   static navigationOptions = {
     header: null
-  }
-  //跳转到评分列表页面
-  handleToCheckList = (index: number): void => {
-    console.log('跳转检查小项', index)
   }
 
   /**
    * 显示/隐藏中类检查项
    */
   showClick = (index: number): void => {
-    console.log(!this.props.checkList[index].status, this.props.checkList[index].status)
-    this.props.checkList[index].status = !this.props.checkList[index].status
-    this.props.changeCheckList(this.props.checkList)
+    // console.log(!this.props.checkList[index].status, this.props.checkList[index].status)
+    this.props.checkList.checkList[index].status = !this.props.checkList.checkList[index].status
+    this.props.changeCheckList(this.props.checkList.checkList)
+  }
+
+  /**
+   * 提交表单
+   */
+  submit = () => {
+    const params = this.props.navigation.state.params
+    let data: object = {
+      levelId: this.state.levelId, //星级id，一星检查id
+      shopId: params.shopId, //门店id
+      qualificationId: params.qualificationId, //认证id
+      //打分分类列表，必须提交全部
+      categoryList: this.filterParams(this.props.checkList.checkList)
+    }
+    indexModel.submitForm(data).then(res => {
+      console.log('数据提交成功：', res)
+    })
+    // console.log(this.filterParams(this.props.checkList.checkList))
+    // console.log(params, `levelId:${this.state.levelId}`, `总分：${this.state.scoreTotal}`, `总扣分${this.state.deductTotal}`, this.props.checkList.checkList)
+  }
+
+  /**
+   * 重置表单
+   */
+  reset = () => {
+    // this.subcategories()
   }
 
   /**
    * 跳转检查详情页面
    */
   toDetail = (index: number, fatherIndex: number): void => {
-    let name = this.props.checkList[fatherIndex].standardList[index].name
+    let name = this.props.checkList.checkList[fatherIndex].standardList[index].name
     this.props.navigation.navigate('CheckDetailPage', {
       name,
+      index,
+      fatherIndex,
+      callBack: () => {
+        this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
+      }
     })
+  }
+
+  /**
+   * 计算扣分
+   */
+  computeDeductTotal = (checkList: any[]) => {
+    let sum = 0
+    for (let i = 0; i < checkList.length; i++) {
+      if (checkList[i].standardList) {
+        for (let j = 0; j < checkList[i].standardList.length; j++) {
+          sum += checkList[i].standardList[j].deduct | 0
+        }
+      }
+    }
+    return sum
   }
 
   /**
@@ -56,26 +104,106 @@ class CheckListPage extends React.Component<any, IState>{
    */
   subcategories = () => {
     let params = this.props.navigation.state.params
-    console.log('参数：', params.categoryId, params.shopId)
     indexModel.subcategories(params.categoryId, params.shopId).then(res => {
       if (res.data) {
-        if (res.data.categories && res.data.categories.length > 0) {
-          this.props.changeCheckList(res.data.categories)
+        this.setState({ levelId: res.data.starLevelId })
+        let data = res.data.categories
+        if (data && data.length > 0) {
+          let temp = this.filterData(data)
+          this.props.changeCheckList(temp.arr)
+          this.setState({ scoreTotal: temp.scoreTotal })
         }
       }
       // indexModel.getShopHistory(this.props.navigation.state.shopId).then(res => {
-      console.log('获取抽奖列表接口：', res)
     })
   }
 
+  /**
+   * 筛选检查列表
+   */
+  filterData = (data: any[]) => {
+    let arr: object[] = []
+    let scoreTotal = 0
+    for (let i = 0; i < data.length; i++) {
+      scoreTotal += data[i].total
+      let temp: any = {}
+      temp.status = i === 0 ? true : false
+      temp.standardList = []
+      temp.name = data[i].name
+      temp.categoryId = data[i].id
+      if (data[i].standardList) {
+        for (let j = 0; j < data[i].standardList.length; j++) {
+          let obj: any = {}
+          obj.name = data[i].standardList[j].name
+          obj.type = false
+          obj.standardId = data[i].standardList[j].id
+          obj.urls = [ //上传文件url集合
+            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
+            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
+          ]
+          temp.standardList.push(obj)
+        }
+      }
+      arr.push(temp)
+    }
+    return {
+      arr,
+      scoreTotal
+    }
+  }
+
+  /**
+   * 筛选提交评分接口参数
+   */
+  filterParams = (data: any[]) => {
+    let arr: object[] = []
+    for (let i = 0; i < data.length; i++) {
+      let temp: any = {}
+      temp.standardList = []
+      temp.categoryId = data[i].categoryId
+      if (data[i].standardList) {
+        for (let j = 0; j < data[i].standardList.length; j++) {
+          let obj: any = {}
+          obj.standardId = data[i].standardList[j].standardId
+          obj.reason = data[i].standardList[j].text
+          obj.deduct = data[i].standardList[j].deduct
+          obj.urls = [ // 上传文件url集合
+            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
+            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
+          ]
+          temp.standardList.push(obj)
+        }
+      }
+      arr.push(temp)
+    }
+    return arr
+  }
+
+  toCheckRecord = () => {
+    this.props.navigation.push("AcceptancePage")
+    this.setState({checkAlertStatus: false})
+  }
+
+  goBack = () => {
+    this.setState({checkAlertStatus: false})
+    this.props.navigation.goBack()
+  }
+
+  cancel = () => {
+    console.log('取消')
+    this.setState({checkAlertStatus: false})
+  }
+
   componentDidMount() {
-    console.log(123, this.props.navigation.state.params)
     // this.subcategories()
+    this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
+    // this.props.changeCheckList([])
   }
 
   render() {
+    console.log(this.props)
     const { navigation } = this.props
-    const MiddleCategoryCmpList = this.props.checkList.map((item: any, index: number) => {
+    const MiddleCategoryCmpList = this.props.checkList.checkList && this.props.checkList.checkList.map((item: any, index: number) => {
       return <MiddleCategoryCmp
         key={`middleCategory${index}`}
         list={item.standardList}
@@ -87,7 +215,7 @@ class CheckListPage extends React.Component<any, IState>{
       />
     })
     return (
-      <View>
+      <View style={styles.checkList}>
         <CheckHeader
           // title={this.props.navigation.state.params.title}
           title={'this.props.navigation.state.title'}
@@ -98,8 +226,8 @@ class CheckListPage extends React.Component<any, IState>{
         <View style={styles.grad}>
           <Text style={styles.gradText}>分数统计：</Text>
           <View style={styles.grad}>
-            <Text style={styles.gradTotal}>总分 {this.state.total} | </Text>
-            <Text style={styles.gradDeduct}>扣分 {this.state.deduct}</Text>
+            <Text style={styles.gradTotal}>总分 {this.state.scoreTotal} | </Text>
+            <Text style={styles.gradDeduct}>扣分 {this.state.deductTotal}</Text>
           </View>
         </View>
 
@@ -114,19 +242,38 @@ class CheckListPage extends React.Component<any, IState>{
             title={'SI/VI检查'}
           /> */}
         </View>
+        <BotBtn
+          reset={this.reset}
+          submit={this.submit}
+        ></BotBtn>
+
+        {/* 检查结果弹框 */}
+        <CheckAlert
+          toCheckRecord={this.toCheckRecord}
+          goBack={this.goBack}
+          cancel={this.cancel}
+          scoreTotal={this.state.scoreTotal}
+          deductTotal={this.state.deductTotal}
+          showStatus={this.state.checkAlertStatus}
+        />
       </View>
     )
   }
 }
 
-const mapStateToProps = (state: any) => state
-const mapDispatchToProps = (dispatch: any) => ({
-  changeCheckList: (arr: object[]) => dispatch(changeCheckList(arr))
+const mapStateToProps = (state: any) => ({
+  checkList: state.checkList
 })
+// const mapDispatchToProps = (dispatch: any) => ({
+//   changeCheckList: (arr: object[]) => dispatch(changeCheckList(arr))
+// })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckListPage)
+export default connect(mapStateToProps, actions)(CheckListPage)
 
 const styles: any = StyleSheet.create({
+  checkList: {
+    height: Dimensions.get('screen').height,
+  },
   grad: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -148,5 +295,5 @@ const styles: any = StyleSheet.create({
     color: '#FF0718',
     lineHeight: pxToDp(110),
     fontWeight: '700',
-  }
+  },
 })

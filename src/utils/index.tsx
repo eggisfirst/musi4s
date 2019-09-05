@@ -157,3 +157,27 @@ export const removeSecond = (data: any) => {
     return time[0]
   }
 }
+
+/**
+ * 对象/数组深度拷贝
+ */
+export const deepClone = (origin: any, target: any) => {
+  let toStr = Object.prototype.toString
+  let arrStr = '[object Array]'
+  for (var prop in origin) {
+    // 判断一个对象是否包含自定义属性而不是原型链上的属性
+    if (origin.hasOwnProperty(prop)) {
+      if (origin[prop] !== 'null' && typeof(origin[prop]) == 'object') {
+        if (toStr.call(origin[prop]) == arrStr) {
+          target[prop] = []
+        } else {
+          target[prop] = {}
+        }
+        deepClone(origin[prop], target[prop])
+      } else {
+        target[prop] = origin[prop]
+      }
+    }
+  }
+  return target
+}

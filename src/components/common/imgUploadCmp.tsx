@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import { 
   Text,
+  Alert,
   StyleSheet,
   View,
   Image,
@@ -10,8 +11,7 @@ import {
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
 import ImagePicker from 'react-native-image-picker';
-import { IndexModel } from '../../request';
-
+import { IndexModel } from "../../request";
 const indexModel = new IndexModel()
 
 interface IState {
@@ -20,7 +20,7 @@ interface IState {
 }
 
 interface IProps {
-  // onClick:() => void
+  getImageList:(obj:object) => void
 }
 
 export default class ImgUploadCmp extends Component<IProps, IState> {
@@ -29,6 +29,8 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     imageList: [],
     avatarSource: {uri: '../../images/work/starCheck/addImg.png'}
   }
+
+  _imgDataList: object[] = []
 
   options = {
     title: '请选择图片',
@@ -45,46 +47,58 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
   };
 
   upload = () => {
-    ImagePicker.showImagePicker(this.options, (response) => {
-      console.log('Response = ', response);
+    if (this.state.imageList.length >= 5) {
+      Alert.alert(
+        '提示',
+        '上传图片不能超过5张！',
+        [
+          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+          // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: '好的', onPress: () => console.log('onPress OK')},
+        ],
+        { cancelable: false }
+      )
+    } else {
+      ImagePicker.showImagePicker(this.options, (response) => {
+        console.log('Response = ', response);
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          const source = { uri: response.uri };
+          // You can also display the image using data:
+          // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+          let temp = this.state.imageList
+          temp.push(source)
+          this._imgDataList.push(response)
+          this.props.getImageList(this._imgDataList)
+          // this.saveImage(response)
+          this.setState({
+            imageList: temp,
+          })
+        }
+      });
+    }
+  }
 
-      // let data = new FormData();
-      // let file = response.uri.replace('file://', '')
-      
-      // data.append('dataFile', {
-      //     uri: file,
-      //     name: response.fileName,
-      //     type: 'image/jpeg'
-      // });
-
-        
-      // data.append('prefix','cert-check-log')
-      
-      // console.log(data)
-      //   indexModel.test(data._parts).then(res => {
-      //     console.log(res)
-      //   })
-
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        console.log('图片：', response.uri)
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-        let temp = this.state.imageList
-        temp.push(source)
-        // console.log('图片数组：', this.state.imageList)
-        this.setState({
-          imageList: temp,
-        });
-      }
-    });
+  /**
+   * @param {*上传的文件} formData
+   */
+  saveImage = (response:any) => {
+    let file = {
+      uri: response.uri,
+      type: 'multipart/form-data',
+      name: 'image.jpg'
+    }
+    let formData = new FormData()
+    formData.append("multipartFile", file)
+    console.log(formData)
+    // indexModel.uploadFile(formData).then(res => {
+    //   console.log('图片上传成功：', res)
+    // })
   }
 
   render() {
@@ -93,6 +107,9 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
               style={[styleSheet.imgBox, {marginRight: index === 2 ? pxToDp(0) : pxToDp(20)}]}
               key={`imgBoxList${index}`}
             >
+              <TouchableOpacity
+                style={styleSheet.closeBtn}
+              ></TouchableOpacity>
               <Image source={item} style={{width: pxToDp(200),height: pxToDp(200)}} />
             </View>
     })
@@ -124,11 +141,21 @@ const styleSheet = StyleSheet.create({
     marginTop: pxToDp(100),
     paddingBottom: pxToDp(14),
   },
+  closeBtn:{
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 1,
+    width: pxToDp(30),
+    height: pxToDp(30),
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderBottomLeftRadius: pxToDp(15),
+  },
   imgBox: {
     width: pxToDp(200),
     height: pxToDp(200),
     marginBottom: pxToDp(20),
-    // backgroundColor: '#333',
+    position: 'relative',
   },
   addBox: {
     width: pxToDp(200),

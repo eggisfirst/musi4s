@@ -338,16 +338,28 @@ class IndexModel extends Request {
       }
     })
   }
-
-  test(data) {
-    return this.getFormData({
-      url: "upload/file",
-      data: data
+  /**
+   * 上传视频/图片
+   * @param {*上传FormData格式文件时传dataFile参数} dataFile
+   */
+  uploadFile(formData) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/upload",
+      data: formData
     })
   }
-
- 
-
+  /**
+   * 上传base64图片
+   * @param {*上传base64格式的图片时传file参数} file
+   */
+  uploadBase64(file) {
+    return this.getSecretData({
+      url: "v2/api/cert/approve/upload",
+      data: {
+        file
+      }
+    })
+  }
 }
 
 
