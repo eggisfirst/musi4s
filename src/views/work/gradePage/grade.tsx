@@ -12,8 +12,6 @@ interface IState {
   numberData: any
   list: Array<any>
   shopName: string
-
-
   levelId: string
 }
 
@@ -25,9 +23,6 @@ export default class GradePage extends React.Component<any>{
     numberData: {},
     list: [],
     shopName: '',
-
-
-
     levelId:''
   }
   //请求
@@ -184,7 +179,6 @@ export default class GradePage extends React.Component<any>{
   handleToGrade = (index: number, i: number) => {
     const list = this.state.list
     const {shopId,qualificationId} = this.props.navigation.state.params
-    console.log('跳转评分页面。')
     this.props.navigation.navigate('CheckListPage', {
       qualificationId,
       shopId,

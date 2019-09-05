@@ -13,12 +13,12 @@ import { RemPwd } from '../utils/enum';
 
 import { IndexModel } from '../request';
 const indexModel = new IndexModel()
-import { _storeData, _retrieveData, _removeItem } from '../utils/utils';
+import { _storeData, _retrieveData, _removeItem,  } from '../utils/utils';
 import Loader from '../components/loading'
 import {getToken} from '../request/request';
 import store from '../store';
 import { setLoading, Token } from '../store/actions/global/loading';
-
+import { deepClone } from '../utils';
 
 interface IState {
   inputVal:string
@@ -40,6 +40,13 @@ export default class LoginScreen extends Component<any> {
     password: ""
   }
   componentDidMount() {
+    let temp = [{
+      name: 'guang',
+      list: [
+        {name: 'wei'}
+      ]
+    }]
+    console.log('深度克隆：', deepClone(temp,{}))
     this.initLoginData()
   }
   /**

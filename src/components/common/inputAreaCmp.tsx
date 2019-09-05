@@ -7,9 +7,11 @@ import {
   StyleSheet,
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
+import { placeholder } from '@babel/types';
 
 interface IProps {
   setInputAreaVal:(text:string) => void
+  placeholder: string
 }
 
 interface IState {
@@ -35,7 +37,7 @@ export default class InputAreaCmp extends Component<IProps,IState> {
           value={this.state.inputAreaVal}
           onChangeText={(text) => this.setInputAreaVal(text)}
           style={styles.textarea}
-          placeholder={"请输入不超过200字的个人简介"}
+          placeholder={this.props.placeholder}
           placeholderTextColor={"#999"}
           maxLength={200}
           multiline={true}
