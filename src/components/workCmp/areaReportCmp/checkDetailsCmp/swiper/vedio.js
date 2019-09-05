@@ -7,6 +7,11 @@ import pxToDp from "../../../../../utils/fixcss";
 const screenWidth = Dimensions.get('window').width;
 import store from '../../../../../store';
 import { setLoading } from '../../../../../store/actions/global/loading';
+
+import { connect } from 'react-redux';
+import * as actions from '../../../../../store/actions/4s/video'
+
+
 function formatTime(second) {
   let h = 0, i = 0, s = parseInt(second);
   if (s > 60) {
@@ -20,16 +25,13 @@ function formatTime(second) {
   return [zero(h), zero(i), zero(s)].join(":");
 }
 
-export default class VideoPlayScreen extends Component {
-  
-
-  
+class VideoPlayScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       videoUrl: "http://124.129.157.208:8810/SD/2017qingdao/xiaoxueEnglish/grade3/b/1.mp4",
       videoCover: "http://124.129.157.208:8889/data/uploads/kecheng/2018/01/18/5a600b2c99836.png@0o_0l_220w.png",
-      videoWidth: pxToDp(485),
+      videoWidth: pxToDp(500),
       videoHeight: pxToDp(485)*1.33, // 默认16：9的宽高比
       showVideoCover: false,    // 是否显示视频封面
       showVideoControl: false, // 是否显示视频控制组件
@@ -42,17 +44,19 @@ export default class VideoPlayScreen extends Component {
   }
   
   render() {
+    // console.log('play',this.props.videoControl)
     const fullScreen = this.state.isFullScreen? styles.full : styles.container
     return (
-      <View style={fullScreen} onLayout={this._onLayout}>
-        <View style={{ width: this.state.videoWidth, height:pxToDp(485)*1.32, backgroundColor:'#000000' }}>
+      // onLayout={this._onLayout}
+      <View style={fullScreen} >
+        <View style={{ width: this.state.videoWidth, height: pxToDp(485)*1.32, backgroundColor:'#000000' }}>
           <Video
             ref={(ref) => this.videoPlayer = ref}
             source={{uri: this.props.videoUrl}}
             rate={1.0}
             volume={1.0}
             muted={false}
-            paused={!this.state.isPlaying}
+            paused={!this.props.video.isPlay}
             resizeMode={'contain'}
             playWhenInactive={false}
             playInBackground={false}
@@ -64,7 +68,7 @@ export default class VideoPlayScreen extends Component {
             onEnd={this._onPlayEnd}
             onError={this._onPlayError}
             onBuffer={this._onBuffering}
-            style={{width: this.state.videoWidth, height:  pxToDp(485)*1.33}}
+            style={{width: this.state.videoWidth, height:  pxToDp(485)*1.32}}
           />
           {
             this.state.showVideoCover ?
@@ -88,12 +92,12 @@ export default class VideoPlayScreen extends Component {
                 left: 0,
                 width: this.state.videoWidth,
                 height:  pxToDp(480)*1.33,
-                backgroundColor: this.state.isPlaying ? 'transparent' : 'rgba(0, 0, 0, 0.2)',
+                backgroundColor: this.props.video.isPlay ? 'transparent' : 'rgba(0, 0, 0, 0.2)',
                 alignItems:'center',
                 justifyContent:'center'
               }}>
               {
-                this.state.isPlaying ? null :
+                this.props.video.isPlay ? null :
                   <TouchableWithoutFeedback onPress={() => { this.onPressPlayButton() }}>
                     <Image
                       style={styles.playButton}
@@ -109,7 +113,7 @@ export default class VideoPlayScreen extends Component {
                 <TouchableOpacity activeOpacity={0.3} onPress={() => { this.onControlPlayPress() }}>
                   <Image
                     style={styles.playControl}
-                    source={this.state.isPlaying ? require('./images/pause.png') : require('./images/play.png')}
+                    source={this.props.video.isPlay ? require('./images/pause.png') : require('./images/play.png')}
                   />
                 </TouchableOpacity>
                 <Text style={styles.time}>{formatTime(this.state.currentTime)}</Text>
@@ -124,12 +128,12 @@ export default class VideoPlayScreen extends Component {
                   onValueChange={(currentTime) => { this.onSliderValueChanged(currentTime) }}
                 />
                 <Text style={styles.time}>{formatTime(this.state.duration)}</Text>
-                <TouchableOpacity activeOpacity={0.3} onPress={() => { this.onControlShrinkPress() }}>
+                {/* <TouchableOpacity activeOpacity={0.3} onPress={() => { this.onControlShrinkPress() }}>
                   <Image
                     style={styles.shrinkControl}
                     source={this.state.isFullScreen ? require('./images/closefull.png') : require('./images/full.png')}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View> : null
           }
         </View>
@@ -165,7 +169,7 @@ export default class VideoPlayScreen extends Component {
   _onProgressChanged = (data) => {
     console.log('视频进度更新');
     // store.dispatch(setLoading(false));
-    if (this.state.isPlaying) {
+    if (this.props.video.isPlay) {
       this.setState({
         currentTime: data.currentTime,
       })
@@ -179,6 +183,7 @@ export default class VideoPlayScreen extends Component {
       isPlaying: false,
       playFromBeginning: true
     });
+    this.props.videoControl(false)
   };
   
   _onPlayError = () => {
@@ -214,11 +219,15 @@ export default class VideoPlayScreen extends Component {
   
   /// 点击了播放器正中间的播放按钮
   onPressPlayButton() {
-    let isPlay = !this.state.isPlaying;
+    // let isPlay = !this.state.isPlaying;
+    let isPlay = !this.props.video.isPlay
     this.setState({
       isPlaying: isPlay,
       showVideoCover: false
     });
+
+    this.props.videoControl(isPlay)
+
     if (this.state.playFromBeginning) {
       this.videoPlayer.seek(0);
       this.setState({
@@ -248,11 +257,12 @@ export default class VideoPlayScreen extends Component {
   /// 进度条值改变
   onSliderValueChanged(currentTime) {
     this.videoPlayer.seek(currentTime);
-    if (this.state.isPlaying) {
+    if (this.props.video.isPlay) {
       this.setState({
         currentTime: currentTime
       })
     } else {
+      this.props.videoControl(true)
       this.setState({
         currentTime: currentTime,
         isPlaying: true,
@@ -314,6 +324,11 @@ export default class VideoPlayScreen extends Component {
     this.videoPlayer.seek(seekTime);
   }
 }
+
+const mapStateToProps = (state) => state
+
+export default connect(mapStateToProps, actions)(VideoPlayScreen)
+
 
 const styles = StyleSheet.create({
   container: {

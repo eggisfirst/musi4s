@@ -53,17 +53,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   circleBox: {
-    position: "relative"
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   textBox: {
     position: "absolute",
-    left: Platform.OS === 'ios'? '6%' : '4.7%',
+    // left: Platform.OS === 'ios'? '6%' : '6%',
     top:  '30%',
-    // borderWidth: 1,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     width: '20%',
+
   },
   blueText: {
     color:"#007aff",
@@ -87,6 +90,9 @@ const styles = StyleSheet.create({
     color: "rgba(45, 45, 45, 1)",
     fontSize: pxToDp(28),
     fontWeight: "500",
+    width: "60%",
+    textAlign: "center",
+    lineHeight: pxToDp(40)
   },
   week: {
     color: "rgba(102,102,102,0.8)",

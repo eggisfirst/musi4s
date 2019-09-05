@@ -9,10 +9,14 @@ import { ENTRIES1, ENTRIES2 } from './swiper/static/index';
 import { scrollInterpolators, animatedStyles } from './swiper/utils/animation';
 import pxToDp from '../../../../utils/fixcss';
 
+import { connect } from 'react-redux';
+import * as actions from '../../../../store/actions/4s/video'
+
+
 const IS_ANDROID = Platform.OS === 'android';
 const SLIDER_1_FIRST_ITEM = 1;
 
-export default class SwiperIndex extends Component {
+class SwiperIndex extends Component {
     
     // constructor(props) {
     //     super(props);
@@ -29,7 +33,7 @@ export default class SwiperIndex extends Component {
      * 设置切换到哪一张
      */
     setActiveIndex = (index) => {
-        
+        this.props.videoControl(false)
         console.log('index',this.props.urls[index])
        
         this.setState({
@@ -121,3 +125,7 @@ export default class SwiperIndex extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => state
+
+export default connect(mapStateToProps, actions)(SwiperIndex)

@@ -14,7 +14,7 @@ const indexModel = new IndexModel()
 
 export default class StarHome extends React.Component<any> {
   static navigationOptions = {
-    header: null
+    header: null,
     // headerTitle: <Header/>, 
     // headerTintColor:"#fff",
     // headerStyle: {
@@ -25,6 +25,7 @@ export default class StarHome extends React.Component<any> {
     //   elevation: 0,
     // }
   }
+
   componentDidMount() {
     this.getUserInfo()
   }

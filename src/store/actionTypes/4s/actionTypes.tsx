@@ -32,3 +32,7 @@ export const HANDLEPAGE_STATE = 'HANDLEPAGE_STATE'
 
 /**检查列表 */
 export const CHECK_LIST = 'CHECK_LIST'
+
+/**视频播放 */
+export const VIDEO_CONTROL = 'VIDEO_CONTROL'
+

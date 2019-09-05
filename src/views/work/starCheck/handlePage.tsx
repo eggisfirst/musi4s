@@ -742,15 +742,18 @@ const styles = StyleSheet.create({
   },
   processStatus_blue: {
     color: "#007aff",
-    fontSize: pxToDp(30)
+    fontSize: pxToDp(30),
+    marginTop: pxToDp(10)
   },
   processStatus_red: {
     color: "#FF2D55",
-    fontSize: pxToDp(30)
+    fontSize: pxToDp(30),
+    marginTop: pxToDp(10)
   },
   processStatus_green: {
     color: "#4CD964",
-    fontSize: pxToDp(30)
+    fontSize: pxToDp(30),
+    marginTop: pxToDp(10)
   },
   process_footer: {
     marginTop: pxToDp(20)

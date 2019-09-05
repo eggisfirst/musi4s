@@ -19,7 +19,7 @@ interface IProps {
 export const StarCheck: React.FC<IProps> = ({navigation, list}) => {
   let handleNavigateTo = (item: string) => {
     navigation.push('HandlePage',{
-      type: item
+      type: item,
     })
   }
   return (

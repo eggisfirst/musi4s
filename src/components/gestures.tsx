@@ -27,9 +27,10 @@ export default class TouchStartAndRelease extends PureComponent<any> {
       },
       onPanResponderRelease: (evt, gestureState) => {
         console.log(gestureState.dy)
-        if (gestureState.dy > 0 && gestureState.dx === 0) {
+        if (gestureState.dy > 0) {
           this.props.handleHide()
         }
+      
 
       },
       onPanResponderTerminate: (evt, gestureState) => {

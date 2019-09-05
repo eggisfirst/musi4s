@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, Linking, TouchableOpacity, Image} from "react-native";
+import { View, Text, StyleSheet, Linking, TouchableOpacity, Image } from "react-native";
 import pxToDp from "../../utils/fixcss";
 import { MapCanvas } from './mapCanvas';
 import { MapToApp } from './mapToApp';
@@ -31,13 +31,13 @@ export default class MapCmp extends React.Component<Iprops>{
   }
   componentDidMount() {
     console.log(this.props)
-    this.getLocationPosition()
+    // this.getLocationPosition()  //在华为以及一些手机型号上定位不了自己位置。
     // const url = 'iosamap://path?sourceApplication=test&slat=39.92848272&slon=116.39560823&sname=A&dlat=39.98848272&dlon=116.47560823&dname=B&dev=0&t=0'
-    Linking.getInitialURL().then((url) => {
-      if (url) {
-        console.log('Initial url is: ' + url);
-      }
-    }).catch(err => console.error('An error occurred', err));
+    // Linking.getInitialURL().then((url) => {
+    //   if (url) {
+    //     console.log('Initial url is: ' + url);
+    //   }
+    // }).catch(err => console.error('An error occurred', err));
   }
   /**
    * 当前定位
@@ -72,28 +72,28 @@ export default class MapCmp extends React.Component<Iprops>{
   /**
    * 手势下滑触发隐藏事件
    */
-  handleHide= () => {
-    console.log('back')
+  handleHide = () => {
     this.props.handleCloseMap()
   }
   render() {
     const shopInfo = this.props.shopInfo
-    return(
+    return (
       <View style={styles.wrapper} >
-        <View style={styles.lineToHide}>
-            <TouchStartAndRelease  handleHide={this.handleHide}/>
-        </View>
+
         <View style={styles.addressBox}>
+          <View style={styles.lineToHide}>
+            <TouchStartAndRelease handleHide={this.handleHide} />
+          </View>
           <Text style={styles.title}>{shopInfo.shopName}</Text>
           <Text style={styles.address}>地址：{shopInfo.address}</Text>
-          
-          <MapCanvas targerLat={this.state.targerLat} targetLong={this.state.targetLong}/>
-          
+
+          <MapCanvas targerLat={this.state.targerLat} targetLong={this.state.targetLong} />
+
           <Text style={styles.text}>店长：{shopInfo.username}</Text>
           <Text style={styles.text}>联系电话：{shopInfo.phone}</Text>
           <Text style={styles.text}>门店电话：{shopInfo.shopPhone}</Text>
-          <Text style={styles.text}>状态：{this.props.shopInfo.passFlag?'已评分':'未评分'}</Text>
-          <TouchableOpacity style={styles.toShop} onPress={() => {this.handleOpenToApp()}}>
+          <Text style={styles.text}>状态：{this.props.shopInfo.passFlag ? '已评分' : '未评分'}</Text>
+          <TouchableOpacity style={styles.toShop} onPress={() => { this.handleOpenToApp() }}>
             <Image source={require('../../images/work/toShop.png')} style={styles.toShopIcon} />
             <Text style={styles.toShopText}>导航到店</Text>
           </TouchableOpacity>
@@ -101,13 +101,13 @@ export default class MapCmp extends React.Component<Iprops>{
             <Text style={styles.closeText}>关闭</Text>
           </TouchableOpacity> */}
           {
-            this.state.toAppStatus && 
+            this.state.toAppStatus &&
             <MapToApp handleCloseToApp={this.handleCloseToApp}
-                      address={shopInfo.address}
-                      curLat={this.state.curLat}
-                      curLong={this.state.curLong}
-                      targerLat={this.state.targerLat}
-                      targetLong={this.state.targetLong}/>
+              address={shopInfo.address}
+              curLat={this.state.curLat}
+              curLong={this.state.curLong}
+              targerLat={this.state.targerLat}
+              targetLong={this.state.targetLong} />
           }
         </View>
       </View>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   wrapper: {
     width: "100%",
     height: "100%",
-    backgroundColor:'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     position: "absolute",
     top: 0,
     left: 0
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   address: {
     fontSize: pxToDp(28),
     color: "#666",
-    lineHeight:pxToDp(40),
+    lineHeight: pxToDp(40),
     marginTop: pxToDp(28),
     marginBottom: pxToDp(42)
   },
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   toShop: {
     position: "absolute",
     right: pxToDp(20),
-    bottom: pxToDp(180)
+    bottom: pxToDp(120)
   },
   toShopIcon: {
     width: pxToDp(100),
@@ -171,10 +171,10 @@ const styles = StyleSheet.create({
   toShopText: {
     color: "#909090",
     fontSize: pxToDp(18),
-    textAlign:"center"
+    textAlign: "center"
   },
   close: {
-    position:"absolute",
+    position: "absolute",
     right: pxToDp(20),
     top: pxToDp(20)
   },
@@ -185,12 +185,12 @@ const styles = StyleSheet.create({
 
 
   lineToHide: {
-    position:"absolute",
-    left: pxToDp(250),
-    bottom:pxToDp(796),
-    width: pxToDp(240),
-    height: pxToDp(100),
-    zIndex: 999,
+    // position:"absolute",
+    // left: pxToDp(250),
+    // bottom:pxToDp(796),
+    width: pxToDp(250),
+    height: pxToDp(20),
+    marginLeft: pxToDp(230),
     // borderRadius: pxToDp(12),
     // backgroundColor: "#ccc",
     borderTopWidth: pxToDp(10),

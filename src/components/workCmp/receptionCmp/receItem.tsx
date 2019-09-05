@@ -62,6 +62,7 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
         }
         
       </View>
+      
     </View>
    )
 }
