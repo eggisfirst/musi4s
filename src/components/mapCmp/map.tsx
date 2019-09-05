@@ -73,13 +73,12 @@ export default class MapCmp extends React.Component<Iprops>{
    * 手势下滑触发隐藏事件
    */
   handleHide = () => {
-    console.log('back')
     this.props.handleCloseMap()
   }
   render() {
     const shopInfo = this.props.shopInfo
     return (
-      <TouchableOpacity onPress={() => { this.handleHide() }} style={styles.wrapper} activeOpacity={1}>
+      <View  style={styles.wrapper} >
 
         <View style={styles.addressBox}>
           <View style={styles.lineToHide}>
@@ -111,7 +110,7 @@ export default class MapCmp extends React.Component<Iprops>{
               targetLong={this.state.targetLong} />
           }
         </View>
-      </TouchableOpacity>
+      </View>
     )
   }
 }
