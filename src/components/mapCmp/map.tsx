@@ -31,13 +31,13 @@ export default class MapCmp extends React.Component<Iprops>{
   }
   componentDidMount() {
     console.log(this.props)
-    this.getLocationPosition()
+    // this.getLocationPosition()  //在华为以及一些手机型号上定位不了自己位置。
     // const url = 'iosamap://path?sourceApplication=test&slat=39.92848272&slon=116.39560823&sname=A&dlat=39.98848272&dlon=116.47560823&dname=B&dev=0&t=0'
-    Linking.getInitialURL().then((url) => {
-      if (url) {
-        console.log('Initial url is: ' + url);
-      }
-    }).catch(err => console.error('An error occurred', err));
+    // Linking.getInitialURL().then((url) => {
+    //   if (url) {
+    //     console.log('Initial url is: ' + url);
+    //   }
+    // }).catch(err => console.error('An error occurred', err));
   }
   /**
    * 当前定位
@@ -78,7 +78,7 @@ export default class MapCmp extends React.Component<Iprops>{
   render() {
     const shopInfo = this.props.shopInfo
     return (
-      <View  style={styles.wrapper} >
+      <View style={styles.wrapper} >
 
         <View style={styles.addressBox}>
           <View style={styles.lineToHide}>

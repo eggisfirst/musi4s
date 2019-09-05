@@ -137,9 +137,7 @@ class FilterContentCmp extends React.Component<IProps> {
 
 
   render() {
-    console.log('props', format(new Date(this.props.startDate)))
-
-
+    // console.log('props', format(new Date(this.props.startDate)))
     return (
       <View style={styles.container}>
         <View style={styles.modalStyle}>

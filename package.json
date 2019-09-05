@@ -36,6 +36,7 @@
     "@types/react-test-renderer": "^16.8.2",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
+    "jetifier": "^1.6.4",
     "metro-react-native-babel-preset": "^0.55.0",
     "react-native-amap3d": "^1.1.1",
     "react-native-video": "^5.0.0",

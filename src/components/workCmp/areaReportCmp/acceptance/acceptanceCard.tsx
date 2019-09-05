@@ -90,28 +90,19 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
               <Text style={styles.contentText}>{getStar(item.starLevel)}</Text>
 
               {
-                item.regionGet !== '' && 
+                item.regionGet?  
                 <TouchableOpacity style={styles.scoreText} onPress={() => {handleToAreaDetail(index)}}>
                   <Text style={styles.scoreText}>{item.regionGet}</Text>
-                </TouchableOpacity>
-              }
-              {
-                item.regionGet === '' && 
+                </TouchableOpacity> : 
                 <Text style={styles.scoreText}>{'/'}</Text>
               }
-
               {
-                 item.certificationGet !== '' && 
+                 item.certificationGet? 
                 <TouchableOpacity style={styles.scoreText} onPress={() => {handleToFourDetails(index)}}>
                   <Text style={styles.scoreText}>{item.certificationGet}</Text>
-                </TouchableOpacity>
-              }
-              {
-                item.certificationGet === '' && 
+                </TouchableOpacity> : 
                 <Text style={styles.scoreText}>{'/'}</Text>
               }
-
-
               <Text style={styles.dateText}>{item.certificationScoreTime || item.regionScoreTime}</Text>
             </View>
           ))

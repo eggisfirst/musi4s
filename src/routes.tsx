@@ -93,7 +93,7 @@ export default function configAppNavigator(isLoggedIn:boolean) {
       headerTintColor:"#000",
       gesturesEnabled: true,
       gestureResponseDistance: {
-        horizontal: 10
+        horizontal: 20
       },
     },
     

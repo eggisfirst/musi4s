@@ -10,6 +10,9 @@ import {
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
 import ImagePicker from 'react-native-image-picker';
+import { IndexModel } from '../../request';
+
+const indexModel = new IndexModel()
 
 interface IState {
   imageList: object[]
@@ -44,6 +47,24 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
   upload = () => {
     ImagePicker.showImagePicker(this.options, (response) => {
       console.log('Response = ', response);
+
+      // let data = new FormData();
+      // let file = response.uri.replace('file://', '')
+      
+      // data.append('dataFile', {
+      //     uri: file,
+      //     name: response.fileName,
+      //     type: 'image/jpeg'
+      // });
+
+        
+      // data.append('prefix','cert-check-log')
+      
+      // console.log(data)
+      //   indexModel.test(data._parts).then(res => {
+      //     console.log(res)
+      //   })
+
 
       if (response.didCancel) {
         console.log('User cancelled image picker');

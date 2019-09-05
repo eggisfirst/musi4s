@@ -339,6 +339,15 @@ class IndexModel extends Request {
     })
   }
 
+  test(data) {
+    return this.getFormData({
+      url: "upload/file",
+      data: data
+    })
+  }
+
+ 
+
 }
 
 

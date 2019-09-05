@@ -23,22 +23,22 @@ axios.interceptors.request.use(config => {
 });
 
 //返回拦截器
-axios.interceptors.response.use(
-  function(response) {
-    store.dispatch(setLoading(false));
-    console.log(111,response)
-    if(response.data.code == 500) {
-      Alert.alert('请求失败')
-    }
-    return response
-  },
-  function(error) {
-    console.log(222,error)
-    store.dispatch(setLoading(false));
-    Alert.alert('网络错误')
-    return Promise.reject(error)
-  }
-)
+// axios.interceptors.response.use(
+//   function(response) {
+//     store.dispatch(setLoading(false));
+//     console.log(111,response)
+//     if(response.data.code == 500) {
+//       // Alert.alert('请求失败')
+//     }
+//     return response
+//   },
+//   function(error) {
+//     console.log(222,error)
+//     store.dispatch(setLoading(false));
+//     Alert.alert(JSON.stringify(error))
+//     return Promise.reject(error)
+//   }
+// )
 
 
 class Request {
@@ -53,6 +53,50 @@ class Request {
           'sign': sign,
         },
         params: data,
+      }).then(res => {
+        store.dispatch(setLoading(false));
+        resolve(res.data)
+      }).catch(err => {
+        store.dispatch(setLoading(false));
+        /**返回错误信息 */
+        refreshToken().then(res => {
+          if (res.access_token) {
+            store.dispatch(Token(res.access_token))
+            this.getSecretData()
+          }else {
+            getToken().then(res => {
+              if(res.access_token) {
+                _storeData("refresh_token", res.refresh_token)
+                store.dispatch(Token(res.access_token))
+                this.getSecretData()
+              }
+            })
+          }
+        })
+      })
+    })
+
+  }
+
+
+  getFormData({ url, data = {} }) {
+    return new Promise((resolve, reject) => {
+      const sign = this._getSign(data)
+      axios({
+        url: baseUrl + url,
+        method: 'POST',
+        data: data,
+        transformRequest: [function (data) {
+          let ret = ''
+          for (let it in data) {
+            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          }
+          return ret
+        }],
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'sign': sign,
+        },
       }).then(res => {
         store.dispatch(setLoading(false));
         resolve(res.data)
