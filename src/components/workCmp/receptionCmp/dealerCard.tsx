@@ -155,13 +155,17 @@ const styles = StyleSheet.create({
     width: pxToDp(170),
     height: pxToDp(60),
     borderRadius: pxToDp(30),
-    backgroundColor: 'rgba(255,255,255,0.3)'
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   call: {
     fontSize: pxToDp(30),
     color: "#fff",
-    textAlign: "center",
-    lineHeight: pxToDp(60),
+    // textAlign: "center",
+    // lineHeight: pxToDp(60),
     fontWeight: "500"
   }
 })

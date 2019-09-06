@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView, Platform } from "react-native";
 import pxToDp from '../../../utils/fixcss';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { TimerShaft } from './ timerShaft';
@@ -126,13 +126,22 @@ export default class ProcessBox extends React.Component<IProps,IState>{
     /**获取每个节点的margintop */
     const myMarginTop = (index: number) => {
       if (index === -1) {
-        return pxToDp(36)
+        return pxToDp(34)
       }
+     
       if (this.props.rightData[index]) {
         const i = this.props.rightData[index].data.length
-        return pxToDp((i) * 40)
+        if(Platform.OS === 'ios') {
+          return pxToDp((i) * 40)
+        }else {
+          return pxToDp((i - 1) * 40 + 22)
+        }
       } else {
-        return pxToDp(56)
+        if(Platform.OS === 'ios') {
+          return pxToDp(56)
+        }else {
+          return pxToDp(60)
+        }
       }
     }
     /**最后一个元素底部加距离 */
@@ -325,7 +334,7 @@ const styles = StyleSheet.create({
     left: pxToDp(182),
   },
   rightStatus: {
-    width: pxToDp(400),
+    width: pxToDp(380),
     borderWidth: pxToDp(1),
     borderColor: "#e1e1e1",
     borderTopRightRadius: pxToDp(12),
@@ -336,7 +345,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(24),
     paddingLeft: pxToDp(20),
-    lineHeight: pxToDp(40)
+    lineHeight: Platform.OS === 'ios' ? pxToDp(40) : pxToDp(30)
   },
   rightTextRed: {
     color: "#FF2D55",

@@ -4,7 +4,7 @@ import { TabBarItem } from "../../components/tabBarItem"
 import { IndexIcon } from '../../components/workCmp/indexIcon'
 import pxToDp from "../../utils/fixcss";
 import { TabBar } from "../../components/tabBar";
-
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 import { IndexModel } from "../../request";
 const indexModel = new IndexModel()

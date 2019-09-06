@@ -289,7 +289,11 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(12),
     backgroundColor: "#f8f8f8",
     marginTop: pxToDp(20),
-    marginRight: pxToDp(27)
+    marginRight: pxToDp(27),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   starItemActive: {
     width: pxToDp(160),
@@ -297,7 +301,11 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(12),
     backgroundColor: "#b2d7ff",
     marginTop: pxToDp(20),
-    marginRight: pxToDp(27)
+    marginRight: pxToDp(27),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   btnColor: {
     color: "#666",
