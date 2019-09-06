@@ -5,7 +5,7 @@ import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
   toCheckRecord: () => void
-  goBack: () => void
+  continue: () => void
   cancel: () => void
   scoreTotal: number
   deductTotal: number
@@ -42,7 +42,7 @@ export  const CheckAlert:React.FC<IProps> = (props:IProps) =>{
             style={[styles.btnBox, {borderRightWidth: pxToDp(1), borderRightColor: '#ddd'}]}
           ><Text style={[styles.btn, styles.goback]}>返回修改</Text></TouchableOpacity>
           <TouchableOpacity
-            onPress={props.goBack}
+            onPress={props.continue}
             style={styles.btnBox}
           ><Text style={[styles.btn, styles.continue]}>继续评分</Text></TouchableOpacity>
         </View>

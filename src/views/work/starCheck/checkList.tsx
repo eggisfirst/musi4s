@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Alert } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import MiddleCategoryCmp from '../../../components/workCmp/starCheck/check/middleCategoryCmp'
@@ -27,7 +27,7 @@ class CheckListPage extends React.Component<any, IState>{
     deductTotal: 0,
     scoreTotal: 0,
     levelId: '',
-    checkAlertStatus: true
+    checkAlertStatus: false
   }
 
   static navigationOptions = {
@@ -45,8 +45,9 @@ class CheckListPage extends React.Component<any, IState>{
 
   /**
    * 提交表单
+   * @param {* type为'goback'时表示提交后后退页面，type为'toCheckRecord'时，表示提交后跳转验收记录页面} type
    */
-  submit = () => {
+  submit = (type?: string) => {
     const params = this.props.navigation.state.params
     let data: object = {
       levelId: this.state.levelId, //星级id，一星检查id
@@ -56,7 +57,24 @@ class CheckListPage extends React.Component<any, IState>{
       categoryList: this.filterParams(this.props.checkList.checkList)
     }
     indexModel.submitForm(data).then(res => {
-      console.log('数据提交成功：', res)
+      if (res.status) {
+        const { goBack,state } = this.props.navigation;
+        if (type === 'goback') {
+          state.params.callBack()
+          goBack()
+        } else {
+          this.props.navigation.push("AcceptancePage")
+        }
+      } else {
+        Alert.alert(
+          '提示',
+          `${res.msg}`,
+          [
+            {text: '确定', onPress: () => console.log('onPress OK')},
+          ],
+          { cancelable: false }
+        )
+      }
     })
     // console.log(this.filterParams(this.props.checkList.checkList))
     // console.log(params, `levelId:${this.state.levelId}`, `总分：${this.state.scoreTotal}`, `总扣分${this.state.deductTotal}`, this.props.checkList.checkList)
@@ -180,13 +198,12 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   toCheckRecord = () => {
-    this.props.navigation.push("AcceptancePage")
-    this.setState({checkAlertStatus: false})
+    this.submit()
   }
 
-  goBack = () => {
+  continue = () => {
     this.setState({checkAlertStatus: false})
-    this.props.navigation.goBack()
+    this.submit('goback')
   }
 
   cancel = () => {
@@ -195,9 +212,9 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
-    // this.subcategories()
+    this.subcategories()
     this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
-    // this.props.changeCheckList([])
+    this.props.changeCheckList([])
   }
 
   render() {
@@ -217,8 +234,8 @@ class CheckListPage extends React.Component<any, IState>{
     return (
       <View style={styles.checkList}>
         <CheckHeader
-          // title={this.props.navigation.state.params.title}
-          title={'this.props.navigation.state.title'}
+          title={this.props.navigation.state.params.title}
+          // title={'this.props.navigation.state.title'}
           eggHandleBack={() => { navigation.goBack() }}
           eggHandleSearch={() => { navigation.push("SearchPage") }}
         />
@@ -244,13 +261,13 @@ class CheckListPage extends React.Component<any, IState>{
         </View>
         <BotBtn
           reset={this.reset}
-          submit={this.submit}
+          submit={() => {this.setState({checkAlertStatus: true})}}
         ></BotBtn>
 
         {/* 检查结果弹框 */}
         <CheckAlert
           toCheckRecord={this.toCheckRecord}
-          goBack={this.goBack}
+          continue={this.continue}
           cancel={this.cancel}
           scoreTotal={this.state.scoreTotal}
           deductTotal={this.state.deductTotal}

@@ -184,6 +184,10 @@ export default class GradePage extends React.Component<any>{
       shopId,
       categoryId: list[index][i].id,
       title: list[index][i].name,
+      callBack: () => {
+        const {qualificationId,shopId,shopName} = this.props.navigation.state.params
+        this.getCategories(qualificationId,shopId)
+      }
     })
     // this.test(id,shopId)
    
