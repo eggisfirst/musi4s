@@ -20,6 +20,10 @@ class Sort extends React.Component<IProps> {
   handleClick = () => {
     this._setActive()
   }
+  /**点击空白的时候关闭下拉列表 */
+  closeSort = () => {
+    this._setActive()
+  }
   //选择
   handleSelect = (i:number) => {
     this._setActive()
@@ -55,7 +59,7 @@ class Sort extends React.Component<IProps> {
                 ))
               }
           </View>
-          <Text style={styles.rest}></Text>
+          <Text style={styles.rest} onPress={this.closeSort}></Text>
           </>
         )
       }

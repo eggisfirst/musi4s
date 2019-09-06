@@ -31,6 +31,7 @@ export default class LoginScreen extends Component<any> {
   static navigationOptions = {
     header: null,
     headerBackTitle: 'back',
+    gesturesEnabled: false,
   }
 
   state:IState = {

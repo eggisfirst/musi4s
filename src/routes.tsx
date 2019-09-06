@@ -56,15 +56,12 @@ export default function configAppNavigator(isLoggedIn:boolean) {
       //主导航页面不显示头部
       navigationOptions: {
         header: null,
-        
+        gesturesEnabled: false,
       }
     },
-    
     CheckListPage,
     CheckDetailPage,
-   
     DetailsPage,
-  
     CheckDetailsPage,
     StarHome,
     AcceptanceDetailsPage,

@@ -98,8 +98,8 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
               }
               {
                  item.certificationGet? 
-                <TouchableOpacity style={styles.scoreText} onPress={() => {handleToFourDetails(index)}}>
-                  <Text style={styles.scoreText}>{item.certificationGet}</Text>
+                <TouchableOpacity style={styles.scoreText2} onPress={() => {handleToFourDetails(index)}}>
+                  <Text style={styles.scoreText2}>{item.certificationGet}</Text>
                 </TouchableOpacity> : 
                 <Text style={styles.scoreText}>{'/'}</Text>
               }
@@ -167,21 +167,29 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(59),
     minWidth: pxToDp(80),
     textAlign: "left",
-    flex: 0.01
+    flex: 0.1,
+    // borderWidth: 1
   },
   scoreText: {
     color: "#666",
     fontSize: pxToDp(28),
     lineHeight: pxToDp(59),
-    flex: 0.28,
+    flex: 0.14,
     textAlign:"center",
-    // borderWidth: 1
+  },
+  scoreText2: {
+    color: "#666",
+    fontSize: pxToDp(28),
+    lineHeight: pxToDp(59),
+    flex: 0.2,
+    textAlign:"center",
+    marginLeft: pxToDp(40)
   },
   dateText: {
     color: "#666",
     fontSize: pxToDp(28),
     lineHeight: pxToDp(59),
-    flex: 0.27,
-    textAlign:"right"
+    flex: 0.35,
+    textAlign:"right",
   }
 })

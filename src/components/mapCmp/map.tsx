@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, Linking, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, Linking, TouchableOpacity, Image, Dimensions } from "react-native";
 import pxToDp from "../../utils/fixcss";
 import { MapCanvas } from './mapCanvas';
 import { MapToApp } from './mapToApp';
@@ -75,11 +75,17 @@ export default class MapCmp extends React.Component<Iprops>{
   handleHide = () => {
     this.props.handleCloseMap()
   }
+  /**
+   * 点击空白区域关闭地图
+   */
+  closeMap = () => {
+    this.props.handleCloseMap()
+  }
   render() {
     const shopInfo = this.props.shopInfo
     return (
       <View style={styles.wrapper} >
-
+        <TouchableOpacity style={styles.topStyle} onPress={this.closeMap}></TouchableOpacity>
         <View style={styles.addressBox}>
           <View style={styles.lineToHide}>
             <TouchStartAndRelease handleHide={this.handleHide} />
@@ -122,7 +128,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     position: "absolute",
     top: 0,
-    left: 0
+    left: 0,
+  },
+  topStyle: {
+    width: "100%",
+    height: Dimensions.get('screen').height - pxToDp(930),
+    backgroundColor: 'rgba(0,0,0,0)',
+    position: "absolute",
+    top: 0,
+    left: 0,
   },
   addressBox: {
     width: "100%",

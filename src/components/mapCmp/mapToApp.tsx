@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         left: 0,
         zIndex: 999,
         width: pxToDp(750),
-        height: pxToDp(906),
+        height: pxToDp(926),
         borderTopLeftRadius: pxToDp(60),
         borderTopRightRadius: pxToDp(60),
         backgroundColor:'rgba(0,0,0,0.5)',

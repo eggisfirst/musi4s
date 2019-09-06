@@ -13,6 +13,7 @@ const indexModel = new IndexModel()
 export default class WorkScreen extends React.Component<any>{
   static navigationOptions = {
     tabBarLabel: '工作',
+    gesturesEnabled: false,
     tabBarIcon: ({ focused }: any) => (
       <TabBarItem
         focused={focused}

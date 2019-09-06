@@ -14,12 +14,16 @@ interface list {
 interface IProps {
   list: Array<list>
   navigation: any
+  refreshMsg: () => void
 }
 
-export const StarCheck: React.FC<IProps> = ({navigation, list}) => {
+export const StarCheck: React.FC<IProps> = ({navigation, list, refreshMsg}) => {
   let handleNavigateTo = (item: string) => {
     navigation.push('HandlePage',{
       type: item,
+      callback: () => {
+        refreshMsg()
+      }
     })
   }
   return (
