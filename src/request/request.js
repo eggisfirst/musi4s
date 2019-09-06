@@ -35,7 +35,7 @@ axios.interceptors.response.use(
   function(error) {
     console.log(222,error)
     store.dispatch(setLoading(false));
-    Alert.alert('网络问题')
+    // Alert.alert('网络问题')
     return Promise.reject(error)
   }
 )

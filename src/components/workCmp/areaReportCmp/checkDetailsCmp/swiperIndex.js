@@ -89,8 +89,8 @@ class SwiperIndex extends Component {
                     // inactiveSlideShift={20}
                     containerCustomStyle={styles.slider}
                     //   contentContainerCustomStyle={styles.sliderContentContainer}
-                    loop={true}
-                    swipe={false}
+                    loop={false}
+                    // swipe={false}
                     loopClonesPerSide={2}
                     //   autoplay={true}
                     //   autoplayDelay={500}

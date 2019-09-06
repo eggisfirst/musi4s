@@ -720,7 +720,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     borderColor: "#e1e1e1",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   btnStyle: {
     display: "flex",

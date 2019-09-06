@@ -137,8 +137,8 @@ export default class LoginScreen extends Component<any> {
         </View>
         <View style={styleSheet.inputWrap}>
           <Text style={styleSheet.formTit}>密码登录</Text>
-          <InputCmp  inputData={inputAcData} setVal={this.setVal}/>
-          <InputCmp  inputData={inputPdData} setVal={this.setVal}/>
+          <InputCmp  isPassWord={false} inputData={inputAcData} setVal={this.setVal}/>
+          <InputCmp isPassWord={true} inputData={inputPdData} setVal={this.setVal}/>
           
           <View style={styleSheet.remPwd} >
             <TouchableOpacity

@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   addressBox: {
     width: "100%",
-    height: pxToDp(906),
+    height: pxToDp(926),
     backgroundColor: "#fff",
     borderTopLeftRadius: pxToDp(60),
     borderTopRightRadius: pxToDp(60),
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#363636",
-    fontSize: pxToDp(48),
+    fontSize: pxToDp(40),
     marginTop: pxToDp(38),
     fontWeight: "bold"
   },
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     fontSize: pxToDp(28),
     color: "#666",
     lineHeight: pxToDp(40),
-    marginTop: pxToDp(28),
-    marginBottom: pxToDp(42)
+    marginTop: pxToDp(20),
+    marginBottom: pxToDp(22)
   },
   map: {
     width: pxToDp(686),
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   toShop: {
     position: "absolute",
     right: pxToDp(20),
-    bottom: pxToDp(120)
+    bottom: pxToDp(160)
   },
   toShopIcon: {
     width: pxToDp(100),
