@@ -115,12 +115,16 @@ const styles = StyleSheet.create({
     height:pxToDp(60),
     borderRadius: pxToDp(30),
     backgroundColor:'rgba(0,122,255,0.3)',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   toGradeTxt: {
     color:"#007aff",
     fontSize: pxToDp(30),
-    lineHeight: pxToDp(60),
-    textAlign:'center'
+    // lineHeight: pxToDp(60),
+    // textAlign:'center'
   },
   botMsg: {
     // marginTop:pxToDp(35)
