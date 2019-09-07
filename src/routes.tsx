@@ -50,6 +50,9 @@ export default function configAppNavigator(isLoggedIn:boolean) {
   return createAppContainer(createStackNavigator({
     Login: {
       screen: LoginScreen,
+      navigationOptions: {
+        headerTransparent: true,
+      }
     },
     Work: {
       screen: AppNavigator,
@@ -57,23 +60,89 @@ export default function configAppNavigator(isLoggedIn:boolean) {
       navigationOptions: {
         header: null,
         gesturesEnabled: false,
+        headerTransparent: true,
       }
     },
-    CheckListPage,
-    CheckDetailPage,
-    DetailsPage,
-    CheckDetailsPage,
-    StarHome,
-    AcceptanceDetailsPage,
-    AcceptancePage,
-    CheckRecordPage,
+    CheckListPage: {
+      screen: CheckListPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CheckDetailPage:{
+      screen: CheckDetailPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    DetailsPage: {
+      screen: DetailsPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CheckDetailsPage: {
+      screen: CheckDetailsPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    StarHome: {
+      screen: StarHome,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    AcceptanceDetailsPage: {
+      screen: AcceptanceDetailsPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    AcceptancePage: {
+      screen: AcceptancePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CheckRecordPage: {
+      screen: CheckRecordPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
    
-    GencyShopPage,
-    HandlePage,
-    GradePage,
-    ReceptionPage,
+    GencyShopPage: {
+      screen: GencyShopPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    HandlePage: {
+      screen: HandlePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    GradePage: {
+      screen: GradePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    ReceptionPage: {
+      screen: ReceptionPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
     
-    SearchPage,
+    SearchPage: {
+      screen: SearchPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
   },{
     //初始进来的页面
     // initialRouteName: 'Login',

@@ -34,18 +34,11 @@ export const ReceItem:React.FC<IProps> = (props:IProps) =>{
         </View>
         <View style={styles.status}>
           {
-            props.type === 3?
-            props.shopItem.scoreRegion !== ''? 
-            <Text style={styles.greenStyle}>已评分</Text> :
-            <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade(props.index)}}>
-              <Text style={styles.toGradeTxt}>进入评分</Text>
-            </TouchableOpacity> :
-            props.shopItem.scoreCertification !== ''? 
+            props.shopItem.scoreRegion || props.shopItem.scoreCertification? 
             <Text style={styles.greenStyle}>已评分</Text> :
             <TouchableOpacity style={styles.toGradeBtn} onPress={() => {props.toGrade(props.index)}}>
               <Text style={styles.toGradeTxt}>进入评分</Text>
             </TouchableOpacity> 
-
           }
          
         </View>
@@ -80,6 +73,7 @@ const styles = StyleSheet.create({
     color: "#363636",
     fontSize: pxToDp(38),
     fontWeight: "bold",
+    lineHeight: pxToDp(60),
     marginBottom: pxToDp(30)
   },
   centerMsg: {
