@@ -288,7 +288,7 @@ export default connect(mapStateToProps, actions)(CheckListPage)
 
 const styles: any = StyleSheet.create({
   checkList: {
-    height: Dimensions.get('screen').height,
+    height: Dimensions.get('window').height,
   },
   grad: {
     flexDirection: 'row',
