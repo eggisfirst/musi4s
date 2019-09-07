@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight() - pxToDp(20),
+    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
