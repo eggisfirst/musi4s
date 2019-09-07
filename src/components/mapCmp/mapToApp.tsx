@@ -1,4 +1,4 @@
-import { View, Button, Alert, StyleSheet, Text } from "react-native";
+import { View, Button, Alert, StyleSheet, Text, Dimensions } from "react-native";
 import React from "react";
 import RoutePlan from "../../utils/routeMap";
 import pxToDp from "../../utils/fixcss";
@@ -58,17 +58,17 @@ const styles = StyleSheet.create({
         left: 0,
         zIndex: 999,
         width: pxToDp(750),
-        height: pxToDp(926),
-        borderTopLeftRadius: pxToDp(60),
-        borderTopRightRadius: pxToDp(60),
-        backgroundColor:'rgba(0,0,0,0.5)',
+        height:  Dimensions.get('screen').height,
+        // borderTopLeftRadius: pxToDp(60),
+        // borderTopRightRadius: pxToDp(60),
+        backgroundColor:'rgba(0,0,0,0.4)',
     },
     container: {
         backgroundColor: "#fff",
         width: pxToDp(700),
         position: "absolute",
         left: pxToDp(25),
-        bottom: pxToDp(190),
+        bottom: pxToDp(150),
         borderRadius: pxToDp(20),
         opacity: 0.95,
         zIndex: 999,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         width: pxToDp(700),
         position: "absolute",
-        bottom: pxToDp(80),
+        bottom: pxToDp(30),
         left: pxToDp(25),
         borderRadius: pxToDp(20),
         opacity: 0.95

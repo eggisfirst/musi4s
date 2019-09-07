@@ -33,7 +33,7 @@ class SwiperIndex extends Component {
      * 设置切换到哪一张
      */
     setActiveIndex = (index) => {
-        this.props.videoControl(false)
+        // this.props.videoControl(false)
         console.log('index',this.props.urls[index])
        
         this.setState({

@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   addressBox: {
     width: "100%",
-    height: pxToDp(926),
+    // height: pxToDp(926),
     backgroundColor: "#fff",
     borderTopLeftRadius: pxToDp(60),
     borderTopRightRadius: pxToDp(60),
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     padding: pxToDp(31),
-    paddingBottom: 0
+    paddingBottom: pxToDp(20)
   },
   title: {
     color: "#363636",
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   toShop: {
     position: "absolute",
     right: pxToDp(20),
-    bottom: pxToDp(160)
+    bottom: pxToDp(140)
   },
   toShopIcon: {
     width: pxToDp(100),
