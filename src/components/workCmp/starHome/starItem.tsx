@@ -56,12 +56,16 @@ const styles = StyleSheet.create({
     top:-pxToDp(14),
     right:pxToDp(36),
     borderRadius:50,
-    opacity:0.8
+    opacity:0.8,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   tipsText: {
     color:"#fff",
     fontSize:pxToDp(18),
     textAlign:"center",
-    lineHeight:pxToDp(30)
+    // lineHeight:pxToDp(30)
   }
 })

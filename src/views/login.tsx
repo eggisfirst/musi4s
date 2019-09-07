@@ -232,6 +232,10 @@ const styleSheet:any = StyleSheet.create({
     borderRadius: pxToDp(49),
     backgroundColor:  '#007AFF',
     marginTop: pxToDp(96),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   btnText: {
     color: '#fff',

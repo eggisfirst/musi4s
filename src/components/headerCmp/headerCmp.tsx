@@ -1,5 +1,5 @@
 import React from "react";
-import { View,Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View,Text, Image, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import pxToDp from "../../utils/fixcss";
 import { StarCheckTypes } from "../../utils/enum";
 
@@ -35,7 +35,7 @@ export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:pxToDp(55),
+    marginTop:Platform.OS === 'ios'? pxToDp(55) : pxToDp(25) ,
     paddingLeft:pxToDp(32),
     paddingRight:pxToDp(22),
     display:"flex",

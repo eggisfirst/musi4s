@@ -7,7 +7,7 @@ interface IProps {
 }
 export const BtnCmp:React.FC<IProps> = ({handleLogout}) => {
   return (
-    <TouchableOpacity onPress={() => {handleLogout()}}>
+    <TouchableOpacity onPress={() => {handleLogout()}} style={styles.btn}>
       <Text style={styles.btnStyle} >
         退出账号
       </Text>
@@ -17,6 +17,16 @@ export const BtnCmp:React.FC<IProps> = ({handleLogout}) => {
 
 const styles = StyleSheet.create({
   btnStyle: {
+    color:"#fff",
+    // lineHeight:pxToDp(98),
+    fontSize:pxToDp(36),
+    textAlign:"center"
+  },
+  btn: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     width: pxToDp(600),
     height: pxToDp(98),
     borderColor:"#005dc2",
@@ -25,9 +35,5 @@ const styles = StyleSheet.create({
     marginTop:pxToDp(101),
     marginLeft:pxToDp(75),
     backgroundColor:"#007aff",
-    color:"#fff",
-    lineHeight:pxToDp(98),
-    fontSize:pxToDp(36),
-    textAlign:"center"
   }
 })

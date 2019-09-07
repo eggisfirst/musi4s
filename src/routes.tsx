@@ -89,6 +89,7 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     //标题居中
     headerLayoutPreset: "center",
     defaultNavigationOptions: {
+      headerTransparent: true,
       headerTintColor:"#000",
       gesturesEnabled: true,
       gestureResponseDistance: {

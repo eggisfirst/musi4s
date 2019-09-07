@@ -1,10 +1,9 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Button, Alert, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Button, Alert, Text, StatusBar } from "react-native";
 import { TabBarItem } from "../../components/tabBarItem"
 import { IndexIcon } from '../../components/workCmp/indexIcon'
 import pxToDp from "../../utils/fixcss";
 import { TabBar } from "../../components/tabBar";
-import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 import { IndexModel } from "../../request";
 const indexModel = new IndexModel()
@@ -21,7 +20,6 @@ export default class WorkScreen extends React.Component<any>{
         selectedImage={require('../../images/tabBar/work_select.png')} />
     ),
   }
-
 
   render() {
     const list = [

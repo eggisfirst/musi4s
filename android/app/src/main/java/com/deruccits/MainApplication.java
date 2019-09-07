@@ -3,6 +3,7 @@ package com.deruccits;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -32,15 +33,16 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ImagePickerPackage(),
-            new ReactSliderPackage(),
-            new ReactVideoPackage(),
-            new AsyncStoragePackage(),
-            new SvgPackage(),
-            new LinearGradientPackage(),
-            new AMap3DPackage(),
-            new DatePickerPackage(),
-            new RNGestureHandlerPackage()
+          new ExtraDimensionsPackage(),
+          new ImagePickerPackage(),
+          new ReactSliderPackage(),
+          new ReactVideoPackage(),
+          new AsyncStoragePackage(),
+          new SvgPackage(),
+          new LinearGradientPackage(),
+          new AMap3DPackage(),
+          new DatePickerPackage(),
+          new RNGestureHandlerPackage()
       );
     }
 
