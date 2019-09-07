@@ -20,6 +20,7 @@ import CheckDetailsPage from './views/work/starCheck/areaReports/checkRecord/che
 import AcceptancePage from './views/work/starCheck/areaReports/acceptance/acceptance';
 import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptance/acceptanceDetails';
 import DetailsPage from './views/work/starCheck/areaReports/checkRecord/detailsPage';
+import RulePage from './views/work/rule';
 
 
 
@@ -143,6 +144,12 @@ export default function configAppNavigator(isLoggedIn:boolean) {
         headerTransparent: true,
       }
     },
+    RulePage: {
+      screen: RulePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    }
   },{
     //初始进来的页面
     // initialRouteName: 'Login',

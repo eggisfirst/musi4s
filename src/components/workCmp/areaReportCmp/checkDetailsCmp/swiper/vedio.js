@@ -56,7 +56,7 @@ class VideoPlayScreen extends Component {
             rate={1.0}
             volume={1.0}
             muted={false}
-            paused={!this.props.video.isPlay}
+            paused={!this.state.isPlaying}
             resizeMode={'contain'}
             playWhenInactive={false}
             playInBackground={false}
@@ -92,12 +92,12 @@ class VideoPlayScreen extends Component {
                 left: 0,
                 width: this.state.videoWidth,
                 height:  pxToDp(480)*1.33,
-                backgroundColor: this.props.video.isPlay ? 'transparent' : 'rgba(0, 0, 0, 0.2)',
+                backgroundColor: this.state.isPlaying ? 'transparent' : 'rgba(0, 0, 0, 0.2)',
                 alignItems:'center',
                 justifyContent:'center'
               }}>
               {
-                this.props.video.isPlay ? null :
+                this.state.isPlaying ? null :
                   <TouchableWithoutFeedback onPress={() => { this.onPressPlayButton() }}>
                     <Image
                       style={styles.playButton}
@@ -113,7 +113,7 @@ class VideoPlayScreen extends Component {
                 <TouchableOpacity activeOpacity={0.3} onPress={() => { this.onControlPlayPress() }}>
                   <Image
                     style={styles.playControl}
-                    source={this.props.video.isPlay ? require('./images/pause.png') : require('./images/play.png')}
+                    source={this.state.isPlaying ? require('./images/pause.png') : require('./images/play.png')}
                   />
                 </TouchableOpacity>
                 <Text style={styles.time}>{formatTime(this.state.currentTime)}</Text>
@@ -169,7 +169,7 @@ class VideoPlayScreen extends Component {
   _onProgressChanged = (data) => {
     console.log('视频进度更新');
     // store.dispatch(setLoading(false));
-    if (this.props.video.isPlay) {
+    if (this.state.isPlaying) {
       this.setState({
         currentTime: data.currentTime,
       })
@@ -183,7 +183,7 @@ class VideoPlayScreen extends Component {
       isPlaying: false,
       playFromBeginning: true
     });
-    this.props.videoControl(false)
+    // this.props.videoControl(false)
   };
   
   _onPlayError = () => {
@@ -219,14 +219,14 @@ class VideoPlayScreen extends Component {
   
   /// 点击了播放器正中间的播放按钮
   onPressPlayButton() {
-    // let isPlay = !this.state.isPlaying;
-    let isPlay = !this.props.video.isPlay
+    let isPlay = !this.state.isPlaying;
+    // let isPlay = !this.props.video.isPlay
     this.setState({
       isPlaying: isPlay,
       showVideoCover: false
     });
 
-    this.props.videoControl(isPlay)
+    // this.props.videoControl(isPlay)
 
     if (this.state.playFromBeginning) {
       this.videoPlayer.seek(0);
@@ -257,12 +257,12 @@ class VideoPlayScreen extends Component {
   /// 进度条值改变
   onSliderValueChanged(currentTime) {
     this.videoPlayer.seek(currentTime);
-    if (this.props.video.isPlay) {
+    if (this.state.isPlaying) {
       this.setState({
         currentTime: currentTime
       })
     } else {
-      this.props.videoControl(true)
+      // this.props.videoControl(true)
       this.setState({
         currentTime: currentTime,
         isPlaying: true,

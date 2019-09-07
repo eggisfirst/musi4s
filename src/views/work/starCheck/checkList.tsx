@@ -1,16 +1,18 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, Text, StyleSheet, Dimensions, Alert, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Alert, ScrollView, Image } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from "../../../components/headerCmp/headerCmp"
 import MiddleCategoryCmp from '../../../components/workCmp/starCheck/check/middleCategoryCmp'
 import BotBtn from '../../../components/common/botBtn'
-import {CheckAlert} from '../../../components/workCmp/starCheck/checkAlert'
+import { CheckAlert } from '../../../components/workCmp/starCheck/checkAlert'
 import { IndexModel } from "../../../request";
 import store from '../../../store';
 import * as actions from '../../../store/actions/4s/checkList';
-
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { BackGroundHeader } from "../../../components/headerCmp/backgroundHeader";
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 const indexModel = new IndexModel()
 // const actions = {
 //   ...changeCheckList,
@@ -58,7 +60,7 @@ class CheckListPage extends React.Component<any, IState>{
     }
     indexModel.submitForm(data).then(res => {
       if (res.status) {
-        const { goBack,state } = this.props.navigation;
+        const { goBack, state } = this.props.navigation;
         if (type === 'goback') {
           state.params.callBack()
           goBack()
@@ -70,7 +72,7 @@ class CheckListPage extends React.Component<any, IState>{
           '提示',
           `${res.msg}`,
           [
-            {text: '确定', onPress: () => console.log('onPress OK')},
+            { text: '确定', onPress: () => console.log('onPress OK') },
           ],
           { cancelable: false }
         )
@@ -202,13 +204,13 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   continue = () => {
-    this.setState({checkAlertStatus: false})
+    this.setState({ checkAlertStatus: false })
     this.submit('goback')
   }
 
   cancel = () => {
     console.log('取消')
-    this.setState({checkAlertStatus: false})
+    this.setState({ checkAlertStatus: false })
   }
 
   componentDidMount() {
@@ -233,10 +235,18 @@ class CheckListPage extends React.Component<any, IState>{
     })
     return (
       <View style={styles.checkList}>
-        <HeaderCmp
+        <BackGroundHeader
           title={this.props.navigation.state.params.title}
-          // title={'this.props.navigation.state.title'}
           eggHandleBack={() => { navigation.goBack() }}
+          bgColor={'#007aff'}
+          fontColor={'#fff'}
+          setHeight={200}
+          imgUrl={require('../../../images/work/reception/back.png')}
+          Children={
+            <TouchableOpacity activeOpacity={0.8} style={styles.topRight}  onPress={() => { navigation.push('RulePage') }}>
+                <Image style={{width: pxToDp(38),height: pxToDp(38)}} source={require('../../../images/work/rule.png')} />
+            </TouchableOpacity>
+          }
         />
 
         <View style={styles.grad}>
@@ -260,7 +270,7 @@ class CheckListPage extends React.Component<any, IState>{
         </ScrollView>
         <BotBtn
           reset={this.reset}
-          submit={() => {this.setState({checkAlertStatus: true})}}
+          submit={() => { this.setState({ checkAlertStatus: true }) }}
         ></BotBtn>
 
         {/* 检查结果弹框 */}
@@ -288,7 +298,7 @@ export default connect(mapStateToProps, actions)(CheckListPage)
 
 const styles: any = StyleSheet.create({
   checkList: {
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
   },
   grad: {
     flexDirection: 'row',
@@ -314,5 +324,17 @@ const styles: any = StyleSheet.create({
   },
   scrollView: {
     marginBottom: pxToDp(100),
+  },
+
+  topRight: {
+    width: pxToDp(180),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
+  text: {
+    width: pxToDp(38),
+    height: pxToDp(38),
   }
+
 })
