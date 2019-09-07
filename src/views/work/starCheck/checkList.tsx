@@ -212,9 +212,9 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
-    // this.subcategories()
+    this.subcategories()
     this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
-    // this.props.changeCheckList([])
+    this.props.changeCheckList([])
   }
 
   render() {
@@ -234,8 +234,8 @@ class CheckListPage extends React.Component<any, IState>{
     return (
       <View style={styles.checkList}>
         <HeaderCmp
-          // title={this.props.navigation.state.params.title}
-          title={'this.props.navigation.state.title'}
+          title={this.props.navigation.state.params.title}
+          // title={'this.props.navigation.state.title'}
           eggHandleBack={() => { navigation.goBack() }}
         />
 
