@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform, Dimensions } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 
 interface IProps {
@@ -14,18 +14,27 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
     if (index === -1) {
       return
     }
+    const w = Dimensions.get("window").width
+    const h = Dimensions.get("window").height
+    console.log(h,w)
     if (getAllList[index].data.length) {
       const i = getAllList[index].data.length
       if (Platform.OS === 'ios') {
         return pxToDp((i) * 38 + 27)
       } else {
-        return pxToDp((i) * 34 + 24)
+        if(w > 380 && h < 710) {
+          return pxToDp((i) * 30 + 24)
+        }else {
+          return (w > 380? pxToDp((i) * 30 + 24) : pxToDp((i) * 34 + 24))
+        }
       }
     }
   }
   /**未完成节点的时间轴第一段长度 */
   const myUnFinishMarTop = (index: number) => {
     const len = nodeStateList.length
+    const h = Dimensions.get("window").height
+    const w = Dimensions.get("window").width
     if (index === len) {
       const length = nodeStateList[len - 1].data.length
       return pxToDp(length * 38 + 31)
@@ -33,7 +42,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
       if (Platform.OS === 'ios') {
         return pxToDp(76)
       } else {
-        return pxToDp(84)
+        return (h > 710? pxToDp(84) : pxToDp(94))
       }
     }
   }

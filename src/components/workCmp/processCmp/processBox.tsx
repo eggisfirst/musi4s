@@ -126,21 +126,21 @@ export default class ProcessBox extends React.Component<IProps,IState>{
     /**获取每个节点的margintop */
     const myMarginTop = (index: number) => {
       if (index === -1) {
-        return pxToDp(34)
+        return 34
       }
-     
+      
       if (this.props.rightData[index]) {
         const i = this.props.rightData[index].data.length
         if(Platform.OS === 'ios') {
-          return pxToDp((i) * 40)
+          return (i) * 40
         }else {
-          return pxToDp((i - 1) * 40 + 22)
+          return (i) * 24 + 11
         }
       } else {
         if(Platform.OS === 'ios') {
-          return pxToDp(56)
+          return 56
         }else {
-          return pxToDp(60)
+          return 65
         }
       }
     }
@@ -207,8 +207,8 @@ export default class ProcessBox extends React.Component<IProps,IState>{
             </View>
             {
               this.state.nodeList.map((item, index) => (
-                <View style={{ marginTop: myMarginTop(index - 1) }} key={index} >
-                  <Text style={[styles.lefttext, { marginBottom: myLastBottom(item) }]} >{item}</Text>
+                <View style={{ marginTop:pxToDp(myMarginTop(index - 1))  }} key={index} >
+                  <Text style={[styles.lefttext, { marginBottom:  myLastBottom(item) }]} >{item}</Text>
                 </View>
               ))
             }
