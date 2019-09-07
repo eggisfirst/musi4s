@@ -305,6 +305,10 @@ const styles = StyleSheet.create({
     height: pxToDp(99),
     borderTopWidth: pxToDp(1),
     borderTopColor: "#e1e1e1",
+    display: 'flex',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   botTxt: {
     lineHeight: pxToDp(99),

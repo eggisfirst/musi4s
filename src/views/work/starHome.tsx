@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
+import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity, Button, Dimensions } from 'react-native';
 import {Header} from '../../components/workCmp/starHome/header';
 import {StarCheck}  from '../../components/workCmp/starHome/starCheck';
 import { ReportForm } from '../../components/workCmp/starHome/reportForms';
@@ -33,6 +33,8 @@ export default class StarHome extends React.Component<any> {
   }
   componentDidMount() {
     this.getUserInfo()
+    console.log(111,Dimensions.get("screen").height)
+    console.log(111,Dimensions.get("window").height)
   }
   /**获取用户信息 获取未完成信息数量*/
   getUserInfo() {
@@ -81,6 +83,7 @@ export default class StarHome extends React.Component<any> {
       },
     ]
   }
+  
   
   render() {
     const imgArr = [
