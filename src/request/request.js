@@ -3,10 +3,11 @@ import MD5 from "react-native-md5";
 import axios from 'axios'
 import { Alert } from 'react-native';
 
-import { setLoading,Token } from '../store/actions/global/loading';
+import { setLoading, Token } from '../store/actions/global/loading';
 import store from '../store';
 
-baseUrl = 'http://10.11.8.247:8088/'
+// baseUrl = 'http://10.11.8.247:8088/'
+baseUrl = 'http://172.16.4.201:8088/'
 // baseUrl = 'http://10.11.8.8:8088/'
 // baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // baseUrl = 'https://op.derucci.com/'
@@ -63,9 +64,9 @@ class Request {
           if (res.access_token) {
             store.dispatch(Token(res.access_token))
             this.getSecretData()
-          }else {
+          } else {
             getToken().then(res => {
-              if(res.access_token) {
+              if (res.access_token) {
                 _storeData("refresh_token", res.refresh_token)
                 store.dispatch(Token(res.access_token))
                 this.getSecretData()
@@ -107,9 +108,9 @@ class Request {
           if (res.access_token) {
             store.dispatch(Token(res.access_token))
             this.getSecretData()
-          }else {
+          } else {
             getToken().then(res => {
-              if(res.access_token) {
+              if (res.access_token) {
                 _storeData("refresh_token", res.refresh_token)
                 store.dispatch(Token(res.access_token))
                 this.getSecretData()
@@ -144,9 +145,9 @@ class Request {
           if (res.access_token) {
             store.dispatch(Token(res.access_token))
             this.getSecretData()
-          }else {
+          } else {
             getToken().then(res => {
-              if(res.access_token) {
+              if (res.access_token) {
                 _storeData("refresh_token", res.refresh_token)
                 store.dispatch(Token(res.access_token))
                 this.getSecretData()
@@ -180,6 +181,25 @@ class Request {
     })
     return MD5.hex_md5(str + token)
   }
+
+  // FetchFormData() {
+  //   return new Promise((resolve, reject) => {
+  //     fetch(baseUrl + url, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //         'sign': sign,
+  //       },
+  //       body: formData,
+  //     })
+  //     .then((response) => response.text())
+  //     .then((responseData) => {
+  //       resolve(responseData)
+  //       console.log('responseData', responseData);
+  //     })
+  //     .catch((error) => { console.error('error', error) });
+  //   })
+  // }
 }
 /**
  * 登录/获取token

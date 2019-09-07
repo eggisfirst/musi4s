@@ -344,7 +344,7 @@ class IndexModel extends Request {
    */
   uploadFile(formData) {
     return this.getSecretData({
-      url: "v2/api/cert/approve/upload",
+      url: "/upload/file",
       data: formData
     })
   }

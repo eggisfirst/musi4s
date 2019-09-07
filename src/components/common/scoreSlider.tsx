@@ -9,11 +9,15 @@ import {
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
 
-// interface IProps {
-//   onClick:() => void
-// }
+interface IProps {
+  step: number
+  minimumValue: number
+  maximumValue: number
+  value: number
+  scoreChange: () => void
+}
 
-export default class ScoreSlider extends Component<any> {
+export default class ScoreSlider extends Component<any, IProps> {
 
   render() {
     const keduList = (() => {
@@ -31,11 +35,11 @@ export default class ScoreSlider extends Component<any> {
         <Text style={styleSheet.scoreTitle}>扣分：</Text>
         <View>
           <View style={styleSheet.sliderGrad}>
-            <Text>{this.props.maximumValue | 0}</Text>
+          <Text>{0}</Text>
             <ImageBackground style={[styleSheet.bubble]} source={require("../../images/work/areaReport/checkRecord/bubble.png")}>
               <Text style={styleSheet.cutScore}>扣{this.props.value | 0}分</Text>
             </ImageBackground>
-            <Text>{this.props.value}</Text>
+            <Text>{this.props.maximumValue}</Text>
           </View>
           <View style={styleSheet.keduBox}>
             {keduList}
@@ -48,7 +52,7 @@ export default class ScoreSlider extends Component<any> {
           step={this.props.step | 1}
           minimumValue={this.props.minimumValue | 0}
           maximumValue={this.props.maximumValue | 10}
-          value={this.props.value === 0 ? 0 : (this.props.value  | 10)}
+          value={this.props.value}
           onValueChange={(val) => this.props.scoreChange(val)}
         ></Slider>
       </View>

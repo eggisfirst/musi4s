@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Alert, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
-import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
+import { HeaderCmp } from "../../../components/headerCmp/headerCmp"
 import MiddleCategoryCmp from '../../../components/workCmp/starCheck/check/middleCategoryCmp'
 import BotBtn from '../../../components/common/botBtn'
 import {CheckAlert} from '../../../components/workCmp/starCheck/checkAlert'
@@ -84,7 +84,7 @@ class CheckListPage extends React.Component<any, IState>{
    * 重置表单
    */
   reset = () => {
-    // this.subcategories()
+    this.subcategories()
   }
 
   /**
@@ -212,9 +212,9 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
-    this.subcategories()
+    // this.subcategories()
     this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
-    this.props.changeCheckList([])
+    // this.props.changeCheckList([])
   }
 
   render() {
@@ -233,11 +233,10 @@ class CheckListPage extends React.Component<any, IState>{
     })
     return (
       <View style={styles.checkList}>
-        <CheckHeader
-          title={this.props.navigation.state.params.title}
-          // title={'this.props.navigation.state.title'}
+        <HeaderCmp
+          // title={this.props.navigation.state.params.title}
+          title={'this.props.navigation.state.title'}
           eggHandleBack={() => { navigation.goBack() }}
-          eggHandleSearch={() => { navigation.push("SearchPage") }}
         />
 
         <View style={styles.grad}>
@@ -248,7 +247,7 @@ class CheckListPage extends React.Component<any, IState>{
           </View>
         </View>
 
-        <View>
+        <ScrollView style={styles.scrollView}>
           {MiddleCategoryCmpList}
           {/* <MiddleCategoryCmp
             list={this.state.list}
@@ -258,7 +257,7 @@ class CheckListPage extends React.Component<any, IState>{
             list={this.state.list}
             title={'SI/VI检查'}
           /> */}
-        </View>
+        </ScrollView>
         <BotBtn
           reset={this.reset}
           submit={() => {this.setState({checkAlertStatus: true})}}
@@ -313,4 +312,7 @@ const styles: any = StyleSheet.create({
     lineHeight: pxToDp(110),
     fontWeight: '700',
   },
+  scrollView: {
+    marginBottom: pxToDp(100),
+  }
 })

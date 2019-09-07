@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { View, StyleSheet, Alert } from "react-native";
 import pxToDp from "../../../utils/fixcss";
-import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
+import { HeaderCmp } from "../../../components/headerCmp/headerCmp"
 import { changeCheckList } from '../../../store/actions/4s/checkList';
 // import { SliderCmp } from '../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
 import InputAreaCmp from '../../../components/common/inputAreaCmp';
@@ -93,20 +93,28 @@ class CheckDetailPage extends React.Component<any, IState>{
     // console.log(`输入框的值：${this.state.inputAreaVal}`, `扣分：${this.state.score}`, temp)
   }
 
+  componentDidMount() {
+    const {index, fatherIndex }= this.props.navigation.state.params
+    this.setState({
+      inputAreaVal: this.props.checkList[fatherIndex].standardList[index].text,
+      score: this.props.checkList[fatherIndex].standardList[index].deduct | 0
+    })
+  }
+
   render() {
     const { navigation } = this.props
     return (
       <View>
-        <CheckHeader
-          title={this.props.navigation.state.params.name}
-          // title={'this.props.navigation.state.params.name'}
+        <HeaderCmp
+          // title={this.props.navigation.state.params.name}
+          title={'this.props.navigation.state.params.name'}
           eggHandleBack={() => { navigation.goBack() }}
-        // eggHandleSearch={() => { navigation.push("SearchPage") }}
         />
         <View style={styles.contentBox}>
           {/* 文本域 */}
           <InputAreaCmp
             setInputAreaVal={this.setInputAreaVal}
+            inputAreaVal={this.state.inputAreaVal}
             placeholder={'请填写扣分原因。'}
           ></InputAreaCmp>
 

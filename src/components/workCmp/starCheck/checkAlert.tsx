@@ -13,9 +13,9 @@ interface IProps {
 }
 
 export  const CheckAlert:React.FC<IProps> = (props:IProps) =>{
-  return(
+  return props.showStatus ? (
     <View
-      style={[styles.alertContainer, !props.showStatus && {display: 'none'}]}
+      style={[styles.alertContainer]}
     >
       <View
         style={styles.alertBox}
@@ -23,7 +23,7 @@ export  const CheckAlert:React.FC<IProps> = (props:IProps) =>{
         <View
           style={styles.centent}
         >
-          <Image 
+          <Image
             source={require("../../../images/work/grade/warning.png")}
             style={styles.warnningImg}
           />
@@ -48,7 +48,7 @@ export  const CheckAlert:React.FC<IProps> = (props:IProps) =>{
         </View>
       </View>
     </View>
-  )
+  ) : (<View></View>)
 }
 
 const styles = StyleSheet.create({

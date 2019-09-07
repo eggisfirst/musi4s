@@ -9,11 +9,11 @@ const initState  = {
       standardList: [
         {
           name: '店面',
-          type: true,
+          type: false,
         },
         {
           name: '店面面积',
-          type: true,
+          type: false,
         },
         {
           name: '店面类型',

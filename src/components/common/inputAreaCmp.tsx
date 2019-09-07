@@ -11,6 +11,7 @@ import { placeholder } from '@babel/types';
 
 interface IProps {
   setInputAreaVal:(text:string) => void
+  inputAreaVal: string
   placeholder: string
 }
 
@@ -23,18 +24,18 @@ export default class InputAreaCmp extends Component<IProps,IState> {
     inputAreaVal: '',
   }
   setInputAreaVal = (text: string) => {
-    this.setState({inputAreaVal: text})
+    // this.setState({inputAreaVal: text})
     this.props.setInputAreaVal(text)
   }
   componentDidMount() {
-
+    this.setState({inputAreaVal: this.props.inputAreaVal})
   }
   render() {
     return(
       <View style={styles.inputAreaBox}>
         <TextInput
           textContentType='none'
-          value={this.state.inputAreaVal}
+          value={this.props.inputAreaVal}
           onChangeText={(text) => this.setInputAreaVal(text)}
           style={styles.textarea}
           placeholder={this.props.placeholder}
