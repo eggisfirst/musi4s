@@ -75,13 +75,38 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
           temp.push(source)
           this._imgDataList.push(response)
           this.props.getImageList(this._imgDataList)
-          this.saveImage(response)
+          // this.saveImage(response)
           this.setState({
             imageList: temp,
           })
         }
       });
     }
+  }
+
+  /**
+   * @param {*删除的图片下标} index
+   */
+  cutImg = (index: number) => {
+    Alert.alert(
+      '',
+      '确定删除图片吗？',
+      [
+        // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: '确定', onPress: () => this.sureCutImg(index)},
+      ],
+      { cancelable: false }
+    )
+  }
+
+  /**
+   * 确定删除图片
+   * @param {*删除的图片下标} index
+   */
+  sureCutImg = (index: number) => {
+    this.state.imageList.splice(index, 1)
+    this.setState({imageList: this.state.imageList})
   }
 
   /**
@@ -125,8 +150,11 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
               key={`imgBoxList${index}`}
             >
               <TouchableOpacity
+              onPress={() => this.cutImg(index)}
                 style={styleSheet.closeBtn}
-              ></TouchableOpacity>
+              >
+              {/* <Image source={require('../../images/close.pic')} style={{width: pxToDp(40),height: pxToDp(40)}} /> */}
+              </TouchableOpacity>
               <Image source={item} style={{width: pxToDp(200),height: pxToDp(200)}} />
             </View>
     })

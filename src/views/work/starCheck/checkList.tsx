@@ -44,6 +44,25 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   /**
+   * 确认提交表单
+   */
+  sureSubmit = () => {
+    console.log(11122333, this.filterParams(this.props.checkList.checkList).status)
+    if (this.filterParams(this.props.checkList.checkList).status){
+      this.setState({checkAlertStatus: true})
+    } else {
+      Alert.alert(
+        '',
+        '未评分完全，无法提交！',
+        [
+          {text: '确定', onPress: () => console.log('onPress OK')},
+        ],
+        { cancelable: false }
+      )
+    }
+  }
+
+  /**
    * 提交表单
    * @param {* type为'goback'时表示提交后后退页面，type为'toCheckRecord'时，表示提交后跳转验收记录页面} type
    */
@@ -54,7 +73,7 @@ class CheckListPage extends React.Component<any, IState>{
       shopId: params.shopId, //门店id
       qualificationId: params.qualificationId, //认证id
       //打分分类列表，必须提交全部
-      categoryList: this.filterParams(this.props.checkList.checkList)
+      categoryList: this.filterParams(this.props.checkList.checkList).arr
     }
     indexModel.submitForm(data).then(res => {
       if (res.status) {
@@ -175,6 +194,9 @@ class CheckListPage extends React.Component<any, IState>{
    */
   filterParams = (data: any[]) => {
     let arr: object[] = []
+    // 用于判断是否评分完全，为false时，说明没有评完
+    let status: Boolean = true
+    
     for (let i = 0; i < data.length; i++) {
       let temp: any = {}
       temp.standardList = []
@@ -185,6 +207,7 @@ class CheckListPage extends React.Component<any, IState>{
           obj.standardId = data[i].standardList[j].standardId
           obj.reason = data[i].standardList[j].text
           obj.deduct = data[i].standardList[j].deduct
+          if (!data[i].standardList[j].type) {status = false}
           obj.urls = [ // 上传文件url集合
             "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
             "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
@@ -194,7 +217,7 @@ class CheckListPage extends React.Component<any, IState>{
       }
       arr.push(temp)
     }
-    return arr
+    return {arr,status}
   }
 
   toCheckRecord = () => {
@@ -212,9 +235,9 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
-    this.subcategories()
+    // this.subcategories()
     this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
-    this.props.changeCheckList([])
+    // this.props.changeCheckList([])
   }
 
   render() {
@@ -234,8 +257,8 @@ class CheckListPage extends React.Component<any, IState>{
     return (
       <View style={styles.checkList}>
         <HeaderCmp
-          title={this.props.navigation.state.params.title}
-          // title={'this.props.navigation.state.title'}
+          // title={this.props.navigation.state.params.title}
+          title={'this.props.navigation.state.title'}
           eggHandleBack={() => { navigation.goBack() }}
         />
 
@@ -260,7 +283,7 @@ class CheckListPage extends React.Component<any, IState>{
         </ScrollView>
         <BotBtn
           reset={this.reset}
-          submit={() => {this.setState({checkAlertStatus: true})}}
+          submit={this.sureSubmit}
         ></BotBtn>
 
         {/* 检查结果弹框 */}

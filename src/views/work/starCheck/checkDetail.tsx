@@ -106,8 +106,8 @@ class CheckDetailPage extends React.Component<any, IState>{
     return (
       <View>
         <HeaderCmp
-          title={this.props.navigation.state.params.name}
-          // title={'this.props.navigation.state.params.name'}
+          // title={this.props.navigation.state.params.name}
+          title={'this.props.navigation.state.params.name'}
           eggHandleBack={() => { navigation.goBack() }}
         />
         <View style={styles.contentBox}>

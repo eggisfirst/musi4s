@@ -30,9 +30,9 @@ export  const CheckAlert:React.FC<IProps> = (props:IProps) =>{
           <Text style={styles.tip}>提示</Text>
           <Text style={styles.Text}>该检查得分：<Text style={styles.score}>{props.scoreTotal}分</Text>  <Text style={styles.deduct}>扣分：{props.deductTotal}分</Text></Text>
           {/* <Text style={[styles.Text, {color: '#666'}]}>注意：提交后无法修改分数</Text> */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={props.toCheckRecord}
-          ><Text style={[styles.Text, {color: '#FF0718', marginTop: pxToDp(28)}]}>查看检查记录》</Text></TouchableOpacity>
+          ><Text style={[styles.Text, {color: '#FF0718', marginTop: pxToDp(28)}]}>查看检查记录》</Text></TouchableOpacity> */}
         </View>
         <View
           style={styles.btnList}
@@ -44,7 +44,7 @@ export  const CheckAlert:React.FC<IProps> = (props:IProps) =>{
           <TouchableOpacity
             onPress={props.continue}
             style={styles.btnBox}
-          ><Text style={[styles.btn, styles.continue]}>继续评分</Text></TouchableOpacity>
+          ><Text style={[styles.btn, styles.continue]}>确认提交</Text></TouchableOpacity>
         </View>
       </View>
     </View>
