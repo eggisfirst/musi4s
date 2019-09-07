@@ -37,12 +37,18 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
     const w = Dimensions.get("window").width
     if (index === len) {
       const length = nodeStateList[len - 1].data.length
-      return pxToDp(length * 38 + 31)
+      return pxToDp(length * 30 + 31)
     } else {
       if (Platform.OS === 'ios') {
         return pxToDp(76)
       } else {
-        return (h > 710? pxToDp(84) : pxToDp(94))
+        if(w > 380 && h < 710) {
+          return pxToDp(84)
+        }else if(w  > 380 && h > 710){
+          return pxToDp(84)
+        }else {
+          return pxToDp(94)
+        }
       }
     }
   }

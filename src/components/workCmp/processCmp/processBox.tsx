@@ -134,7 +134,7 @@ export default class ProcessBox extends React.Component<IProps,IState>{
         if(Platform.OS === 'ios') {
           return (i) * 40
         }else {
-          return (i) * 24 + 11
+          return (i) * 24 + 12
         }
       } else {
         if(Platform.OS === 'ios') {
