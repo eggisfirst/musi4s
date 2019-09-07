@@ -13,6 +13,7 @@ export default class middleCategory extends React.Component<any> {
       return <View key={`detail${index}`} style={[styles.liBox, {justifyContent: 'space-between',}]}>
               <TouchableOpacity
                 onPress={() => this.props.toDetail(index, this.props.index)}
+                style={styles.detailTitle}
               >
                 <Text style={styles.li}>{element.name}</Text>
               </TouchableOpacity>
@@ -54,6 +55,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  detailTitle: {
+    width: pxToDp(680),
+    // backgroundColor: '#ccc',
   },
   title: {
     color: '#767A7F',

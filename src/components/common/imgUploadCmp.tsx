@@ -75,7 +75,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
           temp.push(source)
           this._imgDataList.push(response)
           this.props.getImageList(this._imgDataList)
-          // this.saveImage(response)
+          this.saveImage(response)
           this.setState({
             imageList: temp,
           })
@@ -91,14 +91,31 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     let file = {
       uri: response.uri,
       type: 'multipart/form-data',
-      name: 'image.jpg'
+      name: 'image.png'
     }
     let formData = new FormData()
-    formData.append("multipartFile", file)
-    console.log(formData)
+    formData.append("dataFile", file)
+    console.log(999, formData)
     // indexModel.uploadFile(formData).then(res => {
     //   console.log('图片上传成功：', res)
     // })
+
+    let url = 'http://172.16.4.201:8088/upload/file'
+    fetch(url,{
+      method:'POST', 
+      headers:{
+        'Authorization':' Bearer 46620bdf-1cc5-4557-962e-777980e7356d',
+        // 'Content-Type':'multipart/form-data',
+        'sign': '5e543256c480ac577d30f76f9120eb74',
+      }, 
+      body: formData, 
+      }) 
+      .then((response) => response.text() ) 
+      .then((responseData)=>{ 
+       
+      console.log('responseData',responseData); 
+      }) 
+      .catch((error)=>{console.error('error',error)}); 
   }
 
   render() {
