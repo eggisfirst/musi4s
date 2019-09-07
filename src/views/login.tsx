@@ -31,6 +31,7 @@ export default class LoginScreen extends Component<any> {
   static navigationOptions = {
     header: null,
     headerBackTitle: 'back',
+    gesturesEnabled: false,
   }
 
   state:IState = {
@@ -137,8 +138,8 @@ export default class LoginScreen extends Component<any> {
         </View>
         <View style={styleSheet.inputWrap}>
           <Text style={styleSheet.formTit}>密码登录</Text>
-          <InputCmp  inputData={inputAcData} setVal={this.setVal}/>
-          <InputCmp  inputData={inputPdData} setVal={this.setVal}/>
+          <InputCmp  isPassWord={false} inputData={inputAcData} setVal={this.setVal}/>
+          <InputCmp isPassWord={true} inputData={inputPdData} setVal={this.setVal}/>
           
           <View style={styleSheet.remPwd} >
             <TouchableOpacity
@@ -231,6 +232,10 @@ const styleSheet:any = StyleSheet.create({
     borderRadius: pxToDp(49),
     backgroundColor:  '#007AFF',
     marginTop: pxToDp(96),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   btnText: {
     color: '#fff',

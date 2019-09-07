@@ -30,7 +30,7 @@ export const BackGroundHeader:React.FC<IProps> = (props:IProps) => {
             <Image  style={styles.arrow}
                     source={props.imgUrl}/>
         </TouchableOpacity>
-        <Text style={[styles.title, {color: props.fontColor}]}>{title}</Text>
+        <Text style={[styles.title, {color: props.fontColor}]} numberOfLines={1}>{title}</Text>
         { props.Children || <View style={styles.right}></View>}
       </View>
      )

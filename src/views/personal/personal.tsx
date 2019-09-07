@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from "react-native"
 import {TabBarItem} from "../../components/tabBarItem"
 import pxToDp from "../../utils/fixcss";
 import { HeaderCmp } from '../../components/personalCmp/headerCmp';

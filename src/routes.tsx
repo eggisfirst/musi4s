@@ -20,6 +20,7 @@ import CheckDetailsPage from './views/work/starCheck/areaReports/checkRecord/che
 import AcceptancePage from './views/work/starCheck/areaReports/acceptance/acceptance';
 import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptance/acceptanceDetails';
 import DetailsPage from './views/work/starCheck/areaReports/checkRecord/detailsPage';
+import RulePage from './views/work/rule';
 
 
 
@@ -50,32 +51,105 @@ export default function configAppNavigator(isLoggedIn:boolean) {
   return createAppContainer(createStackNavigator({
     Login: {
       screen: LoginScreen,
+      navigationOptions: {
+        headerTransparent: true,
+      }
     },
     Work: {
       screen: AppNavigator,
       //主导航页面不显示头部
       navigationOptions: {
         header: null,
-        
+        gesturesEnabled: false,
+        headerTransparent: true,
+      }
+    },
+    CheckListPage: {
+      screen: CheckListPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CheckDetailPage:{
+      screen: CheckDetailPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    DetailsPage: {
+      screen: DetailsPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CheckDetailsPage: {
+      screen: CheckDetailsPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    StarHome: {
+      screen: StarHome,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    AcceptanceDetailsPage: {
+      screen: AcceptanceDetailsPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    AcceptancePage: {
+      screen: AcceptancePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CheckRecordPage: {
+      screen: CheckRecordPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+   
+    GencyShopPage: {
+      screen: GencyShopPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    HandlePage: {
+      screen: HandlePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    GradePage: {
+      screen: GradePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    ReceptionPage: {
+      screen: ReceptionPage,
+      navigationOptions: {
+        headerTransparent: true,
       }
     },
     
-    CheckListPage,
-    CheckDetailPage,
-   
-    DetailsPage,
-  
-    CheckDetailsPage,
-    StarHome,
-    AcceptanceDetailsPage,
-    AcceptancePage,
-    CheckRecordPage,
-   
-    GencyShopPage,
-    HandlePage,
-    GradePage,
-    ReceptionPage,
-    SearchPage,
+    SearchPage: {
+      screen: SearchPage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    RulePage: {
+      screen: RulePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    }
   },{
     //初始进来的页面
     initialRouteName: 'Login',
@@ -91,6 +165,7 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     //标题居中
     headerLayoutPreset: "center",
     defaultNavigationOptions: {
+      headerTransparent: true,
       headerTintColor:"#000",
       gesturesEnabled: true,
       gestureResponseDistance: {

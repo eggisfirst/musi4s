@@ -63,7 +63,11 @@ const styles = StyleSheet.create({
     height: pxToDp(44),
     backgroundColor: "rgba(0,122,255,0.3)",
     borderRadius: pxToDp(22),
-    marginTop: pxToDp(20)
+    marginTop: pxToDp(20),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   hadGradeBtn: {
     width: pxToDp(121),

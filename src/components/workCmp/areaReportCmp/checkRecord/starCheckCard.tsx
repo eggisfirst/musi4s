@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     justifyContent: "space-between",
     alignItems: "center",
-    flex: 0.2,
+    flex: 0.21,
     // borderWidth: 1
   },
   bluetext: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
 
   },
   icon: {
-    width: pxToDp(6),
+    width: pxToDp(10),
     height: pxToDp(14),
     marginRight: pxToDp(12),
   }

@@ -4,7 +4,7 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { BackGroundHeader } from "../../../../../components/headerCmp/backgroundHeader";
 import pxToDp from "../../../../../utils/fixcss";
 import SelectCmp from '../../../../../components/filterCmp/selectCmp';
-import {StarCheckBox} from '../../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
+import { StarCheckBox } from '../../../../../components/workCmp/areaReportCmp/checkRecord/starCheckCard';
 import { SelectType } from "../../../../../utils/enum";
 
 import * as actions from '../../../../../store/actions/filter/select'
@@ -28,15 +28,15 @@ class CheckRecord extends React.Component<any>{
     list: []
   }
 
-   test = () => { 
+  test = () => {
     axios.get('../../../../../../data.json')
-    .then( (res) => {
-      console.log(res.data.list)
-      store.dispatch(setLoading(false));
-      this.setState({
-        list: res.data.list
+      .then((res) => {
+        console.log(res.data.list)
+        store.dispatch(setLoading(false));
+        this.setState({
+          list: res.data.list
+        })
       })
-    })
   }
 
 
@@ -44,10 +44,10 @@ class CheckRecord extends React.Component<any>{
   /**
    * 获取历史记录
    */
-  getCheckLog(pass='') {
+  getCheckLog(pass = '') {
     const shopId = this.props.navigation.state.params.id
-    indexModel.getCheckLog(shopId,pass).then(res => {
-      if(res.status) {
+    indexModel.getCheckLog(shopId, pass).then(res => {
+      if (res.status) {
         this.setState({
           list: res.checkLogs
         })
@@ -56,9 +56,9 @@ class CheckRecord extends React.Component<any>{
   }
 
   /**请求筛选：合格/不合格/全部的数据 */
-  handleSelect = (index:number) => {
+  handleSelect = (index: number) => {
     // console.log(1111,index)
-    const pass = index === 0? '' : index === 1? '1' : '0'
+    const pass = index === 0 ? '' : index === 1 ? '1' : '0'
     this.getCheckLog(pass)
   }
   /**获取传递过来的门店名 */
@@ -75,33 +75,38 @@ class CheckRecord extends React.Component<any>{
     this.props.handleSelectActiveIndex(0)
   }
 
-  render (){
-    return(
+  render() {
+    return (
       <View style={styles.container}>
-        <BackGroundHeader 
-                          title={'检查记录'} 
-                          eggHandleBack={() => {this.props.navigation.goBack()}}
-                          bgColor={'#007aff'}
-                          fontColor={"#fff"}
-                          setHeight={263}
-                          imgUrl={require("../../../../../images/backicon.png")} />
+        <BackGroundHeader
+          title={'检查记录'}
+          eggHandleBack={() => { this.props.navigation.goBack() }}
+          bgColor={'#007aff'}
+          fontColor={"#fff"}
+          setHeight={263}
+          imgUrl={require("../../../../../images/backicon.png")} />
         <View style={styles.banner}>
-          <SelectCmp  selectType={SelectType.qualified} 
-                      color={"#fff"} activeColor={"#FFCB38"}
-                      handleSelect={this.handleSelect}
-                      mySelectList={['全部', '合格', '不合格']}/>
+          <SelectCmp selectType={SelectType.qualified}
+            color={"#fff"} activeColor={"#FFCB38"}
+            handleSelect={this.handleSelect}
+            mySelectList={['全部', '合格', '不合格']} />
           <Text style={styles.shop} numberOfLines={1}>{this.props.navigation.state.params.shopName}</Text>
         </View>
         <ScrollView>
-          <StarCheckBox list={this.state.list} navigation={this.props.navigation}/>
+          {
+            this.state.list && this.state.list.length ?
+              <StarCheckBox list={this.state.list} navigation={this.props.navigation} />
+              :
+              <Text style={styles.noRecord}>暂无记录</Text>
+          }
         </ScrollView>
       </View>
     )
   }
 }
 
-const mapStateToProps = (state:any) => state
-export default connect(mapStateToProps,actions)(CheckRecord)
+const mapStateToProps = (state: any) => state
+export default connect(mapStateToProps, actions)(CheckRecord)
 
 const styles = StyleSheet.create({
   container: {
@@ -127,5 +132,11 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: pxToDp(26),
     maxWidth: pxToDp(370)
+  },
+  noRecord: {
+    width: "100%",
+    textAlign: "center",
+    color: "#666",
+    marginTop: pxToDp(20)
   }
 })

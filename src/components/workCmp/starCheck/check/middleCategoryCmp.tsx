@@ -31,14 +31,20 @@ export default class middleCategory extends React.Component<any> {
         {/* 检查标题 */}
         <View style = {[styles.liBox, !this.props.status && {justifyContent: 'center'}]}>
           <TouchableOpacity
+            activeOpacity={0.6}
+            style={[styles.title,!this.props.status && {justifyContent: 'center'}]}
             onPress={() => this.props.showClick(this.props.index)}
           >
-            <Text style={[styles.title, !this.props.status && styles.title_open]}>{this.props.title}</Text>
-          </TouchableOpacity>
-          <Image
+            <Text style={[styles.text,!this.props.status && styles.title_open]}>{this.props.title}</Text>
+            {
+              this.props.status && 
+              <Text style={styles.close}>收起</Text>
+            }
+            <Image
             source={require('../../../../images/work/starCheck/more_blue.png')}
             style={[styles.openImage, this.props.status && {display: 'none'}]}
           ></Image>
+          </TouchableOpacity>
         </View>
 
         {/* 检查条目 */}
@@ -64,10 +70,24 @@ const styles = StyleSheet.create({
     color: '#767A7F',
     fontSize: pxToDp(24),
     lineHeight: pxToDp(130),
-    borderColor: 'red',
-    borderBottomWidth: pxToDp(12),
+    // borderColor: 'red',
+    // borderBottomWidth: pxToDp(12),
     paddingLeft: pxToDp(32),
     paddingRight: pxToDp(32),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%"
+  },
+  text: {
+    color: '#767A7F',
+    fontSize: pxToDp(24),
+    lineHeight: pxToDp(130),
+  },
+  close: {
+    textAlign: "right",
+    color: "#007aff"
   },
   title_open: {
     textAlign: 'center',

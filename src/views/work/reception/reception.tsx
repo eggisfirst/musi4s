@@ -151,6 +151,7 @@ export default class index extends React.Component<any>{
      */
     const id = this.props.navigation.state.params.id
     this.getReceShopList(id)
+    this.getLevelType()
   }
   render() {
     return (
@@ -221,6 +222,7 @@ const styles = StyleSheet.create({
   time: {
     fontSize: pxToDp(28),
     color: "#fff",
+    lineHeight: pxToDp(36)
   },
   dealerCard: {
     position: "absolute",

@@ -73,7 +73,7 @@ export const GencyCard: React.FC<IProps> = (props) => {
       {
         props.listData.shopList.length > 4 ?
         <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => { loadMore() }}>
-          <Text style={styles.shopText}>{loadState ? '点击收起' : '点击加载更多'}</Text>
+          <Text style={styles.shopText2}>{loadState ? '点击收起' : '点击加载更多'}</Text>
           <Image style={[styles.loadMoreIcon, loadState && myRotate]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
         </TouchableOpacity> : null
       }
@@ -138,7 +138,13 @@ const styles = StyleSheet.create({
   shopText: {
     color: "#666",
     fontSize: pxToDp(24),
-    lineHeight: pxToDp(60)
+    lineHeight: pxToDp(60),
+    width: pxToDp(600),
+  },
+  shopText2: {
+    color: "#666",
+    fontSize: pxToDp(24),
+    lineHeight: pxToDp(60),
   },
 
   loadMore: {

@@ -6,7 +6,7 @@ import { format } from '../../utils/index';
 import { connect } from "react-redux";
 import * as actions from '../../store/actions/filter/rightFliter'
 import { StarCheckTypes } from "../../utils/enum";
-
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 interface IProps {
   type: StarCheckTypes  /**判断是哪个页面 */
@@ -31,6 +31,12 @@ class FilterContentCmp extends React.Component<IProps> {
     startStatus: false,
     endStatus: false,
   }
+  /**点击左边空白区域关闭筛选框 */
+  closeFilter = () => {
+    this.props.handleFilterActive(false)
+  }
+
+
 
   /**选择星级 */
   handleClick = (i: number) => {
@@ -139,7 +145,8 @@ class FilterContentCmp extends React.Component<IProps> {
   render() {
     // console.log('props', format(new Date(this.props.startDate)))
     return (
-      <View style={styles.container}>
+      <View style={styles.container} >
+        <TouchableOpacity style={styles.leftStyle} onPress={this.closeFilter}></TouchableOpacity>
         <View style={styles.modalStyle}>
           <View>
             <Text style={styles.textStyle}>时间</Text>
@@ -235,10 +242,20 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 9999,
+    zIndex: 9900,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height,
+    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
     backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  leftStyle: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    zIndex: 9999,
+    width: pxToDp(150),
+    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   modalStyle: {
     position: 'absolute',
@@ -247,7 +264,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Dimensions.get('screen').height,
+    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
@@ -272,7 +289,11 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(12),
     backgroundColor: "#f8f8f8",
     marginTop: pxToDp(20),
-    marginRight: pxToDp(27)
+    marginRight: pxToDp(27),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   starItemActive: {
     width: pxToDp(160),
@@ -280,7 +301,11 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(12),
     backgroundColor: "#b2d7ff",
     marginTop: pxToDp(20),
-    marginRight: pxToDp(27)
+    marginRight: pxToDp(27),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   btnColor: {
     color: "#666",
@@ -329,7 +354,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 999999,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height,
+    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   datePickerContainer: {

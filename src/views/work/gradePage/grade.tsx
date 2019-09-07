@@ -52,129 +52,6 @@ export default class GradePage extends React.Component<any>{
     })
   }
 
-  /**
-   * 测试
-   */
-  test(id:any,shopId:any) {
-    indexModel.subcategories(id,shopId).then(res => {
-      if(res.status) {
-        this.setState({
-          levelId: res.data.starLevelId
-        })
-        this.test1(res.data.starLevelId)
-      }
-    })
-  }
-  test1(id:any) {
-    const {shopId,qualificationId} = this.props.navigation.state.params
-    const data = {
-      "levelId": id,
-      "shopId": shopId,
-      "qualificationId":qualificationId,
-      "categoryList":[
-        {
-          'categoryId': '1140918983948636162',
-          "standardList": [
-            {
-              'standardId': '1143774370314014721',
-              'deduct': '10',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143779002251694082',
-              'deduct': '4',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143779088675328002',
-              'deduct': '0',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143779212403101697',
-              'deduct': '1',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143779328908283906',
-              'deduct': '2',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-
-          ]
-        },
-        {
-          'categoryId': '1140920657576595458',
-          "standardList": [
-            {
-              'standardId': '1143780184340779009',
-              'deduct': '1',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143780295993151489',
-              'deduct': '2',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1163626567302279170',
-              'deduct': '3',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143780364171563010',
-              'deduct': '1',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143780416625528833',
-              'deduct': '0',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-            {
-              'standardId': '1143780491535798274',
-              'deduct': '0',
-              'reason': '测试测试测试',
-              'urls': [
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=26&gp=0.jpg"
-              ]
-            },
-          ]
-        },
-      ]
-    }
-  }
-
   //跳转到评分页面
   handleToGrade = (index: number, i: number) => {
     const list = this.state.list
@@ -189,33 +66,13 @@ export default class GradePage extends React.Component<any>{
         this.getCategories(qualificationId,shopId)
       }
     })
-    // this.test(id,shopId)
-   
-    // this.test1(JSON.stringify(data))
-
   }
   componentDidMount() {
     this.initData()
   }
   render() {
     const { navigation } = this.props
-    const list = [
-      {
-        status: false,
-        title: "年度经营计划"
-      },
-      {
-        status: true,
-        title: "员工形象"
-      },
-      {
-        status: true,
-        title: "店面环境"
-      }, {
-        status: false,
-        title: "年度经营计划"
-      }
-    ]
+   
     return (
       <View>
         <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {navigation.goBack()}}/>

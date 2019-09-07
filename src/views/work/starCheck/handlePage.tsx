@@ -499,9 +499,13 @@ class HandelPage extends React.Component<any, IState>{
   initFilter = () => {
     /**排序 */
     this.props.handleSortIndex(0)
+
+    this.props.handleSortActive(false)
     /**筛选日期 */
     this.props.selectStartDate(new Date())
     this.props.selectEndDate(new Date())
+
+    this.props.handleFilterActive(false)
     /**认证进度里面的处理情况 */
     this.props.handleSituation(-1)
     /**星级选择 */
@@ -557,6 +561,13 @@ class HandelPage extends React.Component<any, IState>{
     })
   }
   /**
+   * 后退  调用回调函数刷新页面
+   */
+  handleGoBack = () => {
+    this.props.navigation.state.params.callback()
+    this.props.navigation.goBack()
+  }
+  /**
  * 加载时加载动画
  */
   _renderFooter() {
@@ -606,7 +617,7 @@ class HandelPage extends React.Component<any, IState>{
       <View>
         <CheckHeader title={this.state.starCheckType}
           searchIn={this.state.searchIn}
-          eggHandleBack={() => { navigation.goBack() }}
+          eggHandleBack={this.handleGoBack}
           eggHandleSearch={this.handleSearch} />
         <View style={styles.filterContainer}>
           <Sort handleClickSort={this.handleClickSort} />
@@ -720,7 +731,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     borderColor: "#e1e1e1",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   btnStyle: {
     display: "flex",

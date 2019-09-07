@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   blueText: {
     color:"#007aff",
-    fontSize: pxToDp(78),
+    fontSize: pxToDp(70),
     fontWeight: "500",
     lineHeight: pxToDp(80),
     textAlign: "center"

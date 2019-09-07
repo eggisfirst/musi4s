@@ -5096,6 +5096,11 @@ react-native-date-picker@^2.4.2:
   dependencies:
     moment "^2.22.1"
 
+react-native-extra-dimensions-android@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.npm.taobao.org/react-native-extra-dimensions-android/download/react-native-extra-dimensions-android-1.2.5.tgz#8ade91029aaac7519bf305116d39019e618a60f0"
+  integrity sha1-it6RApqqx1Gb8wURbTkBnmGKYPA=
+
 react-native-gesture-handler@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.3.0.tgz#d0386f565928ccc1849537f03f2e37fd5f6ad43f"

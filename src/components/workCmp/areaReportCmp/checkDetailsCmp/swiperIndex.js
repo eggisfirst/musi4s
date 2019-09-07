@@ -33,7 +33,7 @@ class SwiperIndex extends Component {
      * 设置切换到哪一张
      */
     setActiveIndex = (index) => {
-        this.props.videoControl(false)
+        // this.props.videoControl(false)
         console.log('index',this.props.urls[index])
        
         this.setState({
@@ -89,8 +89,8 @@ class SwiperIndex extends Component {
                     // inactiveSlideShift={20}
                     containerCustomStyle={styles.slider}
                     //   contentContainerCustomStyle={styles.sliderContentContainer}
-                    loop={true}
-                    swipe={false}
+                    loop={false}
+                    // swipe={false}
                     loopClonesPerSide={2}
                     //   autoplay={true}
                     //   autoplayDelay={500}

@@ -19,6 +19,7 @@ interface IProps {
     type:string,
   },
   setVal:(n:object) => void
+  isPassWord: boolean
 }
 
 interface IState {
@@ -140,6 +141,7 @@ export default class InputCmp extends Component<IProps,IState> {
         </Text>
         </Animated.View>
           <TextInput
+            secureTextEntry={this.props.isPassWord}
             style={ this.state.activeStatus? styleSheet.activeInput: styleSheet.input}
             maxLength={inputData.maxLength}
             value={this.state.inputVal}

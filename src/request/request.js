@@ -24,22 +24,22 @@ axios.interceptors.request.use(config => {
 });
 
 //返回拦截器
-// axios.interceptors.response.use(
-//   function(response) {
-//     store.dispatch(setLoading(false));
-//     console.log(111,response)
-//     if(response.data.code == 500) {
-//       // Alert.alert('请求失败')
-//     }
-//     return response
-//   },
-//   function(error) {
-//     console.log(222,error)
-//     store.dispatch(setLoading(false));
-//     Alert.alert(JSON.stringify(error))
-//     return Promise.reject(error)
-//   }
-// )
+axios.interceptors.response.use(
+  function(response) {
+    store.dispatch(setLoading(false));
+    console.log(111,response)
+    if(response.data.code == 500) {
+      // Alert.alert('请求失败')
+    }
+    return response
+  },
+  function(error) {
+    console.log(222,error)
+    store.dispatch(setLoading(false));
+    // Alert.alert('网络问题')
+    return Promise.reject(error)
+  }
+)
 
 
 class Request {

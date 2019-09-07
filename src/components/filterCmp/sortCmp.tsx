@@ -20,6 +20,10 @@ class Sort extends React.Component<IProps> {
   handleClick = () => {
     this._setActive()
   }
+  /**点击空白的时候关闭下拉列表 */
+  closeSort = () => {
+    this._setActive()
+  }
   //选择
   handleSelect = (i:number) => {
     this._setActive()
@@ -55,7 +59,7 @@ class Sort extends React.Component<IProps> {
                 ))
               }
           </View>
-          <Text style={styles.rest}></Text>
+          <Text style={styles.rest} onPress={this.closeSort}></Text>
           </>
         )
       }
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
     height: pxToDp(2000),
     position: "absolute",
     top: pxToDp(240),
-    zIndex: 9999999
+    zIndex: 9999999,
   },
   container: {
     // borderBottomWidth:pxToDp(1),
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
     display:'flex',
     flexDirection:"row",
     alignItems:"center",
-    width:pxToDp(250),
+    width:pxToDp(400),
     height:pxToDp(80),
     paddingRight: pxToDp(20),
   },

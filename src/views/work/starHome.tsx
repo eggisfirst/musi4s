@@ -25,7 +25,12 @@ export default class StarHome extends React.Component<any> {
     //   elevation: 0,
     // }
   }
-
+  /**
+   * 后退的时候刷新数据
+   */
+  refreshMsg =() => {
+    this.getUserInfo()
+  }
   componentDidMount() {
     this.getUserInfo()
   }
@@ -77,6 +82,7 @@ export default class StarHome extends React.Component<any> {
     ]
   }
   
+  
   render() {
     const imgArr = [
       {
@@ -91,7 +97,7 @@ export default class StarHome extends React.Component<any> {
     return(
       <View>
         <Header eggHandleBack={()=> {this.props.navigation.goBack()}}/>
-        <StarCheck list={this.state.list} navigation={this.props.navigation}/>
+        <StarCheck refreshMsg={this.refreshMsg} list={this.state.list} navigation={this.props.navigation}/>
         <ReportForm  list={imgArr} navigation={this.props.navigation}/>
       </View>
     )
