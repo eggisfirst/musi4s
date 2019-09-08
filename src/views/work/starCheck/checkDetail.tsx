@@ -25,13 +25,13 @@ const actions = {
 interface IState {
   total: number
   deduct: number
-  imageList: object[]
+  imageList: string[]
   inputAreaVal: string
   score: number
 }
 
 interface IData {
-  imgDataList: object[]
+  imgDataList: string[]
 }
 
 class CheckDetailPage extends React.Component<any, IState>{
@@ -71,8 +71,9 @@ class CheckDetailPage extends React.Component<any, IState>{
    * 获取上传的图片
    * @param {*图片列表} arr
    */
-  getImageList = (arr: object[]):void => {
+  getImageList = (arr: string[]):void => {
     this._data.imgDataList = arr
+    this.setState({})
     console.log('上传的图片：', arr)
   }
 
@@ -86,6 +87,7 @@ class CheckDetailPage extends React.Component<any, IState>{
     obj.deduct = this.state.score
     obj.text = this.state.inputAreaVal
     obj.type = true
+    obj.urls = this._data.imgDataList
 
     const { goBack,state } = this.props.navigation;
     state.params.callBack()
@@ -93,7 +95,20 @@ class CheckDetailPage extends React.Component<any, IState>{
     // console.log(`输入框的值：${this.state.inputAreaVal}`, `扣分：${this.state.score}`, temp)
   }
 
+  componentWillReceiveProps() {
+    let temp = this.props.checkList
+    let params = this.props.navigation.state.params
+    let arr = temp[params.fatherIndex].standardList[params.index].urls
+    let tempArr = arr ? arr : []
+    this.setState({imageList: tempArr})
+  }
+
   componentDidMount() {
+    let temp = this.props.checkList
+    let params = this.props.navigation.state.params
+    let arr = temp[params.fatherIndex].standardList[params.index].urls
+    let tempArr = arr ? arr : []
+    this.setState({imageList: tempArr})
     const {index, fatherIndex }= this.props.navigation.state.params
     this.setState({
       inputAreaVal: this.props.checkList[fatherIndex].standardList[index].text,
@@ -121,6 +136,7 @@ class CheckDetailPage extends React.Component<any, IState>{
           {/* 图片上传组件 */}
           <ImgUploadCmp
             getImageList={(obj) => this.getImageList(obj)}
+            imageList={ this.state.imageList }
           ></ImgUploadCmp>
         </View>
 

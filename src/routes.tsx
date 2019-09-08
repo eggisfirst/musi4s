@@ -152,8 +152,8 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     }
   },{
     //初始进来的页面
-    // initialRouteName: 'Login',
-    initialRouteName: isLoggedIn ? 'Work' : 'Login',
+    initialRouteName: 'Login',
+    // initialRouteName: isLoggedIn ? 'Work' : 'Login',
     // initialRouteName: 'CheckDetailPage',
     // initialRouteName: 'CheckListPage',
     mode: 'card',
@@ -175,8 +175,6 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     
       //页面跳转动画
     transitionConfig: () => ({
-
-
       transitionSpec: {
           duration: 300,
           easing: Easing.out(Easing.poly(4)),

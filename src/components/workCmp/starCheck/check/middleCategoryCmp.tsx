@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   detailTitle: {
     width: pxToDp(680),
-    // backgroundColor: '#ccc',
+    // backgroundColor: '#ccc', 
   },
   title: {
     color: '#767A7F',
@@ -108,6 +108,6 @@ const styles = StyleSheet.create({
     fontSize: pxToDp(32),
     lineHeight: pxToDp(120),
     paddingLeft: pxToDp(32),
-    paddingRight: pxToDp(32),
+    // paddingRight: pxToDp(32),
   }
 })
