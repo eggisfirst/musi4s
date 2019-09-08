@@ -95,7 +95,7 @@ class Request {
           return ret
         }],
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'multipart/form-data',
           'sign': sign,
         },
       }).then(res => {
@@ -182,24 +182,40 @@ class Request {
     return MD5.hex_md5(str + token)
   }
 
-  // FetchFormData() {
-  //   return new Promise((resolve, reject) => {
-  //     fetch(baseUrl + url, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data',
-  //         'sign': sign,
-  //       },
-  //       body: formData,
-  //     })
-  //     .then((response) => response.text())
-  //     .then((responseData) => {
-  //       resolve(responseData)
-  //       console.log('responseData', responseData);
-  //     })
-  //     .catch((error) => { console.error('error', error) });
-  //   })
-  // }
+  getFormData({ url, data = {} }) {
+    return new Promise((resolve, reject) => {
+      const sign = this._getSign(data)
+      axios({
+        url: baseUrl + url,
+        method: 'POST',
+        headers: {
+          'Content-type': 'multipart/form-data',
+          'sign': sign,
+        },
+        data: data,
+      }).then(res => {
+        store.dispatch(setLoading(false));
+        resolve(res.data)
+      }).catch(err => {
+        store.dispatch(setLoading(false));
+        /**返回错误信息 */
+        refreshToken().then(res => {
+          if (res.access_token) {
+            store.dispatch(Token(res.access_token))
+            this.getSecretData()
+          } else {
+            getToken().then(res => {
+              if (res.access_token) {
+                _storeData("refresh_token", res.refresh_token)
+                store.dispatch(Token(res.access_token))
+                this.getSecretData()
+              }
+            })
+          }
+        })
+      })
+    })
+  }
 }
 /**
  * 登录/获取token

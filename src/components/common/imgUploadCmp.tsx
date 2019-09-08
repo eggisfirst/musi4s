@@ -15,18 +15,19 @@ import { IndexModel } from "../../request";
 const indexModel = new IndexModel()
 
 interface IState {
-  imageList: object[]
+  // imageList: string[]
   avatarSource: object
 }
 
 interface IProps {
   getImageList:(obj:object) => void
+  imageList: string[]
 }
 
 export default class ImgUploadCmp extends Component<IProps, IState> {
 
   state: IState = {
-    imageList: [],
+    // imageList: [],
     avatarSource: {uri: '../../images/work/starCheck/addImg.png'}
   }
 
@@ -47,7 +48,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
   };
 
   upload = () => {
-    if (this.state.imageList.length >= 5) {
+    if (this.props.imageList.length >= 5) {
       Alert.alert(
         '提示',
         '上传图片不能超过5张！',
@@ -68,17 +69,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
         } else if (response.customButton) {
           console.log('User tapped custom button: ', response.customButton);
         } else {
-          const source = { uri: response.uri };
-          // You can also display the image using data:
-          // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-          let temp = this.state.imageList
-          temp.push(source)
-          this._imgDataList.push(response)
-          this.props.getImageList(this._imgDataList)
-          // this.saveImage(response)
-          this.setState({
-            imageList: temp,
-          })
+          this.saveImage(response)
         }
       });
     }
@@ -105,46 +96,36 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
    * @param {*删除的图片下标} index
    */
   sureCutImg = (index: number) => {
-    this.state.imageList.splice(index, 1)
-    this.setState({imageList: this.state.imageList})
+    let temp = this.props.imageList
+    temp.splice(index, 1)
+    this.props.getImageList(temp)
+    // this.setState({imageList: this.props.imageList})
   }
 
   /**
    * @param {*上传的文件} formData
    */
   saveImage = (response:any) => {
-    let file = {
-      uri: response.uri,
-      type: 'multipart/form-data',
-      name: 'image.png'
-    }
+    let file = {uri: response.uri, type: 'multipart/form-data', name: response.fileName}
     let formData = new FormData()
-    formData.append("dataFile", file)
-    console.log(999, formData)
-    // indexModel.uploadFile(formData).then(res => {
-    //   console.log('图片上传成功：', res)
-    // })
-
-    let url = 'http://172.16.4.201:8088/upload/file'
-    fetch(url,{
-      method:'POST', 
-      headers:{
-        'Authorization':' Bearer 46620bdf-1cc5-4557-962e-777980e7356d',
-        // 'Content-Type':'multipart/form-data',
-        'sign': '5e543256c480ac577d30f76f9120eb74',
-      }, 
-      body: formData, 
-      }) 
-      .then((response) => response.text() ) 
-      .then((responseData)=>{ 
-       
-      console.log('responseData',responseData); 
-      }) 
-      .catch((error)=>{console.error('error',error)}); 
+    formData.append('dataFile', file)
+    formData.append('prefix', 'cert-check-log')
+    indexModel.uploadFile(formData).then(res => {
+      // const source = { uri: res.url };
+      let temp = this.props.imageList
+      temp.push(res.url)
+      this._imgDataList.push(res.url)
+      console.log(555, this._imgDataList)
+      this.props.getImageList(this._imgDataList)
+      // this.setState({
+      //   imageList: temp,
+      // })
+    })
   }
 
   render() {
-    const imgBoxList = this.state.imageList.map((item: any, index) => {
+    const imgBoxList = this.props.imageList.map((item: string, index) => {
+      console.log(123, item)
       return <View
               style={[styleSheet.imgBox, {marginRight: index === 2 ? pxToDp(0) : pxToDp(20)}]}
               key={`imgBoxList${index}`}
@@ -153,9 +134,9 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
               onPress={() => this.cutImg(index)}
                 style={styleSheet.closeBtn}
               >
-              {/* <Image source={require('../../images/close.pic')} style={{width: pxToDp(40),height: pxToDp(40)}} /> */}
+              <Image source={require('../../images/work/starCheck/cutImg.png')} style={styleSheet.cutImg} />
               </TouchableOpacity>
-              <Image source={item} style={{width: pxToDp(200),height: pxToDp(200)}} />
+              <Image source={{uri: item}} style={styleSheet.img} />
             </View>
     })
     return(
@@ -202,6 +183,10 @@ const styleSheet = StyleSheet.create({
     marginBottom: pxToDp(20),
     position: 'relative',
   },
+  cutImg: {
+    width: '100%',
+    height: '100%',
+  },
   addBox: {
     width: pxToDp(200),
     height: pxToDp(200),
@@ -214,5 +199,9 @@ const styleSheet = StyleSheet.create({
   addBtn: {
     width: pxToDp(200),
     height: pxToDp(200),
-  }
+  },
+  img: {
+    width: pxToDp(200),
+    height: pxToDp(200),
+  },
 })

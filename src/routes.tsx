@@ -175,8 +175,6 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     
       //页面跳转动画
     transitionConfig: () => ({
-
-
       transitionSpec: {
           duration: 300,
           easing: Easing.out(Easing.poly(4)),

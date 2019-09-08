@@ -343,7 +343,7 @@ class IndexModel extends Request {
    * @param {*上传FormData格式文件时传dataFile参数} dataFile
    */
   uploadFile(formData) {
-    return this.getSecretData({
+    return this.getFormData({
       url: "/upload/file",
       data: formData
     })

@@ -24,6 +24,11 @@ interface IState {
   checkAlertStatus: boolean
 }
 
+interface IIndex {
+  fatherIndex: number,
+  index: number,
+}
+
 class CheckListPage extends React.Component<any, IState>{
   state: IState = {
     deductTotal: 0,
@@ -49,13 +54,16 @@ class CheckListPage extends React.Component<any, IState>{
    * 确认提交表单
    */
   sureSubmit = () => {
-    console.log(11122333, this.filterParams(this.props.checkList.checkList).status)
-    if (this.filterParams(this.props.checkList.checkList).status){
+    let checkList = this.props.checkList.checkList
+    console.log('提交的数据', checkList)
+    let temp = this.filterParams(checkList)
+    if (temp.status){
       this.setState({checkAlertStatus: true})
     } else {
+      let [fatherIndex, index] = [temp.tempArr[0].fatherIndex, temp.tempArr[0].index]
       Alert.alert(
         '',
-        '未评分完全，无法提交！',
+        `分类（${checkList[fatherIndex].name}）,选项（${checkList[fatherIndex].standardList[index].name}）未评分，不可提交！`,
         [
           {text: '确定', onPress: () => console.log('onPress OK')},
         ],
@@ -105,7 +113,20 @@ class CheckListPage extends React.Component<any, IState>{
    * 重置表单
    */
   reset = () => {
-    this.subcategories()
+    Alert.alert(
+      '',
+      `重置将清空已评数据，是否重置？`,
+      [
+        {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: '确定', onPress: () => {
+          let temp = this.filterData(this.props.checkList.checkList)
+          this.props.changeCheckList(temp.arr)
+          this.setState({ deductTotal: 0 })
+          // this.subcategories()
+        }},
+      ],
+      { cancelable: false }
+    )
   }
 
   /**
@@ -160,7 +181,7 @@ class CheckListPage extends React.Component<any, IState>{
   /**
    * 筛选检查列表
    */
-  filterData = (data: any[]) => {
+  filterData = (data: any[], type?: string) => {
     let arr: object[] = []
     let scoreTotal = 0
     for (let i = 0; i < data.length; i++) {
@@ -169,17 +190,14 @@ class CheckListPage extends React.Component<any, IState>{
       temp.status = i === 0 ? true : false
       temp.standardList = []
       temp.name = data[i].name
-      temp.categoryId = data[i].id
+      temp.categoryId = data[i].id | data[i].categoryId
       if (data[i].standardList) {
         for (let j = 0; j < data[i].standardList.length; j++) {
           let obj: any = {}
           obj.name = data[i].standardList[j].name
           obj.type = false
-          obj.standardId = data[i].standardList[j].id
-          obj.urls = [ //上传文件url集合
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
-          ]
+          obj.standardId = data[i].standardList[j].id | data[i].standardList[j].standardId
+          obj.urls = [] //上传文件url集合
           temp.standardList.push(obj)
         }
       }
@@ -198,7 +216,7 @@ class CheckListPage extends React.Component<any, IState>{
     let arr: object[] = []
     // 用于判断是否评分完全，为false时，说明没有评完
     let status: Boolean = true
-    
+    let tempArr: IIndex[] = []
     for (let i = 0; i < data.length; i++) {
       let temp: any = {}
       temp.standardList = []
@@ -209,17 +227,20 @@ class CheckListPage extends React.Component<any, IState>{
           obj.standardId = data[i].standardList[j].standardId
           obj.reason = data[i].standardList[j].text
           obj.deduct = data[i].standardList[j].deduct
-          if (!data[i].standardList[j].type) {status = false}
-          obj.urls = [ // 上传文件url集合
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
-          ]
+          if (!data[i].standardList[j].type) {
+            status = false
+            tempArr.push({
+              fatherIndex: i,
+              index: j,
+            })
+          }
+          obj.urls = [] // 上传文件url集合
           temp.standardList.push(obj)
         }
       }
       arr.push(temp)
     }
-    return {arr,status}
+    return {arr,status,tempArr}
   }
 
   toCheckRecord = () => {
@@ -237,9 +258,9 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
-    // this.subcategories()
+    this.subcategories()
     this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
-    // this.props.changeCheckList([])
+    this.props.changeCheckList([])
   }
 
   render() {
@@ -275,7 +296,7 @@ class CheckListPage extends React.Component<any, IState>{
         <View style={styles.grad}>
           <Text style={styles.gradText}>分数统计：</Text>
           <View style={styles.grad}>
-            <Text style={styles.gradTotal}>总分 {this.state.scoreTotal} | </Text>
+            <Text style={styles.gradTotal}>总分 {this.state.scoreTotal}</Text>
             <Text style={styles.gradDeduct}>扣分 {this.state.deductTotal}</Text>
           </View>
         </View>
