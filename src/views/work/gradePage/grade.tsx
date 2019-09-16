@@ -7,6 +7,8 @@ import { CheckBox } from '../../../components/workCmp/gradeCmp/checkBox';
 import { IndexModel } from "../../../request";
 import { getStar } from "../../../utils";
 const indexModel = new IndexModel()
+import store from '../../../store'
+import { setLoading } from '../../../store/actions/global/loading';
 
 interface IState {
   numberData: any
@@ -34,6 +36,7 @@ export default class GradePage extends React.Component<any>{
   getCategories(id: any,shopId: any) {
     indexModel.getCategories(id,shopId).then(res => {
       if(res.status) {
+
         this.setState({
           numberData: res.data.number,
           list: res.data.list
