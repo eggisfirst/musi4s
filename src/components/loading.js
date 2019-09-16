@@ -133,7 +133,7 @@ class Loader extends React.Component {
             <Modal
                 visible={this.props.Loading.status}
                 // animationType="fade"
-                // transparent={true}
+                transparent={true}
             // onRequestClose={() => console.log('onRequestClose...')}
             >
                 <View style={styles.container}>
