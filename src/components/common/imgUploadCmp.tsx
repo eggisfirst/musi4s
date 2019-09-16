@@ -115,14 +115,18 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
       console.log('上传图片返回的数据:', res)
       // const source = { uri: res.url };
       let temp = this.props.imageList
-      temp.push(res.url)
-      this._imgDataList.push(res.url)
+      temp.push(res.data)
+      this._imgDataList.push(res.data)
       console.log(555, this._imgDataList)
       this.props.getImageList(this._imgDataList)
       // this.setState({
       //   imageList: temp,
       // })
     })
+  }
+
+  componentWillReceiveProps() {
+    console.log('图片：', this.props.imageList)
   }
 
   render() {

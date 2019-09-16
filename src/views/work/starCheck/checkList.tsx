@@ -322,7 +322,7 @@ class CheckListPage extends React.Component<any, IState>{
           toCheckRecord={this.toCheckRecord}
           continue={this.continue}
           cancel={this.cancel}
-          scoreTotal={this.state.scoreTotal}
+          scoreTotal={this.state.scoreTotal - this.state.deductTotal}
           deductTotal={this.state.deductTotal}
           showStatus={this.state.checkAlertStatus}
         />
