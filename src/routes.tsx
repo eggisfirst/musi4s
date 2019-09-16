@@ -158,8 +158,7 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     // initialRouteName: 'CheckListPage',
     mode: 'card',
     // 指定标头的呈现方式
-    headerMode: "screen",
-    //显示返回图标后的文字
+    headerMode: "screen",    //显示返回图标后的文字
     headerBackTitleVisible: false,
     cardOverlayEnabled: true,
     //标题居中

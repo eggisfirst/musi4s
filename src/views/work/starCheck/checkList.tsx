@@ -190,13 +190,13 @@ class CheckListPage extends React.Component<any, IState>{
       temp.status = i === 0 ? true : false
       temp.standardList = []
       temp.name = data[i].name
-      temp.categoryId = data[i].id | data[i].categoryId
+      temp.categoryId = data[i].id ? data[i].id : data[i].categoryId
       if (data[i].standardList) {
         for (let j = 0; j < data[i].standardList.length; j++) {
           let obj: any = {}
           obj.name = data[i].standardList[j].name
           obj.type = false
-          obj.standardId = data[i].standardList[j].id | data[i].standardList[j].standardId
+          obj.standardId = data[i].standardList[j].id ? data[i].standardList[j].id : data[i].standardList[j].standardId
           obj.urls = [] //上传文件url集合
           temp.standardList.push(obj)
         }
