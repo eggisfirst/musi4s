@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    paddingBottom: Platform.OS === "ios" ? 0 : pxToDp(80)
+    // paddingBottom: Platform.OS === "ios" ? 0 : pxToDp(80)
   },
   line: {
     width: "100%",

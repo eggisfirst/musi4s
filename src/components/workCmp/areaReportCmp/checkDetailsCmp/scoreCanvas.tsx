@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   
   container: {
     width: "100%",
-    height: pxToDp(420),
+    // height: pxToDp(420),
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
