@@ -272,6 +272,7 @@ class HandelPage extends React.Component<any, IState>{
           ],
           { cancelable: false }
         )
+        console.log('认证失败')
       }
     })
   }

@@ -26,11 +26,11 @@ axios.interceptors.request.use(config => {
 //返回拦截器
 axios.interceptors.response.use(
   function(response) {
-    // console.log(111,response)
-    if(response.data.code == 500) {
-    }
+    console.log(111,response)
     store.dispatch(setLoading(false));
-
+    if(response.data.code === 500) {
+      // Alert.alert(response.data.msg)
+    }
     return response
   },
   function(error) {

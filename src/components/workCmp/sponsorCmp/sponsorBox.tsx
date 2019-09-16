@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, Platform } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Duty } from "../../../utils/enum";
@@ -215,16 +215,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: "center",
   },
+
   areaHeight: {
     width: pxToDp(620),
-    height: pxToDp(1150),
+    height:Platform.OS === 'android'?   pxToDp(1150) : pxToDp(1050),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     marginTop: pxToDp(200)
   },
   fourHeight: {
     width: pxToDp(620),
-    height: pxToDp(1250),
+    height: Platform.OS === 'android'?   pxToDp(1250) : pxToDp(1150),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     // marginTop: pxToDp(279),
