@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     paddingLeft: pxToDp(31),
     paddingTop: pxToDp(8),
     paddingBottom: pxToDp(8),
-    marginBottom: pxToDp(50)
   },
   sum_title: {
     fontSize: pxToDp(30),
@@ -154,7 +153,8 @@ const styles = StyleSheet.create({
   start_check_title: {
     fontSize: pxToDp(45),
     fontWeight: "bold",
-    color: "#363636"
+    color: "#363636",
+    marginTop: pxToDp(40)
   },
   checkBox: {
     display: "flex",
