@@ -217,14 +217,14 @@ const styles = StyleSheet.create({
   },
   areaHeight: {
     width: pxToDp(620),
-    height: pxToDp(1050),
+    height: pxToDp(1150),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     marginTop: pxToDp(200)
   },
   fourHeight: {
     width: pxToDp(620),
-    height: pxToDp(1150),
+    height: pxToDp(1250),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     // marginTop: pxToDp(279),
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderTopColor: "#e1e1e1",
     borderTopWidth: pxToDp(1),
-    marginTop: pxToDp(40)
+    marginTop: pxToDp(40),
   },
   btnWrap: {
     width: pxToDp(310),

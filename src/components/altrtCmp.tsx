@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "#666",
     fontSize: pxToDp(28),
-    width: pxToDp(340),
+    width: pxToDp(380),
     textAlign: "center",
     lineHeight: pxToDp(44)
   },
@@ -176,22 +176,24 @@ const styles = StyleSheet.create({
   btn: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
     height: pxToDp(100),
     borderColor: "#e1e1e1",
-    borderTopWidth: pxToDp(1)
+    borderTopWidth: pxToDp(1),
   },
   cancle: {
     color: "#909090",
     fontSize: pxToDp(36),
-    lineHeight: pxToDp(100),
+    // lineHeight: pxToDp(100),
     width: pxToDp(280),
     textAlign: "center",
   },
   comfirm: {
     color: "#363636",
     fontSize: pxToDp(36),
-    lineHeight: pxToDp(100),
+    // lineHeight: pxToDp(100),
     width: pxToDp(280),
     textAlign: "center",
   },
@@ -211,6 +213,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    // height: pxToDp(100),
+    // backgroundColor: "#fff"
   }
 })

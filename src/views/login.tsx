@@ -103,7 +103,7 @@ export default class LoginScreen extends Component<any> {
   }
   //记住密码状态
   handleRememberPwd = () => {
-    const btnStatue = this.state.btnStatue === RemPwd.unremember? RemPwd.remembered : RemPwd.unremember
+    const btnStatue = this.state.btnStatue === RemPwd.remembered? RemPwd.unremember : RemPwd.remembered
     this.setState({
       btnStatue
     })
