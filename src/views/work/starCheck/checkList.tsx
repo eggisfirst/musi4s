@@ -288,7 +288,7 @@ class CheckListPage extends React.Component<any, IState>{
           imgUrl={require('../../../images/work/reception/back.png')}
           Children={
             <TouchableOpacity activeOpacity={0.8} style={styles.topRight}  onPress={() => { navigation.push('RulePage') }}>
-                <Image style={{width: pxToDp(38),height: pxToDp(38)}} source={require('../../../images/work/rule.png')} />
+                <Image style={{width: pxToDp(40),height: pxToDp(40)}} source={require('../../../images/work/rule.png')} />
             </TouchableOpacity>
           }
         />
@@ -342,7 +342,8 @@ export default connect(mapStateToProps, actions)(CheckListPage)
 
 const styles: any = StyleSheet.create({
   checkList: {
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: '100%',
+    width: '100%'
   },
   grad: {
     flexDirection: 'row',

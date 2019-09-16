@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Text, ActivityIndicator } from "react-native";
+import { View, StyleSheet, FlatList, Text, ActivityIndicator, Alert } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import Sort from '../../../components/filterCmp/sortCmp';
@@ -245,6 +245,7 @@ class HandelPage extends React.Component<any, IState>{
           sponsorBoxData: res.data
         })
         this._setSponsorStatus(true, index)
+
       }
     })
   }
@@ -261,6 +262,16 @@ class HandelPage extends React.Component<any, IState>{
         this.setState({
           list
         })
+        Alert.alert('已发起认证')
+      }else {
+        Alert.alert(
+          '提示',
+          `${res.msg}`,
+          [
+            { text: '确定', onPress: () => console.log('onPress OK') },
+          ],
+          { cancelable: false }
+        )
       }
     })
   }
@@ -424,6 +435,7 @@ class HandelPage extends React.Component<any, IState>{
     switch (status) {
       case AlertBtnTypes.cancle:
         console.log('cancle')
+       
         break;
       case AlertBtnTypes.comfirm:
         //请求
@@ -433,6 +445,7 @@ class HandelPage extends React.Component<any, IState>{
             this.setState({
               list
             })
+            Alert.alert('受理成功')
           }
         })
         break;
@@ -443,6 +456,7 @@ class HandelPage extends React.Component<any, IState>{
             this.setState({
               list
             })
+            Alert.alert('退回成功')
           }
         })
         break;
@@ -745,7 +759,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    marginTop: pxToDp(24)
+    marginTop: pxToDp(24),
   },
   sponsorDate: {
     color: "#666",

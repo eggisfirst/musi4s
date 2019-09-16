@@ -89,8 +89,8 @@ export const SponsorBox: React.FC<IProps> = (props) => {
       status: false
     },
   ]
-  const socreList = props.type === 3 ? scoreList1 : [...scoreList1, ...scoreList2]
-  const container = props.type === 3 ? styles.areaHeight : styles.fourHeight
+  const socreList = props.type == 3 ? scoreList1 : [...scoreList1, ...scoreList2]
+  const container = props.type == 3 ? styles.areaHeight : styles.fourHeight
 
   /**
    * 返回接口对应的value
@@ -143,7 +143,6 @@ export const SponsorBox: React.FC<IProps> = (props) => {
     }
     console.log('gogoggo',key)
   }
-
   return (
     <View style={styles.mask}>
       <View style={container}>
@@ -228,7 +227,8 @@ const styles = StyleSheet.create({
     height: pxToDp(1150),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
-    marginTop: pxToDp(279)
+    // marginTop: pxToDp(279),
+    marginTop: pxToDp(200)
   },
   header: {
     width: pxToDp(408),
