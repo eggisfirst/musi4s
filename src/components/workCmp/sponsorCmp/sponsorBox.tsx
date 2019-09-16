@@ -89,8 +89,8 @@ export const SponsorBox: React.FC<IProps> = (props) => {
       status: false
     },
   ]
-  const socreList = props.type === 3 ? scoreList1 : [...scoreList1, ...scoreList2]
-  const container = props.type === 3 ? styles.areaHeight : styles.fourHeight
+  const socreList = props.type == 3 ? scoreList1 : [...scoreList1, ...scoreList2]
+  const container = props.type == 3 ? styles.areaHeight : styles.fourHeight
 
   /**
    * 返回接口对应的value
@@ -143,7 +143,6 @@ export const SponsorBox: React.FC<IProps> = (props) => {
     }
     console.log('gogoggo',key)
   }
-
   return (
     <View style={styles.mask}>
       <View style={container}>
@@ -218,17 +217,18 @@ const styles = StyleSheet.create({
   },
   areaHeight: {
     width: pxToDp(620),
-    height: pxToDp(1050),
+    height: pxToDp(1150),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     marginTop: pxToDp(200)
   },
   fourHeight: {
     width: pxToDp(620),
-    height: pxToDp(1150),
+    height: pxToDp(1250),
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
-    marginTop: pxToDp(279)
+    // marginTop: pxToDp(279),
+    marginTop: pxToDp(200)
   },
   header: {
     width: pxToDp(408),
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderTopColor: "#e1e1e1",
     borderTopWidth: pxToDp(1),
-    marginTop: pxToDp(40)
+    marginTop: pxToDp(40),
   },
   btnWrap: {
     width: pxToDp(310),

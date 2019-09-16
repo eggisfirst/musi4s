@@ -26,17 +26,16 @@ axios.interceptors.request.use(config => {
 //返回拦截器
 axios.interceptors.response.use(
   function(response) {
-    store.dispatch(setLoading(false));
-    console.log(111,response)
+    // console.log(111,response)
     if(response.data.code == 500) {
-      // Alert.alert('请求失败')
     }
+    store.dispatch(setLoading(false));
+
     return response
   },
   function(error) {
-    console.log(222,error)
+    // console.log(222,error)
     store.dispatch(setLoading(false));
-    // Alert.alert('网络问题')
     return Promise.reject(error)
   }
 )
@@ -87,13 +86,6 @@ class Request {
         url: baseUrl + url,
         method: 'POST',
         data: data,
-        transformRequest: [function (data) {
-          let ret = ''
-          for (let it in data) {
-            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-          }
-          return ret
-        }],
         headers: {
           'Content-Type': 'multipart/form-data',
           'sign': sign,

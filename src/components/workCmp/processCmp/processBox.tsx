@@ -18,7 +18,7 @@ interface IState {
   nodeList: Array<any>
   nodeStateList: Array<any>
 }
-export default class ProcessBox extends React.Component<IProps,IState>{
+export default class ProcessBox extends React.Component<IProps, IState>{
   state: IState = {
     nodeList: [],
     nodeStateList: []
@@ -31,6 +31,20 @@ export default class ProcessBox extends React.Component<IProps,IState>{
       ApproveNode.fourS,
       ApproveNode.saleCenter,
       ApproveNode.fourS,
+      ApproveNode.marketCenter,
+      ApproveNode.president,
+      ApproveNode.headquarters
+    ]
+    this.setState({
+      nodeList
+    })
+  }
+  /**获取左边固定的节点 一二星级不用4s认证 */
+  getNodeWithOut4s_List = () => {
+    const nodeList = [
+      ApproveNode.agency,
+      ApproveNode.area,
+      ApproveNode.saleCenter,
       ApproveNode.marketCenter,
       ApproveNode.president,
       ApproveNode.headquarters
@@ -117,9 +131,18 @@ export default class ProcessBox extends React.Component<IProps,IState>{
       starLevelId: this.props.rightData[len - 1].data[length - 1].starLevelId
     })
   }
+  /**判断是一二星认证还是三星以上。一二没有4s认证部 */
+  initLeftData() {
+    if(this.props.starLevel <= 2) {
+      this.getNodeWithOut4s_List()
+    }else {
+      this.getNodeList()
+    }
+  }
+
   componentDidMount() {
-    this.getNodeList()
-    this.getNodeState()
+    this.initLeftData()
+    // this.getNodeState()
   }
 
   render() {
@@ -128,18 +151,18 @@ export default class ProcessBox extends React.Component<IProps,IState>{
       if (index === -1) {
         return 34
       }
-      
+
       if (this.props.rightData[index]) {
         const i = this.props.rightData[index].data.length
-        if(Platform.OS === 'ios') {
+        if (Platform.OS === 'ios') {
           return (i) * 40
-        }else {
+        } else {
           return (i) * 24 + 12
         }
       } else {
-        if(Platform.OS === 'ios') {
+        if (Platform.OS === 'ios') {
           return 56
-        }else {
+        } else {
           return 65
         }
       }
@@ -207,8 +230,8 @@ export default class ProcessBox extends React.Component<IProps,IState>{
             </View>
             {
               this.state.nodeList.map((item, index) => (
-                <View style={{ marginTop:pxToDp(myMarginTop(index - 1))  }} key={index} >
-                  <Text style={[styles.lefttext, { marginBottom:  myLastBottom(item) }]} >{item}</Text>
+                <View style={{ marginTop: pxToDp(myMarginTop(index - 1)) }} key={index} >
+                  <Text style={[styles.lefttext, { marginBottom: myLastBottom(item) }]} >{item}</Text>
                 </View>
               ))
             }
@@ -226,10 +249,10 @@ export default class ProcessBox extends React.Component<IProps,IState>{
                                 :
                                 <>
                                   {
-                                    index <= 2 ?
+                                    index <= 2 && el.status !== 2 && el.status !== 3 ?
                                       <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => { this.toAcceptancePage() }}> {getApproveBoxState(el.status)}</Text>
                                       </Text> :
-                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveOtherBoxState(el.status)}</Text>
+                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveBoxState(el.status)}</Text>
                                       </Text>
                                   }
                                 </>

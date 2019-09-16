@@ -103,7 +103,7 @@ export default class LoginScreen extends Component<any> {
   }
   //记住密码状态
   handleRememberPwd = () => {
-    const btnStatue = this.state.btnStatue === RemPwd.unremember? RemPwd.remembered : RemPwd.unremember
+    const btnStatue = this.state.btnStatue === RemPwd.remembered? RemPwd.unremember : RemPwd.remembered
     this.setState({
       btnStatue
     })
@@ -144,16 +144,16 @@ export default class LoginScreen extends Component<any> {
           <View style={styleSheet.remPwd} >
             <TouchableOpacity
                 style={styleSheet.left} 
-                onPress={this.handleRememberPwd}>
+                onPress={() => {this.handleRememberPwd()}}>
                 <View style={styleSheet.leftRadio}>
                   <View style={[styleSheet.circle,
                   {display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"}]} ></View>
                 </View>
                 <Text style={styleSheet.leftText} >记住密码</Text>
             </TouchableOpacity>
-            <View>
+            {/* <View>
               <Text style={styleSheet.rightText}>忘记密码？</Text>
-            </View>
+            </View> */}
           </View>
 
           <TouchableOpacity

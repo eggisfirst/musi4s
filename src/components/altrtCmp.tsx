@@ -1,4 +1,4 @@
-import { View,Text, Modal, StyleSheet, Dimensions, Image, TouchableOpacity, Animated, Easing, TextInput, Alert } from "react-native";
+import { View, Text, Modal, StyleSheet, Dimensions, Image, TouchableOpacity, Animated, Easing, TextInput, Alert } from "react-native";
 import React, { useState } from 'react'
 import pxToDp from "../utils/fixcss";
 import { AlertBtnTypes, BtnTitle } from "../utils/enum";
@@ -6,26 +6,26 @@ import { getStar } from "../utils";
 
 interface IProps {
   title: BtnTitle
-  comfirm?:AlertBtnTypes
-  sendBack?:AlertBtnTypes
-  cancle?:AlertBtnTypes
-  handleAlert?: ( status:AlertBtnTypes,val?:string) => void 
-  boxValue?:string
+  comfirm?: AlertBtnTypes
+  sendBack?: AlertBtnTypes
+  cancle?: AlertBtnTypes
+  handleAlert?: (status: AlertBtnTypes, val?: string) => void
+  boxValue?: string
   data?: any
 }
 
 
-export const AlertCmp: React.FC<IProps> = (props:IProps) => {
+export const AlertCmp: React.FC<IProps> = (props: IProps) => {
   const [value, setValue] = useState('')
-  const handleClick = (status:AlertBtnTypes) => {
-    if(!props.handleAlert) {
+  const handleClick = (status: AlertBtnTypes) => {
+    if (!props.handleAlert) {
       return
     }
     switch (status) {
       case AlertBtnTypes.sendBack:
-        if(value) {
-          props.handleAlert(AlertBtnTypes.sendBack,value)
-        }else {
+        if (value) {
+          props.handleAlert(AlertBtnTypes.sendBack, value)
+        } else {
           Alert.alert('请输入退回原因')
         }
         break;
@@ -37,8 +37,8 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
         break;
     }
 
-   
-   
+
+
   }
   return (
     <View style={styles.container}>
@@ -46,7 +46,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
         {
           props.title === BtnTitle.applying && (
             <>
-              <Image style={styles.image} source={require("../images/applying.png")}/>
+              <Image style={styles.image} source={require("../images/applying.png")} />
               <Text style={styles.titleStyle}>{BtnTitle.applying}</Text>
               <Text style={styles.textStyle}>是否确定受理，{props.data.username}供应商《{getStar(props.data.approveLevel)}认证》申请？</Text>
             </>
@@ -55,13 +55,13 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
         {
           props.title === BtnTitle.sendBack && (
             <>
-              <Image style={styles.image} source={require("../images/sendback.png")}/>
+              <Image style={styles.image} source={require("../images/sendback.png")} />
               <Text style={styles.titleStyle}>{BtnTitle.sendBack}</Text>
               <TextInput
                 style={styles.input}
                 maxLength={30}
                 value={value}
-                onChangeText={(text) => {setValue(text)}}
+                onChangeText={(text) => { setValue(text) }}
                 autoFocus={true}
                 placeholder="请输入退回原因"
                 returnKeyType="done"
@@ -72,7 +72,7 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
         {
           props.title === BtnTitle.tips && (
             <>
-              <View  style={styles.tipsBox} ></View>
+              <View style={styles.tipsBox} ></View>
               <Text style={styles.titleStyle}>{BtnTitle.tips}</Text>
               <Text style={styles.textStyle2}>{props.boxValue}</Text>
             </>
@@ -83,28 +83,34 @@ export const AlertCmp: React.FC<IProps> = (props:IProps) => {
             {
               props.cancle === AlertBtnTypes.cancle && (
                 <TouchableOpacity activeOpacity={0.6}
-                                  onPress={() => {handleClick(AlertBtnTypes.cancle)}} 
-                                  style={{borderColor: "#e1e1e1",borderRightWidth:pxToDp(1)}}>
-                                  <Text style={styles.cancle} >{AlertBtnTypes.cancle}</Text>
-                                  </TouchableOpacity>
+                  onPress={() => { handleClick(AlertBtnTypes.cancle) }}
+                  style={[{ borderColor: "#e1e1e1", borderRightWidth: pxToDp(1) }, styles.btnWrapper]}>
+                  <Text style={styles.cancle} >{AlertBtnTypes.cancle}</Text>
+                </TouchableOpacity>
               )
             }
             {
               props.comfirm === AlertBtnTypes.comfirm && (
-                <TouchableOpacity activeOpacity={0.6} onPress={() => {handleClick(AlertBtnTypes.comfirm)}}>
+                <TouchableOpacity
+                  style={styles.btnWrapper}
+                  activeOpacity={0.6}
+                  onPress={() => { handleClick(AlertBtnTypes.comfirm) }}>
                   <Text style={styles.comfirm} >{AlertBtnTypes.comfirm}</Text>
                 </TouchableOpacity>
               )
             }
             {
               props.sendBack === AlertBtnTypes.sendBack && (
-                <TouchableOpacity activeOpacity={0.6}  onPress={() => {handleClick(AlertBtnTypes.sendBack)}}>
+                <TouchableOpacity
+                  style={styles.btnWrapper}
+                  activeOpacity={0.6}
+                  onPress={() => { handleClick(AlertBtnTypes.sendBack) }}>
                   <Text style={styles.comfirm}>{AlertBtnTypes.sendBack}</Text>
                 </TouchableOpacity>
               )
             }
           </>
-          
+
         </View>
       </View>
     </View>
@@ -115,18 +121,18 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
-    left:0,
-    right:0,
-    bottom:0, 
-    zIndex:9999, 
-    width: '100%', 
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,
+    width: '100%',
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
     display: "flex",
     flexDirection: 'row',
     paddingTop: "60%",
     // alignItems:"center",
-    justifyContent:"center",
+    justifyContent: "center",
   },
   alertBox: {
     width: pxToDp(560),
@@ -134,8 +140,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     display: "flex",
-    alignItems:"center",
-    justifyContent:"space-between"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   tipsBox: {
     width: pxToDp(52),
@@ -151,12 +157,12 @@ const styles = StyleSheet.create({
     color: "#363636",
     fontSize: pxToDp(38),
     fontWeight: "bold",
-    
+
   },
   textStyle: {
     color: "#666",
     fontSize: pxToDp(28),
-    width: pxToDp(340),
+    width: pxToDp(380),
     textAlign: "center",
     lineHeight: pxToDp(44)
   },
@@ -170,24 +176,26 @@ const styles = StyleSheet.create({
   btn: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
     height: pxToDp(100),
     borderColor: "#e1e1e1",
-    borderTopWidth: pxToDp(1)
+    borderTopWidth: pxToDp(1),
   },
   cancle: {
-    color:"#909090",
+    color: "#909090",
     fontSize: pxToDp(36),
-    lineHeight: pxToDp(100),
+    // lineHeight: pxToDp(100),
     width: pxToDp(280),
-    textAlign:"center",
+    textAlign: "center",
   },
   comfirm: {
-    color:"#363636",
+    color: "#363636",
     fontSize: pxToDp(36),
-    lineHeight: pxToDp(100),
+    // lineHeight: pxToDp(100),
     width: pxToDp(280),
-    textAlign:"center",
+    textAlign: "center",
   },
   input: {
     backgroundColor: "#efeff4",
@@ -198,5 +206,15 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(10),
     paddingLeft: pxToDp(20),
     paddingRight: pxToDp(20),
+  },
+
+
+  btnWrapper: {
+    display: 'flex',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    // height: pxToDp(100),
+    // backgroundColor: "#fff"
   }
 })

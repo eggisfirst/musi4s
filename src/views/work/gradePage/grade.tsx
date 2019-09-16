@@ -1,12 +1,14 @@
 import React from "react";
 
-import { View, Text, Platform, StatusBar, StyleSheet } from "react-native";
+import { View, Text, Platform, StatusBar, StyleSheet, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from '../../../components/headerCmp/headerCmp';
 import { CheckBox } from '../../../components/workCmp/gradeCmp/checkBox';
 import { IndexModel } from "../../../request";
 import { getStar } from "../../../utils";
 const indexModel = new IndexModel()
+import store from '../../../store'
+import { setLoading } from '../../../store/actions/global/loading';
 
 interface IState {
   numberData: any
@@ -34,6 +36,7 @@ export default class GradePage extends React.Component<any>{
   getCategories(id: any,shopId: any) {
     indexModel.getCategories(id,shopId).then(res => {
       if(res.status) {
+
         this.setState({
           numberData: res.data.number,
           list: res.data.list
@@ -74,13 +77,13 @@ export default class GradePage extends React.Component<any>{
     const { navigation } = this.props
    
     return (
-      <View>
+      <View style={styles.container}>
         <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {navigation.goBack()}}/>
         <View style={styles.sum}>
           <Text style={styles.sum_title}>{this.state.shopName}</Text>
           <Text style={styles.sum_text}>共<Text style={styles.sum_blue}>{this.state.numberData.total}</Text>项 已评<Text style={styles.sum_green}>{this.state.numberData.comment}</Text>项 剩余 <Text style={styles.sum_red}>{this.state.numberData.notComment}</Text>项未评</Text>
         </View>
-        <View style={styles.checkWrapper}>
+        <ScrollView style={styles.checkWrapper}>
             {
               this.state.list.map((item:any, index:number) => (
                 <View key={index}>
@@ -96,17 +99,21 @@ export default class GradePage extends React.Component<any>{
                     ))
                     }
                   </View>
-                </View>
+                  </View>
               ))
             }
          
-        </View>
+        </ScrollView>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+  },
   sum: {
     width: pxToDp(439),
     // height: pxToDp(80),
@@ -116,7 +123,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: pxToDp(40),
     paddingLeft: pxToDp(31),
     paddingTop: pxToDp(8),
-    paddingBottom: pxToDp(8)
+    paddingBottom: pxToDp(8),
   },
   sum_title: {
     fontSize: pxToDp(30),
@@ -139,14 +146,15 @@ const styles = StyleSheet.create({
   checkWrapper: {
     paddingLeft: pxToDp(31),
     paddingRight: pxToDp(10),
-    paddingTop: pxToDp(50),
+    // paddingTop: pxToDp(50),
     paddingBottom: pxToDp(50),
 
   },
   start_check_title: {
     fontSize: pxToDp(45),
     fontWeight: "bold",
-    color: "#363636"
+    color: "#363636",
+    marginTop: pxToDp(40)
   },
   checkBox: {
     display: "flex",
