@@ -70,7 +70,7 @@ export default class GradePage extends React.Component<any>{
   componentDidMount() {
     this.initData()
   }
-  render() {
+  render() { 
     const { navigation } = this.props
    
     return (
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     paddingRight: pxToDp(10),
     // paddingTop: pxToDp(50),
     paddingBottom: pxToDp(50),
+
   },
   start_check_title: {
     fontSize: pxToDp(45),

@@ -106,11 +106,13 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
    * @param {*上传的文件} formData
    */
   saveImage = (response:any) => {
-    let file = {uri: response.uri, type: 'multipart/form-data', name: response.fileName}
+    let file = {uri: response.uri, type: 'multipart/form-data', name: 'image.jpg'}
     let formData = new FormData()
-    formData.append('dataFile', file)
-    formData.append('prefix', 'cert-check-log')
+    formData.append('multipartFile', file)
+    // formData.append('dataFile', file)
+    // formData.append('prefix', 'cert-check-log')
     indexModel.uploadFile(formData).then(res => {
+      console.log('上传图片返回的数据:', res)
       // const source = { uri: res.url };
       let temp = this.props.imageList
       temp.push(res.url)

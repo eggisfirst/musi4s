@@ -342,9 +342,15 @@ class IndexModel extends Request {
    * 上传视频/图片
    * @param {*上传FormData格式文件时传dataFile参数} dataFile
    */
+  // uploadFile(formData) {
+  //   return this.getFormData({
+  //     url: "/upload/file",
+  //     data: formData
+  //   })
+  // }
   uploadFile(formData) {
     return this.getFormData({
-      url: "/upload/file",
+      url: "v2/api/cert/approve/upload",
       data: formData
     })
   }
