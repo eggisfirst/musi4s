@@ -6,16 +6,15 @@ import pxToDp from "../../../utils/fixcss";
 interface IProps {
   item: any
   index?: number
-  handleToGrade?: (index: number, i: number) => void
+  handleToGrade?: (index: number, i: number, type: string) => void
   i?:number
 }
 
-
 export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
   //跳转到评分页面
-  const handleClick = () => {
+  const handleClick = (type: '已评分' | '未评分') => {
     if(handleToGrade && index !== undefined && i!== undefined) {
-      handleToGrade(index,i)
+      handleToGrade(index,i,type)
     }
   }
   return (
@@ -23,11 +22,11 @@ export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
       <Text style={styles.content}>{item.name}</Text>
       {
         item.scoreFlag? 
-        <View style={styles.hadGradeBtn}>
+        <TouchableOpacity onPress={() => {handleClick('已评分')}} style={styles.hadGradeBtn}>
           <Image style={styles.icon} source={require('../../../images/work/grade/graded.png')} />
           <Text style={styles.hadGradeText}>已评分</Text>
-        </View> :
-        <TouchableOpacity onPress={() => {handleClick()}} style={styles.btn}>
+        </TouchableOpacity> :
+        <TouchableOpacity onPress={() => {handleClick('未评分')}} style={styles.btn}>
           <Text style={styles.grade}>去评分>></Text>
         </TouchableOpacity> 
 

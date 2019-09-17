@@ -56,7 +56,8 @@ export default class GradePage extends React.Component<any>{
   }
 
   //跳转到评分页面
-  handleToGrade = (index: number, i: number) => {
+  handleToGrade = (index: number, i: number, type: string) => {
+    console.log(1122334455, index, i)
     const list = this.state.list
     const {shopId,qualificationId} = this.props.navigation.state.params
     this.props.navigation.navigate('CheckListPage', {
@@ -64,12 +65,14 @@ export default class GradePage extends React.Component<any>{
       shopId,
       categoryId: list[index][i].id,
       title: list[index][i].name,
+      type,
       callBack: () => {
         const {qualificationId,shopId,shopName} = this.props.navigation.state.params
         this.getCategories(qualificationId,shopId)
       }
     })
   }
+
   componentDidMount() {
     this.initData()
   }
