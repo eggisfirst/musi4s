@@ -141,7 +141,6 @@ export const SponsorBox: React.FC<IProps> = (props) => {
 
     }else if(key === '4s部评分') {
     }
-    console.log('gogoggo',key)
   }
   return (
     <ScrollView style={styles.mask}>

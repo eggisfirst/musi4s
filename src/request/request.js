@@ -15,6 +15,9 @@ baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // tokenUrl = "https://op.derucci.com/"
 axios.interceptors.request.use(config => {
   store.dispatch(setLoading(true));
+  setTimeout(() => {
+    store.dispatch(setLoading(false));
+  }, 60000);
   if (config.url.indexOf('oauth/token') === -1) {
     config.headers['Authorization'] = `Bearer ${store.getState().Loading.token}`
   }

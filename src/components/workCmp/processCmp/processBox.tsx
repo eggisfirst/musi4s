@@ -155,7 +155,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
       if (this.props.rightData[index]) {
         const i = this.props.rightData[index].data.length
         if (Platform.OS === 'ios') {
-          return (i) * 40
+          return (i) * 41
         } else {
           return (i) * 24 + 12
         }
