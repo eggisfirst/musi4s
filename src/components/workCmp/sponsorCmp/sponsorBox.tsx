@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, Dimensions, Image, Platform } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, Platform, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Duty } from "../../../utils/enum";
@@ -144,7 +144,7 @@ export const SponsorBox: React.FC<IProps> = (props) => {
     console.log('gogoggo',key)
   }
   return (
-    <View style={styles.mask}>
+    <ScrollView style={styles.mask}>
       <View style={container}>
         <Image style={styles.header} source={require("../../../images/work/sponsor/box_header.png")} />
         
@@ -198,7 +198,7 @@ export const SponsorBox: React.FC<IProps> = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -213,9 +213,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    display: "flex",
-    flexDirection: 'row',
-    justifyContent: "center",
+    // display: "flex",
+    // flexDirection: 'row',
+    // justifyContent: "center",
   },
 
   areaHeight: {
@@ -223,15 +223,17 @@ const styles = StyleSheet.create({
     // height:Platform.OS === 'android'?   pxToDp(1150) : pxToDp(1050),
     // backgroundColor: "#fff",
     borderRadius: pxToDp(10),
-    marginTop: pxToDp(200)
+    marginTop: pxToDp(250),
+    marginLeft: pxToDp(65)
   },
   fourHeight: {
     width: pxToDp(620),
-    height: Platform.OS === 'android'?   pxToDp(1250) : pxToDp(1150),
-    backgroundColor: "#fff",
+    // height: Platform.OS === 'android'?   pxToDp(1250) : pxToDp(1150),
+    // backgroundColor: "#fff",
     borderRadius: pxToDp(10),
     // marginTop: pxToDp(279),
-    marginTop: pxToDp(200)
+    marginLeft: pxToDp(65),
+    marginTop: pxToDp(250),
   },
   header: {
     width: pxToDp(408),

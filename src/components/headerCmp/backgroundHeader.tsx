@@ -6,7 +6,7 @@ import pxToDp from "../../utils/fixcss";
 interface IProps {
   title: string
   eggHandleBack: () => void
-  Children?: JSX.Element
+  Children?: any
   bgColor: string
   fontColor: string
   imgUrl: any
