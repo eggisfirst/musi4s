@@ -49,7 +49,7 @@ export const ApplyItem: React.FC<IProps> = (props) => {
               source={require("../../../images/work/starCheck/via.png")} />
             <View>
               <View style={styles.processTitle}>
-                <Text style={styles.name} >
+                <Text style={styles.allName} >
                   {props.title + '发起申请！'}
                 </Text>
               </View>
@@ -90,7 +90,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     // width: pxToDp(600),
     lineHeight: pxToDp(60),
-    width: pxToDp(420)
+    width: pxToDp(420),
+  },
+  allName: {
+    color: "#363636",
+    fontSize: pxToDp(38),
+    fontWeight: "bold",
+    // width: pxToDp(600),
+    lineHeight: pxToDp(60),
+    width: pxToDp(580),
   },
   star: {
     color: "#363636",

@@ -447,6 +447,15 @@ class HandelPage extends React.Component<any, IState>{
               list
             })
             Alert.alert('受理成功')
+          }else {
+            Alert.alert(
+              '提示',
+              `${res.msg}`,
+              [
+                { text: '确定', onPress: () => console.log('onPress OK') },
+              ],
+              { cancelable: false }
+            )
           }
         })
         break;
@@ -458,6 +467,15 @@ class HandelPage extends React.Component<any, IState>{
               list
             })
             Alert.alert('退回成功')
+          }else {
+            Alert.alert(
+              '提示',
+              `${res.msg}`,
+              [
+                { text: '确定', onPress: () => console.log('onPress OK') },
+              ],
+              { cancelable: false }
+            )
           }
         })
         break;

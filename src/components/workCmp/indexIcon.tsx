@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   imageStyle: {
     height:pxToDp(130),
     width:pxToDp(130),
+    marginBottom: pxToDp(10)
   },
   textStyle: {
     color:"#363636",
