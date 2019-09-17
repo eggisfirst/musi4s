@@ -99,4 +99,3 @@ export enum ReportType {
   acceptance = '认证'
 }
 
-

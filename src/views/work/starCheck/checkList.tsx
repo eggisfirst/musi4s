@@ -42,12 +42,25 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   /**
-   * 显示/隐藏中类检查项
+   * 展开折叠
    */
-  showClick = (index: number): void => {
-    // console.log(!this.props.checkList[index].status, this.props.checkList[index].status)
-    this.props.checkList.checkList[index].status = !this.props.checkList.checkList[index].status
-    this.props.changeCheckList(this.props.checkList.checkList)
+  open = (index: number): void => {
+    let temp = this.props.checkList.checkList[index].status
+    if (!temp) {
+      this.props.checkList.checkList[index].status = true
+      this.props.changeCheckList(this.props.checkList.checkList)
+    }
+  }
+
+  /**
+   * 收起折叠
+   */
+  close = (index: number): void => {
+    let temp = this.props.checkList.checkList[index].status
+    if (temp) {
+      this.props.checkList.checkList[index].status = false
+      this.props.changeCheckList(this.props.checkList.checkList)
+    }
   }
 
   /**
@@ -133,11 +146,14 @@ class CheckListPage extends React.Component<any, IState>{
    * 跳转检查详情页面
    */
   toDetail = (index: number, fatherIndex: number): void => {
-    let name = this.props.checkList.checkList[fatherIndex].standardList[index].name
+    let params = this.props.navigation.state.params
+    let {name, standardId} = this.props.checkList.checkList[fatherIndex].standardList[index]
     this.props.navigation.navigate('CheckDetailPage', {
       name,
       index,
       fatherIndex,
+      standardId,
+      type: params.type,
       callBack: () => {
         this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
       }
@@ -165,6 +181,7 @@ class CheckListPage extends React.Component<any, IState>{
   subcategories = () => {
     let params = this.props.navigation.state.params
     indexModel.subcategories(params.categoryId, params.shopId).then(res => {
+      console.log(99999, res)
       if (res.data) {
         this.setState({ levelId: res.data.starLevelId })
         let data = res.data.categories
@@ -182,6 +199,7 @@ class CheckListPage extends React.Component<any, IState>{
    * 筛选检查列表
    */
   filterData = (data: any[], type?: string) => {
+    let params = this.props.navigation.state.params
     let arr: object[] = []
     let scoreTotal = 0
     for (let i = 0; i < data.length; i++) {
@@ -195,7 +213,7 @@ class CheckListPage extends React.Component<any, IState>{
         for (let j = 0; j < data[i].standardList.length; j++) {
           let obj: any = {}
           obj.name = data[i].standardList[j].name
-          obj.type = false
+          obj.type = params.tyep === '未评分' ? false : true
           obj.standardId = data[i].standardList[j].id ? data[i].standardList[j].id : data[i].standardList[j].standardId
           obj.urls = [] //上传文件url集合
           temp.standardList.push(obj)
@@ -273,8 +291,9 @@ class CheckListPage extends React.Component<any, IState>{
         title={item.name}
         status={item.status}
         index={index}
-        showClick={this.showClick}
+        open={this.open}
         toDetail={this.toDetail}
+        close={this.close}
       />
     })
     return (

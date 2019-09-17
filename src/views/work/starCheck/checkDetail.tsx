@@ -5,17 +5,12 @@ import { View, StyleSheet, Alert } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from "../../../components/headerCmp/headerCmp"
 import { changeCheckList } from '../../../store/actions/4s/checkList';
-// import { SliderCmp } from '../../../components/workCmp/areaReportCmp/checkDetailsCmp/everyTerm/silder';
 import InputAreaCmp from '../../../components/common/inputAreaCmp';
 import BigBtn from '../../../components/common/bigBtn';
 import ImgUploadCmp from '../../../components/common/imgUploadCmp';
 import ScoreSlider from '../../../components/common/scoreSlider';
 import { IndexModel } from "../../../request";
 const indexModel = new IndexModel()
-
-const actions = {
-  ...changeCheckList,
-}
 
 // interface IPros {
 //   minimumValue?: number
@@ -95,6 +90,18 @@ class CheckDetailPage extends React.Component<any, IState>{
     // console.log(`输入框的值：${this.state.inputAreaVal}`, `扣分：${this.state.score}`, temp)
   }
 
+  /**
+   * 获取已评分数据
+   */
+  getGradeDetailInfo() {
+    let id = ''
+    indexModel.getGradeDetailInfo(id).then(res => {
+      if (res.status) {
+        console.log('已评分详情：', res)
+      }
+    })
+  }
+
   componentWillReceiveProps() {
     let temp = this.props.checkList
     let params = this.props.navigation.state.params
@@ -104,6 +111,8 @@ class CheckDetailPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
+    // this.getGradeDetailInfo()
+    console.log(1)
     let temp = this.props.checkList
     let params = this.props.navigation.state.params
     let arr = temp[params.fatherIndex].standardList[params.index].urls
