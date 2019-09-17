@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   },
   processText: {
     color: "#666",
-    fontSize: pxToDp(24)
+    fontSize: pxToDp(24),
+    paddingRight: pxToDp(32)
   }
 })

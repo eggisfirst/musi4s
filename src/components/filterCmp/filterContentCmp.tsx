@@ -6,7 +6,7 @@ import { format } from '../../utils/index';
 import { connect } from "react-redux";
 import * as actions from '../../store/actions/filter/rightFliter'
 import { StarCheckTypes } from "../../utils/enum";
-import ExtraDimensions from 'react-native-extra-dimensions-android';
+// import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 interface IProps {
   type: StarCheckTypes  /**判断是哪个页面 */
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9900,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   leftStyle: {
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(150),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: '100%',
     backgroundColor: 'rgba(0,0,0,0)',
   },
   modalStyle: {
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: '100%',
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 999999,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   datePickerContainer: {

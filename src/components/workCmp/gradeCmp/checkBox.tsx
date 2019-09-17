@@ -19,7 +19,9 @@ export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
   }
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.content}>{item.name}</Text>
+      <View style={styles.content}>
+        <Text >{item.name}</Text>
+      </View>
       {
         item.scoreFlag? 
         <TouchableOpacity onPress={() => {handleClick('已评分')}} style={styles.hadGradeBtn}>
@@ -27,7 +29,8 @@ export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
           <Text style={styles.hadGradeText}>已评分</Text>
         </TouchableOpacity> :
         <TouchableOpacity onPress={() => {handleClick('未评分')}} style={styles.btn}>
-          <Text style={styles.grade}>去评分>></Text>
+          <Text style={styles.grade}>去评分</Text>
+          <Image style={styles.toGrade} source={require("../../../images/work/grade/toGrade.png")}></Image>
         </TouchableOpacity> 
 
       }
@@ -51,11 +54,12 @@ const styles = StyleSheet.create({
   content: {
     fontSize: pxToDp(26),
     color: "#363636",
-    // marginTop: pxToDp(20),
     paddingLeft: pxToDp(37),
     paddingRight: pxToDp(37),
-    textAlign: "center",
-    lineHeight: pxToDp(40)
+    lineHeight: pxToDp(40),
+    flex: 0.6,
+    alignItems: 'center',
+    justifyContent: "center",
   },
   btn: {
     width: pxToDp(121),
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   hadGradeText: {
     color: "#4CD964",
@@ -89,6 +93,11 @@ const styles = StyleSheet.create({
     color: "#007aff",
     textAlign: "center",
     lineHeight: pxToDp(44),
+  },
+  toGrade: {
+    width: pxToDp(12),
+    height: pxToDp(12),
+    marginLeft: pxToDp(5)
   },
   icon: {
     width: pxToDp(24),

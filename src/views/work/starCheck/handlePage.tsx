@@ -800,7 +800,7 @@ const styles = StyleSheet.create({
     marginTop: pxToDp(10)
   },
   process_footer: {
-    marginTop: pxToDp(20)
+    marginTop: pxToDp(20),
   },
 
   footer: {

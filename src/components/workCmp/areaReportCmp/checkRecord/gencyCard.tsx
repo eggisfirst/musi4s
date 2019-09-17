@@ -138,8 +138,10 @@ const styles = StyleSheet.create({
   shopText: {
     color: "#666",
     fontSize: pxToDp(24),
-    lineHeight: pxToDp(60),
+    lineHeight: pxToDp(36),
     width: pxToDp(600),
+    paddingTop: pxToDp(10),
+    paddingBottom: pxToDp(10)
   },
   shopText2: {
     color: "#666",
