@@ -133,9 +133,9 @@ export default class ProcessBox extends React.Component<IProps, IState>{
   }
   /**判断是一二星认证还是三星以上。一二没有4s认证部 */
   initLeftData() {
-    if(this.props.starLevel <= 2) {
+    if (this.props.starLevel <= 2) {
       this.getNodeWithOut4s_List()
-    }else {
+    } else {
       this.getNodeList()
     }
   }
@@ -148,20 +148,26 @@ export default class ProcessBox extends React.Component<IProps, IState>{
   render() {
     /**获取每个节点的margintop */
     const myMarginTop = (index: number) => {
+      // console.log('index',index)
       if (index === -1) {
-        return 34
+        return 40
       }
-
+      
+     
       if (this.props.rightData[index]) {
         const i = this.props.rightData[index].data.length
         if (Platform.OS === 'ios') {
-          return (i) * 41
+          if (index === 0) {
+            return (i) * 30 + 26
+          } else {
+            return (i) * 33 + 32
+          }
         } else {
           return (i) * 24 + 12
         }
       } else {
         if (Platform.OS === 'ios') {
-          return 56
+          return 69
         } else {
           return 65
         }
@@ -169,8 +175,14 @@ export default class ProcessBox extends React.Component<IProps, IState>{
     }
     /**最后一个元素底部加距离 */
     const myLastBottom = (type: string) => {
+      const len = this.state.nodeList.length
+      let datalen = 0
+      if(this.props.rightData[len - 1]) {
+        console.log(this.props.rightData[len - 1])
+        //  datalen = this.props.rightData[len - 1].data.length
+      }
       if (type === ApproveNode.headquarters) {
-        return pxToDp(93)
+        return datalen? pxToDp(datalen * 48 + 50) : pxToDp(100)
       }
     }
     /**
@@ -238,7 +250,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
             <View style={styles.rightBox}>
               {
                 this.props.rightData.map((item: any, index: number) => (
-                  <View style={{ marginTop: pxToDp(40) }} key={index}>
+                  <View style={{ marginTop: pxToDp(42) }} key={index}>
                     <View style={styles.rightStatus} >
                       {
                         item.data && item.data.map((el: any, i: number) => (
@@ -352,7 +364,7 @@ const styles = StyleSheet.create({
     width: pxToDp(140),
     paddingRight: pxToDp(20),
     fontWeight: "500",
-    lineHeight: pxToDp(40)
+    // lineHeight: pxToDp(30),
   },
 
   rightBox: {
@@ -372,7 +384,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(24),
     paddingLeft: pxToDp(20),
-    lineHeight: Platform.OS === 'ios' ? pxToDp(40) : pxToDp(30)
+    lineHeight: Platform.OS === 'ios' ? pxToDp(40.5) : pxToDp(30)
   },
   rightTextRed: {
     color: "#FF2D55",

@@ -20,7 +20,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
     if (getAllList[index].data.length) {
       const i = getAllList[index].data.length
       if (Platform.OS === 'ios') {
-        return pxToDp((i) * 38 + 27)
+        return pxToDp((i) * 33 + 38)
       } else {
         if(w > 380 && h < 710) {
           return pxToDp((i) * 30 + 24)
@@ -32,22 +32,24 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
   }
   /**未完成节点的时间轴第一段长度 */
   const myUnFinishMarTop = (index: number) => {
-    const len = nodeStateList.length
+    const len = nodeStateList.length 
+    // console.log('len',len)
+    // console.log('index',index)
     const h = Dimensions.get("window").height
     const w = Dimensions.get("window").width
     if (index === len) {
       const length = nodeStateList[len - 1].data.length
-      return pxToDp(length * 30 + 31)
+      return length * 30 + 31
     } else {
       if (Platform.OS === 'ios') {
-        return pxToDp(76)
+        return 76
       } else {
         if(w > 380 && h < 710) {
-          return pxToDp(84)
+          return 84
         }else if(w  > 380 && h > 710){
-          return pxToDp(84)
+          return 84
         }else {
-          return pxToDp(94)
+          return 94
         }
       }
     }
@@ -85,7 +87,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
             {
               item.status && item.status === 'no' ?
                 <>
-                  <View style={[styles.greyLine, { height: myUnFinishMarTop(index) }]}></View>
+                  <View style={[styles.greyLine, { height: pxToDp(myUnFinishMarTop(index)) }]}></View>
                   <View style={styles.grey}>
                     <View style={styles.greyIn}></View>
                   </View>
