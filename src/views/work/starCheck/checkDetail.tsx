@@ -94,7 +94,7 @@ class CheckDetailPage extends React.Component<any, IState>{
    * 获取已评分数据
    */
   getGradeDetailInfo() {
-    let id = ''
+    let id = this.props.navigation.state.params.standardId
     indexModel.getGradeDetailInfo(id).then(res => {
       if (res.status) {
         console.log('已评分详情：', res)
@@ -111,8 +111,7 @@ class CheckDetailPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
-    // this.getGradeDetailInfo()
-    console.log(1)
+    this.getGradeDetailInfo()
     let temp = this.props.checkList
     let params = this.props.navigation.state.params
     let arr = temp[params.fatherIndex].standardList[params.index].urls

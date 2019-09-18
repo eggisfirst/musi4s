@@ -213,7 +213,7 @@ class CheckListPage extends React.Component<any, IState>{
         for (let j = 0; j < data[i].standardList.length; j++) {
           let obj: any = {}
           obj.name = data[i].standardList[j].name
-          obj.type = params.tyep === '未评分' ? false : true
+          obj.type = params.type === '未评分' ? false : true
           obj.standardId = data[i].standardList[j].id ? data[i].standardList[j].id : data[i].standardList[j].standardId
           obj.urls = [] //上传文件url集合
           temp.standardList.push(obj)
