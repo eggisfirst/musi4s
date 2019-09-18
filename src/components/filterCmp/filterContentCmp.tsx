@@ -6,7 +6,7 @@ import { format } from '../../utils/index';
 import { connect } from "react-redux";
 import * as actions from '../../store/actions/filter/rightFliter'
 import { StarCheckTypes } from "../../utils/enum";
-// import ExtraDimensions from 'react-native-extra-dimensions-android';
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 interface IProps {
   type: StarCheckTypes  /**判断是哪个页面 */
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: '100%',
+    height: Platform.OS === 'android'? Dimensions.get('screen').height - ExtraDimensions.getSoftMenuBarHeight() : "100%",
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),

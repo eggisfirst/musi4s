@@ -162,8 +162,10 @@ const styles = StyleSheet.create({
   selectText: {
     color: "#090909",
     fontSize: pxToDp(30),
-    lineHeight: pxToDp(80),
-    minHeight: pxToDp(80),
+    paddingTop: pxToDp(20),
+    paddingBottom: pxToDp(20),
+    lineHeight: pxToDp(40),
+    // minHeight: pxToDp(80),
     width: '85%'
   },
   selectScoreText: {
