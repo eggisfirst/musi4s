@@ -150,10 +150,13 @@ export default class ProcessBox extends React.Component<IProps, IState>{
     const myMarginTop = (index: number) => {
       // console.log('index',index)
       if (index === -1) {
-        return 40
+        if (Platform.OS === 'ios') {
+          return 40
+        } else {
+          return 34
+        }
       }
-      
-     
+
       if (this.props.rightData[index]) {
         const i = this.props.rightData[index].data.length
         if (Platform.OS === 'ios') {
@@ -163,13 +166,17 @@ export default class ProcessBox extends React.Component<IProps, IState>{
             return (i) * 33 + 32
           }
         } else {
-          return (i) * 24 + 12
+          if (index === 0) {
+            return (i) * 32 + 20
+          } else {
+            return (i) * 32 + 28
+          }
         }
       } else {
         if (Platform.OS === 'ios') {
           return 69
         } else {
-          return 65
+          return 61
         }
       }
     }
@@ -177,12 +184,12 @@ export default class ProcessBox extends React.Component<IProps, IState>{
     const myLastBottom = (type: string) => {
       const len = this.state.nodeList.length
       let datalen = 0
-      if(this.props.rightData[len - 1]) {
+      if (this.props.rightData[len - 1]) {
         console.log(this.props.rightData[len - 1])
-        //  datalen = this.props.rightData[len - 1].data.length
+        datalen = this.props.rightData[len - 1].data.length
       }
       if (type === ApproveNode.headquarters) {
-        return datalen? pxToDp(datalen * 48 + 50) : pxToDp(100)
+        return datalen ? pxToDp(datalen * 48 + 50) : pxToDp(100)
       }
     }
     /**
@@ -384,7 +391,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(24),
     paddingLeft: pxToDp(20),
-    lineHeight: Platform.OS === 'ios' ? pxToDp(40.5) : pxToDp(30)
+    lineHeight: Platform.OS === 'ios' ? pxToDp(40.5) : pxToDp(40.5)
   },
   rightTextRed: {
     color: "#FF2D55",

@@ -22,11 +22,12 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
       if (Platform.OS === 'ios') {
         return pxToDp((i) * 33 + 38)
       } else {
-        if(w > 380 && h < 710) {
-          return pxToDp((i) * 30 + 24)
-        }else {
-          return (w > 380? pxToDp((i) * 30 + 24) : pxToDp((i) * 34 + 24))
-        }
+        return pxToDp((i) * 33 + 38)
+        // if(w > 380 && h < 710) {
+        //   return pxToDp((i) * 30 + 24)
+        // }else {
+        //   return (w > 380? pxToDp((i) * 30 + 24) : pxToDp((i) * 34 + 24))
+        // }
       }
     }
   }
@@ -44,13 +45,14 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
       if (Platform.OS === 'ios') {
         return 76
       } else {
-        if(w > 380 && h < 710) {
-          return 84
-        }else if(w  > 380 && h > 710){
-          return 84
-        }else {
-          return 94
-        }
+        return 76
+        // if(w > 380 && h < 710) {
+        //   return 84
+        // }else if(w  > 380 && h > 710){
+        //   return 84
+        // }else {
+        //   return 94
+        // }
       }
     }
   }

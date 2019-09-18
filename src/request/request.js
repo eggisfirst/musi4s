@@ -34,10 +34,18 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
   function(response) {
     // console.log(111,response)
+    // if(response.data.code === 500) {
+    //   Alert.alert(
+    //     '提示',
+    //     response.data.msg,
+    //     [
+    //       {text: '好的', onPress: () => { store.dispatch(setLoading(false))}},
+    //     ]
+    //   )
+    // }else {
+    //   store.dispatch(setLoading(false));
+    // }
     store.dispatch(setLoading(false));
-    if(response.data.code === 500) {
-      // Alert.alert(response.data.msg)
-    }
     return response
   },
   function(error) {
