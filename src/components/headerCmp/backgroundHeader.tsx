@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View,Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View,Text, Image, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import pxToDp from "../../utils/fixcss";
 
 interface IProps {
@@ -23,7 +23,7 @@ interface IProps {
 export const BackGroundHeader:React.FC<IProps> = (props:IProps) => {
     const {title,eggHandleBack} = props
     return(
-      <View style={[styles.container,{backgroundColor: props.bgColor, height: pxToDp(props.setHeight)}]}>
+      <View style={[styles.container,{backgroundColor: props.bgColor, height: pxToDp(props.setHeight )}]}>
         <TouchableOpacity 
             style={styles.backBtn}
             onPress={() => {eggHandleBack()}}>
@@ -38,6 +38,7 @@ export const BackGroundHeader:React.FC<IProps> = (props:IProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    // paddingTop:Platform.OS === 'ios'? pxToDp(55) : pxToDp(25) ,
     paddingLeft:pxToDp(32),
     paddingRight:pxToDp(22),
     display:"flex",

@@ -146,7 +146,7 @@ export default class CheckRecord extends React.Component<any>{
           eggHandleBack={() => { navigation.goBack() }}
           bgColor={'#007aff'}
           fontColor={"#fff"}
-          setHeight={177}
+          setHeight={263}
           imgUrl={require("../../../../../images/backicon.png")} 
           Children={!this.state.searchIn && 
             <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check} />

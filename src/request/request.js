@@ -6,16 +6,20 @@ import { Alert } from 'react-native';
 import { setLoading, Token } from '../store/actions/global/loading';
 import store from '../store';
 
-// baseUrl = 'http://10.11.8.247:8088/'
+timer = null
+baseUrl = 'http://10.11.8.247:8088/'
 // baseUrl = 'http://172.16.4.201:8088/'
 // baseUrl = 'http://10.11.8.8:8088/'
-baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
+// baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // baseUrl = 'https://op.derucci.com/'
 // baseUrl = 'https://qiang.derucci.com/'
 // tokenUrl = "https://op.derucci.com/"
 axios.interceptors.request.use(config => {
   store.dispatch(setLoading(true));
-  setTimeout(() => {
+  if(timer) {
+    clearTimeout(timer)
+  }
+  timer = setTimeout(() => {
     store.dispatch(setLoading(false));
   }, 60000);
   if (config.url.indexOf('oauth/token') === -1) {

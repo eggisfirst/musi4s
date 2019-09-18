@@ -303,7 +303,7 @@ class CheckListPage extends React.Component<any, IState>{
           eggHandleBack={() => { navigation.goBack() }}
           bgColor={'#007aff'}
           fontColor={'#fff'}
-          setHeight={200}
+          setHeight={223}
           imgUrl={require('../../../images/work/reception/back.png')}
           Children={
             <TouchableOpacity activeOpacity={0.8} style={styles.topRight}  onPress={() => { navigation.push('RulePage') }}>
