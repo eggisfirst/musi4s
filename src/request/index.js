@@ -129,12 +129,14 @@ class IndexModel extends Request {
    * @param {*} categoryId 
    * @param shopId
    */
-  subcategories(categoryId, shopId) {
+  subcategories(categoryId, shopId, qualificationId, scoreFlag) {
     return this.getSecretData({
       url: "v2/api/cert/approve/subcategories",
       data: {
         categoryId,
-        shopId
+        shopId,
+        qualificationId,
+        scoreFlag,
       }
     })
   }

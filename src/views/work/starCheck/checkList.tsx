@@ -22,6 +22,7 @@ interface IState {
   scoreTotal: number
   levelId: string
   checkAlertStatus: boolean
+  gardeStatus: boolean
 }
 
 interface IIndex {
@@ -34,7 +35,8 @@ class CheckListPage extends React.Component<any, IState>{
     deductTotal: 0,
     scoreTotal: 0,
     levelId: '',
-    checkAlertStatus: false
+    checkAlertStatus: false,
+    gardeStatus: true, // 为真时是已评分
   }
 
   static navigationOptions = {
@@ -146,14 +148,15 @@ class CheckListPage extends React.Component<any, IState>{
    * 跳转检查详情页面
    */
   toDetail = (index: number, fatherIndex: number): void => {
-    let params = this.props.navigation.state.params
+    let {type, qualificationId} = this.props.navigation.state.params
     let {name, standardId} = this.props.checkList.checkList[fatherIndex].standardList[index]
     this.props.navigation.navigate('CheckDetailPage', {
       name,
       index,
       fatherIndex,
       standardId,
-      type: params.type,
+      type,
+      qualificationId,
       callBack: () => {
         this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
       }
@@ -175,12 +178,12 @@ class CheckListPage extends React.Component<any, IState>{
     return sum
   }
 
-  /**
+  /** 
    * 获取店铺检查列表
    */
   subcategories = () => {
-    let params = this.props.navigation.state.params
-    indexModel.subcategories(params.categoryId, params.shopId).then(res => {
+    let {categoryId, shopId, type, qualificationId} = this.props.navigation.state.params
+    indexModel.subcategories(categoryId, shopId, qualificationId, type === '已评分').then(res => {
       console.log(99999, res)
       if (res.data) {
         this.setState({ levelId: res.data.starLevelId })
@@ -252,7 +255,7 @@ class CheckListPage extends React.Component<any, IState>{
               index: j,
             })
           }
-          obj.urls = [] // 上传文件url集合
+          obj.urls = data[i].standardList[j].urls || [] // 上传文件url集合
           temp.standardList.push(obj)
         }
       }
@@ -276,8 +279,10 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
+    let {type} = this.props.navigation.state.params
+    console.log(type)
     this.subcategories()
-    this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
+    this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0, gardeStatus: type === '已评分' })
     this.props.changeCheckList([])
   }
 
@@ -331,10 +336,11 @@ class CheckListPage extends React.Component<any, IState>{
             title={'SI/VI检查'}
           /> */}
         </ScrollView>
-        <BotBtn
+
+        {!this.state.gardeStatus && <BotBtn
           reset={this.reset}
           submit={this.sureSubmit}
-        ></BotBtn>
+        ></BotBtn>}
 
         {/* 检查结果弹框 */}
         <CheckAlert

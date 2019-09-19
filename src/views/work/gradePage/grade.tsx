@@ -44,6 +44,7 @@ export default class GradePage extends React.Component<any>{
       }
     })
   }
+
   /**
    * 初始数据
    */

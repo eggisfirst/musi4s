@@ -14,6 +14,7 @@ import SwiperIndex from "../../../components/workCmp/areaReportCmp/checkDetailsC
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 const indexModel = new IndexModel()
 
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 // interface IPros {
 //   minimumValue?: number
 //   maximumValue?: number
@@ -28,6 +29,7 @@ interface IState {
   bigImage: string
   bigImageStatus: boolean
   urls: any
+  gradeStatus: boolean
 }
 
 interface IData {
@@ -44,6 +46,7 @@ class CheckDetailPage extends React.Component<any, IState>{
     bigImage: '',
     bigImageStatus: false,
     urls: [],
+    gradeStatus: true,
   }
 
   _data: IData = {
@@ -104,8 +107,17 @@ class CheckDetailPage extends React.Component<any, IState>{
   getGradeDetailInfo() {
     let id = this.props.navigation.state.params.standardId
     indexModel.getGradeDetailInfo(id).then(res => {
-      if (res.status) {
-        console.log('已评分详情：', res)
+      if (res.status && res.data) {
+        let data = res.data
+        let imageList = data.attachment.map((item: any) => {
+          return item.url
+        })
+        this.setState({
+          score: data.deduct,
+          inputAreaVal: data.reason,
+          imageList: imageList,
+          urls: this.filterImageList(imageList)
+        })
       }
     })
   }
@@ -113,9 +125,9 @@ class CheckDetailPage extends React.Component<any, IState>{
   /**
    * 关闭大图框
    */
-  // closeBigImageBox = () => {
-  //   this.setState({bigImageStatus: false})
-  // }
+  closeBigImageBox = () => {
+    this.setState({bigImageStatus: false})
+  }
 
   /**
    * 打开大图框
@@ -141,6 +153,11 @@ class CheckDetailPage extends React.Component<any, IState>{
     return arr
   }
 
+  wp = (percentage: any) => {
+    const value = (percentage * viewportWidth) / 100;
+    return Math.round(value);
+  }
+
   componentWillReceiveProps() {
     let temp = this.props.checkList
     let params = this.props.navigation.state.params
@@ -150,6 +167,7 @@ class CheckDetailPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
+    const {type} = this.props.navigation.state.params
     this.getGradeDetailInfo()
     let temp = this.props.checkList
     let params = this.props.navigation.state.params
@@ -159,12 +177,17 @@ class CheckDetailPage extends React.Component<any, IState>{
     const {index, fatherIndex }= this.props.navigation.state.params
     this.setState({
       inputAreaVal: this.props.checkList[fatherIndex].standardList[index].text,
-      score: this.props.checkList[fatherIndex].standardList[index].deduct | 0
+      score: this.props.checkList[fatherIndex].standardList[index].deduct | 0,
+      // 标记是否查看已评分
+      gradeStatus: type === '已评分'
     })
   }
 
   render() {
     const { navigation } = this.props
+    const itemHorizontalMargin = this.wp(2);
+    const slideWidth = this.wp(60);
+    const itemWidth = slideWidth + itemHorizontalMargin * 2;
     return (
       <View>
         <HeaderCmp
@@ -198,34 +221,31 @@ class CheckDetailPage extends React.Component<any, IState>{
           scoreChange={this.scoreChange}
         ></ScoreSlider>
 
-        <View style={styles.bitBtnBox}>
+        {!this.state.gradeStatus && <View style={styles.bitBtnBox}>
           <BigBtn
             onClick={this.save}
             text={'保存'}
           ></BigBtn>
-        </View>
+        </View>}
 
         {
           this.state.bigImageStatus ? <View style={styles.bigImageBox}>
-            <View>
+            <TouchableOpacity
+              style={styles.closeBigImageBox}
+              onPress={this.closeBigImageBox}
+            >
+              <Image
+                style={styles.closeBigImage}
+                source={require('../../../images/egg_delete.png')}
+              ></Image>
+            </TouchableOpacity>
+            <View style={{
+              width: pxToDp(750),
+              height: itemWidth*1.33,
+            }}>
               <SwiperIndex urls={this.state.urls} />
             </View>
           </View> : <View></View>
-        //   <View style={styles.bigImageBox}>
-        //   <TouchableOpacity
-        //     style={styles.closeBigImageBox}
-        //     onPress={this.closeBigImageBox}
-        //   >
-        //     <Image
-        //       style={styles.closeBigImage}
-        //       source={require('../../../images/egg_delete.png')}
-        //     ></Image>
-        //   </TouchableOpacity>
-        //   <Image
-        //     style={styles.bigImage}
-        //     source={{uri: this.state.bigImage}}
-        //   ></Image>
-        // </View> : <View></View>
         }
       </View>
     )
@@ -288,18 +308,18 @@ const styles: any = StyleSheet.create({
   //   width: pxToDp(750),
   //   height: pxToDp(750),
   // },
-  // closeBigImageBox: {
-  //   position: 'absolute',
-  //   top: pxToDp(100),
-  //   right: pxToDp(40),
-  //   width: pxToDp(60),
-  //   height: pxToDp(60),
-  //   // alignSelf: 'flex-end',
-  //   // marginBottom: pxToDp(100),
-  //   // marginRight: pxToDp(40),
-  // },
-  // closeBigImage: {
-  //   width: '100%',
-  //   height: '100%',
-  // },
+  closeBigImageBox: {
+    position: 'absolute',
+    top: pxToDp(100),
+    right: pxToDp(40),
+    width: pxToDp(60),
+    height: pxToDp(60),
+    // alignSelf: 'flex-end',
+    // marginBottom: pxToDp(100),
+    // marginRight: pxToDp(40),
+  },
+  closeBigImage: {
+    width: '100%',
+    height: '100%',
+  },
 })

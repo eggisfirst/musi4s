@@ -1,8 +1,8 @@
 
 import React, {Component} from 'react';
-import { 
+import {
   View,
-  TextInput, 
+  TextInput,
   StyleSheet,
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
@@ -39,7 +39,7 @@ export default class InputAreaCmp extends Component<IProps,IState> {
           style={styles.textarea}
           placeholder={this.props.placeholder}
           placeholderTextColor={"#999"}
-          maxLength={200}
+          maxLength={100}
           multiline={true}
         />
       </View>
