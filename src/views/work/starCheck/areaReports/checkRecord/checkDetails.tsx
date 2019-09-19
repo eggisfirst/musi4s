@@ -61,8 +61,30 @@ class CheckDetails extends React.Component<any>{
   }
 
 
-
-
+  /**评分进入的检查记录/如果没有数据显示无记录 */
+  isHasData(gradeList: any) {
+    if (!gradeList.length) {
+      this.setState({
+        hasData: false
+      })
+    } else {
+      this.setState({
+        hasData: true
+      })
+    }
+  } 
+  /**切换星级的时候检查记录没有数据 */
+  checkHasData(list:any) {
+    if (list) {
+      this.setState({
+        hasData: true
+      })
+    } else {
+      this.setState({
+        hasData: false
+      })
+    }
+  }
   //----------------
   /**
    * 获取评分进来的 页面评分详情
@@ -75,13 +97,16 @@ class CheckDetails extends React.Component<any>{
          * 初始进来的index跟自己选择的index
          */
         let myIndex = index !== undefined ? index :
-          this.getInitStar(allLen, this.props.navigation.state.params.starLevel)
+        this.getInitStar(allLen, this.props.navigation.state.params.starLevel)
         console.log('myIndex', myIndex)
         this.props.handleSelectStarActiveIndex(myIndex)
         const scoreData = {
           getTotal: res.data.getTotal,
           shopName: res.data.shopName,
         }
+        /**如果gradeList里面没有数据，显示无记录 */
+        this.isHasData(res.data.gradeList)
+
         this.setState({
           starTitle: this.getStarTitle(res.data.starList),
           scoreData,
@@ -98,7 +123,7 @@ class CheckDetails extends React.Component<any>{
  */
   getCheckLogInfo(data: any, index?: number) {
     let { shopId, levelId, startTime, endTime } = data
-    if(!levelId) {
+    if (!levelId) {
       levelId = this.state.starData[0].levelId
     }
     indexModel.getCheckLogInfo(shopId, levelId, startTime, endTime).then(res => {
@@ -108,17 +133,19 @@ class CheckDetails extends React.Component<any>{
         */
         let myIndex = index !== undefined ? index : 0
         this.props.handleSelectStarActiveIndex(myIndex)
-
-        const scoreData = {
-          getTotal: res.checkLogInfo.score,
-          shopName: res.checkLogInfo.name,
+        this.checkHasData(res.checkLogInfo)
+        let scoreData;
+        if(res.checkLogInfo) {
+          scoreData = {
+            getTotal: res.checkLogInfo.score,
+            shopName: res.checkLogInfo.name,
+          }
+          this.setState({
+            checkInfo: res.checkLogInfo,
+            scoreData,
+            categorierData: res.checkLogInfo.checkCategories
+          })
         }
-        this.setState({
-          checkInfo: res.checkLogInfo,
-          scoreData,
-          categorierData: res.checkLogInfo.checkCategories
-
-        })
       }
     })
   }
@@ -256,7 +283,7 @@ class CheckDetails extends React.Component<any>{
   initGetData() {
     if (this.props.navigation.state.params.type === 'check') {
       this.getCheckcategories()
-   
+
     } else {
       const data = this.getParams()
       this.getStarGrade(data)
@@ -310,7 +337,7 @@ class CheckDetails extends React.Component<any>{
           </View>
         </View>
         {
-          this.state.hasData?
+          this.state.hasData ?
             <>
               <ScrollView>
                 {
