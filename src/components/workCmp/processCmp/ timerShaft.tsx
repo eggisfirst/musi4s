@@ -16,43 +16,50 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
     }
     const w = Dimensions.get("window").width
     const h = Dimensions.get("window").height
-    console.log(h,w)
+    console.log(h, w)
     if (getAllList[index].data.length) {
       const i = getAllList[index].data.length
       if (Platform.OS === 'ios') {
-        return pxToDp((i) * 33 + 38)
+        return pxToDp((i) * 31 + 40)
       } else {
-        return pxToDp((i) * 33 + 38)
-        // if(w > 380 && h < 710) {
-        //   return pxToDp((i) * 30 + 24)
-        // }else {
-        //   return (w > 380? pxToDp((i) * 30 + 24) : pxToDp((i) * 34 + 24))
-        // }
+        if (w === 360 && h === 730) {
+          return pxToDp((i) * 36 + 40)
+        } else {
+          return pxToDp((i) * 31 + 39)
+        }
       }
     }
   }
   /**未完成节点的时间轴第一段长度 */
   const myUnFinishMarTop = (index: number) => {
-    const len = nodeStateList.length 
+    const len = nodeStateList.length
     // console.log('len',len)
     // console.log('index',index)
     const h = Dimensions.get("window").height
     const w = Dimensions.get("window").width
+    console.log(w, h)
     if (index === len) {
       const length = nodeStateList[len - 1].data.length
-      return length * 30 + 31
+      if (Platform.OS === 'ios') {
+        return length * 33 + 31
+      } else {
+        if (w === 360 && h === 730) {
+          return length * 33 + 50
+        } else {
+          return length * 33 + 35
+        }
+      }
+      // return length * 33 + 31
     } else {
       if (Platform.OS === 'ios') {
         return 76
       } else {
-        return 76
-        // if(w > 380 && h < 710) {
-        //   return 84
-        // }else if(w  > 380 && h > 710){
-        //   return 84
-        // }else {
-        //   return 94
-        // }
+
+        if (w === 360 && h === 730) {
+          return 80
+        } else {
+          return 76
+        }
       }
     }
   }

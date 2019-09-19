@@ -108,8 +108,11 @@ const styles = StyleSheet.create({
   li: {
     color: '#000',
     fontSize: pxToDp(32),
-    lineHeight: pxToDp(120),
+    // lineHeight: pxToDp(120),
     paddingLeft: pxToDp(32),
+    lineHeight: pxToDp(40),
+    paddingTop: pxToDp(20),
+    paddingBottom: pxToDp(20)
     // paddingRight: pxToDp(32),
   }
 })

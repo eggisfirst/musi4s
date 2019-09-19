@@ -149,6 +149,8 @@ export default class ProcessBox extends React.Component<IProps, IState>{
     /**获取每个节点的margintop */
     const myMarginTop = (index: number) => {
       // console.log('index',index)
+      const w = Dimensions.get("window").width
+      const h = Dimensions.get("window").height
       if (index === -1) {
         if (Platform.OS === 'ios') {
           return 40
@@ -161,22 +163,32 @@ export default class ProcessBox extends React.Component<IProps, IState>{
         const i = this.props.rightData[index].data.length
         if (Platform.OS === 'ios') {
           if (index === 0) {
-            return (i) * 30 + 26
+            return (i) * 30 + 30
           } else {
-            return (i) * 33 + 32
+            return (i) * 34 + 30
           }
         } else {
           if (index === 0) {
-            return (i) * 32 + 20
+            return (i) * 32 + 24
           } else {
-            return (i) * 32 + 28
+            if (w === 360 && h === 730) {
+              return (i) * 33 + 25
+            } else {
+              return (i) * 31 + 26
+            }
+            // return (i) * 33 + 28
           }
         }
       } else {
         if (Platform.OS === 'ios') {
-          return 69
+          return 68
         } else {
-          return 61
+          if (w === 360 && h === 730) {
+            return 64
+          } else {
+            return 61
+          }
+
         }
       }
     }

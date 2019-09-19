@@ -97,7 +97,10 @@ class CheckDetails extends React.Component<any>{
  * 获取检查 --进来的页面评分详情
  */
   getCheckLogInfo(data: any, index?: number) {
-    const { shopId, levelId, startTime, endTime } = data
+    let { shopId, levelId, startTime, endTime } = data
+    if(!levelId) {
+      levelId = this.state.starData[0].levelId
+    }
     indexModel.getCheckLogInfo(shopId, levelId, startTime, endTime).then(res => {
       if (res.status) {
         /**
@@ -135,6 +138,10 @@ class CheckDetails extends React.Component<any>{
             allStarLength: res.checkCategories.length,
             hasData: true
           })
+
+          const data = this.getCheckParams()
+          this.getCheckLogInfo(data)
+
         } else {
           this.setState({
             hasData: false
@@ -249,9 +256,7 @@ class CheckDetails extends React.Component<any>{
   initGetData() {
     if (this.props.navigation.state.params.type === 'check') {
       this.getCheckcategories()
-      const data = this.getCheckParams()
-      // this.starTest()
-      this.getCheckLogInfo(data)
+   
     } else {
       const data = this.getParams()
       this.getStarGrade(data)

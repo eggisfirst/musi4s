@@ -92,14 +92,14 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
               {
                 item.regionGet?  
                 <TouchableOpacity style={styles.scoreText} onPress={() => {handleToAreaDetail(index)}}>
-                  <Text style={styles.scoreText}>{item.regionGet}</Text>
+                  <Text style={[styles.scoreText,{color: "#007aff"}]}>{item.regionGet}</Text>
                 </TouchableOpacity> : 
                 <Text style={styles.scoreText}>{'/'}</Text>
               }
               {
                  item.certificationGet? 
                 <TouchableOpacity style={styles.scoreText2} onPress={() => {handleToFourDetails(index)}}>
-                  <Text style={styles.scoreText2}>{item.certificationGet}</Text>
+                  <Text style={[styles.scoreText2,{color: "#007aff"}]}>{item.certificationGet}</Text>
                 </TouchableOpacity> : 
                 <Text style={styles.scoreText}>{'/'}</Text>
               }
