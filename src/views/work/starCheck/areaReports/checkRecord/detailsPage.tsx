@@ -78,18 +78,6 @@ class DetailsPage extends React.Component<any>{
     return arr
   }
 
-  test = () => {
-    axios.get('../../../../../../data.json')
-      .then((res) => {
-        const urls = this.changeUrl(res.data.standardinfo.urls)
-        store.dispatch(setLoading(false));
-        this.setState({
-          standards: res.data.standards,
-          urls: urls
-        })
-
-      })
-  }
   //----------请求----------
   /**
    * 获取检查 -- 检查详情的每个项目
@@ -202,8 +190,6 @@ class DetailsPage extends React.Component<any>{
     this.props.pullDownSelect(0)
     if (this.props.navigation.state.params.type === 'check') {
       this.getStandard()
-      // this.test()
-
     } else {
       this.getGradeDetailList()
     }

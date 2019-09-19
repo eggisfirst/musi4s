@@ -4,7 +4,7 @@ import pxToDp from "../../../utils/fixcss";
 import { StarCheckTypes } from "../../../utils/enum";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import store from '../../../store'
-import { getStar } from "../../../utils";
+import { getStar, removeSecond } from "../../../utils";
 
 interface IProps {
   title: string
@@ -32,7 +32,7 @@ export const ApplyItem: React.FC<IProps> = (props) => {
                   <Text style={styles.name} >
                     {props.title}
                   </Text>
-                  <Text style={styles.processText}>{props.time}</Text>
+                  <Text style={styles.processText}>{removeSecond(props.time)}</Text>
                 </View>
                 <Text style={styles.star}>认证星级：{getStar(props.star)}</Text>
               </View>

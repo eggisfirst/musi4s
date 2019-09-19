@@ -67,32 +67,11 @@ class PullDownCmp extends React.Component<IProps, IState>{
     const activeColor = {
       color: "#007aff"
     }
-    console.log(this.props.data)
-    const list = [
-      {
-        name: "店面面积",
-        score: '-8'
-      },
-      {
-        name: "店面类型",
-        score: ''
-      },
-      {
-        name: "装修时间",
-        score: '-4'
-      },
-      {
-        name: "门店灯箱",
-        score: ''
-      }, {
-        name: "地面",
-        score: '-8'
-      }
-    ]
+    console.log('data',this.props.data)
     return (
       <View>
         <TouchableOpacity onPress={() => { this.handleShowBox() }} style={styles.container} activeOpacity={0.6}>
-          <Text style={styles.text} numberOfLines={1}>{this.props.data.length && this.props.data[activeIndex].name}</Text>
+          <Text style={styles.text} numberOfLines={1}>{this.props.data.length?this.props.data[activeIndex].name : "暂无数据"}</Text>
           <Image style={[styles.downIcon, this.state.selectBoxStatus && activeRotate]} source={require("../../images/work/areaReport/checkRecord/more.png")} />
         </TouchableOpacity>
         {
