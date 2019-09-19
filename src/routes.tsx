@@ -46,7 +46,6 @@ const AppNavigator = createBottomTabNavigator({
   },
 )
 
-
 export default function configAppNavigator(isLoggedIn:boolean) {
   return createAppContainer(createStackNavigator({
     Login: {
@@ -152,8 +151,8 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     }
   },{
     //初始进来的页面
-    initialRouteName: 'Login',
-    // initialRouteName: isLoggedIn ? 'Work' : 'Login',
+    // initialRouteName: 'Login',
+    initialRouteName: isLoggedIn ? 'Work' : 'Login',
     // initialRouteName: 'CheckDetailPage',
     // initialRouteName: 'CheckListPage',
     mode: 'card',

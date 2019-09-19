@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from "../../../components/headerCmp/headerCmp"
 import { changeCheckList } from '../../../store/actions/4s/checkList';
@@ -10,6 +10,8 @@ import BigBtn from '../../../components/common/bigBtn';
 import ImgUploadCmp from '../../../components/common/imgUploadCmp';
 import ScoreSlider from '../../../components/common/scoreSlider';
 import { IndexModel } from "../../../request";
+import SwiperIndex from "../../../components/workCmp/areaReportCmp/checkDetailsCmp/swiperIndex";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 const indexModel = new IndexModel()
 
 // interface IPros {
@@ -23,6 +25,9 @@ interface IState {
   imageList: string[]
   inputAreaVal: string
   score: number
+  bigImage: string
+  bigImageStatus: boolean
+  urls: any
 }
 
 interface IData {
@@ -36,6 +41,9 @@ class CheckDetailPage extends React.Component<any, IState>{
     imageList: [],
     inputAreaVal: '',
     score: 0,
+    bigImage: '',
+    bigImageStatus: false,
+    urls: [],
   }
 
   _data: IData = {
@@ -68,7 +76,7 @@ class CheckDetailPage extends React.Component<any, IState>{
    */
   getImageList = (arr: string[]):void => {
     this._data.imgDataList = arr
-    this.setState({})
+    this.setState({urls: this.filterImageList(arr)})
     console.log('上传的图片：', arr)
   }
 
@@ -100,6 +108,37 @@ class CheckDetailPage extends React.Component<any, IState>{
         console.log('已评分详情：', res)
       }
     })
+  }
+
+  /**
+   * 关闭大图框
+   */
+  // closeBigImageBox = () => {
+  //   this.setState({bigImageStatus: false})
+  // }
+
+  /**
+   * 打开大图框
+   */
+  openBigImageBox = () => {
+    this.setState({bigImageStatus: true})
+  }
+
+  /**
+   * 更改大图框的图片链接
+   */
+  changeBigImage = (str: string) => {
+    this.setState({bigImage: str})
+  }
+
+  /**
+   * @param {*图片链接数组} imageList
+   */
+  filterImageList = (imageList: string[]) => {
+    let arr = imageList.map((item, index) => {
+      return { url: item, type: 'image' }
+    })
+    return arr
   }
 
   componentWillReceiveProps() {
@@ -145,6 +184,8 @@ class CheckDetailPage extends React.Component<any, IState>{
           <ImgUploadCmp
             getImageList={(obj) => this.getImageList(obj)}
             imageList={ this.state.imageList }
+            openBigImageBox={this.openBigImageBox}
+            changeBigImage={this.changeBigImage}
           ></ImgUploadCmp>
         </View>
 
@@ -163,6 +204,29 @@ class CheckDetailPage extends React.Component<any, IState>{
             text={'保存'}
           ></BigBtn>
         </View>
+
+        {
+          this.state.bigImageStatus ? <View style={styles.bigImageBox}>
+            <View>
+              <SwiperIndex urls={this.state.urls} />
+            </View>
+          </View> : <View></View>
+        //   <View style={styles.bigImageBox}>
+        //   <TouchableOpacity
+        //     style={styles.closeBigImageBox}
+        //     onPress={this.closeBigImageBox}
+        //   >
+        //     <Image
+        //       style={styles.closeBigImage}
+        //       source={require('../../../images/egg_delete.png')}
+        //     ></Image>
+        //   </TouchableOpacity>
+        //   <Image
+        //     style={styles.bigImage}
+        //     source={{uri: this.state.bigImage}}
+        //   ></Image>
+        // </View> : <View></View>
+        }
       </View>
     )
   }
@@ -195,5 +259,47 @@ const styles: any = StyleSheet.create({
   bitBtnBox: {
     width: pxToDp(640),
     marginLeft: pxToDp(55),
-  }
+  },
+  bigImageBox: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 999,
+    height: Dimensions.get('screen').height,
+    width: pxToDp(750),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)', 
+    // flexDirection: 'column',
+  },
+  // bigImageBox: {
+  //   position: 'absolute',
+  //   top: 0,
+  //   left: 0,
+  //   zIndex: 999,
+  //   height: Dimensions.get('screen').height,
+  //   width: pxToDp(750),
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   backgroundColor: 'rgba(0,0,0,0.5)', 
+  //   flexDirection: 'column',
+  // },
+  // bigImage: {
+  //   width: pxToDp(750),
+  //   height: pxToDp(750),
+  // },
+  // closeBigImageBox: {
+  //   position: 'absolute',
+  //   top: pxToDp(100),
+  //   right: pxToDp(40),
+  //   width: pxToDp(60),
+  //   height: pxToDp(60),
+  //   // alignSelf: 'flex-end',
+  //   // marginBottom: pxToDp(100),
+  //   // marginRight: pxToDp(40),
+  // },
+  // closeBigImage: {
+  //   width: '100%',
+  //   height: '100%',
+  // },
 })

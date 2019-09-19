@@ -260,7 +260,6 @@ class DetailsPage extends React.Component<any>{
           </View>
           <View style={styles.showPictureBox}>
             <SwiperIndex urls={this.state.urls} />
-
             <View style={styles.sliderCmp}>
               <SliderCmp cutScore={navigation.state.params.type === 'check' ? this.state.standardinfo.deduct : this.state.gradeDetailInfo.deduct}
                 maxNum={18} />

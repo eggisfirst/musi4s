@@ -7,11 +7,12 @@ import {
   View,
   Image,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native"; 
 import pxToDp from '../../utils/fixcss';
 import ImagePicker from 'react-native-image-picker';
 import { IndexModel } from "../../request";
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 const indexModel = new IndexModel()
 
 interface IState {
@@ -22,13 +23,15 @@ interface IState {
 interface IProps {
   getImageList:(obj:object) => void
   imageList: string[]
+  openBigImageBox: () => void
+  changeBigImage: (str: string) => void
 }
 
 export default class ImgUploadCmp extends Component<IProps, IState> {
 
   state: IState = {
     // imageList: [],
-    avatarSource: {uri: '../../images/work/starCheck/addImg.png'}
+    avatarSource: {uri: '../../images/work/starCheck/addImg.png'},
   }
 
   _imgDataList: object[] = []
@@ -38,6 +41,9 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     cancelButtonTitle: '取消',
     takePhotoButtonTitle: '拍照',
     chooseFromLibraryButtonTitle: '选择相册',
+    quality: 0.9,
+    maxWidth: 500,
+    maxHeight: 500,
     allowsEditing: true,
     noData: false,
     // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
@@ -108,21 +114,19 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
   saveImage = (response:any) => {
     let file = {uri: response.uri, type: 'multipart/form-data', name: 'image.jpg'}
     let formData = new FormData()
-    formData.append('multipartFile', file)
     // formData.append('dataFile', file)
-    // formData.append('prefix', 'cert-check-log')
+    formData.append('multipartFile', file)
     indexModel.uploadFile(formData).then(res => {
-      console.log('上传图片返回的数据:', res)
-      // const source = { uri: res.url };
       let temp = this.props.imageList
       temp.push(res.data)
       this._imgDataList.push(res.data)
-      console.log(555, this._imgDataList)
       this.props.getImageList(this._imgDataList)
-      // this.setState({
-      //   imageList: temp,
-      // })
     })
+  }
+
+  watchBigImage = (index: number) => {
+    this.props.changeBigImage(this.props.imageList[index])
+    this.props.openBigImageBox()
   }
 
   componentWillReceiveProps() {
@@ -142,7 +146,11 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
               >
               <Image source={require('../../images/work/starCheck/cutImg.png')} style={styleSheet.cutImg} />
               </TouchableOpacity>
-              <Image source={{uri: item}} style={styleSheet.img} />
+              <TouchableWithoutFeedback
+                onPress={() => this.watchBigImage(index)}
+              >
+                <Image source={{uri: item}} style={styleSheet.img} />
+              </TouchableWithoutFeedback>
             </View>
     })
     return(
