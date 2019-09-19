@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(150),
-    height:  Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight(),
+    height:  Dimensions.get("window").height + ExtraDimensions.getSoftMenuBarHeight(),
     backgroundColor: 'rgba(0,0,0,0)',
   },
   modalStyle: {
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Platform.OS === 'android'? Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight(): "100%",
+    height: Platform.OS === 'android'? Dimensions.get("window").height + ExtraDimensions.getSoftMenuBarHeight(): "100%",
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
