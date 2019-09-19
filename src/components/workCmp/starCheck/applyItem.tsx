@@ -49,7 +49,7 @@ export const ApplyItem: React.FC<IProps> = (props) => {
               source={require("../../../images/work/starCheck/via.png")} />
             <View>
               <View style={styles.processTitle}>
-                <Text style={styles.name} >
+                <Text style={styles.allName} >
                   {props.title + '发起申请！'}
                 </Text>
               </View>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: pxToDp(1),
     // width: "100%",
     paddingTop: pxToDp(30),
-    paddingBottom: pxToDp(30),
+    paddingBottom: pxToDp(19),
   },
   header: {
     display: "flex",
@@ -89,23 +89,34 @@ const styles = StyleSheet.create({
     fontSize: pxToDp(38),
     fontWeight: "bold",
     // width: pxToDp(600),
+    lineHeight: pxToDp(50),
+    width: pxToDp(420),
+  },
+  allName: {
+    color: "#363636",
+    fontSize: pxToDp(38),
+    fontWeight: "bold",
+    // width: pxToDp(600),
     lineHeight: pxToDp(60),
-    width: pxToDp(420)
+    width: pxToDp(580),
   },
   star: {
     color: "#363636",
-    fontSize: pxToDp(30)
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(40)
   },
 
   processTitle: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "space-between",
     width: pxToDp(580)
   },
   processText: {
     color: "#666",
-    fontSize: pxToDp(24)
+    fontSize: pxToDp(24),
+    paddingRight: pxToDp(32),
+    lineHeight: pxToDp(50)
   }
 })

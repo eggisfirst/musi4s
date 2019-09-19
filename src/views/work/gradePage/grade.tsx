@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     paddingLeft: pxToDp(31),
     paddingTop: pxToDp(8),
     paddingBottom: pxToDp(8),
+  
   },
   sum_title: {
     fontSize: pxToDp(30),

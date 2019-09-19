@@ -55,8 +55,12 @@ export const ReceItem: React.FC<IProps> = (props: IProps) => {
           <Image style={styles.add_icon} source={require("../../../images/work/reception/location.png")} />
           <Text style={styles.add_text}>门店地址</Text>
         </TouchableOpacity>
-
-        <Text style={styles.botDate}>{props.shopItem.regionScoreTime || props.shopItem.scoreCertification}</Text>
+        {
+          props.type == 3 ?
+            <Text style={styles.botDate}>{props.shopItem.regionScoreTime}</Text>
+            :
+            <Text style={styles.botDate}>{props.shopItem.certificationScoreTime}</Text>
+        }
 
       </View>
 

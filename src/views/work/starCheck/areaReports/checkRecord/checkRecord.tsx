@@ -28,19 +28,6 @@ class CheckRecord extends React.Component<any>{
     list: []
   }
 
-  test = () => {
-    axios.get('../../../../../../data.json')
-      .then((res) => {
-        console.log(res.data.list)
-        store.dispatch(setLoading(false));
-        this.setState({
-          list: res.data.list
-        })
-      })
-  }
-
-
-
   /**
    * 获取历史记录
    */
@@ -66,7 +53,6 @@ class CheckRecord extends React.Component<any>{
     this.getCheckLog()
 
 
-    // this.test()
 
     // console.log(this.props.navigation.state.parmas)
   }

@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: pxToDp(50)
   },
   textBox: {
     position: "absolute",

@@ -272,6 +272,7 @@ class HandelPage extends React.Component<any, IState>{
           ],
           { cancelable: false }
         )
+        console.log('认证失败')
       }
     })
   }
@@ -446,6 +447,15 @@ class HandelPage extends React.Component<any, IState>{
               list
             })
             Alert.alert('受理成功')
+          }else {
+            Alert.alert(
+              '提示',
+              `${res.msg}`,
+              [
+                { text: '确定', onPress: () => console.log('onPress OK') },
+              ],
+              { cancelable: false }
+            )
           }
         })
         break;
@@ -457,6 +467,15 @@ class HandelPage extends React.Component<any, IState>{
               list
             })
             Alert.alert('退回成功')
+          }else {
+            Alert.alert(
+              '提示',
+              `${res.msg}`,
+              [
+                { text: '确定', onPress: () => console.log('onPress OK') },
+              ],
+              { cancelable: false }
+            )
           }
         })
         break;
@@ -628,7 +647,7 @@ class HandelPage extends React.Component<any, IState>{
     }
 
     return (
-      <View>
+      <View style={{width: "100%",height: "100%"}}>
         <CheckHeader title={this.state.starCheckType}
           searchIn={this.state.searchIn}
           eggHandleBack={this.handleGoBack}
@@ -643,7 +662,7 @@ class HandelPage extends React.Component<any, IState>{
             filterComfirm={this.filterComfirm}
             filterReset={this.filterReset} />
         }
-        <FlatList style={{ backgroundColor: "#f8f8f8", marginBottom: pxToDp(300), minHeight: pxToDp(1330) }}
+        <FlatList style={{ backgroundColor: "#f8f8f8" }}
           data={this.state.list}
           ItemSeparatorComponent={this._separator}
           ListFooterComponent={this._renderFooter()}
@@ -781,7 +800,7 @@ const styles = StyleSheet.create({
     marginTop: pxToDp(10)
   },
   process_footer: {
-    marginTop: pxToDp(20)
+    marginTop: pxToDp(26),
   },
 
   footer: {

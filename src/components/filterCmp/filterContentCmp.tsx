@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9900,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   leftStyle: {
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(150),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height:  Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight(),
     backgroundColor: 'rgba(0,0,0,0)',
   },
   modalStyle: {
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Platform.OS === 'android'? Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight(): "100%",
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 999999,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   datePickerContainer: {

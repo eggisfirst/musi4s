@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   textarea: {
     width: pxToDp(640),
-    height: pxToDp(100),
+    // height: pxToDp(100),
     textAlignVertical: 'top',
     color: '#2d2d2d',
   },

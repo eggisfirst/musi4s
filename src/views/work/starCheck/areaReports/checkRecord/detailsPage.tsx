@@ -334,5 +334,6 @@ const styles = StyleSheet.create({
     fontSize: pxToDp(26),
     color: "#303030",
     lineHeight: pxToDp(40),
+    // marginBottom: pxToDp(40),
   }
 })

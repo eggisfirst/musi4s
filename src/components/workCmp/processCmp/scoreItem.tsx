@@ -39,13 +39,14 @@ export const ScoreItem:React.FC<IProps> = ({item,reason}) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: pxToDp(710),
+    width: pxToDp(690),
     borderRadius: pxToDp(10),
     backgroundColor: "#f0f0f0",
     display: "flex",
     flexDirection: "row",
     alignItems:"center",
-    marginTop: pxToDp(8)
+    marginTop: pxToDp(8),
+    paddingLeft: pxToDp(20)
   },
   text: {
     color: "#666",

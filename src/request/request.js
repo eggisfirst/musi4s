@@ -6,6 +6,7 @@ import { Alert } from 'react-native';
 import { setLoading, Token } from '../store/actions/global/loading';
 import store from '../store';
 
+timer = null
 baseUrl = 'http://10.11.8.247:8088/'
 // baseUrl = 'http://172.16.4.201:8088/'
 // baseUrl = 'http://10.11.8.8:8088/'
@@ -15,6 +16,12 @@ baseUrl = 'http://10.11.8.247:8088/'
 // tokenUrl = "https://op.derucci.com/"
 axios.interceptors.request.use(config => {
   store.dispatch(setLoading(true));
+  if(timer) {
+    clearTimeout(timer)
+  }
+  timer = setTimeout(() => {
+    store.dispatch(setLoading(false));
+  }, 60000);
   if (config.url.indexOf('oauth/token') === -1) {
     config.headers['Authorization'] = `Bearer ${store.getState().Loading.token}`
   }
@@ -27,10 +34,18 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
   function(response) {
     // console.log(111,response)
-    if(response.data.code == 500) {
-    }
+    // if(response.data.code === 500) {
+    //   Alert.alert(
+    //     '提示',
+    //     response.data.msg,
+    //     [
+    //       {text: '好的', onPress: () => { store.dispatch(setLoading(false))}},
+    //     ]
+    //   )
+    // }else {
+    //   store.dispatch(setLoading(false));
+    // }
     store.dispatch(setLoading(false));
-
     return response
   },
   function(error) {
