@@ -20,7 +20,7 @@ import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
 import { _retrieveData } from "../../../utils/utils";
-import { format, getApproveState, approveBoxLeftInfo, turnToArray } from "../../../utils";
+import { format, getApproveState, approveBoxLeftInfo, turnToArray, areaDuty, fourDuty } from "../../../utils";
 const indexModel = new IndexModel()
 const actions = {
   ...rightFliter,
@@ -49,12 +49,13 @@ interface IState {
   starLevel: number
   //认证弹框需要的id
   qualificationId: string
+  approveStatus: string
 }
 
 class HandelPage extends React.Component<any, IState>{
   static navigationOptions = {
     header: null,
-    
+
   }
   state: IState = {
     alertBox: BtnTitle.null,
@@ -82,7 +83,8 @@ class HandelPage extends React.Component<any, IState>{
     searchIn: false,
     searchVal: '',
     starLevel: -1,
-    qualificationId: ''
+    qualificationId: '',
+    approveStatus: ''
   }
   /**
    * 筛选或者排序的时候初始话参数
@@ -263,7 +265,7 @@ class HandelPage extends React.Component<any, IState>{
           list
         })
         Alert.alert('已发起认证')
-      }else {
+      } else {
         Alert.alert(
           '提示',
           `${res.msg}`,
@@ -292,11 +294,29 @@ class HandelPage extends React.Component<any, IState>{
           starLevel,
           qualificationId: id
         })
+        // this.getApproveStatus()
       }
     })
   }
 
   //--------------------
+  /**获取认证进度外面的状态 */
+  // getApproveStatus() {
+  //   const rightData = this.state.processRightData
+  //   const type = this.state.type
+  //   const len = rightData.length
+  //   if (len) {
+  //     const dataLen = rightData[len - 1].data.length
+  //     const status = rightData[len - 1].data[dataLen - 1].statusString
+  //     const approveStatus = type == 3 ? areaDuty[len - 1] + status : fourDuty[len - 1] + status
+  //     this.setState({
+  //       approveStatus
+  //     })
+  //   }
+  // }
+
+
+
   /**
    * 防止加载两次
    */
@@ -436,7 +456,7 @@ class HandelPage extends React.Component<any, IState>{
     switch (status) {
       case AlertBtnTypes.cancle:
         console.log('cancle')
-       
+
         break;
       case AlertBtnTypes.comfirm:
         //请求
@@ -447,7 +467,7 @@ class HandelPage extends React.Component<any, IState>{
               list
             })
             Alert.alert('受理成功')
-          }else {
+          } else {
             Alert.alert(
               '提示',
               `${res.msg}`,
@@ -467,7 +487,7 @@ class HandelPage extends React.Component<any, IState>{
               list
             })
             Alert.alert('退回成功')
-          }else {
+          } else {
             Alert.alert(
               '提示',
               `${res.msg}`,
@@ -606,7 +626,7 @@ class HandelPage extends React.Component<any, IState>{
   _renderFooter() {
     if (this.state.showFoot === 1) {
       return (
-        <View style={{ height:pxToDp(100) , alignItems: 'center', justifyContent: 'flex-start', }}>
+        <View style={{ height: pxToDp(100), alignItems: 'center', justifyContent: 'flex-start', }}>
           <Text style={{ color: '#999999', fontSize: pxToDp(24), marginTop: pxToDp(10), marginBottom: pxToDp(40), }}>
             没有更多数据了
           </Text>
@@ -647,7 +667,7 @@ class HandelPage extends React.Component<any, IState>{
     }
 
     return (
-      <View style={{width: "100%",height: "100%"}}>
+      <View style={{ width: "100%", height: "100%" }}>
         <CheckHeader title={this.state.starCheckType}
           searchIn={this.state.searchIn}
           eggHandleBack={this.handleGoBack}

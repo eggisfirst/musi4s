@@ -320,8 +320,8 @@ class CheckListPage extends React.Component<any, IState>{
         <View style={styles.grad}>
           <Text style={styles.gradText}>分数统计：</Text>
           <View style={styles.grad}>
-            <Text style={styles.gradTotal}>总分 {this.state.scoreTotal}</Text>
-            <Text style={styles.gradDeduct}>扣分 {this.state.deductTotal}</Text>
+            <Text style={styles.gradTotal}>总分 {this.state.scoreTotal}   |</Text>
+            <Text style={styles.gradDeduct}>   扣分 {this.state.deductTotal}</Text>
           </View>
         </View>
 

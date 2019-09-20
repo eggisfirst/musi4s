@@ -8,6 +8,31 @@ export const format = (date: any) => {
   }
 }
 
+/**区域职位 */
+export const areaDuty =
+  [
+    '经销商',
+    '区域',
+    '销售中心',
+    '市场中心',
+    '总裁',
+    '总部'
+  ]
+
+/**4s职位 */
+export const fourDuty =
+  [
+    '经销商',
+    '区域',
+    '4s认证部',
+    '销售中心',
+    '4s认证部',
+    '市场中心',
+    '总裁',
+    '总部'
+  ]
+
+
 /**
  * 获取星级
  * @param star 
@@ -37,27 +62,27 @@ export const getStar = (star: number) => {
 export const getApproveState = (state: number | string) => {
   switch (state) {
     case 1:
-      return '已申请'
+      return '经销商发起申请'
     case 2:
       return '已退回'
     case 3:
-      return '已撤销'
+      return '经销商撤销申请'
     case 4:
-      return '区域经理已受理（评分中）'
+      return '区域受理经销商的申请'
     case 5:
-      return '区域经理已评分（通过)'
+      return '区域评分合格'
     case 6:
-      return '区域经理未通过'
+      return '区域评分不合格'
     case 7:
-      return '区域经理发起认证'
+      return '区域发起OA认证'
     case 8:
-      return '4s认证部已受理'
+      return '4s受理经销商的申请'
     case 9:
-      return '4s认证部已评分（通过）'
+      return '4s评分合格'
     case 10:
-      return '4s认证部未通过'
+      return '4s评分不合格'
     case 11:
-      return '4s认证部发起认证'
+      return '4s认证部发起OA认证'
     case 12:
       return 'OA认证通过'
     case 13:
@@ -153,7 +178,7 @@ export const turnToArray = (data: any) => {
  */
 export const removeSecond = (data: any) => {
   const time = data.split(' ')
-  if(time) {
+  if (time) {
     return time[0]
   }
 }
@@ -167,7 +192,7 @@ export const deepClone = (origin: any, target: any) => {
   for (var prop in origin) {
     // 判断一个对象是否包含自定义属性而不是原型链上的属性
     if (origin.hasOwnProperty(prop)) {
-      if (origin[prop] !== 'null' && typeof(origin[prop]) == 'object') {
+      if (origin[prop] !== 'null' && typeof (origin[prop]) == 'object') {
         if (toStr.call(origin[prop]) == arrStr) {
           target[prop] = []
         } else {

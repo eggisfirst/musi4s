@@ -253,7 +253,8 @@ export default class ProcessBox extends React.Component<IProps, IState>{
     return (
       <View style={styles.mask}>
         <View style={styles.container}>
-          <Text style={styles.title}>进度--{title(this.props.rightData)}</Text>
+          {/* <Text style={styles.title}>进度--{title(this.props.rightData)}</Text> */}
+          <Text style={styles.title}>认证进度</Text>
 
           <ScrollView style={styles.content}>
             <View style={styles.linePosition}>
@@ -276,12 +277,13 @@ export default class ProcessBox extends React.Component<IProps, IState>{
                           <View key={i}>
                             {
                               preceStyle(el.status, index) === 1 ?
-                                <Text style={styles.rightText}>{el.createTime} {index <= 2 ? getApproveBoxState(el.status) : getApproveOtherBoxState(el.status)}</Text>
+                                // <Text style={styles.rightText}>{el.createTime}{index <= 2 ? getApproveBoxState(el.status) : getApproveOtherBoxState(el.status)}</Text>
+                                <Text style={styles.rightText}>{el.createTime} {el.statusString}</Text>
                                 :
                                 <>
                                   {
                                     index <= 2 && el.status !== 2 && el.status !== 3 ?
-                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => { this.toAcceptancePage() }}> {getApproveBoxState(el.status)}</Text>
+                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => { this.toAcceptancePage() }}>{getApproveBoxState(el.status)}</Text>
                                       </Text> :
                                       <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveBoxState(el.status)}</Text>
                                       </Text>

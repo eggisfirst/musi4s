@@ -50,6 +50,7 @@ axios.interceptors.response.use(
   },
   function(error) {
     // console.log(222,error)
+    
     store.dispatch(setLoading(false));
     return Promise.reject(error)
   }

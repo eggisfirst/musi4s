@@ -92,16 +92,16 @@ export const AcceptanceCard:React.FC<IProps> = (props) => {
               {
                 item.regionGet?  
                 <TouchableOpacity style={styles.scoreText} onPress={() => {handleToAreaDetail(index)}}>
-                  <Text style={[styles.scoreText,{color: "#007aff"}]}>{item.regionGet}</Text>
+                  <Text style={[styles.scoreText,{color: "#007aff",textAlign: "left"}]}>{item.regionGet}</Text>
                 </TouchableOpacity> : 
-                <Text style={styles.scoreText}>{'/'}</Text>
+                <Text style={[styles.scoreText,{textAlign: "left"}]}>{'/'}</Text>
               }
               {
                  item.certificationGet? 
                 <TouchableOpacity style={styles.scoreText2} onPress={() => {handleToFourDetails(index)}}>
-                  <Text style={[styles.scoreText2,{color: "#007aff"}]}>{item.certificationGet}</Text>
+                  <Text style={[styles.scoreText2,{color: "#007aff",textAlign: "right"}]}>{item.certificationGet}</Text>
                 </TouchableOpacity> : 
-                <Text style={styles.scoreText}>{'/'}</Text>
+                <Text style={[styles.scoreText,{textAlign: "right"}]}>{'/'}</Text>
               }
               <Text style={styles.dateText}>{item.certificationScoreTime || item.regionScoreTime}</Text>
             </View>
@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(59),
     flex: 0.14,
     textAlign:"center",
+    // borderWidth: 1
   },
   scoreText2: {
     color: "#666",

@@ -143,6 +143,10 @@ class FilterContentCmp extends React.Component<IProps> {
 
 
   render() {
+    console.log(ExtraDimensions.getStatusBarHeight())
+    console.log(ExtraDimensions.getSoftMenuBarHeight())
+    console.log(ExtraDimensions.getSmartBarHeight())
+    console.log(ExtraDimensions.isSoftMenuBarEnabled())
     // console.log('props', format(new Date(this.props.startDate)))
     return (
       <View style={styles.container} >
@@ -254,7 +258,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(150),
-    height:  Dimensions.get("window").height + ExtraDimensions.getSoftMenuBarHeight(),
+    height: ExtraDimensions.getRealWindowHeight(),
     backgroundColor: 'rgba(0,0,0,0)',
   },
   modalStyle: {
@@ -264,7 +268,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Platform.OS === 'android'? Dimensions.get("window").height + ExtraDimensions.getSoftMenuBarHeight(): "100%",
+    height: Platform.OS === 'android'? ExtraDimensions.getRealWindowHeight(): "100%",
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),

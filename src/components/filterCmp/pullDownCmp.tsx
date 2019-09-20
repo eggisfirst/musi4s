@@ -123,10 +123,10 @@ const styles = StyleSheet.create({
   },
   downSelect: {
     width: pxToDp(554),
-    height: pxToDp(795),
+    // height: pxToDp(795),
     backgroundColor: "rgba(237,237,237,0.9)",
     borderRadius: pxToDp(10),
-    borderWidth: pxToDp(1),
+    // borderWidth: pxToDp(1),
     borderColor: "#eee",
     marginTop: pxToDp(11),
   },
