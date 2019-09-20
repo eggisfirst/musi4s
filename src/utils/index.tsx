@@ -59,32 +59,73 @@ export const getStar = (star: number) => {
  * 获取认证进度状态 
  * @param state 
  */
-export const getApproveState = (state: number | string) => {
+export const getApproveState = (state: number | string, lastFlow: any,rejectType: number | undefined) => {
+  /**三星后而且到了oa的节点才有这个参数 */
+  if (lastFlow) {
+    const type = lastFlow.type
+    const status = lastFlow.status
+    switch (type) {
+      case 8:
+        if (status == 1) {
+          return '总部已审批'
+        } else if (status == 2) {
+          return '总部已退回'
+        } else if (status == 3) {
+          return '已认证'
+        }
+        break;
+      case 4:
+        if (status == 1) {
+          return '销售中心已审批'
+        } else if (status == 2) {
+          return '销售中心已退回'
+        }
+        break;
+      case 6:
+        if (status == 1) {
+          return '市场中心已审批'
+        } else if (status == 2) {
+          return '市场中心已退回'
+        } 
+        break;
+      case 7:
+        if (status == 1) {
+          return '总裁已审批'
+        } else if (status == 2) {
+          return '总裁已退回'
+        }
+        break;
+      default:
+        break;
+    }
+  }
   switch (state) {
     case 1:
-      return '经销商发起申请'
+      return '已申请'
     case 2:
-      return '已退回'
+      if(rejectType) {
+        return rejectType == 2? '区域已退回' : '4s已退回'
+      }
     case 3:
-      return '经销商撤销申请'
+      return '已撤销'
     case 4:
-      return '区域受理经销商的申请'
+      return '区域已受理'
     case 5:
-      return '区域评分合格'
+      return '区域已通过'
     case 6:
-      return '区域评分不合格'
+      return '区域未通过'
     case 7:
-      return '区域发起OA认证'
+      return '区域已发起'
     case 8:
-      return '4s受理经销商的申请'
+      return '4s已受理'
     case 9:
-      return '4s评分合格'
+      return '4s已通过'
     case 10:
-      return '4s评分不合格'
+      return '4s未通过'
     case 11:
-      return '4s认证部发起OA认证'
+      return '4s已发起'
     case 12:
-      return 'OA认证通过'
+      return '已认证'
     case 13:
       return 'OA认证未通过'
     default:

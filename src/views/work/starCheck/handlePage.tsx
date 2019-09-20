@@ -210,6 +210,7 @@ class HandelPage extends React.Component<any, IState>{
     let list = this.state.list
     indexModel.getLogList(myData).then(res => {
       if (res.status) {
+        console.log(res)
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
           if (this.state.pageNo === 1) {
@@ -287,6 +288,7 @@ class HandelPage extends React.Component<any, IState>{
     const starLevel = this.state.list[index].approveLevel
     indexModel.getApproveFlowInfo(id).then(res => {
       if (res.status) {
+        console.log(res)
         this.setState({
           processBoxStatus: true,
           processLeftData: approveBoxLeftInfo(res.data),
@@ -721,7 +723,7 @@ class HandelPage extends React.Component<any, IState>{
                   this.state.starCheckType === StarCheckTypes.processing_record &&
                   <Text style={preceStyle(item.status) === 1 ? styles.processStatus_blue :
                     preceStyle(item.status) === 3 ? styles.processStatus_green :
-                      styles.processStatus_red}>{getApproveState(item.status)}</Text>
+                      styles.processStatus_red}>{getApproveState(item.status,item.lastFlow,item.rejectType)}</Text>
                 }
               </View>
               {
