@@ -166,6 +166,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
               style={styleSheet.addBtn}
             ></TouchableOpacity>
           </ImageBackground>
+          
         </View>
       </View>
     )

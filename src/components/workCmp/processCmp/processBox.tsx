@@ -186,7 +186,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
           if (w === 360 && h === 730) {
             return 64
           } else {
-            return 61
+            return 62
           }
 
         }

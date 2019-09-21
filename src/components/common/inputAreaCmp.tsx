@@ -41,6 +41,8 @@ export default class InputAreaCmp extends Component<IProps,IState> {
           placeholderTextColor={"#999"}
           maxLength={100}
           multiline={true}
+          returnKeyType={"go"}
+          ref={'keyBroad'}
         />
       </View>
     )
@@ -48,7 +50,6 @@ export default class InputAreaCmp extends Component<IProps,IState> {
 }
 const styles = StyleSheet.create({
   inputAreaBox: {
-
   },
   textarea: {
     width: pxToDp(640),

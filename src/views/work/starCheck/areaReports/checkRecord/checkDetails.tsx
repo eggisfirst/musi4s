@@ -138,7 +138,7 @@ class CheckDetails extends React.Component<any>{
         if(res.checkLogInfo) {
           scoreData = {
             getTotal: res.checkLogInfo.score,
-            shopName: res.checkLogInfo.name,
+            shopName: this.props.navigation.state.params.shopName
           }
           this.setState({
             checkInfo: res.checkLogInfo,
@@ -178,29 +178,6 @@ class CheckDetails extends React.Component<any>{
       }
     })
   }
-  /**
-   * 测试
-   */
-  starTest() {
-    axios.get('../../../../../../data.json')
-      .then((res) => {
-        store.dispatch(setLoading(false));
-        this.props.handleSelectStarActiveIndex(0)
-        this.setState({
-          starTitle: this.getStarTitle(res.data.checkCategories),
-          scoreData: {
-            getTotal: 90,
-            shopName: '慕思专卖店'
-          },
-          categorierData: res.data.checkLogInfo.checkCategories
-
-        })
-
-      })
-  }
-
-
-
   //------------------
 
   /**

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from "../../../components/headerCmp/headerCmp"
 import { changeCheckList } from '../../../store/actions/4s/checkList';
@@ -77,9 +77,9 @@ class CheckDetailPage extends React.Component<any, IState>{
    * 获取上传的图片
    * @param {*图片列表} arr
    */
-  getImageList = (arr: string[]):void => {
+  getImageList = (arr: string[]): void => {
     this._data.imgDataList = arr
-    this.setState({urls: this.filterImageList(arr)})
+    this.setState({ urls: this.filterImageList(arr) })
     console.log('上传的图片：', arr)
   }
 
@@ -95,7 +95,7 @@ class CheckDetailPage extends React.Component<any, IState>{
     obj.type = true
     obj.urls = this._data.imgDataList
 
-    const { goBack,state } = this.props.navigation;
+    const { goBack, state } = this.props.navigation;
     state.params.callBack()
     goBack()
     // console.log(`输入框的值：${this.state.inputAreaVal}`, `扣分：${this.state.score}`, temp)
@@ -126,21 +126,21 @@ class CheckDetailPage extends React.Component<any, IState>{
    * 关闭大图框
    */
   closeBigImageBox = () => {
-    this.setState({bigImageStatus: false})
+    this.setState({ bigImageStatus: false })
   }
 
   /**
    * 打开大图框
    */
   openBigImageBox = () => {
-    this.setState({bigImageStatus: true})
+    this.setState({ bigImageStatus: true })
   }
 
   /**
    * 更改大图框的图片链接
    */
   changeBigImage = (str: string) => {
-    this.setState({bigImage: str})
+    this.setState({ bigImage: str })
   }
 
   /**
@@ -163,18 +163,18 @@ class CheckDetailPage extends React.Component<any, IState>{
     let params = this.props.navigation.state.params
     let arr = temp[params.fatherIndex].standardList[params.index].urls
     let tempArr = arr ? arr : []
-    this.setState({imageList: tempArr})
+    this.setState({ imageList: tempArr })
   }
 
   componentDidMount() {
-    const {type} = this.props.navigation.state.params
+    const { type } = this.props.navigation.state.params
     this.getGradeDetailInfo()
     let temp = this.props.checkList
     let params = this.props.navigation.state.params
     let arr = temp[params.fatherIndex].standardList[params.index].urls
     let tempArr = arr ? arr : []
-    this.setState({imageList: tempArr})
-    const {index, fatherIndex }= this.props.navigation.state.params
+    this.setState({ imageList: tempArr })
+    const { index, fatherIndex } = this.props.navigation.state.params
     this.setState({
       inputAreaVal: this.props.checkList[fatherIndex].standardList[index].text,
       score: this.props.checkList[fatherIndex].standardList[index].deduct | 0,
@@ -189,64 +189,66 @@ class CheckDetailPage extends React.Component<any, IState>{
     const slideWidth = this.wp(60);
     const itemWidth = slideWidth + itemHorizontalMargin * 2;
     return (
-      <View>
+      <View style={{width: "100%",height: "100%"}}>
         <HeaderCmp
           title={this.props.navigation.state.params.name}
           // title={'this.props.navigation.state.params.name'}
           eggHandleBack={() => { navigation.goBack() }}
         />
-        <View style={styles.contentBox}>
-          {/* 文本域 */}
-          <InputAreaCmp
-            setInputAreaVal={this.setInputAreaVal}
-            inputAreaVal={this.state.inputAreaVal}
-            placeholder={'请填写扣分原因。'}
-          ></InputAreaCmp>
+        <ScrollView>
+          <View style={styles.contentBox}>
+            {/* 文本域 */}
+            <InputAreaCmp
+              setInputAreaVal={this.setInputAreaVal}
+              inputAreaVal={this.state.inputAreaVal}
+              placeholder={'请填写扣分原因。'}
+            ></InputAreaCmp>
 
-          {/* 图片上传组件 */}
-          <ImgUploadCmp
-            getImageList={(obj) => this.getImageList(obj)}
-            imageList={ this.state.imageList }
-            openBigImageBox={this.openBigImageBox}
-            changeBigImage={this.changeBigImage}
-          ></ImgUploadCmp>
-        </View>
+            {/* 图片上传组件 */}
+            <ImgUploadCmp
+              getImageList={(obj) => this.getImageList(obj)}
+              imageList={this.state.imageList}
+              openBigImageBox={this.openBigImageBox}
+              changeBigImage={this.changeBigImage}
+            ></ImgUploadCmp>
+          </View>
 
-        {/* 滑动选择分数组件 */}
-        <ScoreSlider
-          step={1}
-          minimumValue={0}
-          maximumValue={10}
-          value={this.state.score}
-          scoreChange={this.scoreChange}
-        ></ScoreSlider>
+          {/* 滑动选择分数组件 */}
+          <ScoreSlider
+            step={1}
+            minimumValue={0}
+            maximumValue={10}
+            value={this.state.score}
+            scoreChange={this.scoreChange}
+          ></ScoreSlider>
 
-        {!this.state.gradeStatus && <View style={styles.bitBtnBox}>
-          <BigBtn
-            onClick={this.save}
-            text={'保存'}
-          ></BigBtn>
-        </View>}
+          {!this.state.gradeStatus && <View style={styles.bitBtnBox}>
+            <BigBtn
+              onClick={this.save}
+              text={'保存'}
+            ></BigBtn>
+          </View>}
 
-        {
-          this.state.bigImageStatus ? <View style={styles.bigImageBox}>
-            <TouchableOpacity
-              style={styles.closeBigImageBox}
-              onPress={this.closeBigImageBox}
-            >
-              <Image
-                style={styles.closeBigImage}
-                source={require('../../../images/egg_delete.png')}
-              ></Image>
-            </TouchableOpacity>
-            <View style={{
-              width: pxToDp(750),
-              height: itemWidth*1.33,
-            }}>
-              <SwiperIndex urls={this.state.urls} />
-            </View>
-          </View> : <View></View>
-        }
+          {
+            this.state.bigImageStatus ? <View style={styles.bigImageBox}>
+              <TouchableOpacity
+                style={styles.closeBigImageBox}
+                onPress={this.closeBigImageBox}
+              >
+                <Image
+                  style={styles.closeBigImage}
+                  source={require('../../../images/egg_delete.png')}
+                ></Image>
+              </TouchableOpacity>
+              <View style={{
+                width: pxToDp(750),
+                height: itemWidth * 1.33,
+              }}>
+                <SwiperIndex urls={this.state.urls} />
+              </View>
+            </View> : <View></View>
+          }
+        </ScrollView>
       </View>
     )
   }
@@ -289,7 +291,7 @@ const styles: any = StyleSheet.create({
     width: pxToDp(750),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)', 
+    backgroundColor: 'rgba(0,0,0,0.5)',
     // flexDirection: 'column',
   },
   // bigImageBox: {

@@ -59,7 +59,7 @@ export const getStar = (star: number) => {
  * 获取认证进度状态 
  * @param state 
  */
-export const getApproveState = (state: number | string, lastFlow: any,rejectType: number | undefined) => {
+export const getApproveState = (state: number | string, lastFlow: any, rejectType: number | undefined) => {
   /**三星后而且到了oa的节点才有这个参数 */
   if (lastFlow) {
     const type = lastFlow.type
@@ -81,12 +81,19 @@ export const getApproveState = (state: number | string, lastFlow: any,rejectType
           return '销售中心已退回'
         }
         break;
+      case 5:
+        if (status == 1) {
+          return '4s已审批'
+        } else if (status == 2) {
+          return '4s已退回'
+        }
+        break;
       case 6:
         if (status == 1) {
           return '市场中心已审批'
         } else if (status == 2) {
           return '市场中心已退回'
-        } 
+        }
         break;
       case 7:
         if (status == 1) {
@@ -103,8 +110,8 @@ export const getApproveState = (state: number | string, lastFlow: any,rejectType
     case 1:
       return '已申请'
     case 2:
-      if(rejectType) {
-        return rejectType == 2? '区域已退回' : '4s已退回'
+      if (rejectType) {
+        return rejectType == 2 ? '区域已退回' : '4s已退回'
       }
     case 3:
       return '已撤销'

@@ -25,7 +25,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
         if (w === 360 && h === 730) {
           return pxToDp((i) * 36 + 40)
         } else {
-          return pxToDp((i) * 31 + 39)
+          return pxToDp((i) * 33 + 37)
         }
       }
     }
@@ -46,7 +46,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
         if (w === 360 && h === 730) {
           return length * 33 + 50
         } else {
-          return length * 33 + 35
+          return length * 33 + 36
         }
       }
       // return length * 33 + 31
@@ -58,7 +58,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
         if (w === 360 && h === 730) {
           return 80
         } else {
-          return 76
+          return 75
         }
       }
     }

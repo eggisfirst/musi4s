@@ -74,7 +74,13 @@ export default class GradePage extends React.Component<any>{
       }
     })
   }
-
+    /**
+   * 后退  调用回调函数刷新页面
+   */
+  handleGoBack = () => {
+    this.props.navigation.state.params.callback()
+    this.props.navigation.goBack()
+  }
   componentDidMount() {
     this.initData()
   }
@@ -83,7 +89,7 @@ export default class GradePage extends React.Component<any>{
    
     return (
       <View style={styles.container}>
-        <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {navigation.goBack()}}/>
+        <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {this.handleGoBack()}}/>
         <View style={styles.sum}>
           <Text style={styles.sum_title}>{this.state.shopName}</Text>
           <Text style={styles.sum_text}>共<Text style={styles.sum_blue}>{this.state.numberData.total}</Text>项 已评<Text style={styles.sum_green}>{this.state.numberData.comment}</Text>项 剩余 <Text style={styles.sum_red}>{this.state.numberData.notComment}</Text>项未评</Text>

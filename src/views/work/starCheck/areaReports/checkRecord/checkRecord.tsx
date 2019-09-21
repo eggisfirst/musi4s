@@ -81,7 +81,7 @@ class CheckRecord extends React.Component<any>{
         <ScrollView>
           {
             this.state.list && this.state.list.length ?
-              <StarCheckBox list={this.state.list} navigation={this.props.navigation} />
+              <StarCheckBox shopName={this.props.navigation.state.params.shopName} list={this.state.list} navigation={this.props.navigation} />
               :
               <Text style={styles.noRecord}>暂无记录</Text>
           }

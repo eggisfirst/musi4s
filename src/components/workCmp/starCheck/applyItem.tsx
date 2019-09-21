@@ -32,7 +32,7 @@ export const ApplyItem: React.FC<IProps> = (props) => {
                   <Text style={styles.name} >
                     {props.title}
                   </Text>
-                  <Text style={styles.processText}>{removeSecond(props.time)}</Text>
+                  <Text style={styles.processText}>{props.time}</Text>
                 </View>
                 <Text style={styles.star}>认证星级：{getStar(props.star)}</Text>
               </View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     // width: pxToDp(600),
     lineHeight: pxToDp(50),
-    width: pxToDp(420),
+    width: pxToDp(330),
   },
   allName: {
     color: "#363636",

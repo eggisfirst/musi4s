@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Platform.OS === 'android'? ExtraDimensions.getRealWindowHeight(): "100%",
+    height: Platform.OS === 'android'? ExtraDimensions.getRealWindowHeight() : "100%",
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
