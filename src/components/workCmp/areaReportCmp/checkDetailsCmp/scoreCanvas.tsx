@@ -8,6 +8,7 @@ interface IProps {
   score: any
   name: string
   week? :any
+  cycle: string | number
 }
 
 
@@ -24,6 +25,7 @@ export const ScoreCanvas: React.FC<IProps> = (props) => {
     }
     return [0,props.score]
   }
+  console.log(props)
   return(
     <View style={styles.container}>
       <View style={styles.circleBox}>  
@@ -37,7 +39,7 @@ export const ScoreCanvas: React.FC<IProps> = (props) => {
       </View>
     
       <Text style={styles.shopname}>{props.name}</Text>
-      <Text style={styles.week}>{props.week? '第一周' : ''}</Text>
+      <Text style={styles.week}>{props.cycle && '第' +  props.cycle  + '月'}</Text>
       <View style={styles.footer}></View>
     </View>
   )

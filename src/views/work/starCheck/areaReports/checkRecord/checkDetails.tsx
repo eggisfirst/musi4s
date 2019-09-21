@@ -138,7 +138,8 @@ class CheckDetails extends React.Component<any>{
         if(res.checkLogInfo) {
           scoreData = {
             getTotal: res.checkLogInfo.score,
-            shopName: this.props.navigation.state.params.shopName
+            shopName: this.props.navigation.state.params.shopName,
+            cycle: res.checkLogInfo.cycle
           }
           this.setState({
             checkInfo: res.checkLogInfo,
@@ -319,7 +320,7 @@ class CheckDetails extends React.Component<any>{
               <ScrollView>
                 {
                   this.state.scoreData.getTotal != undefined &&
-                  <ScoreCanvas score={this.state.scoreData.getTotal} name={this.state.scoreData.shopName} />
+                  <ScoreCanvas cycle={this.state.scoreData.cycle} score={this.state.scoreData.getTotal} name={this.state.scoreData.shopName} />
 
                 }
                 {

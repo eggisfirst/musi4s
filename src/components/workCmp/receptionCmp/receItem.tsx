@@ -13,7 +13,6 @@ interface IProps {
   type: number | string
 }
 export const ReceItem: React.FC<IProps> = (props: IProps) => {
-  console.log(123123, props.type)
   return (
     <View style={styles.wrapper}>
       <View><Text style={styles.shopName}>{props.shopItem.shopName}</Text></View>

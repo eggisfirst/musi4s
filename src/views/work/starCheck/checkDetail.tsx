@@ -30,6 +30,9 @@ interface IState {
   bigImageStatus: boolean
   urls: any
   gradeStatus: boolean
+  hasData: boolean
+  videoLen: number
+  imageLen: number
 }
 
 interface IData {
@@ -47,6 +50,9 @@ class CheckDetailPage extends React.Component<any, IState>{
     bigImageStatus: false,
     urls: [],
     gradeStatus: true,
+    hasData: false,
+    videoLen: 0,
+    imageLen: 0
   }
 
   _data: IData = {
@@ -109,14 +115,19 @@ class CheckDetailPage extends React.Component<any, IState>{
     indexModel.getGradeDetailInfo(id).then(res => {
       if (res.status && res.data) {
         let data = res.data
+        let hasData = false
         let imageList = data.attachment.map((item: any) => {
           return item.url
         })
+        if (data.attachment && data.attachment.length > 0) {
+          hasData = true
+        }
         this.setState({
           score: data.deduct,
           inputAreaVal: data.reason,
           imageList: imageList,
-          urls: this.filterImageList(imageList)
+          urls: this.filterImageList(imageList),
+          hasData
         })
       }
     })
@@ -147,8 +158,23 @@ class CheckDetailPage extends React.Component<any, IState>{
    * @param {*图片链接数组} imageList
    */
   filterImageList = (imageList: string[]) => {
-    let arr = imageList.map((item, index) => {
-      return { url: item, type: 'image' }
+    let arr: any = []
+    let videoLen = 0,
+        imageLen = 0
+    imageList.map((it: any) => {
+      var reg = /\.mp4$/gm
+      if (reg.test(it)) {
+        arr.push({ url: it, type: 'mp4' })
+        videoLen = 1
+      } else {
+        arr.push({ url: it, type: 'image' })
+        imageLen += 1
+      }
+
+    })
+    this.setState({
+      videoLen,
+      imageLen
     })
     return arr
   }
@@ -164,6 +190,7 @@ class CheckDetailPage extends React.Component<any, IState>{
     let arr = temp[params.fatherIndex].standardList[params.index].urls
     let tempArr = arr ? arr : []
     this.setState({ imageList: tempArr })
+    this.filterImageList(tempArr)
   }
 
   componentDidMount() {
@@ -181,6 +208,9 @@ class CheckDetailPage extends React.Component<any, IState>{
       // 标记是否查看已评分
       gradeStatus: type === '已评分'
     })
+    this.filterImageList(tempArr)
+    console.log(111,tempArr)
+
   }
 
   render() {
@@ -189,7 +219,7 @@ class CheckDetailPage extends React.Component<any, IState>{
     const slideWidth = this.wp(60);
     const itemWidth = slideWidth + itemHorizontalMargin * 2;
     return (
-      <View style={{width: "100%",height: "100%"}}>
+      <View style={{ width: "100%", height: "100%" }}>
         <HeaderCmp
           title={this.props.navigation.state.params.name}
           // title={'this.props.navigation.state.params.name'}
@@ -210,6 +240,9 @@ class CheckDetailPage extends React.Component<any, IState>{
               imageList={this.state.imageList}
               openBigImageBox={this.openBigImageBox}
               changeBigImage={this.changeBigImage}
+              hasData={this.state.hasData}
+              videoLen={this.state.videoLen}
+              imageLen={this.state.imageLen}
             ></ImgUploadCmp>
           </View>
 
@@ -281,6 +314,7 @@ const styles: any = StyleSheet.create({
   bitBtnBox: {
     width: pxToDp(640),
     marginLeft: pxToDp(55),
+    marginBottom: pxToDp(100)
   },
   bigImageBox: {
     position: 'absolute',
