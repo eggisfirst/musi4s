@@ -138,7 +138,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-image-resizer')
     implementation project(':react-native-extra-dimensions-android')
 
     implementation project(':react-native-image-picker')

@@ -118,7 +118,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
       takePhotoButtonTitle: '录制视频',
       chooseFromLibraryButtonTitle: '选择视频',
       mediaType: 'video',
-      videoQuality: 'high',
+      videoQuality: 'medium',
       durationLimit: 10,
       storageOptions: {
         skipBackup: true,
@@ -198,10 +198,12 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
       file = { uri: response.uri, type: 'multipart/form-data', name: 'image.jpg' }
 
     }
+    console.log('file',file)
     let formData = new FormData()
     // formData.append('dataFile', file)
     formData.append('multipartFile', file)
     indexModel.uploadFile(formData).then(res => {
+      console.log('res',res)
       let temp = this.props.imageList
       temp.push(res.data)
       this._imgDataList.push(res.data)

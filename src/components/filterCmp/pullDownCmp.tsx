@@ -119,11 +119,11 @@ const styles = StyleSheet.create({
   },
   downIcon: {
     width: pxToDp(20),
-    height: pxToDp(11)
+    height: pxToDp(12)
   },
   downSelect: {
     width: pxToDp(554),
-    // height: pxToDp(795),
+    maxHeight: pxToDp(795),
     backgroundColor: "rgba(237,237,237,0.9)",
     borderRadius: pxToDp(10),
     // borderWidth: pxToDp(1),

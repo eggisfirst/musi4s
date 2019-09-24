@@ -72,19 +72,19 @@ class CheckListPage extends React.Component<any, IState>{
     let checkList = this.props.checkList.checkList
     console.log('提交的数据', checkList)
     let temp = this.filterParams(checkList)
-    if (temp.status){
+    // if (temp.status){
       this.setState({checkAlertStatus: true})
-    } else {
-      let [fatherIndex, index] = [temp.tempArr[0].fatherIndex, temp.tempArr[0].index]
-      Alert.alert(
-        '',
-        `分类（${checkList[fatherIndex].name}）,选项（${checkList[fatherIndex].standardList[index].name}）未评分，不可提交！`,
-        [
-          {text: '确定', onPress: () => console.log('onPress OK')},
-        ],
-        { cancelable: false }
-      )
-    }
+    // } else {
+    //   let [fatherIndex, index] = [temp.tempArr[0].fatherIndex, temp.tempArr[0].index]
+    //   Alert.alert(
+    //     '',
+    //     `分类（${checkList[fatherIndex].name}）,选项（${checkList[fatherIndex].standardList[index].name}）未评分，不可提交！`,
+    //     [
+    //       {text: '确定', onPress: () => console.log('onPress OK')},
+    //     ],
+    //     { cancelable: false }
+    //   )
+    // }
   }
 
   /**

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView, Platform } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView, Platform,NativeModules } from "react-native";
 import pxToDp from '../../../utils/fixcss';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { TimerShaft } from './ timerShaft';
@@ -46,7 +46,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
       ApproveNode.area,
       ApproveNode.saleCenter,
       ApproveNode.marketCenter,
-      ApproveNode.president,
+      // ApproveNode.president,
       ApproveNode.headquarters
     ]
     this.setState({
@@ -165,16 +165,16 @@ export default class ProcessBox extends React.Component<IProps, IState>{
           if (index === 0) {
             return (i) * 30 + 30
           } else {
-            return (i) * 34 + 30
+            return (i) * 33.5 + 30
           }
         } else {
           if (index === 0) {
             return (i) * 32 + 24
           } else {
             if (w === 360 && h === 730) {
-              return (i) * 33 + 25
+              return (i) * 35 + 23
             } else {
-              return (i) * 31 + 26
+              return (i) * 32 + 25
             }
             // return (i) * 33 + 28
           }
@@ -249,7 +249,25 @@ export default class ProcessBox extends React.Component<IProps, IState>{
         return '认证失败'
       }
     }
-
+    /**
+     * 右边盒子第一个的margintop
+     */
+    const marginTop = (index: number) => {
+      const w = Dimensions.get("window").width
+      const h = Dimensions.get("window").height
+      if(Platform.OS === 'ios') {
+        if(index === 0) {
+          return 40
+        } 
+        return 38
+      }else {
+        if (w === 360 && h === 730) {
+          return 42
+        } else {
+          return 46
+        }
+      }
+    }
     return (
       <View style={styles.mask}>
         <View style={styles.container}>
@@ -270,7 +288,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
             <View style={styles.rightBox}>
               {
                 this.props.rightData.map((item: any, index: number) => (
-                  <View style={{ marginTop: pxToDp(42) }} key={index}>
+                  <View style={{ marginTop: pxToDp(marginTop(index)) }} key={index}>
                     <View style={styles.rightStatus} >
                       {
                         item.data && item.data.map((el: any, i: number) => (
@@ -405,7 +423,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(24),
     paddingLeft: pxToDp(20),
-    lineHeight: Platform.OS === 'ios' ? pxToDp(40.5) : pxToDp(40.5)
+    lineHeight: Platform.OS === 'ios' ? pxToDp(42) : pxToDp(36),
   },
   rightTextRed: {
     color: "#FF2D55",

@@ -21,6 +21,8 @@ import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
 import { _retrieveData } from "../../../utils/utils";
 import { format, getApproveState, approveBoxLeftInfo, turnToArray, areaDuty, fourDuty } from "../../../utils";
+import store from "../../../store";
+import { setLoading } from "../../../store/actions/global/loading";
 const indexModel = new IndexModel()
 const actions = {
   ...rightFliter,
@@ -271,7 +273,7 @@ class HandelPage extends React.Component<any, IState>{
           '提示',
           `${res.msg}`,
           [
-            { text: '确定', onPress: () => console.log('onPress OK') },
+            { text: '确定', onPress: () => store.dispatch(setLoading(false)) },
           ],
           { cancelable: false }
         )
@@ -474,7 +476,7 @@ class HandelPage extends React.Component<any, IState>{
               '提示',
               `${res.msg}`,
               [
-                { text: '确定', onPress: () => console.log('onPress OK') },
+                { text: '确定', onPress: () => store.dispatch(setLoading(false)) },
               ],
               { cancelable: false }
             )
@@ -494,7 +496,7 @@ class HandelPage extends React.Component<any, IState>{
               '提示',
               `${res.msg}`,
               [
-                { text: '确定', onPress: () => console.log('onPress OK') },
+                { text: '确定', onPress: () => store.dispatch(setLoading(false)) },
               ],
               { cancelable: false }
             )

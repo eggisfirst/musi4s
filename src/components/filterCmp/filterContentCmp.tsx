@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button, Platform, Dimensions, Alert, AlertIOS } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Button, Platform, Dimensions, Alert, AlertIOS, NativeModules } from "react-native";
 import React, { useState } from "react";
 import pxToDp from "../../utils/fixcss";
 import { DatePickerCmp } from "./dateCmp";
@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import * as actions from '../../store/actions/filter/rightFliter'
 import { StarCheckTypes } from "../../utils/enum";
 import ExtraDimensions from 'react-native-extra-dimensions-android';
+const { StatusBarManager } = NativeModules
 
 interface IProps {
   type: StarCheckTypes  /**判断是哪个页面 */

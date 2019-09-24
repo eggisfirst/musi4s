@@ -320,7 +320,7 @@ const styles: any = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 999,
+    zIndex: 9999,
     height: Dimensions.get('screen').height,
     width: pxToDp(750),
     alignItems: 'center',

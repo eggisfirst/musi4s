@@ -20,12 +20,12 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
     if (getAllList[index].data.length) {
       const i = getAllList[index].data.length
       if (Platform.OS === 'ios') {
-        return pxToDp((i) * 31 + 40)
+        return pxToDp((i) * 31.5 + 40)
       } else {
         if (w === 360 && h === 730) {
           return pxToDp((i) * 36 + 40)
         } else {
-          return pxToDp((i) * 33 + 37)
+          return pxToDp((i) * 33 + 36.5)
         }
       }
     }

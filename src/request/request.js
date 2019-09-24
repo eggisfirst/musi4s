@@ -33,7 +33,7 @@ axios.interceptors.request.use(config => {
 //返回拦截器
 axios.interceptors.response.use(
   function(response) {
-    // console.log(111,response)
+    console.log(111,response)
     // if(response.data.code === 500) {
     //   Alert.alert(
     //     '提示',
@@ -49,7 +49,7 @@ axios.interceptors.response.use(
     return response
   },
   function(error) {
-    // console.log(222,error)
+    console.log(222,error)
     
     store.dispatch(setLoading(false));
     return Promise.reject(error)
