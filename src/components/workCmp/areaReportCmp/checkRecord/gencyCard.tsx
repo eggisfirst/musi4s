@@ -50,8 +50,11 @@ export const GencyCard: React.FC<IProps> = (props) => {
   /**
    * 检查记录得到是+1，认证记录是得到的数据
    */
-  const title = props.type === ReportType.acceptance ? getStar(props.listData.starLevel) : getStar(props.listData.starLevel + 1)
-  const starNum = props.type === ReportType.acceptance ? props.listData.starLevel : props.listData.starLevel + 1
+  const title = getStar(props.listData.starLevel)
+  const starNum = props.listData.starLevel
+
+  // const title = props.type === ReportType.acceptance ? getStar(props.listData.starLevel) : getStar(props.listData.starLevel + 1)
+  // const starNum = props.type === ReportType.acceptance ? props.listData.starLevel : props.listData.starLevel + 1
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -72,10 +75,10 @@ export const GencyCard: React.FC<IProps> = (props) => {
       }
       {
         props.listData.shopList.length > 4 ?
-        <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => { loadMore() }}>
-          <Text style={styles.shopText2}>{loadState ? '点击收起' : '点击加载更多'}</Text>
-          <Image style={[styles.loadMoreIcon, loadState && myRotate]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
-        </TouchableOpacity> : null
+          <TouchableOpacity activeOpacity={0.6} style={styles.loadMore} onPress={() => { loadMore() }}>
+            <Text style={styles.shopText2}>{loadState ? '点击收起' : '点击加载更多'}</Text>
+            <Image style={[styles.loadMoreIcon, loadState && myRotate]} source={require("../../../../images/work/areaReport/checkRecord/more.png")} />
+          </TouchableOpacity> : null
       }
     </View>
   )
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: pxToDp(20),
     backgroundColor: "#fff",
     marginLeft: pxToDp(20),
-    marginTop: pxToDp(20), 
+    marginTop: pxToDp(20),
     shadowColor: '#ccc',
     shadowRadius: pxToDp(10),
     shadowOpacity: 0.3,
@@ -138,8 +141,10 @@ const styles = StyleSheet.create({
   shopText: {
     color: "#666",
     fontSize: pxToDp(24),
-    lineHeight: pxToDp(60),
+    lineHeight: pxToDp(36),
     width: pxToDp(600),
+    paddingTop: pxToDp(10),
+    paddingBottom: pxToDp(10)
   },
   shopText2: {
     color: "#666",

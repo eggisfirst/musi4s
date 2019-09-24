@@ -31,12 +31,16 @@ const styleSheet = StyleSheet.create({
     borderRadius: pxToDp(49),
     backgroundColor:  '#007AFF',
     marginTop: pxToDp(96),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
   btnText: {
     color: '#fff',
     fontSize: pxToDp(34),
-    textAlign: 'center',
-    lineHeight: pxToDp(98),
+    // textAlign: 'center',
+    // lineHeight: pxToDp(98),
     fontWeight:"bold"
   },
 })

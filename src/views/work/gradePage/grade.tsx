@@ -1,12 +1,14 @@
 import React from "react";
 
-import { View, Text, Platform, StatusBar, StyleSheet } from "react-native";
+import { View, Text, Platform, StatusBar, StyleSheet, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from '../../../components/headerCmp/headerCmp';
 import { CheckBox } from '../../../components/workCmp/gradeCmp/checkBox';
 import { IndexModel } from "../../../request";
 import { getStar } from "../../../utils";
 const indexModel = new IndexModel()
+import store from '../../../store'
+import { setLoading } from '../../../store/actions/global/loading';
 
 interface IState {
   numberData: any
@@ -34,6 +36,7 @@ export default class GradePage extends React.Component<any>{
   getCategories(id: any,shopId: any) {
     indexModel.getCategories(id,shopId).then(res => {
       if(res.status) {
+
         this.setState({
           numberData: res.data.number,
           list: res.data.list
@@ -41,6 +44,7 @@ export default class GradePage extends React.Component<any>{
       }
     })
   }
+
   /**
    * 初始数据
    */
@@ -53,7 +57,8 @@ export default class GradePage extends React.Component<any>{
   }
 
   //跳转到评分页面
-  handleToGrade = (index: number, i: number) => {
+  handleToGrade = (index: number, i: number, type: string) => {
+    console.log(1122334455, index, i)
     const list = this.state.list
     const {shopId,qualificationId} = this.props.navigation.state.params
     this.props.navigation.navigate('CheckListPage', {
@@ -61,26 +66,35 @@ export default class GradePage extends React.Component<any>{
       shopId,
       categoryId: list[index][i].id,
       title: list[index][i].name,
+      type,
+      scoreFlag: list[index][i].scoreFlag,
       callBack: () => {
         const {qualificationId,shopId,shopName} = this.props.navigation.state.params
         this.getCategories(qualificationId,shopId)
       }
     })
   }
+    /**
+   * 后退  调用回调函数刷新页面
+   */
+  handleGoBack = () => {
+    this.props.navigation.state.params.callback()
+    this.props.navigation.goBack()
+  }
   componentDidMount() {
     this.initData()
   }
-  render() {
+  render() { 
     const { navigation } = this.props
    
     return (
-      <View>
-        <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {navigation.goBack()}}/>
+      <View style={styles.container}>
+        <HeaderCmp title={'星级认证评分'} eggHandleBack={() => {this.handleGoBack()}}/>
         <View style={styles.sum}>
           <Text style={styles.sum_title}>{this.state.shopName}</Text>
           <Text style={styles.sum_text}>共<Text style={styles.sum_blue}>{this.state.numberData.total}</Text>项 已评<Text style={styles.sum_green}>{this.state.numberData.comment}</Text>项 剩余 <Text style={styles.sum_red}>{this.state.numberData.notComment}</Text>项未评</Text>
         </View>
-        <View style={styles.checkWrapper}>
+        <ScrollView style={styles.checkWrapper}>
             {
               this.state.list.map((item:any, index:number) => (
                 <View key={index}>
@@ -96,17 +110,21 @@ export default class GradePage extends React.Component<any>{
                     ))
                     }
                   </View>
-                </View>
+                  </View>
               ))
             }
          
-        </View>
+        </ScrollView>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+  },
   sum: {
     width: pxToDp(439),
     // height: pxToDp(80),
@@ -116,7 +134,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: pxToDp(40),
     paddingLeft: pxToDp(31),
     paddingTop: pxToDp(8),
-    paddingBottom: pxToDp(8)
+    paddingBottom: pxToDp(8),
+  
   },
   sum_title: {
     fontSize: pxToDp(30),
@@ -139,13 +158,15 @@ const styles = StyleSheet.create({
   checkWrapper: {
     paddingLeft: pxToDp(31),
     paddingRight: pxToDp(10),
-    paddingTop: pxToDp(50),
+    // paddingTop: pxToDp(50),
     paddingBottom: pxToDp(50),
+
   },
   start_check_title: {
     fontSize: pxToDp(45),
     fontWeight: "bold",
-    color: "#363636"
+    color: "#363636",
+    marginTop: pxToDp(40)
   },
   checkBox: {
     display: "flex",

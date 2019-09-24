@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView, Platform } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView, Platform,NativeModules } from "react-native";
 import pxToDp from '../../../utils/fixcss';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { TimerShaft } from './ timerShaft';
@@ -18,7 +18,7 @@ interface IState {
   nodeList: Array<any>
   nodeStateList: Array<any>
 }
-export default class ProcessBox extends React.Component<IProps,IState>{
+export default class ProcessBox extends React.Component<IProps, IState>{
   state: IState = {
     nodeList: [],
     nodeStateList: []
@@ -33,6 +33,20 @@ export default class ProcessBox extends React.Component<IProps,IState>{
       ApproveNode.fourS,
       ApproveNode.marketCenter,
       ApproveNode.president,
+      ApproveNode.headquarters
+    ]
+    this.setState({
+      nodeList
+    })
+  }
+  /**获取左边固定的节点 一二星级不用4s认证 */
+  getNodeWithOut4s_List = () => {
+    const nodeList = [
+      ApproveNode.agency,
+      ApproveNode.area,
+      ApproveNode.saleCenter,
+      ApproveNode.marketCenter,
+      // ApproveNode.president,
       ApproveNode.headquarters
     ]
     this.setState({
@@ -117,37 +131,77 @@ export default class ProcessBox extends React.Component<IProps,IState>{
       starLevelId: this.props.rightData[len - 1].data[length - 1].starLevelId
     })
   }
+  /**判断是一二星认证还是三星以上。一二没有4s认证部 */
+  initLeftData() {
+    if (this.props.starLevel <= 2) {
+      this.getNodeWithOut4s_List()
+    } else {
+      this.getNodeList()
+    }
+  }
+
   componentDidMount() {
-    this.getNodeList()
-    this.getNodeState()
+    this.initLeftData()
+    // this.getNodeState()
   }
 
   render() {
     /**获取每个节点的margintop */
     const myMarginTop = (index: number) => {
+      // console.log('index',index)
+      const w = Dimensions.get("window").width
+      const h = Dimensions.get("window").height
       if (index === -1) {
-        return 34
+        if (Platform.OS === 'ios') {
+          return 40
+        } else {
+          return 34
+        }
       }
-      
+
       if (this.props.rightData[index]) {
         const i = this.props.rightData[index].data.length
-        if(Platform.OS === 'ios') {
-          return (i) * 40
-        }else {
-          return (i) * 24 + 12
+        if (Platform.OS === 'ios') {
+          if (index === 0) {
+            return (i) * 30 + 30
+          } else {
+            return (i) * 33.5 + 30
+          }
+        } else {
+          if (index === 0) {
+            return (i) * 32 + 24
+          } else {
+            if (w === 360 && h === 730) {
+              return (i) * 35 + 23
+            } else {
+              return (i) * 32 + 25
+            }
+            // return (i) * 33 + 28
+          }
         }
       } else {
-        if(Platform.OS === 'ios') {
-          return 56
-        }else {
-          return 65
+        if (Platform.OS === 'ios') {
+          return 68
+        } else {
+          if (w === 360 && h === 730) {
+            return 64
+          } else {
+            return 62
+          }
+
         }
       }
     }
     /**最后一个元素底部加距离 */
     const myLastBottom = (type: string) => {
+      const len = this.state.nodeList.length
+      let datalen = 0
+      if (this.props.rightData[len - 1]) {
+        console.log(this.props.rightData[len - 1])
+        datalen = this.props.rightData[len - 1].data.length
+      }
       if (type === ApproveNode.headquarters) {
-        return pxToDp(93)
+        return datalen ? pxToDp(datalen * 48 + 50) : pxToDp(100)
       }
     }
     /**
@@ -195,11 +249,30 @@ export default class ProcessBox extends React.Component<IProps,IState>{
         return '认证失败'
       }
     }
-
+    /**
+     * 右边盒子第一个的margintop
+     */
+    const marginTop = (index: number) => {
+      const w = Dimensions.get("window").width
+      const h = Dimensions.get("window").height
+      if(Platform.OS === 'ios') {
+        if(index === 0) {
+          return 40
+        } 
+        return 38
+      }else {
+        if (w === 360 && h === 730) {
+          return 42
+        } else {
+          return 46
+        }
+      }
+    }
     return (
       <View style={styles.mask}>
         <View style={styles.container}>
-          <Text style={styles.title}>进度--{title(this.props.rightData)}</Text>
+          {/* <Text style={styles.title}>进度--{title(this.props.rightData)}</Text> */}
+          <Text style={styles.title}>认证进度</Text>
 
           <ScrollView style={styles.content}>
             <View style={styles.linePosition}>
@@ -207,29 +280,30 @@ export default class ProcessBox extends React.Component<IProps,IState>{
             </View>
             {
               this.state.nodeList.map((item, index) => (
-                <View style={{ marginTop:pxToDp(myMarginTop(index - 1))  }} key={index} >
-                  <Text style={[styles.lefttext, { marginBottom:  myLastBottom(item) }]} >{item}</Text>
+                <View style={{ marginTop: pxToDp(myMarginTop(index - 1)) }} key={index} >
+                  <Text style={[styles.lefttext, { marginBottom: myLastBottom(item) }]} >{item}</Text>
                 </View>
               ))
             }
             <View style={styles.rightBox}>
               {
                 this.props.rightData.map((item: any, index: number) => (
-                  <View style={{ marginTop: pxToDp(40) }} key={index}>
+                  <View style={{ marginTop: pxToDp(marginTop(index)) }} key={index}>
                     <View style={styles.rightStatus} >
                       {
                         item.data && item.data.map((el: any, i: number) => (
                           <View key={i}>
                             {
                               preceStyle(el.status, index) === 1 ?
-                                <Text style={styles.rightText}>{el.createTime} {index <= 2 ? getApproveBoxState(el.status) : getApproveOtherBoxState(el.status)}</Text>
+                                // <Text style={styles.rightText}>{el.createTime}{index <= 2 ? getApproveBoxState(el.status) : getApproveOtherBoxState(el.status)}</Text>
+                                <Text style={styles.rightText}>{el.createTime} {el.statusString}</Text>
                                 :
                                 <>
                                   {
-                                    index <= 2 ?
-                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => { this.toAcceptancePage() }}> {getApproveBoxState(el.status)}</Text>
+                                    index <= 2 && el.status !== 2 && el.status !== 3 ?
+                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRed} onPress={() => { this.toAcceptancePage() }}>{getApproveBoxState(el.status)}</Text>
                                       </Text> :
-                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveOtherBoxState(el.status)}</Text>
+                                      <Text style={styles.rightText}>{el.createTime} <Text style={styles.rightTextRedWithOutLine} > {getApproveBoxState(el.status)}</Text>
                                       </Text>
                                   }
                                 </>
@@ -329,7 +403,7 @@ const styles = StyleSheet.create({
     width: pxToDp(140),
     paddingRight: pxToDp(20),
     fontWeight: "500",
-    lineHeight: pxToDp(40)
+    // lineHeight: pxToDp(30),
   },
 
   rightBox: {
@@ -349,7 +423,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: pxToDp(24),
     paddingLeft: pxToDp(20),
-    lineHeight: Platform.OS === 'ios' ? pxToDp(40) : pxToDp(30)
+    lineHeight: Platform.OS === 'ios' ? pxToDp(42) : pxToDp(36),
   },
   rightTextRed: {
     color: "#FF2D55",

@@ -46,7 +46,6 @@ const AppNavigator = createBottomTabNavigator({
   },
 )
 
-
 export default function configAppNavigator(isLoggedIn:boolean) {
   return createAppContainer(createStackNavigator({
     Login: {
@@ -152,14 +151,13 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     }
   },{
     //初始进来的页面
-    initialRouteName: 'Login',
-    // initialRouteName: isLoggedIn ? 'Work' : 'Login',
+    // initialRouteName: 'Login',
+    initialRouteName: isLoggedIn ? 'Work' : 'Login',
     // initialRouteName: 'CheckDetailPage',
     // initialRouteName: 'CheckListPage',
     mode: 'card',
     // 指定标头的呈现方式
-    headerMode: "screen",
-    //显示返回图标后的文字
+    headerMode: "screen",    //显示返回图标后的文字
     headerBackTitleVisible: false,
     cardOverlayEnabled: true,
     //标题居中
@@ -175,8 +173,6 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     
       //页面跳转动画
     transitionConfig: () => ({
-
-
       transitionSpec: {
           duration: 300,
           easing: Easing.out(Easing.poly(4)),

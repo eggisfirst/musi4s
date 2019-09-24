@@ -22,6 +22,12 @@ interface IState {
   scoreTotal: number
   levelId: string
   checkAlertStatus: boolean
+  gardeStatus: boolean
+}
+
+interface IIndex {
+  fatherIndex: number,
+  index: number,
 }
 
 class CheckListPage extends React.Component<any, IState>{
@@ -29,7 +35,8 @@ class CheckListPage extends React.Component<any, IState>{
     deductTotal: 0,
     scoreTotal: 0,
     levelId: '',
-    checkAlertStatus: false
+    checkAlertStatus: false,
+    gardeStatus: true, // 为真时是已评分
   }
 
   static navigationOptions = {
@@ -37,31 +44,47 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   /**
-   * 显示/隐藏中类检查项
+   * 展开折叠
    */
-  showClick = (index: number): void => {
-    // console.log(!this.props.checkList[index].status, this.props.checkList[index].status)
-    this.props.checkList.checkList[index].status = !this.props.checkList.checkList[index].status
-    this.props.changeCheckList(this.props.checkList.checkList)
+  open = (index: number): void => {
+    let temp = this.props.checkList.checkList[index].status
+    if (!temp) {
+      this.props.checkList.checkList[index].status = true
+      this.props.changeCheckList(this.props.checkList.checkList)
+    }
+  }
+
+  /**
+   * 收起折叠
+   */
+  close = (index: number): void => {
+    let temp = this.props.checkList.checkList[index].status
+    if (temp) {
+      this.props.checkList.checkList[index].status = false
+      this.props.changeCheckList(this.props.checkList.checkList)
+    }
   }
 
   /**
    * 确认提交表单
    */
   sureSubmit = () => {
-    console.log(11122333, this.filterParams(this.props.checkList.checkList).status)
-    if (this.filterParams(this.props.checkList.checkList).status){
+    let checkList = this.props.checkList.checkList
+    console.log('提交的数据', checkList)
+    let temp = this.filterParams(checkList)
+    // if (temp.status){
       this.setState({checkAlertStatus: true})
-    } else {
-      Alert.alert(
-        '',
-        '未评分完全，无法提交！',
-        [
-          {text: '确定', onPress: () => console.log('onPress OK')},
-        ],
-        { cancelable: false }
-      )
-    }
+    // } else {
+    //   let [fatherIndex, index] = [temp.tempArr[0].fatherIndex, temp.tempArr[0].index]
+    //   Alert.alert(
+    //     '',
+    //     `分类（${checkList[fatherIndex].name}）,选项（${checkList[fatherIndex].standardList[index].name}）未评分，不可提交！`,
+    //     [
+    //       {text: '确定', onPress: () => console.log('onPress OK')},
+    //     ],
+    //     { cancelable: false }
+    //   )
+    // }
   }
 
   /**
@@ -105,18 +128,35 @@ class CheckListPage extends React.Component<any, IState>{
    * 重置表单
    */
   reset = () => {
-    this.subcategories()
+    Alert.alert(
+      '',
+      `重置将清空已评数据，是否重置？`,
+      [
+        {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: '确定', onPress: () => {
+          let temp = this.filterData(this.props.checkList.checkList)
+          this.props.changeCheckList(temp.arr)
+          this.setState({ deductTotal: 0 })
+          // this.subcategories()
+        }},
+      ],
+      { cancelable: false }
+    )
   }
 
   /**
    * 跳转检查详情页面
    */
   toDetail = (index: number, fatherIndex: number): void => {
-    let name = this.props.checkList.checkList[fatherIndex].standardList[index].name
+    let {type, qualificationId} = this.props.navigation.state.params
+    let {name, standardId} = this.props.checkList.checkList[fatherIndex].standardList[index]
     this.props.navigation.navigate('CheckDetailPage', {
       name,
       index,
       fatherIndex,
+      standardId,
+      type,
+      qualificationId,
       callBack: () => {
         this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
       }
@@ -138,12 +178,13 @@ class CheckListPage extends React.Component<any, IState>{
     return sum
   }
 
-  /**
+  /** 
    * 获取店铺检查列表
    */
   subcategories = () => {
-    let params = this.props.navigation.state.params
-    indexModel.subcategories(params.categoryId, params.shopId).then(res => {
+    let {categoryId, shopId, type, qualificationId} = this.props.navigation.state.params
+    indexModel.subcategories(categoryId, shopId, qualificationId, type === '已评分').then(res => {
+      console.log(99999, res)
       if (res.data) {
         this.setState({ levelId: res.data.starLevelId })
         let data = res.data.categories
@@ -160,7 +201,8 @@ class CheckListPage extends React.Component<any, IState>{
   /**
    * 筛选检查列表
    */
-  filterData = (data: any[]) => {
+  filterData = (data: any[], type?: string) => {
+    let params = this.props.navigation.state.params
     let arr: object[] = []
     let scoreTotal = 0
     for (let i = 0; i < data.length; i++) {
@@ -169,17 +211,14 @@ class CheckListPage extends React.Component<any, IState>{
       temp.status = i === 0 ? true : false
       temp.standardList = []
       temp.name = data[i].name
-      temp.categoryId = data[i].id
+      temp.categoryId = data[i].id ? data[i].id : data[i].categoryId
       if (data[i].standardList) {
         for (let j = 0; j < data[i].standardList.length; j++) {
           let obj: any = {}
           obj.name = data[i].standardList[j].name
-          obj.type = false
-          obj.standardId = data[i].standardList[j].id
-          obj.urls = [ //上传文件url集合
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
-          ]
+          obj.type = params.type === '未评分' ? false : true
+          obj.standardId = data[i].standardList[j].id ? data[i].standardList[j].id : data[i].standardList[j].standardId
+          obj.urls = [] //上传文件url集合
           temp.standardList.push(obj)
         }
       }
@@ -198,7 +237,7 @@ class CheckListPage extends React.Component<any, IState>{
     let arr: object[] = []
     // 用于判断是否评分完全，为false时，说明没有评完
     let status: Boolean = true
-    
+    let tempArr: IIndex[] = []
     for (let i = 0; i < data.length; i++) {
       let temp: any = {}
       temp.standardList = []
@@ -209,17 +248,20 @@ class CheckListPage extends React.Component<any, IState>{
           obj.standardId = data[i].standardList[j].standardId
           obj.reason = data[i].standardList[j].text
           obj.deduct = data[i].standardList[j].deduct
-          if (!data[i].standardList[j].type) {status = false}
-          obj.urls = [ // 上传文件url集合
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx",
-            "https://derucci-app-test.oss-cn-hangzhou.aliyuncs.com/upload/20190709/31aa61edcf990ecf7d38b2b5a4829eb6.pptx"
-          ]
+          if (!data[i].standardList[j].type) {
+            status = false
+            tempArr.push({
+              fatherIndex: i,
+              index: j,
+            })
+          }
+          obj.urls = data[i].standardList[j].urls || [] // 上传文件url集合
           temp.standardList.push(obj)
         }
       }
       arr.push(temp)
     }
-    return {arr,status}
+    return {arr,status,tempArr}
   }
 
   toCheckRecord = () => {
@@ -237,9 +279,11 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   componentDidMount() {
-    // this.subcategories()
-    this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
-    // this.props.changeCheckList([])
+    let {type} = this.props.navigation.state.params
+    console.log(type)
+    this.subcategories()
+    this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0, gardeStatus: type === '已评分' })
+    this.props.changeCheckList([])
   }
 
   render() {
@@ -252,8 +296,9 @@ class CheckListPage extends React.Component<any, IState>{
         title={item.name}
         status={item.status}
         index={index}
-        showClick={this.showClick}
+        open={this.open}
         toDetail={this.toDetail}
+        close={this.close}
       />
     })
     return (
@@ -263,11 +308,11 @@ class CheckListPage extends React.Component<any, IState>{
           eggHandleBack={() => { navigation.goBack() }}
           bgColor={'#007aff'}
           fontColor={'#fff'}
-          setHeight={200}
+          setHeight={223}
           imgUrl={require('../../../images/work/reception/back.png')}
           Children={
             <TouchableOpacity activeOpacity={0.8} style={styles.topRight}  onPress={() => { navigation.push('RulePage') }}>
-                <Image style={{width: pxToDp(38),height: pxToDp(38)}} source={require('../../../images/work/rule.png')} />
+                <Image style={{width: pxToDp(40),height: pxToDp(40)}} source={require('../../../images/work/rule.png')} />
             </TouchableOpacity>
           }
         />
@@ -275,8 +320,8 @@ class CheckListPage extends React.Component<any, IState>{
         <View style={styles.grad}>
           <Text style={styles.gradText}>分数统计：</Text>
           <View style={styles.grad}>
-            <Text style={styles.gradTotal}>总分 {this.state.scoreTotal} | </Text>
-            <Text style={styles.gradDeduct}>扣分 {this.state.deductTotal}</Text>
+            <Text style={styles.gradTotal}>总分 {this.state.scoreTotal}   |</Text>
+            <Text style={styles.gradDeduct}>   扣分 {this.state.deductTotal}</Text>
           </View>
         </View>
 
@@ -291,17 +336,18 @@ class CheckListPage extends React.Component<any, IState>{
             title={'SI/VI检查'}
           /> */}
         </ScrollView>
-        <BotBtn
+
+        {!this.state.gardeStatus && <BotBtn
           reset={this.reset}
           submit={this.sureSubmit}
-        ></BotBtn>
+        ></BotBtn>}
 
         {/* 检查结果弹框 */}
         <CheckAlert
           toCheckRecord={this.toCheckRecord}
           continue={this.continue}
           cancel={this.cancel}
-          scoreTotal={this.state.scoreTotal}
+          scoreTotal={this.state.scoreTotal - this.state.deductTotal}
           deductTotal={this.state.deductTotal}
           showStatus={this.state.checkAlertStatus}
         />
@@ -321,7 +367,8 @@ export default connect(mapStateToProps, actions)(CheckListPage)
 
 const styles: any = StyleSheet.create({
   checkList: {
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: '100%',
+    width: '100%'
   },
   grad: {
     flexDirection: 'row',

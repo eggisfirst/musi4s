@@ -1,33 +1,41 @@
 
-import React, {Component} from 'react';
-import { 
+import React, { Component } from 'react';
+import {
   Text,
   Alert,
   StyleSheet,
   View,
   Image,
   ImageBackground,
-  TouchableOpacity
-} from "react-native"; 
+  TouchableOpacity,
+} from "react-native";
 import pxToDp from '../../utils/fixcss';
 import ImagePicker from 'react-native-image-picker';
 import { IndexModel } from "../../request";
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 const indexModel = new IndexModel()
 
+import Vedio from '../workCmp/areaReportCmp/checkDetailsCmp/swiper/vedio'
+
 interface IState {
-  imageList: object[]
+  // imageList: string[]
   avatarSource: object
 }
 
 interface IProps {
-  getImageList:(obj:object) => void
+  getImageList: (obj: object) => void
+  imageList: string[]
+  openBigImageBox: () => void
+  changeBigImage: (str: string) => void
+  hasData: boolean
+  imageLen: number
+  videoLen: number
 }
 
 export default class ImgUploadCmp extends Component<IProps, IState> {
-
   state: IState = {
-    imageList: [],
-    avatarSource: {uri: '../../images/work/starCheck/addImg.png'}
+    // imageList: [],
+    avatarSource: { uri: '../../images/work/starCheck/addImg.png' },
   }
 
   _imgDataList: object[] = []
@@ -37,6 +45,9 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     cancelButtonTitle: '取消',
     takePhotoButtonTitle: '拍照',
     chooseFromLibraryButtonTitle: '选择相册',
+    quality: 0.9,
+    maxWidth: 500,
+    maxHeight: 500,
     allowsEditing: true,
     noData: false,
     // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
@@ -46,15 +57,40 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     },
   };
 
+  /**判断视频和图片有几个 */
+  judgeNum = (data: Array<any>) => {
+    let videoLen = 0, imageLen = 0;
+    if (data && data.length) {
+      data.map(it => {
+        const reg = /\.mp4$/gm
+        if (reg.test(it)) {
+          videoLen = 1
+        } else {
+          imageLen += 1
+        }
+      })
+    }
+  }
+
+  judegType = (url: string) => {
+    console.log('url',url)
+    const reg = /\.mp4$/gm
+    if (reg.test(url)) {
+      return 'video'
+    } else {
+      return 'image'
+    }
+  }
+
   upload = () => {
-    if (this.state.imageList.length >= 5) {
+    if (this.props.videoLen + this.props.imageLen >= 5) {
       Alert.alert(
         '提示',
-        '上传图片不能超过5张！',
+        '上传文件不能超过5个！',
         [
           // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
           // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          {text: '好的', onPress: () => console.log('onPress OK')},
+          { text: '好的', onPress: () => console.log('onPress OK') },
         ],
         { cancelable: false }
       )
@@ -68,21 +104,59 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
         } else if (response.customButton) {
           console.log('User tapped custom button: ', response.customButton);
         } else {
-          const source = { uri: response.uri };
-          // You can also display the image using data:
-          // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-          let temp = this.state.imageList
-          temp.push(source)
-          this._imgDataList.push(response)
-          this.props.getImageList(this._imgDataList)
-          // this.saveImage(response)
-          this.setState({
-            imageList: temp,
-          })
+          this.saveImage(response, 'image')
         }
       });
     }
   }
+
+  /**上传视频 */
+  uploadVideo = () => {
+    const options = {
+      title: '选择视频',
+      cancelButtonTitle: '取消',
+      takePhotoButtonTitle: '录制视频',
+      chooseFromLibraryButtonTitle: '选择视频',
+      mediaType: 'video',
+      videoQuality: 'medium',
+      durationLimit: 10,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    };
+    if (this.props.videoLen) {
+      Alert.alert(
+        '提示',
+        '上传视频不能超过1个！',
+        [
+          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+          // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          { text: '好的', onPress: () => console.log('onPress OK') },
+        ],
+        { cancelable: false }
+      )
+    } else {
+      ImagePicker.showImagePicker(options, (response) => {
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+          console.log('User cancelled video picker');
+        }
+        else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        }
+        else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        }
+        else {
+          this.saveImage(response, 'video')
+        }
+      });
+    }
+
+  }
+
 
   /**
    * @param {*删除的图片下标} index
@@ -93,8 +167,8 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
       '确定删除图片吗？',
       [
         // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-        {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: '确定', onPress: () => this.sureCutImg(index)},
+        { text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        { text: '确定', onPress: () => this.sureCutImg(index) },
       ],
       { cancelable: false }
     )
@@ -105,72 +179,102 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
    * @param {*删除的图片下标} index
    */
   sureCutImg = (index: number) => {
-    this.state.imageList.splice(index, 1)
-    this.setState({imageList: this.state.imageList})
+    let temp = this.props.imageList
+    temp.splice(index, 1)
+    this.props.getImageList(temp)
+
+    this.judgeNum(temp)
+    // this.setState({imageList: this.props.imageList})
   }
 
   /**
    * @param {*上传的文件} formData
    */
-  saveImage = (response:any) => {
-    let file = {
-      uri: response.uri,
-      type: 'multipart/form-data',
-      name: 'image.png'
-    }
-    let formData = new FormData()
-    formData.append("dataFile", file)
-    console.log(999, formData)
-    // indexModel.uploadFile(formData).then(res => {
-    //   console.log('图片上传成功：', res)
-    // })
+  saveImage = (response: any, type: string) => {
+    let file;
+    if (type === 'video') {
+      file = { uri: response.uri, type: 'multipart/form-data', name: 'video.mp4' }
+    } else {
+      file = { uri: response.uri, type: 'multipart/form-data', name: 'image.jpg' }
 
-    let url = 'http://172.16.4.201:8088/upload/file'
-    fetch(url,{
-      method:'POST', 
-      headers:{
-        'Authorization':' Bearer 46620bdf-1cc5-4557-962e-777980e7356d',
-        // 'Content-Type':'multipart/form-data',
-        'sign': '5e543256c480ac577d30f76f9120eb74',
-      }, 
-      body: formData, 
-      }) 
-      .then((response) => response.text() ) 
-      .then((responseData)=>{ 
-       
-      console.log('responseData',responseData); 
-      }) 
-      .catch((error)=>{console.error('error',error)}); 
+    }
+    console.log('file',file)
+    let formData = new FormData()
+    // formData.append('dataFile', file)
+    formData.append('multipartFile', file)
+    indexModel.uploadFile(formData).then(res => {
+      console.log('res',res)
+      let temp = this.props.imageList
+      temp.push(res.data)
+      this._imgDataList.push(res.data)
+      this.props.getImageList(this._imgDataList)
+
+      this.judgeNum(this._imgDataList)
+
+    })
+  }
+
+  watchBigImage = (index: number) => {
+    this.props.changeBigImage(this.props.imageList[index])
+    this.props.openBigImageBox()
+  }
+  componentDidMount() {
+    // this.judgeNum(this.props.imageList)
+  }
+  componentWillReceiveProps() {
+    console.log('图片：', this.props.imageList)
   }
 
   render() {
-    const imgBoxList = this.state.imageList.map((item: any, index) => {
+    console.log('videoLan', this.props.videoLen)
+    console.log('imagelen', this.props.imageLen)
+    const imgBoxList = this.props.imageList.map((item: string, index) => {
       return <View
-              style={[styleSheet.imgBox, {marginRight: index === 2 ? pxToDp(0) : pxToDp(20)}]}
-              key={`imgBoxList${index}`}
-            >
-              <TouchableOpacity
-              onPress={() => this.cutImg(index)}
-                style={styleSheet.closeBtn}
-              >
-              {/* <Image source={require('../../images/close.pic')} style={{width: pxToDp(40),height: pxToDp(40)}} /> */}
-              </TouchableOpacity>
-              <Image source={item} style={{width: pxToDp(200),height: pxToDp(200)}} />
-            </View>
+        style={[styleSheet.imgBox, { marginRight: index === 2 ? pxToDp(0) : pxToDp(20) }]}
+        key={`imgBoxList${index}`}
+      >
+        <TouchableOpacity
+          onPress={() => this.cutImg(index)}
+          style={styleSheet.closeBtn}
+        >
+          <Image source={require('../../images/work/starCheck/cutImg.png')} style={styleSheet.cutImg} />
+        </TouchableOpacity>
+
+        <TouchableWithoutFeedback
+          onPress={() => this.watchBigImage(index)}
+          style={styleSheet.img}
+        >
+          {
+            this.judegType(item) !== 'video' ?
+              <Image source={{ uri: item }} style={styleSheet.img} /> :
+              <Vedio videoUrl={item} /> 
+          }
+        </TouchableWithoutFeedback>
+      </View>
     })
-    return(
+    return (
       <View style={styleSheet.imgUploadWrapper}>
         <View style={styleSheet.imgUploadWrapper}>
           {imgBoxList}
           {/* <Image source={this.state.avatarSource} style={{width: 200,height: 200}} /> */}
-          <ImageBackground
-            style={styleSheet.addBox}
-            source={require("../../images/work/starCheck/addImg.png")}>
-            <TouchableOpacity
-              onPress={this.upload}
-              style={styleSheet.addBtn}
-            ></TouchableOpacity>
-          </ImageBackground>
+          {
+            !this.props.hasData && this.props.imageLen + this.props.videoLen < 5 ?
+              <TouchableOpacity
+                onPress={this.upload}
+                style={styleSheet.videoBtn}
+              >
+                <Image style={styleSheet.videoImg} source={require('../../images/img.png')}></Image>
+              </TouchableOpacity> : null
+          }
+          {
+            !this.props.hasData && this.props.imageLen < 5 && !this.props.videoLen ?
+              <TouchableOpacity
+                onPress={() => { this.uploadVideo() }}
+                style={styleSheet.videoBtn}
+              >
+                <Image style={styleSheet.videoImg} source={require('../../images/video.png')}></Image>
+              </TouchableOpacity> : null
+          }
         </View>
       </View>
     )
@@ -182,11 +286,11 @@ const styleSheet = StyleSheet.create({
     flexWrap: 'wrap',
     // justifyContent: 'space-between',
     flexDirection: 'row',
-    width: pxToDp(640),
+    width: pxToDp(660),
     marginTop: pxToDp(100),
     paddingBottom: pxToDp(14),
   },
-  closeBtn:{
+  closeBtn: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -202,6 +306,10 @@ const styleSheet = StyleSheet.create({
     marginBottom: pxToDp(20),
     position: 'relative',
   },
+  cutImg: {
+    width: '100%',
+    height: '100%',
+  },
   addBox: {
     width: pxToDp(200),
     height: pxToDp(200),
@@ -214,5 +322,27 @@ const styleSheet = StyleSheet.create({
   addBtn: {
     width: pxToDp(200),
     height: pxToDp(200),
+  },
+  img: {
+    width: pxToDp(200),
+    height: pxToDp(200),
+  },
+
+  videoBtn: {
+    width: pxToDp(200),
+    height: pxToDp(200),
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderRadius: 0.1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginRight: pxToDp(20)
+  },
+  videoImg: {
+    width: pxToDp(80),
+    height: pxToDp(80),
   }
 })

@@ -443,7 +443,7 @@ class Search extends React.Component<any, IState> {
           ListFooterComponent={this._renderFooter()}
           onEndReached={() => { this._onEndReached() }}
           onEndReachedThreshold={0.2}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id || item.distributor}
           renderItem={({ item, index }) => (
             <TouchableOpacity style={styles.list} activeOpacity={0.6} onPress={() => { this.handleLinkTo(index) }}>
               <Text style={styles.listItem}>{item.distributor}</Text>

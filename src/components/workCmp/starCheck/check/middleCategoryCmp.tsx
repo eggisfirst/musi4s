@@ -33,12 +33,12 @@ export default class middleCategory extends React.Component<any> {
           <TouchableOpacity
             activeOpacity={0.6}
             style={[styles.title,!this.props.status && {justifyContent: 'center'}]}
-            onPress={() => this.props.showClick(this.props.index)}
+            onPress={() => this.props.open(this.props.index)}
           >
             <Text style={[styles.text,!this.props.status && styles.title_open]}>{this.props.title}</Text>
             {
               this.props.status && 
-              <Text style={styles.close}>收起</Text>
+              <TouchableOpacity onPress={() => this.props.close(this.props.index)}><Text style={styles.close}>收起</Text></TouchableOpacity>
             }
             <Image
             source={require('../../../../images/work/starCheck/more_blue.png')}
@@ -86,8 +86,10 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(130),
   },
   close: {
+    position: 'relative',
     textAlign: "right",
-    color: "#007aff"
+    color: "#007aff",
+    zIndex: 1,
   },
   title_open: {
     textAlign: 'center',
@@ -106,8 +108,11 @@ const styles = StyleSheet.create({
   li: {
     color: '#000',
     fontSize: pxToDp(32),
-    lineHeight: pxToDp(120),
+    // lineHeight: pxToDp(120),
     paddingLeft: pxToDp(32),
+    lineHeight: pxToDp(40),
+    paddingTop: pxToDp(20),
+    paddingBottom: pxToDp(20)
     // paddingRight: pxToDp(32),
   }
 })

@@ -95,14 +95,20 @@ export default class MapCmp extends React.Component<Iprops>{
 
           <MapCanvas targerLat={this.state.targerLat} targetLong={this.state.targetLong} />
 
-          <Text style={styles.text}>店长：{shopInfo.username}</Text>
-          <Text style={styles.text}>联系电话：{shopInfo.phone}</Text>
-          <Text style={styles.text}>门店电话：{shopInfo.shopPhone}</Text>
-          <Text style={styles.text}>状态：{this.props.shopInfo.passFlag ? '已评分' : '未评分'}</Text>
-          <TouchableOpacity style={styles.toShop} onPress={() => { this.handleOpenToApp() }}>
-            <Image source={require('../../images/work/toShop.png')} style={styles.toShopIcon} />
-            <Text style={styles.toShopText}>导航到店</Text>
-          </TouchableOpacity>
+          <View style={{display: "flex",justifyContent: "space-between", flexDirection: "row"}}>
+            <View>
+              <Text style={styles.text}>店长：{shopInfo.username}</Text>
+              <Text style={styles.text}>联系电话：{shopInfo.phone}</Text>
+              <Text style={styles.text}>门店电话：{shopInfo.shopPhone}</Text>
+              <Text style={styles.text}>状态：{this.props.shopInfo.passFlag ? '已评分' : '未评分'}</Text>
+            </View>
+
+            <TouchableOpacity style={styles.toShop} onPress={() => { this.handleOpenToApp() }}>
+              <Image source={require('../../images/work/toShop.png')} style={styles.toShopIcon} />
+              <Text style={styles.toShopText}>导航到店</Text>
+            </TouchableOpacity>
+          </View>
+
           {/* <TouchableOpacity style={styles.close} onPress={() => {this.props.handleCloseMap()}}>
             <Text style={styles.closeText}>关闭</Text>
           </TouchableOpacity> */}
@@ -174,9 +180,9 @@ const styles = StyleSheet.create({
     lineHeight: pxToDp(50)
   },
   toShop: {
-    position: "absolute",
-    right: pxToDp(20),
-    bottom: pxToDp(140)
+    // position: "absolute",
+    // right: pxToDp(20),
+    // bottom: pxToDp(140)
   },
   toShopIcon: {
     width: pxToDp(100),
@@ -203,12 +209,12 @@ const styles = StyleSheet.create({
     // left: pxToDp(250),
     // bottom:pxToDp(796),
     width: pxToDp(250),
-    height: pxToDp(20),
-    marginLeft: pxToDp(230),
-    // borderRadius: pxToDp(12),
-    // backgroundColor: "#ccc",
-    borderTopWidth: pxToDp(10),
-    borderTopColor: "#ccc",
+    height: pxToDp(8),
+    marginLeft: pxToDp(220),
+    borderRadius: pxToDp(12),
+    backgroundColor: "#f2f5f7",
+    // borderTopWidth: pxToDp(10),
+    // borderTopColor: "#ccc",
     // borderTopLeftRadius: pxToDp(12),
   }
 })

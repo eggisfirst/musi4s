@@ -14,7 +14,7 @@ import * as actions from '../../../../store/actions/4s/video'
 
 
 const IS_ANDROID = Platform.OS === 'android';
-const SLIDER_1_FIRST_ITEM = 1;
+let SLIDER_1_FIRST_ITEM = 0;
 
 class SwiperIndex extends Component {
     
@@ -33,7 +33,7 @@ class SwiperIndex extends Component {
      * 设置切换到哪一张
      */
     setActiveIndex = (index) => {
-        // this.props.videoControl(false)
+        this.props.videoControl(false)
         console.log('index',this.props.urls[index])
        
         this.setState({
@@ -83,9 +83,11 @@ class SwiperIndex extends Component {
                     sliderWidth={sliderWidth}
                     itemWidth={itemWidth}
                     hasParallaxImages={true}
-                    firstItem={SLIDER_1_FIRST_ITEM}
+                    firstItem={this.state.slider1ActiveSlide}
                     inactiveSlideScale={0.94}
+
                     inactiveSlideOpacity={0.7}
+                     removeClippedSubviews={false}
                     // inactiveSlideShift={20}
                     containerCustomStyle={styles.slider}
                     //   contentContainerCustomStyle={styles.sliderContentContainer}
