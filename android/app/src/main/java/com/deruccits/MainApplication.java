@@ -3,9 +3,9 @@ package com.deruccits;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.slider.ReactSliderPackage;
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
 import com.imagepicker.ImagePickerPackage;
-import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.horcrux.svg.SvgPackage;
@@ -33,9 +33,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactSliderPackage(),
           new ExtraDimensionsPackage(),
           new ImagePickerPackage(),
-          new ReactSliderPackage(),
           new ReactVideoPackage(),
           new AsyncStoragePackage(),
           new SvgPackage(),
