@@ -18,7 +18,6 @@ const indexModel = new IndexModel()
 import Vedio from '../workCmp/areaReportCmp/checkDetailsCmp/swiper/vedio'
 
 interface IState {
-  // imageList: string[]
   avatarSource: object
 }
 
@@ -31,22 +30,19 @@ interface IProps {
 
 export default class ImgUploadCmp extends Component<IProps, IState> {
   state: IState = {
-    // imageList: [],
     avatarSource: { uri: '../../images/work/starCheck/addImg.png' },
   }
-
-  _imgDataList: object[] = []
 
   options = {
     title: '请选择图片',
     cancelButtonTitle: '取消',
     takePhotoButtonTitle: '拍照',
     chooseFromLibraryButtonTitle: '选择相册',
-    quality: 0.9,
-    maxWidth: 500,
-    maxHeight: 500,
+    quality: 0.8,
+    maxWidth: 400,
+    maxHeight: 400,
     allowsEditing: true,
-    noData: false,
+    noData: true,
     // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
     storageOptions: {
       skipBackup: true,
@@ -191,9 +187,6 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     let temp = this.props.imageList
     temp.splice(index, 1)
     this.props.getImageList(temp)
-
-    // this.judgeNum(temp)
-    // this.setState({imageList: this.props.imageList})
   }
 
   /**
@@ -215,23 +208,13 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
       console.log('res',res)
       let temp = this.props.imageList
       temp.push(res.data)
-      this._imgDataList.push(res.data)
-      this.props.getImageList(this._imgDataList)
-
-      // this.judgeNum(this._imgDataList)
-
+      this.props.getImageList(temp)
     })
   }
 
   watchBigImage = (index: number) => {
     this.props.changeBigImage(this.props.imageList[index])
     this.props.openBigImageBox()
-  }
-  componentDidMount() {
-    // this.judgeNum(this.props.imageList)
-  }
-  componentWillReceiveProps(nextProps: any) {
-
   }
 
   render() {

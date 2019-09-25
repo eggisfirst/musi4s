@@ -184,7 +184,6 @@ class CheckListPage extends React.Component<any, IState>{
   subcategories = () => {
     let {categoryId, shopId, type, qualificationId} = this.props.navigation.state.params
     indexModel.subcategories(categoryId, shopId, qualificationId, type === '已评分').then(res => {
-      console.log(99999, res)
       if (res.data) {
         this.setState({ levelId: res.data.starLevelId })
         let data = res.data.categories
@@ -274,20 +273,17 @@ class CheckListPage extends React.Component<any, IState>{
   }
 
   cancel = () => {
-    console.log('取消')
     this.setState({ checkAlertStatus: false })
   }
 
   componentDidMount() {
     let {type} = this.props.navigation.state.params
-    console.log(type)
     this.subcategories()
     this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0, gardeStatus: type === '已评分' })
     this.props.changeCheckList([])
   }
 
   render() {
-    console.log(this.props)
     const { navigation } = this.props
     const MiddleCategoryCmpList = this.props.checkList.checkList && this.props.checkList.checkList.map((item: any, index: number) => {
       return <MiddleCategoryCmp

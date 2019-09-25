@@ -171,27 +171,27 @@ class CheckDetailPage extends React.Component<any, IState>{
     let arr = temp[params.fatherIndex].standardList[params.index].urls
     let tempArr = arr ? arr : []
     this.setState({ imageList: tempArr })
-    this.filterImageList(tempArr)
+    // this.filterImageList(tempArr)
+    console.log('props:', temp, this.props.imageList)
   }
 
   componentDidMount() {
-    const { type } = this.props.navigation.state.params
-    this.getGradeDetailInfo()
+    const { type, index, fatherIndex } = this.props.navigation.state.params
+    if (type === '已评分') {this.getGradeDetailInfo()}
     let temp = this.props.checkList
-    let params = this.props.navigation.state.params
-    let arr = temp[params.fatherIndex].standardList[params.index].urls
+    let arr = temp[fatherIndex].standardList[index].urls
     let tempArr = arr ? arr : []
-    this.setState({ imageList: tempArr })
-    const { index, fatherIndex } = this.props.navigation.state.params
     this.setState({
+      imageList: tempArr,
+      urls: this.filterImageList(tempArr),
       inputAreaVal: this.props.checkList[fatherIndex].standardList[index].text,
       score: this.props.checkList[fatherIndex].standardList[index].deduct | 0,
       // 标记是否查看已评分
       gradeStatus: type === '已评分'
     })
-    this.filterImageList(tempArr)
-    console.log(111,tempArr)
-
+    this._data.imgDataList = tempArr
+    // this.filterImageList(tempArr)
+    console.log('mount:', temp, tempArr, arr)
   }
 
   render() {
