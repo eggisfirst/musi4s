@@ -30,9 +30,6 @@ interface IState {
   bigImageStatus: boolean
   urls: any
   gradeStatus: boolean
-  hasData: boolean
-  videoLen: number
-  imageLen: number
 }
 
 interface IData {
@@ -50,9 +47,6 @@ class CheckDetailPage extends React.Component<any, IState>{
     bigImageStatus: false,
     urls: [],
     gradeStatus: true,
-    hasData: false,
-    videoLen: 0,
-    imageLen: 0
   }
 
   _data: IData = {
@@ -115,19 +109,14 @@ class CheckDetailPage extends React.Component<any, IState>{
     indexModel.getGradeDetailInfo(id).then(res => {
       if (res.status && res.data) {
         let data = res.data
-        let hasData = false
         let imageList = data.attachment.map((item: any) => {
           return item.url
         })
-        if (data.attachment && data.attachment.length > 0) {
-          hasData = true
-        }
         this.setState({
           score: data.deduct,
           inputAreaVal: data.reason,
           imageList: imageList,
           urls: this.filterImageList(imageList),
-          hasData
         })
       }
     })
@@ -159,22 +148,14 @@ class CheckDetailPage extends React.Component<any, IState>{
    */
   filterImageList = (imageList: string[]) => {
     let arr: any = []
-    let videoLen = 0,
-        imageLen = 0
     imageList.map((it: any) => {
       var reg = /\.mp4$/gm
       if (reg.test(it)) {
         arr.push({ url: it, type: 'mp4' })
-        videoLen = 1
       } else {
         arr.push({ url: it, type: 'image' })
-        imageLen += 1
       }
 
-    })
-    this.setState({
-      videoLen,
-      imageLen
     })
     return arr
   }
@@ -240,9 +221,6 @@ class CheckDetailPage extends React.Component<any, IState>{
               imageList={this.state.imageList}
               openBigImageBox={this.openBigImageBox}
               changeBigImage={this.changeBigImage}
-              hasData={this.state.hasData}
-              videoLen={this.state.videoLen}
-              imageLen={this.state.imageLen}
             ></ImgUploadCmp>
           </View>
 

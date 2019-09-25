@@ -27,9 +27,6 @@ interface IProps {
   imageList: string[]
   openBigImageBox: () => void
   changeBigImage: (str: string) => void
-  hasData: boolean
-  imageLen: number
-  videoLen: number
 }
 
 export default class ImgUploadCmp extends Component<IProps, IState> {
@@ -57,21 +54,6 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     },
   };
 
-  /**判断视频和图片有几个 */
-  judgeNum = (data: Array<any>) => {
-    let videoLen = 0, imageLen = 0;
-    if (data && data.length) {
-      data.map(it => {
-        const reg = /\.mp4$/gm
-        if (reg.test(it)) {
-          videoLen = 1
-        } else {
-          imageLen += 1
-        }
-      })
-    }
-  }
-
   judegType = (url: string) => {
     console.log('url',url)
     const reg = /\.mp4$/gm
@@ -82,79 +64,106 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     }
   }
 
+  hasVideo = (arr) => {
+    return arr.some((item: string) => {
+      return this.judegType(item) === 'video'
+    })
+  }
+
   upload = () => {
-    if (this.props.videoLen + this.props.imageLen >= 5) {
+    try {
+      if (this.props.imageList.length >= 5) {
+        Alert.alert(
+          '提示',
+          '上传文件不能超过5个！',
+          [
+            // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+            // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            { text: '好的', onPress: () => console.log('onPress OK') },
+          ],
+          { cancelable: false }
+        )
+      } else {
+        ImagePicker.showImagePicker(this.options, (response) => {
+          console.log('Response = ', response);
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } else {
+            this.saveImage(response, 'image')
+          }
+        });
+      }
+    } catch (error) {
       Alert.alert(
-        '提示',
-        '上传文件不能超过5个！',
+        '报错',
+        error,
         [
-          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-          // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
           { text: '好的', onPress: () => console.log('onPress OK') },
         ],
         { cancelable: false }
       )
-    } else {
-      ImagePicker.showImagePicker(this.options, (response) => {
-        console.log('Response = ', response);
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        } else {
-          this.saveImage(response, 'image')
-        }
-      });
     }
   }
 
   /**上传视频 */
   uploadVideo = () => {
-    const options = {
+    const options: any = {
       title: '选择视频',
       cancelButtonTitle: '取消',
       takePhotoButtonTitle: '录制视频',
       chooseFromLibraryButtonTitle: '选择视频',
       mediaType: 'video',
-      videoQuality: 'medium',
+      videoQuality: 'low',
       durationLimit: 10,
       storageOptions: {
         skipBackup: true,
         path: 'images'
       }
     };
-    if (this.props.videoLen) {
+    try {
+      if (this.hasVideo(this.props.imageList)) {
+        Alert.alert(
+          '提示',
+          '上传视频不能超过1个！',
+          [
+            // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+            // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            { text: '好的', onPress: () => console.log('onPress OK') },
+          ],
+          { cancelable: false }
+        )
+      } else {
+        ImagePicker.showImagePicker(options, (response) => {
+          console.log('Response = ', response);
+  
+          if (response.didCancel) {
+            console.log('User cancelled video picker');
+          }
+          else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          }
+          else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          }
+          else {
+            this.saveImage(response, 'video')
+          }
+        });
+      }
+    } catch (error) {
       Alert.alert(
-        '提示',
-        '上传视频不能超过1个！',
+        '报错',
+        error,
         [
-          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-          // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
           { text: '好的', onPress: () => console.log('onPress OK') },
         ],
         { cancelable: false }
       )
-    } else {
-      ImagePicker.showImagePicker(options, (response) => {
-        console.log('Response = ', response);
-
-        if (response.didCancel) {
-          console.log('User cancelled video picker');
-        }
-        else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        }
-        else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        }
-        else {
-          this.saveImage(response, 'video')
-        }
-      });
     }
-
   }
 
 
@@ -183,7 +192,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     temp.splice(index, 1)
     this.props.getImageList(temp)
 
-    this.judgeNum(temp)
+    // this.judgeNum(temp)
     // this.setState({imageList: this.props.imageList})
   }
 
@@ -209,7 +218,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
       this._imgDataList.push(res.data)
       this.props.getImageList(this._imgDataList)
 
-      this.judgeNum(this._imgDataList)
+      // this.judgeNum(this._imgDataList)
 
     })
   }
@@ -221,13 +230,11 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
   componentDidMount() {
     // this.judgeNum(this.props.imageList)
   }
-  componentWillReceiveProps() {
-    console.log('图片：', this.props.imageList)
+  componentWillReceiveProps(nextProps: any) {
+
   }
 
   render() {
-    console.log('videoLan', this.props.videoLen)
-    console.log('imagelen', this.props.imageLen)
     const imgBoxList = this.props.imageList.map((item: string, index) => {
       return <View
         style={[styleSheet.imgBox, { marginRight: index === 2 ? pxToDp(0) : pxToDp(20) }]}
@@ -258,7 +265,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
           {imgBoxList}
           {/* <Image source={this.state.avatarSource} style={{width: 200,height: 200}} /> */}
           {
-            !this.props.hasData && this.props.imageLen + this.props.videoLen < 5 ?
+            this.props.imageList.length < 5 ?
               <TouchableOpacity
                 onPress={this.upload}
                 style={styleSheet.videoBtn}
@@ -267,7 +274,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
               </TouchableOpacity> : null
           }
           {
-            !this.props.hasData && this.props.imageLen < 5 && !this.props.videoLen ?
+            this.props.imageList.length < 5 && !this.hasVideo(this.props.imageList) ?
               <TouchableOpacity
                 onPress={() => { this.uploadVideo() }}
                 style={styleSheet.videoBtn}
