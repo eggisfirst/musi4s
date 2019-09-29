@@ -94,7 +94,11 @@ export default class index extends React.Component<any>{
       this.props.navigation.navigate('GradePage', {
         qualificationId,
         shopId,
-        shopName
+        shopName,
+        callback: () => {
+          const id = this.props.navigation.state.params.id
+          this.getReceShopList(id)
+        }
       })
       return
     }

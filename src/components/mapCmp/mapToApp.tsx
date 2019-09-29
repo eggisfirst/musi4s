@@ -7,10 +7,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 interface Iprops {
     handleCloseToApp: () => void
     address: string
-    curLat: number
+    curLat: number 
     curLong: number
     targerLat: number
-    targetLong: number
+    targetLong: number 
 }
 
 export const MapToApp:React.FC<Iprops> = (props:Iprops) => {

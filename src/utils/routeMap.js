@@ -15,7 +15,7 @@ export default class RoutePlan {
     static isInstallAmap = () => {
         return new Promise((resolve, reject) => {
             Linking.canOpenURL(Platform.OS === "android" ? "amapuri://route/plan/" : "iosamap://path").then(supported => {
-                console.log("--------------:isInstallAmap", supported)
+                // console.log("--------------:isInstallAmap", supported)
 
                 resolve(supported)
             }).catch(err => {
@@ -27,9 +27,9 @@ export default class RoutePlan {
         return new Promise((resolve, reject) => {
             Linking.canOpenURL("baidumap://map/direction").then(supported => {
                 resolve(supported)
-                console.log("--------------:", supported)
+                // console.log("--------------:", supported)
             }).catch(err => {
-                console.log("-------------11:", err)
+                // console.log("-------------11:", err)
                 resolve(false)
             })
         })

@@ -2,6 +2,17 @@ import { Request } from './request'
 
 
 class IndexModel extends Request {
+  /**获取账号的个人信息 */
+  getTheInfo(account,method) {
+    return this.getSecretData({
+      url: "v1/api/userinfo",
+      data: {
+        account
+      },
+      method
+    })
+  }
+
   /**获取职位 */
   getAuth() {
     return this.getSecretData({
@@ -129,12 +140,14 @@ class IndexModel extends Request {
    * @param {*} categoryId 
    * @param shopId
    */
-  subcategories(categoryId, shopId) {
+  subcategories(categoryId, shopId, qualificationId, scoreFlag) {
     return this.getSecretData({
       url: "v2/api/cert/approve/subcategories",
       data: {
         categoryId,
-        shopId
+        shopId,
+        qualificationId,
+        scoreFlag,
       }
     })
   }
@@ -342,9 +355,15 @@ class IndexModel extends Request {
    * 上传视频/图片
    * @param {*上传FormData格式文件时传dataFile参数} dataFile
    */
+  // uploadFile(formData) {
+  //   return this.getFormData({
+  //     url: "/upload/file",
+  //     data: formData
+  //   })
+  // }
   uploadFile(formData) {
-    return this.getSecretData({
-      url: "/upload/file",
+    return this.getFormData({
+      url: "v2/api/cert/approve/upload",
       data: formData
     })
   }
@@ -360,6 +379,14 @@ class IndexModel extends Request {
       }
     })
   }
+
+  getPosition(data) {
+    return this.getSecretData({
+      url:"/v1/api/shop/getShopsByLocation",
+      data
+    })
+  }
+
 }
 
 

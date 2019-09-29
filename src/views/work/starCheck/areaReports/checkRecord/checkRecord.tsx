@@ -28,19 +28,6 @@ class CheckRecord extends React.Component<any>{
     list: []
   }
 
-  test = () => {
-    axios.get('../../../../../../data.json')
-      .then((res) => {
-        console.log(res.data.list)
-        store.dispatch(setLoading(false));
-        this.setState({
-          list: res.data.list
-        })
-      })
-  }
-
-
-
   /**
    * 获取历史记录
    */
@@ -66,7 +53,6 @@ class CheckRecord extends React.Component<any>{
     this.getCheckLog()
 
 
-    // this.test()
 
     // console.log(this.props.navigation.state.parmas)
   }
@@ -95,7 +81,7 @@ class CheckRecord extends React.Component<any>{
         <ScrollView>
           {
             this.state.list && this.state.list.length ?
-              <StarCheckBox list={this.state.list} navigation={this.props.navigation} />
+              <StarCheckBox shopName={this.props.navigation.state.params.shopName} list={this.state.list} navigation={this.props.navigation} />
               :
               <Text style={styles.noRecord}>暂无记录</Text>
           }

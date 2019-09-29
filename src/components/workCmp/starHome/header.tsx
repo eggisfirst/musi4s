@@ -10,7 +10,7 @@ export const Header: React.FC<IProps> = (props) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../images/work/starHome/banner.png')}
+        source={require('../../../images/work/starHome/header.png')}
         style={styles.headTitle} />
       <TouchableOpacity
         style={styles.backBtn}

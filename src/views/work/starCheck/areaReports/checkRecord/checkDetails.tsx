@@ -28,6 +28,8 @@ interface IState {
   scoreData: any
   categorierData: any
   allStarLength: number
+  /**如果是一星检查还未有数据 则返回false */
+  hasData: boolean
 }
 class CheckDetails extends React.Component<any>{
   static navigationOptions = {
@@ -54,12 +56,35 @@ class CheckDetails extends React.Component<any>{
     /**
      * 各模块的得分/数据
      */
-    categorierData: []
+    categorierData: [],
+    hasData: true
   }
 
 
-  
-  
+  /**评分进入的检查记录/如果没有数据显示无记录 */
+  isHasData(gradeList: any) {
+    if (!gradeList.length) {
+      this.setState({
+        hasData: false
+      })
+    } else {
+      this.setState({
+        hasData: true
+      })
+    }
+  } 
+  /**切换星级的时候检查记录没有数据 */
+  checkHasData(list:any) {
+    if (list) {
+      this.setState({
+        hasData: true
+      })
+    } else {
+      this.setState({
+        hasData: false
+      })
+    }
+  }
   //----------------
   /**
    * 获取评分进来的 页面评分详情
@@ -71,14 +96,16 @@ class CheckDetails extends React.Component<any>{
         /**
          * 初始进来的index跟自己选择的index
          */
-        let myIndex = index!== undefined ? index : 
+        let myIndex = index !== undefined ? index :
         this.getInitStar(allLen, this.props.navigation.state.params.starLevel)
-        console.log('myIndex',myIndex)
         this.props.handleSelectStarActiveIndex(myIndex)
         const scoreData = {
           getTotal: res.data.getTotal,
           shopName: res.data.shopName,
         }
+        /**如果gradeList里面没有数据，显示无记录 */
+        this.isHasData(res.data.gradeList)
+
         this.setState({
           starTitle: this.getStarTitle(res.data.starList),
           scoreData,
@@ -90,29 +117,35 @@ class CheckDetails extends React.Component<any>{
     })
   }
 
-    /**
-   * 获取检查 --进来的页面评分详情
-   */
-  getCheckLogInfo(data: any,index?:number) {
-    const { shopId, levelId, startTime, endTime } = data
+  /**
+ * 获取检查 --进来的页面评分详情
+ */
+  getCheckLogInfo(data: any, index?: number) {
+    let { shopId, levelId, startTime, endTime } = data
+    if (!levelId) {
+      levelId = this.state.starData[0].levelId
+    }
     indexModel.getCheckLogInfo(shopId, levelId, startTime, endTime).then(res => {
       if (res.status) {
-         /**
-         * 初始进来的index跟自己选择的index
-         */
-        let myIndex = index!== undefined ? index : 0
+        /**
+        * 初始进来的index跟自己选择的index
+        */
+        let myIndex = index !== undefined ? index : 0
         this.props.handleSelectStarActiveIndex(myIndex)
-
-        const scoreData = {
-          getTotal: res.checkLogInfo.score,
-          shopName: res.checkLogInfo.name,
+        this.checkHasData(res.checkLogInfo)
+        let scoreData;
+        if(res.checkLogInfo) {
+          scoreData = {
+            getTotal: res.checkLogInfo.score,
+            shopName: this.props.navigation.state.params.shopName,
+            cycle: res.checkLogInfo.cycle
+          }
+          this.setState({
+            checkInfo: res.checkLogInfo,
+            scoreData,
+            categorierData: res.checkLogInfo.checkCategories
+          })
         }
-        this.setState({
-          checkInfo: res.checkLogInfo,
-          scoreData,
-          categorierData: res.checkLogInfo.checkCategories
-
-        })
       }
     })
   }
@@ -124,38 +157,27 @@ class CheckDetails extends React.Component<any>{
     const { shopId, startTime, endTime } = this.getCheckParams()
     indexModel.getCheckcategories(shopId, startTime, endTime).then(res => {
       if (res.status) {
-        this.props.handleSelectStarActiveIndex(0)
-        this.setState({
-          starTitle: this.getStarTitle(res.checkCategories),
-          starData: res.checkCategories,
-          allStarLength: res.checkCategories.length
-        })
+        if (res.checkCategories.length) {
+          this.props.handleSelectStarActiveIndex(0)
+          this.setState({
+            starTitle: this.getStarTitle(res.checkCategories),
+            starData: res.checkCategories,
+            allStarLength: res.checkCategories.length,
+            hasData: true
+          })
+
+          const data = this.getCheckParams()
+          this.getCheckLogInfo(data)
+
+        } else {
+          this.setState({
+            hasData: false
+          })
+        }
+
       }
     })
   }
-  /**
-   * 测试
-   */
-  starTest() {
-    axios.get('../../../../../../data.json')
-    .then( (res) => {
-      store.dispatch(setLoading(false));
-      this.props.handleSelectStarActiveIndex(0)
-      this.setState({
-        starTitle: this.getStarTitle(res.data.checkCategories),
-        scoreData: {
-          getTotal: 90,
-          shopName: '慕思专卖店'
-        },
-        categorierData: res.data.checkLogInfo.checkCategories
-
-      })
-
-    })
-  }
-
-
-
   //------------------
 
   /**
@@ -208,7 +230,7 @@ class CheckDetails extends React.Component<any>{
    * 跳转检查详情页面
    */
   //检查--- 跳转到详情页
-  linkToCheckDetail(id: any,name:string) {
+  linkToCheckDetail(id: any, name: string) {
     const { shopId, startTime, endTime } = this.getCheckParams()
     const categoryId = id
     this.props.navigation.push("DetailsPage", {
@@ -238,9 +260,7 @@ class CheckDetails extends React.Component<any>{
   initGetData() {
     if (this.props.navigation.state.params.type === 'check') {
       this.getCheckcategories()
-      const data = this.getCheckParams()
-      // this.starTest()
-      this.getCheckLogInfo(data)
+
     } else {
       const data = this.getParams()
       this.getStarGrade(data)
@@ -249,15 +269,14 @@ class CheckDetails extends React.Component<any>{
   /**请求筛选星级的数据 */
   handleSelect = (index: number) => {
     if (this.props.navigation.state.params.type === 'check') {
-      console.log(index)
       //注意返回来的stardata的顺序？ 321 还是123
-       // const myIndex = this.state.allStarLength - index
+      // const myIndex = this.state.allStarLength - index
       // console.log(myIndex)
       const levelId = this.state.starData[index].levelId
       const shopId = this.state.starData[index].shopId
-      const {startTime, endTime } = this.getCheckParams()
-      const data = {shopId, startTime, endTime,levelId}
-      this.getCheckLogInfo(data,index)
+      const { startTime, endTime } = this.getCheckParams()
+      const data = { shopId, startTime, endTime, levelId }
+      this.getCheckLogInfo(data, index)
     } else {
       const { shopId, qualificationId, type } = this.getParams()
       const starLevelId = this.state.starData[index].starLevelId
@@ -270,7 +289,6 @@ class CheckDetails extends React.Component<any>{
       }
       this.getStarGrade(data, index)
     }
-    console.log('index', index)
   }
   /**设置初始点击进来的星级 index-1*/
   componentDidMount() {
@@ -280,7 +298,7 @@ class CheckDetails extends React.Component<any>{
 
   render() {
     const navigation = this.props.navigation
-  
+
     return (
       <View style={styles.container}>
         <HeaderCmp title={"检查详情"} eggHandleBack={() => { navigation.goBack() }} />
@@ -293,29 +311,36 @@ class CheckDetails extends React.Component<any>{
             />
           </View>
         </View>
-        <ScrollView>
-          {
-            this.state.scoreData.getTotal != undefined &&
-          <ScoreCanvas score={this.state.scoreData.getTotal} name={this.state.scoreData.shopName} />
+        {
+          this.state.hasData ?
+            <>
+              <ScrollView>
+                {
+                  this.state.scoreData.getTotal != undefined &&
+                  <ScoreCanvas cycle={this.state.scoreData.cycle} score={this.state.scoreData.getTotal} name={this.state.scoreData.shopName} />
 
-          }
-          {
-            this.props.navigation.state.params.type === 'check' ?
-            this.state.categorierData.map((item:any, index:number) => (
-                <TouchableOpacity key={item.categoryId} activeOpacity={0.6} onPress={() => { this.linkToCheckDetail(item.categoryId,item.name) }}>
-                  <MaxtermCmp checkData={item} />
-                </TouchableOpacity>
+                }
+                {
+                  this.props.navigation.state.params.type === 'check' ?
+                    this.state.categorierData.map((item: any, index: number) => (
+                      <TouchableOpacity key={item.categoryId} activeOpacity={0.6} onPress={() => { this.linkToCheckDetail(item.categoryId, item.name) }}>
+                        <MaxtermCmp checkData={item} />
+                      </TouchableOpacity>
 
-              ))
-              :
-              this.state.categorierData.map((item: any, index: number) => (
-                <TouchableOpacity key={item.id} activeOpacity={0.6} onPress={() => { this.linkToGradeDetail(item.id,item.name) }}>
-                  <MaxtermCmp data={item} />
-                </TouchableOpacity>
+                    ))
+                    :
+                    this.state.categorierData.map((item: any, index: number) => (
+                      <TouchableOpacity key={item.id} activeOpacity={0.6} onPress={() => { this.linkToGradeDetail(item.id, item.name) }}>
+                        <MaxtermCmp data={item} />
+                      </TouchableOpacity>
 
-              ))
-          }
-        </ScrollView>
+                    ))
+                }
+              </ScrollView>
+            </>
+            :
+            <Text style={styles.noRecord}>暂无记录</Text>
+        }
       </View>
     )
   }
@@ -328,7 +353,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    paddingBottom: Platform.OS === "ios" ? 0 : pxToDp(80)
+    // paddingBottom: Platform.OS === "ios" ? 0 : pxToDp(80)
   },
   line: {
     width: "100%",
@@ -339,5 +364,11 @@ const styles = StyleSheet.create({
   selectContainer: {
     width: pxToDp(500),
     marginLeft: pxToDp(50),
+  },
+  noRecord: {
+    width: "100%",
+    textAlign: "center",
+    color: "#666",
+    marginTop: pxToDp(20)
   }
 })

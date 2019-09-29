@@ -8,6 +8,7 @@ import { removeSecond } from "../../../../utils";
 interface IProps {
   list: Array<any>
   navigation: any
+  shopName: string
 }
 
 export const StarCheckBox:React.FC<IProps> = (props) => {
@@ -17,13 +18,15 @@ export const StarCheckBox:React.FC<IProps> = (props) => {
       // const startTime = props.list[index].startTime
       // const endTime = props.list[index].endTime
       // const levelId = props.list[index].levelId
+      const shopName = props.shopName
       const {shopId,startTime,endTime,levelId} = props.list[index]
       props.navigation.push("CheckDetailsPage", {
         shopId,
         startTime,
         endTime,
         levelId,
-        type: 'check'
+        type: 'check',
+        shopName
       })
     }
     const disqualification = {
@@ -47,7 +50,7 @@ export const StarCheckBox:React.FC<IProps> = (props) => {
               <Text style={styles.date}>{removeSecond(item.startTime)}</Text>
               <Text style={styles.date}>{removeSecond(item.endTime)}</Text>
               <View style={styles.rightBox}>
-                <Text style={[styles.bluetext,item.score < 80 && disqualification]}>{item.pass === 1 ? '合格' : '不合格'}</Text>
+                <Text style={[styles.bluetext,item.pass !== 1 && disqualification]}>{item.pass === 1 ? '合格' : '不合格'}</Text>
                 <Image style={styles.icon} source={require("../../../../images/work/areaReport/checkRecord/arrow.png")} />
               </View>
             </TouchableOpacity>

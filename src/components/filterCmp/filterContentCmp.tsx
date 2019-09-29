@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button, Platform, Dimensions, Alert, AlertIOS } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Button, Platform, Dimensions, Alert, AlertIOS, NativeModules } from "react-native";
 import React, { useState } from "react";
 import pxToDp from "../../utils/fixcss";
 import { DatePickerCmp } from "./dateCmp";
@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import * as actions from '../../store/actions/filter/rightFliter'
 import { StarCheckTypes } from "../../utils/enum";
 import ExtraDimensions from 'react-native-extra-dimensions-android';
+const { StatusBarManager } = NativeModules
 
 interface IProps {
   type: StarCheckTypes  /**判断是哪个页面 */
@@ -143,6 +144,14 @@ class FilterContentCmp extends React.Component<IProps> {
 
 
   render() {
+    // console.log(ExtraDimensions.getRealWindowHeight())
+    // console.log(Dimensions.get("window").height)
+    // console.log(Dimensions.get("screen").height)
+
+    // console.log(ExtraDimensions.getStatusBarHeight())
+    // console.log(ExtraDimensions.getSoftMenuBarHeight())
+    // console.log(ExtraDimensions.getSmartBarHeight())
+    // console.log(ExtraDimensions.isSoftMenuBarEnabled())
     // console.log('props', format(new Date(this.props.startDate)))
     return (
       <View style={styles.container} >
@@ -244,7 +253,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9900,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   leftStyle: {
@@ -254,7 +263,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(150),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: ExtraDimensions.getRealWindowHeight(),
     backgroundColor: 'rgba(0,0,0,0)',
   },
   modalStyle: {
@@ -264,7 +273,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Platform.OS === 'android'?  Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight()  : "100%",
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
@@ -321,7 +330,7 @@ const styles = StyleSheet.create({
     width: pxToDp(600),
     height: pxToDp(165),
     position: "absolute",
-    bottom: 0,
+    bottom:  0,
     left: 0,
     display: "flex",
     flexDirection: "row",
@@ -354,7 +363,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 999999,
     width: pxToDp(750),
-    height: Dimensions.get('screen').height - ExtraDimensions.getStatusBarHeight(),
+    height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   datePickerContainer: {

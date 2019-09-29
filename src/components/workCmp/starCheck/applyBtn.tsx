@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   btnBlue: {
-    minWidth: pxToDp(140),
+    minWidth: pxToDp(160),
     height: pxToDp(60),
     borderRadius: pxToDp(30),
     marginLeft: pxToDp(20),
@@ -45,7 +45,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: "row",
     alignItems:"center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingLeft: pxToDp(20),
+    paddingRight: pxToDp(20),
   },
   Red: {
     color: '#ff2d55',

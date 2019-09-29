@@ -1,22 +1,44 @@
 import React from "react"
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from "react-native"
-import {TabBarItem} from "../../components/tabBarItem"
+import { TabBarItem } from "../../components/tabBarItem"
 import pxToDp from "../../utils/fixcss";
 import { HeaderCmp } from '../../components/personalCmp/headerCmp';
 import { ListItem } from '../../components/personalCmp/listCmp';
 import { BtnCmp } from "../../components/personalCmp/btnCmp";
-import { _removeItem } from "../../utils/utils";
+import { _removeItem, _retrieveData } from "../../utils/utils";
 
-export default class PersonalScreen extends React.Component<any> { 
+interface IState {
+  userInfo: Object
+}
+
+export default class PersonalScreen extends React.Component<any> {
   static navigationOptions = {
-    tabBarLabel: '我的',  
-    tabBarIcon: ({focused}:any) => (
+    tabBarLabel: '我的',
+    tabBarIcon: ({ focused }: any) => (
       <TabBarItem
-        focused={focused}  
-        normalImage={require('../../images/tabBar/personal.png')}  
+        focused={focused}
+        normalImage={require('../../images/tabBar/personal.png')}
         selectedImage={require('../../images/tabBar/personal_select.png')} />
     ),
-   
+  }
+
+  state:IState = {
+    userInfo: {}
+  }
+  /**获取个人信息 */
+  getUserInfo() {
+    _retrieveData('userInfo').then(res => {
+      if (res) {
+        const data = JSON.parse(res)
+        this.setState({
+          userInfo: data
+        })
+      }
+    })
+  }
+
+  componentDidMount() {
+    this.getUserInfo()
   }
   /**退出登录 清除refresh_token*/
   handleLogout = () => {
@@ -43,15 +65,15 @@ export default class PersonalScreen extends React.Component<any> {
 
     return (
       <View>
-        <HeaderCmp />
+        <HeaderCmp userInfo={this.state.userInfo && this.state.userInfo}/>
         {
           list && list.map(item =>
-            <TouchableOpacity onPress={() => {console.log(123)}}  key={item.title}>
-              <ListItem title={item.title} version={item.version}/>
+            <TouchableOpacity onPress={() => { console.log(123) }} key={item.title}>
+              <ListItem title={item.title} version={item.version} />
             </TouchableOpacity>
           )
         }
-        <BtnCmp handleLogout={() => {this.handleLogout()}}/>
+        <BtnCmp handleLogout={() => { this.handleLogout() }} />
       </View>
     )
   }
@@ -59,6 +81,6 @@ export default class PersonalScreen extends React.Component<any> {
 
 const styles = StyleSheet.create({
   btnCmpStyle: {
-   
+
   }
 })

@@ -6,29 +6,34 @@ import pxToDp from "../../../utils/fixcss";
 interface IProps {
   item: any
   index?: number
-  handleToGrade?: (index: number, i: number) => void
+  handleToGrade?: (index: number, i: number, type: string) => void
   i?:number
 }
 
-
 export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
   //跳转到评分页面
-  const handleClick = () => {
+  const handleClick = (type: '已评分' | '未评分') => {
     if(handleToGrade && index !== undefined && i!== undefined) {
-      handleToGrade(index,i)
+      handleToGrade(index,i,type)
     }
   }
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.content}>{item.name}</Text>
+      <View style={styles.content}>
+        <Text >{item.name}</Text>
+      </View>
       {
         item.scoreFlag? 
-        <View style={styles.hadGradeBtn}>
+        <>
+        <Text style={{color: "#4CD964",fontSize: pxToDp(44)}}>{item.getTotal || 0}<Text style={{color: "#dbdbdb",fontSize: pxToDp(22)}}>/{item.total}分</Text></Text>
+        <TouchableOpacity onPress={() => {handleClick('已评分')}} style={styles.hadGradeBtn}>
           <Image style={styles.icon} source={require('../../../images/work/grade/graded.png')} />
+   
           <Text style={styles.hadGradeText}>已评分</Text>
-        </View> :
-        <TouchableOpacity onPress={() => {handleClick()}} style={styles.btn}>
-          <Text style={styles.grade}>去评分>></Text>
+        </TouchableOpacity></> :
+        <TouchableOpacity onPress={() => {handleClick('未评分')}} style={styles.btn}>
+          <Text style={styles.grade}>去评分</Text>
+          <Image style={styles.toGrade} source={require("../../../images/work/grade/toGrade.png")}></Image>
         </TouchableOpacity> 
 
       }
@@ -52,11 +57,12 @@ const styles = StyleSheet.create({
   content: {
     fontSize: pxToDp(26),
     color: "#363636",
-    // marginTop: pxToDp(20),
     paddingLeft: pxToDp(37),
     paddingRight: pxToDp(37),
-    textAlign: "center",
-    lineHeight: pxToDp(40)
+    lineHeight: pxToDp(40),
+    flex: 0.6,
+    alignItems: 'center',
+    justifyContent: "center",
   },
   btn: {
     width: pxToDp(121),
@@ -70,20 +76,21 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   hadGradeBtn: {
-    width: pxToDp(121),
-    height: pxToDp(44),
+    width: pxToDp(110),
+    height: pxToDp(29),
     backgroundColor: "rgba(76,217,100,0.3)",
-    borderRadius: pxToDp(22),
-    marginTop: pxToDp(20),
+    borderRadius: pxToDp(14),
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    // marginTop: pxToDp(14)
   },
   hadGradeText: {
     color: "#4CD964",
-    fontSize: pxToDp(23),
-    paddingLeft: pxToDp(5)
+    fontSize: pxToDp(20),
+    paddingLeft: pxToDp(5),
+    // lineHeight: pxToDp(29)
   },
   grade: {
     fontSize: pxToDp(23),
@@ -91,8 +98,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: pxToDp(44),
   },
+  toGrade: {
+    width: pxToDp(12),
+    height: pxToDp(12),
+    marginLeft: pxToDp(5)
+  },
   icon: {
-    width: pxToDp(24),
-    height: pxToDp(24)
+    width: pxToDp(17),
+    height: pxToDp(17)
   }
 })

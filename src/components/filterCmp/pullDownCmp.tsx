@@ -67,32 +67,11 @@ class PullDownCmp extends React.Component<IProps, IState>{
     const activeColor = {
       color: "#007aff"
     }
-    console.log(this.props.data)
-    const list = [
-      {
-        name: "店面面积",
-        score: '-8'
-      },
-      {
-        name: "店面类型",
-        score: ''
-      },
-      {
-        name: "装修时间",
-        score: '-4'
-      },
-      {
-        name: "门店灯箱",
-        score: ''
-      }, {
-        name: "地面",
-        score: '-8'
-      }
-    ]
+    // console.log('data',this.props.data)
     return (
       <View>
         <TouchableOpacity onPress={() => { this.handleShowBox() }} style={styles.container} activeOpacity={0.6}>
-          <Text style={styles.text} numberOfLines={1}>{this.props.data.length && this.props.data[activeIndex].name}</Text>
+          <Text style={styles.text} numberOfLines={1}>{this.props.data.length?this.props.data[activeIndex].name : "暂无数据"}</Text>
           <Image style={[styles.downIcon, this.state.selectBoxStatus && activeRotate]} source={require("../../images/work/areaReport/checkRecord/more.png")} />
         </TouchableOpacity>
         {
@@ -140,14 +119,14 @@ const styles = StyleSheet.create({
   },
   downIcon: {
     width: pxToDp(20),
-    height: pxToDp(11)
+    height: pxToDp(12)
   },
   downSelect: {
     width: pxToDp(554),
-    height: pxToDp(795),
+    maxHeight: pxToDp(795),
     backgroundColor: "rgba(237,237,237,0.9)",
     borderRadius: pxToDp(10),
-    borderWidth: pxToDp(1),
+    // borderWidth: pxToDp(1),
     borderColor: "#eee",
     marginTop: pxToDp(11),
   },
@@ -162,8 +141,10 @@ const styles = StyleSheet.create({
   selectText: {
     color: "#090909",
     fontSize: pxToDp(30),
-    lineHeight: pxToDp(80),
-    minHeight: pxToDp(80),
+    paddingTop: pxToDp(20),
+    paddingBottom: pxToDp(20),
+    lineHeight: pxToDp(40),
+    // minHeight: pxToDp(80),
     width: '85%'
   },
   selectScoreText: {

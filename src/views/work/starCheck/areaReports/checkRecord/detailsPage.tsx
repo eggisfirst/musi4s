@@ -78,18 +78,6 @@ class DetailsPage extends React.Component<any>{
     return arr
   }
 
-  test = () => {
-    axios.get('../../../../../../data.json')
-      .then((res) => {
-        const urls = this.changeUrl(res.data.standardinfo.urls)
-        store.dispatch(setLoading(false));
-        this.setState({
-          standards: res.data.standards,
-          urls: urls
-        })
-
-      })
-  }
   //----------请求----------
   /**
    * 获取检查 -- 检查详情的每个项目
@@ -187,7 +175,6 @@ class DetailsPage extends React.Component<any>{
    * @param index 
    */
   pullDownSelect = (index: number) => {
-    console.log('index', index)
     if (this.props.navigation.state.params.type === 'check') {
       this.getStandardinfo(index)
     } else {
@@ -202,8 +189,6 @@ class DetailsPage extends React.Component<any>{
     this.props.pullDownSelect(0)
     if (this.props.navigation.state.params.type === 'check') {
       this.getStandard()
-      // this.test()
-
     } else {
       this.getGradeDetailList()
     }
@@ -260,7 +245,6 @@ class DetailsPage extends React.Component<any>{
           </View>
           <View style={styles.showPictureBox}>
             <SwiperIndex urls={this.state.urls} />
-
             <View style={styles.sliderCmp}>
               <SliderCmp cutScore={navigation.state.params.type === 'check' ? this.state.standardinfo.deduct : this.state.gradeDetailInfo.deduct}
                 maxNum={18} />
@@ -335,5 +319,6 @@ const styles = StyleSheet.create({
     fontSize: pxToDp(26),
     color: "#303030",
     lineHeight: pxToDp(40),
+    // marginBottom: pxToDp(40),
   }
 })

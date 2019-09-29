@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Text, ActivityIndicator } from "react-native";
+import { View, StyleSheet, FlatList, Text, ActivityIndicator, Alert, TouchableOpacity } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import Sort from '../../../components/filterCmp/sortCmp';
@@ -20,7 +20,9 @@ import { ScoreItem } from '../../../components/workCmp/processCmp/scoreItem';
 import ProcessBox from '../../../components/workCmp/processCmp/processBox';
 import { IndexModel } from "../../../request";
 import { _retrieveData } from "../../../utils/utils";
-import { format, getApproveState, approveBoxLeftInfo, turnToArray } from "../../../utils";
+import { format, getApproveState, approveBoxLeftInfo, turnToArray, areaDuty, fourDuty } from "../../../utils";
+import store from "../../../store";
+import { setLoading } from "../../../store/actions/global/loading";
 const indexModel = new IndexModel()
 const actions = {
   ...rightFliter,
@@ -49,12 +51,13 @@ interface IState {
   starLevel: number
   //认证弹框需要的id
   qualificationId: string
+  approveStatus: string
 }
 
 class HandelPage extends React.Component<any, IState>{
   static navigationOptions = {
     header: null,
-    
+
   }
   state: IState = {
     alertBox: BtnTitle.null,
@@ -82,7 +85,8 @@ class HandelPage extends React.Component<any, IState>{
     searchIn: false,
     searchVal: '',
     starLevel: -1,
-    qualificationId: ''
+    qualificationId: '',
+    approveStatus: ''
   }
   /**
    * 筛选或者排序的时候初始话参数
@@ -208,6 +212,7 @@ class HandelPage extends React.Component<any, IState>{
     let list = this.state.list
     indexModel.getLogList(myData).then(res => {
       if (res.status) {
+        // console.log(res)
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
           if (this.state.pageNo === 1) {
@@ -245,6 +250,7 @@ class HandelPage extends React.Component<any, IState>{
           sponsorBoxData: res.data
         })
         this._setSponsorStatus(true, index)
+
       }
     })
   }
@@ -261,6 +267,17 @@ class HandelPage extends React.Component<any, IState>{
         this.setState({
           list
         })
+        Alert.alert('已发起认证')
+      } else {
+        Alert.alert(
+          '提示',
+          `${res.msg}`,
+          [
+            { text: '确定', onPress: () => store.dispatch(setLoading(false)) },
+          ],
+          { cancelable: false }
+        )
+        // console.log('认证失败')
       }
     })
   }
@@ -273,6 +290,7 @@ class HandelPage extends React.Component<any, IState>{
     const starLevel = this.state.list[index].approveLevel
     indexModel.getApproveFlowInfo(id).then(res => {
       if (res.status) {
+        // console.log(res)
         this.setState({
           processBoxStatus: true,
           processLeftData: approveBoxLeftInfo(res.data),
@@ -280,11 +298,29 @@ class HandelPage extends React.Component<any, IState>{
           starLevel,
           qualificationId: id
         })
+        // this.getApproveStatus()
       }
     })
   }
 
   //--------------------
+  /**获取认证进度外面的状态 */
+  // getApproveStatus() {
+  //   const rightData = this.state.processRightData
+  //   const type = this.state.type
+  //   const len = rightData.length
+  //   if (len) {
+  //     const dataLen = rightData[len - 1].data.length
+  //     const status = rightData[len - 1].data[dataLen - 1].statusString
+  //     const approveStatus = type == 3 ? areaDuty[len - 1] + status : fourDuty[len - 1] + status
+  //     this.setState({
+  //       approveStatus
+  //     })
+  //   }
+  // }
+
+
+
   /**
    * 防止加载两次
    */
@@ -327,7 +363,7 @@ class HandelPage extends React.Component<any, IState>{
     this.initFilterData()
     const sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
     /**注意认证的参数！！！ */
-    console.log('reset')
+    // console.log('reset')
     const data = {
       page: 1,
       limit: 10,
@@ -423,7 +459,8 @@ class HandelPage extends React.Component<any, IState>{
     this._setAlertBoxStatus(BtnTitle.null)
     switch (status) {
       case AlertBtnTypes.cancle:
-        console.log('cancle')
+        // console.log('cancle')
+
         break;
       case AlertBtnTypes.comfirm:
         //请求
@@ -433,6 +470,16 @@ class HandelPage extends React.Component<any, IState>{
             this.setState({
               list
             })
+            Alert.alert('受理成功')
+          } else {
+            Alert.alert(
+              '提示',
+              `${res.msg}`,
+              [
+                { text: '确定', onPress: () => store.dispatch(setLoading(false)) },
+              ],
+              { cancelable: false }
+            )
           }
         })
         break;
@@ -443,6 +490,16 @@ class HandelPage extends React.Component<any, IState>{
             this.setState({
               list
             })
+            Alert.alert('退回成功')
+          } else {
+            Alert.alert(
+              '提示',
+              `${res.msg}`,
+              [
+                { text: '确定', onPress: () => store.dispatch(setLoading(false)) },
+              ],
+              { cancelable: false }
+            )
           }
         })
         break;
@@ -573,7 +630,7 @@ class HandelPage extends React.Component<any, IState>{
   _renderFooter() {
     if (this.state.showFoot === 1) {
       return (
-        <View style={{ height:pxToDp(100) , alignItems: 'center', justifyContent: 'flex-start', }}>
+        <View style={{ height: pxToDp(100), alignItems: 'center', justifyContent: 'flex-start', }}>
           <Text style={{ color: '#999999', fontSize: pxToDp(24), marginTop: pxToDp(10), marginBottom: pxToDp(40), }}>
             没有更多数据了
           </Text>
@@ -614,7 +671,7 @@ class HandelPage extends React.Component<any, IState>{
     }
 
     return (
-      <View>
+      <View style={{ width: "100%", height: "100%" }}>
         <CheckHeader title={this.state.starCheckType}
           searchIn={this.state.searchIn}
           eggHandleBack={this.handleGoBack}
@@ -629,7 +686,7 @@ class HandelPage extends React.Component<any, IState>{
             filterComfirm={this.filterComfirm}
             filterReset={this.filterReset} />
         }
-        <FlatList style={{ backgroundColor: "#f8f8f8", marginBottom: pxToDp(300), minHeight: pxToDp(1330) }}
+        <FlatList style={{ backgroundColor: "#f8f8f8" }}
           data={this.state.list}
           ItemSeparatorComponent={this._separator}
           ListFooterComponent={this._renderFooter()}
@@ -666,9 +723,13 @@ class HandelPage extends React.Component<any, IState>{
                 }
                 {
                   this.state.starCheckType === StarCheckTypes.processing_record &&
-                  <Text style={preceStyle(item.status) === 1 ? styles.processStatus_blue :
+                  <TouchableOpacity style={preceStyle(item.status) === 1 ? styles.processStatus_blue :
                     preceStyle(item.status) === 3 ? styles.processStatus_green :
-                      styles.processStatus_red}>{getApproveState(item.status)}</Text>
+                      styles.processStatus_red}>
+                      <Text style={preceStyle(item.status) === 1 ? styles.text_blue :
+                    preceStyle(item.status) === 3 ? styles.text_green :
+                      styles.text_red}>{getApproveState(item.status,item.lastFlow,item.rejectType)}</Text>
+                  </TouchableOpacity>
                 }
               </View>
               {
@@ -745,7 +806,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    marginTop: pxToDp(24)
+    marginTop: pxToDp(24),
   },
   sponsorDate: {
     color: "#666",
@@ -754,20 +815,49 @@ const styles = StyleSheet.create({
   processStatus_blue: {
     color: "#007aff",
     fontSize: pxToDp(30),
-    marginTop: pxToDp(10)
+    // marginTop: pxToDp(10),
+    borderRadius: pxToDp(30),
+    paddingLeft: pxToDp(25),
+    paddingRight: pxToDp(25),
+    backgroundColor: "rgba(0,122,255,0.3)",
   },
   processStatus_red: {
     color: "#FF2D55",
     fontSize: pxToDp(30),
-    marginTop: pxToDp(10)
+    // marginTop: pxToDp(10),
+    borderRadius: pxToDp(30),
+    paddingLeft: pxToDp(25),
+    paddingRight: pxToDp(25),
+    backgroundColor: "rgba(255,45,85,0.3)",
   },
   processStatus_green: {
     color: "#4CD964",
     fontSize: pxToDp(30),
-    marginTop: pxToDp(10)
+    // marginTop: pxToDp(10),
+    borderRadius: pxToDp(30),
+    paddingLeft: pxToDp(25),
+    paddingRight: pxToDp(25),
+    backgroundColor: "rgba(76,217,100,0.3)",
   },
+  text_blue: {
+    color: "#007aff",
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(60),
+  },
+  text_red: {
+    color: "#FF2D55",
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(60),
+  },
+  text_green: {
+    color: "#4CD964",
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(60),
+  },
+
+
   process_footer: {
-    marginTop: pxToDp(20)
+    marginTop: pxToDp(26),
   },
 
   footer: {

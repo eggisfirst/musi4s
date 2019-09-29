@@ -148,6 +148,7 @@ export default class InputCmp extends Component<IProps,IState> {
             onChangeText={(text) => {this.handleChange(text)}}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
+            returnKeyType={"go"}
           />
       </View>
     )

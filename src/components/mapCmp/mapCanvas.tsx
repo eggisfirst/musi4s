@@ -4,8 +4,8 @@ import pxToDp from "../../utils/fixcss";
 import React from "react";
 
 interface IProps {
-  targerLat: number
-  targetLong: number
+  targerLat: number 
+  targetLong: number 
 }
 
 

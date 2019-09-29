@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, Platform, ScrollView } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Duty } from "../../../utils/enum";
@@ -89,8 +89,8 @@ export const SponsorBox: React.FC<IProps> = (props) => {
       status: false
     },
   ]
-  const socreList = props.type === 3 ? scoreList1 : [...scoreList1, ...scoreList2]
-  const container = props.type === 3 ? styles.areaHeight : styles.fourHeight
+  const socreList = props.type == 3 ? scoreList1 : [...scoreList1, ...scoreList2]
+  const container = props.type == 3 ? styles.areaHeight : styles.fourHeight
 
   /**
    * 返回接口对应的value
@@ -141,13 +141,12 @@ export const SponsorBox: React.FC<IProps> = (props) => {
 
     }else if(key === '4s部评分') {
     }
-    console.log('gogoggo',key)
   }
-
   return (
-    <View style={styles.mask}>
+    <ScrollView style={styles.mask}>
       <View style={container}>
         <Image style={styles.header} source={require("../../../images/work/sponsor/box_header.png")} />
+        
         <View style={styles.sponsorBox}>
           <Text style={styles.title}>发起认证</Text>
           {
@@ -160,11 +159,12 @@ export const SponsorBox: React.FC<IProps> = (props) => {
                     ))
                   }
                 </View>
-                <Text>：</Text>
+                <Text style={styles.leftText}>：</Text>
                 <Text style={styles.right} numberOfLines={1}>{getList(item.key)}</Text>
               </View>
             ))
           }
+        <View style={styles.line}></View>
         </View>
         <View style={styles.scoreBox}>
           {
@@ -197,7 +197,7 @@ export const SponsorBox: React.FC<IProps> = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -212,23 +212,27 @@ const styles = StyleSheet.create({
     width: '100%',
     height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    display: "flex",
-    flexDirection: 'row',
-    justifyContent: "center",
+    // display: "flex",
+    // flexDirection: 'row',
+    // justifyContent: "center",
   },
+
   areaHeight: {
     width: pxToDp(620),
-    height: pxToDp(1050),
-    backgroundColor: "#fff",
+    // height:Platform.OS === 'android'?   pxToDp(1150) : pxToDp(1050),
+    // backgroundColor: "#fff",
     borderRadius: pxToDp(10),
-    marginTop: pxToDp(200)
+    marginTop: pxToDp(250),
+    marginLeft: pxToDp(65)
   },
   fourHeight: {
     width: pxToDp(620),
-    height: pxToDp(1150),
-    backgroundColor: "#fff",
+    // height: Platform.OS === 'android'?   pxToDp(1250) : pxToDp(1150),
+    // backgroundColor: "#fff",
     borderRadius: pxToDp(10),
-    marginTop: pxToDp(279)
+    // marginTop: pxToDp(279),
+    marginLeft: pxToDp(65),
+    marginTop: pxToDp(250),
   },
   header: {
     width: pxToDp(408),
@@ -236,15 +240,32 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -pxToDp(117),
     left: '50%',
-    marginLeft: pxToDp(-204)
+    marginLeft: pxToDp(-204),
+    zIndex: 99
   },
   sponsorBox: {
-    marginTop: pxToDp(130),
-    marginLeft: pxToDp(33),
-    marginRight: pxToDp(33),
-    borderBottomWidth: pxToDp(1),
-    borderBottomColor: "#ccc",
-    paddingBottom: pxToDp(30)
+    // marginTop: pxToDp(130),
+    // marginLeft: pxToDp(33),
+    // marginRight: pxToDp(33),
+    borderTopLeftRadius: pxToDp(10),
+    borderTopRightRadius: pxToDp(10),
+    paddingTop: pxToDp(130),
+    paddingLeft: pxToDp(33),
+    paddingRight: pxToDp(33),
+    // borderBottomWidth: pxToDp(1),
+    // borderBottomColor: "#ccc",
+    paddingBottom: pxToDp(30),
+    backgroundColor: "#fff",
+    position: "relative"
+  },
+  line: {
+    width: pxToDp(544),
+    borderTopWidth: pxToDp(1),
+    backgroundColor: "#fff",
+    borderTopColor: "#ccc",
+    position: "absolute",
+    bottom: 0,
+    left: pxToDp(33)
   },
   title: {
     fontSize: pxToDp(38),
@@ -284,9 +305,14 @@ const styles = StyleSheet.create({
     maxWidth: pxToDp(430)
   },
   scoreBox: {
-    marginTop: pxToDp(20),
-    marginLeft: pxToDp(33),
-    marginRight: pxToDp(33),
+    // marginTop: pxToDp(20),
+    // marginLeft: pxToDp(33),
+    // marginRight: pxToDp(33),
+    paddingTop: pxToDp(20),
+    paddingLeft: pxToDp(33),
+    paddingRight: pxToDp(33),
+    paddingBottom: pxToDp(40),
+    backgroundColor: "#fff",
   },
   toReport: {
     fontSize: pxToDp(24),
@@ -294,13 +320,16 @@ const styles = StyleSheet.create({
     marginLeft: pxToDp(30)
   },
   btn: {
-    width: pxToDp(610),
+    width: pxToDp(620),
     height: pxToDp(100),
     display: "flex",
     flexDirection: "row",
     borderTopColor: "#e1e1e1",
     borderTopWidth: pxToDp(1),
-    marginTop: pxToDp(40)
+    // marginTop: pxToDp(40),
+    backgroundColor: "#fff",
+    borderBottomLeftRadius: pxToDp(10),
+    borderBottomRightRadius: pxToDp(10),
   },
   btnWrap: {
     width: pxToDp(310),

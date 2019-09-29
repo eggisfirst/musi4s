@@ -1,5 +1,6 @@
 /**登录状态 */
 import { StarCheck } from '../components/workCmp/starHome/starCheck';
+import { number } from 'prop-types';
 export enum LoginStatus {
   logining,
   logout

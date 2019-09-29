@@ -8,6 +8,7 @@ interface IProps {
   score: any
   name: string
   week? :any
+  cycle: string | number
 }
 
 
@@ -24,20 +25,25 @@ export const ScoreCanvas: React.FC<IProps> = (props) => {
     }
     return [0,props.score]
   }
+
+  let color = props.score>=60? '#007aff' : '#000'
+  let textColor = props.score>=60? '#666' : '#f88675'
+
+  // console.log(props)
   return(
     <View style={styles.container}>
       <View style={styles.circleBox}>  
         <CircleProgress score={props.score}/>
         <View style={styles.textBox}>
-          <Text style={styles.blueText}>{getScore()[0] !==0 &&  getScore()[0]}
-            <Text style={styles.sBluetext}>{getScore()[1]}</Text>
+          <Text style={[styles.blueText,{color: color}]}>{getScore()[0] !==0 &&  getScore()[0]}
+            <Text style={[styles.sBluetext,{color: color}]}>{getScore()[1]}</Text>
           </Text>
-          <Text style={styles.text}>{props.score >= 80? '合格' : '不合格'}</Text>
+          <Text style={[styles.text,{color: textColor}]}>{props.score >= 80? '合格' : '不合格'}</Text>
         </View>
       </View>
     
       <Text style={styles.shopname}>{props.name}</Text>
-      <Text style={styles.week}>{props.week? '第一周' : ''}</Text>
+      <Text style={styles.week}>{props.cycle && '第' +  props.cycle  + '月'}</Text>
       <View style={styles.footer}></View>
     </View>
   )
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
   
   container: {
     width: "100%",
-    height: pxToDp(420),
+    // height: pxToDp(420),
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -57,6 +63,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: pxToDp(50)
   },
   textBox: {
     position: "absolute",
