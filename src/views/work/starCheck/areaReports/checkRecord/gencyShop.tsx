@@ -7,6 +7,7 @@ import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp
 import { GencyCard } from '../../../../../components/workCmp/areaReportCmp/checkRecord/gencyCard';
 import { ReportType, SearchTypes } from "../../../../../utils/enum";
 import { IndexModel } from "../../../../../request";
+import { HeaderCmp } from "../../../../../components/headerCmp/headerCmp";
 const indexModel = new IndexModel()
 
 interface IState {
@@ -141,6 +142,18 @@ export default class CheckRecord extends React.Component<any>{
 
     return (
       <View style={styles.container}>
+         {
+          this.state.searchIn ?
+            <HeaderCmp title={'检查记录'}
+              eggHandleBack={() => { navigation.goBack() }}
+            /> :
+            <HeaderCmp title={'检查记录'}
+              eggHandleBack={() => { navigation.goBack() }}
+              Children={<SearchCmp type={SearchTypes.check}
+                eggHandleSearch={this.eggHandleSearch} />} />
+        }
+
+{/* 
         <BackGroundHeader
           title={'检查记录'}
           eggHandleBack={() => { navigation.goBack() }}
@@ -150,13 +163,8 @@ export default class CheckRecord extends React.Component<any>{
           imgUrl={require("../../../../../images/backicon.png")} 
           Children={!this.state.searchIn && 
             <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check} />
-          }/>
-        {/* <View style={styles.search}>
-          {
-            !this.state.searchIn &&
-            <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check} />
-          }
-        </View> */}
+          }/> */}
+       
         <FlatList style={styles.scorllList}
           data={this.state.list}
           ItemSeparatorComponent={this._separator}

@@ -16,6 +16,7 @@ const indexModel = new IndexModel()
 import axios from 'axios'
 import store from '../../../../../store'
 import { setLoading } from "../../../../../store/actions/global/loading";
+import { HeaderCmp } from "../../../../../components/headerCmp/headerCmp";
 interface IState {
   list: Array<any>
 }
@@ -64,16 +65,17 @@ class CheckRecord extends React.Component<any>{
   render() {
     return (
       <View style={styles.container}>
-        <BackGroundHeader
+        {/* <BackGroundHeader
           title={'检查记录'}
           eggHandleBack={() => { this.props.navigation.goBack() }}
-          bgColor={'#007aff'}
-          fontColor={"#fff"}
+          bgColor={'#fff'}
+          fontColor={"#000"}
           setHeight={263}
-          imgUrl={require("../../../../../images/backicon.png")} />
+          imgUrl={require("../../../../../images/work/starCheck/arrow.png")} /> */}
+        <HeaderCmp title={"检查记录"} eggHandleBack={() => { this.props.navigation.goBack() }} />
         <View style={styles.banner}>
           <SelectCmp selectType={SelectType.qualified}
-            color={"#fff"} activeColor={"#FFCB38"}
+            color={"#222444"} activeColor={"#007aff"}
             handleSelect={this.handleSelect}
             mySelectList={['全部', '合格', '不合格']} />
           <Text style={styles.shop} numberOfLines={1}>{this.props.navigation.state.params.shopName}</Text>
@@ -102,15 +104,18 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   banner: {
-    position: "absolute",
-    left: pxToDp(57),
-    top: pxToDp(200),
-    width: pxToDp(650),
+    // position: "absolute",
+    // left: pxToDp(57),
+    // top: pxToDp(200),
+    width: pxToDp(750),
     lineHeight: pxToDp(60),
+    paddingLeft: pxToDp(50),
+    paddingBottom: pxToDp(10),
+    backgroundColor: "#fff",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   shop: {
     color: "rgba(255,255,255,0.5)",

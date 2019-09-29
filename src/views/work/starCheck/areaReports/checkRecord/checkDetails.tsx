@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
   },
   line: {
     width: "100%",
-    paddingBottom: pxToDp(34),
+    paddingBottom: pxToDp(16),
     borderBottomWidth: pxToDp(1),
     borderBottomColor: "#e5e5e5",
   },

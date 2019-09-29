@@ -148,7 +148,7 @@ class CheckListPage extends React.Component<any, IState>{
    */
   toDetail = (index: number, fatherIndex: number): void => {
     let {type, qualificationId,shopInfo} = this.props.navigation.state.params
-    let {name, standardId,remark,showAcreage,showDecorateDate,show_expiry_date} = this.props.checkList.checkList[fatherIndex].standardList[index]
+    let {name, standardId,remark,showAcreage,showDecorateDate,showExpiryDate} = this.props.checkList.checkList[fatherIndex].standardList[index]
     // console.log(this.props.checkList.checkList[fatherIndex].standardList[index])
     this.props.navigation.navigate('CheckDetailPage', {
       name,
@@ -159,7 +159,7 @@ class CheckListPage extends React.Component<any, IState>{
       qualificationId,
       showDecorateDate,
       showAcreage,
-      show_expiry_date,
+      showExpiryDate,
       shopInfo,
       remark,
       callBack: () => {
@@ -226,7 +226,7 @@ class CheckListPage extends React.Component<any, IState>{
           obj.remark = data[i].standardList[j].remark
           obj.showAcreage = data[i].standardList[j].showAcreage
           obj.showDecorateDate = data[i].standardList[j].showDecorateDate
-          obj.show_expiry_date = data[i].standardList[j].show_expiry_date
+          obj.showExpiryDate = data[i].standardList[j].showExpiryDate
           temp.standardList.push(obj)
         }
       }

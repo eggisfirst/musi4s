@@ -272,7 +272,9 @@ export default class ProcessBox extends React.Component<IProps, IState>{
       <View style={styles.mask}>
         <View style={styles.container}>
           {/* <Text style={styles.title}>进度--{title(this.props.rightData)}</Text> */}
-          <Text style={styles.title}>认证进度</Text>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>认证进度</Text>
+          </View>
 
           <ScrollView style={styles.content}>
             <View style={styles.linePosition}>
@@ -357,13 +359,17 @@ const styles = StyleSheet.create({
     top: pxToDp(279),
   },
   title: {
-    lineHeight: pxToDp(80),
     backgroundColor: "#007aff",
     width: "100%",
+    borderTopLeftRadius:  pxToDp(10),
+    borderTopRightRadius: pxToDp(10),
+  },
+  titleText: {
     fontSize: pxToDp(38),
     fontWeight: "bold",
     color: "#fff",
-    textAlign: "center"
+    textAlign: "center",
+    lineHeight: pxToDp(80),
   },
   content: {
     width: "100%",

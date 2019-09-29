@@ -119,8 +119,9 @@ const styles = StyleSheet.create({
     // height: pxToDp(441),
     borderRadius: pxToDp(20),
     shadowColor: '#ccc',
-    shadowRadius: pxToDp(10),
-    shadowOpacity: 0.3,
+    shadowRadius: pxToDp(5),
+    shadowOpacity: 0.1,
+    shadowOffset:{width:10,height:2},
     backgroundColor: "#fff",
     marginBottom:pxToDp(30)
   },

@@ -231,7 +231,7 @@ class CheckDetailPage extends React.Component<any, IState>{
             </View>
             <View>
               <Text  style={styles.headText}>装修到期时间</Text>
-              <Text style={styles.headText}>{this.props.navigation.state.params.show_expiry_date? navigation.state.params.shopInfo.expiry_date : null}</Text>
+              <Text style={styles.headText}>{this.props.navigation.state.params.showExpiryDate? navigation.state.params.shopInfo.expiry_date : null}</Text>
             </View>
             {/* {
               // this.props.navigation.state.params.showAcreage?

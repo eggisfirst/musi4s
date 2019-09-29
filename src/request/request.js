@@ -8,10 +8,10 @@ import store from '../store';
 
 timer = null
 timer1 = null
-baseUrl = 'http://10.11.8.247:8088/'
+// baseUrl = 'http://10.11.8.247:8088/'
 // baseUrl = 'http://172.16.4.201:8088/'
 // baseUrl = 'http://10.11.8.8:8088/'
-// baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
+baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // baseUrl = 'https://op.derucci.com/'
 // baseUrl = 'https://qiang.derucci.com/'
 // tokenUrl = "https://op.derucci.com/"
