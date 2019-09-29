@@ -1,27 +1,27 @@
-import React, {Component} from 'react';
-import { 
+import React, { Component } from 'react';
+import {
   View,
   Text,
-  Image, 
-  TouchableOpacity, 
+  Image,
+  TouchableOpacity,
   StyleSheet,
   Alert,
-} from "react-native"; 
+} from "react-native";
 import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
 import { RemPwd } from '../utils/enum';
 
 import { IndexModel } from '../request';
 const indexModel = new IndexModel()
-import { _storeData, _retrieveData, _removeItem,  } from '../utils/utils';
+import { _storeData, _retrieveData, _removeItem, } from '../utils/utils';
 import Loader from '../components/loading'
-import {getToken} from '../request/request';
+import { getToken } from '../request/request';
 import store from '../store';
 import { setLoading, Token } from '../store/actions/global/loading';
 import { deepClone } from '../utils';
 
 interface IState {
-  inputVal:string
+  inputVal: string
   btnStatue: RemPwd
   account: string
   password: string
@@ -34,7 +34,7 @@ export default class LoginScreen extends Component<any> {
     gesturesEnabled: false,
   }
 
-  state:IState = {
+  state: IState = {
     inputVal: '',
     btnStatue: RemPwd.unremember,
     account: '',
@@ -44,10 +44,10 @@ export default class LoginScreen extends Component<any> {
     let temp = [{
       name: 'guang',
       list: [
-        {name: 'wei'}
+        { name: 'wei' }
       ]
     }]
-    console.log('深度克隆：', deepClone(temp,{}))
+    // console.log('深度克隆：', deepClone(temp,{}))
     this.initLoginData()
   }
   /**
@@ -59,7 +59,7 @@ export default class LoginScreen extends Component<any> {
       this.setState({
         btnStatue: res
       })
-      if(res === RemPwd.unremember) {
+      if (res === RemPwd.unremember) {
         _removeItem('account')
         _removeItem('password')
       }
@@ -70,55 +70,59 @@ export default class LoginScreen extends Component<any> {
    * 登录
    */
   handleLoginIn = () => {
-    this.state.account && _storeData('account',this.state.account)
-    this.state.password && _storeData('password',this.state.password)
+    this.state.account && _storeData('account', this.state.account)
+    this.state.password && _storeData('password', this.state.password)
     /**请求token */
     getToken().then(res => {
-      if(res.access_token) {
+      if (res.access_token) {
         _storeData("refresh_token", res.refresh_token)
         store.dispatch(Token(res.access_token))
         indexModel.getAuth().then(res => {
-          if(res.type) {
+          if (res.status) {
             //用户级别
-            _storeData('type',JSON.stringify(res.type)) 
-            this.props.navigation.navigate('Work')
+            if (res.type) {
+              _storeData('type', JSON.stringify(res.type))
+            }
+            /**获取用户信息 */
+            _retrieveData('account').then(res => {
+              indexModel.getTheInfo(res, 'get').then(res => {
+                if (res.status) {
+                  _storeData('userInfo', JSON.stringify(res.userInfo))
+                  this.props.navigation.navigate('Work')
+                }
+              })
+            })
           }
         })
-      }else {
-        store.dispatch(setLoading(false));
-        if (res.code === 500) {
-          Alert.alert(res.msg)
-            return
-          }
       }
     })
-   
-   
+
+
   }
 
   //输入框的值
-  setVal = (value:any) => {
-    value.type === 'account' && this.setState({account:value.val}) 
-    value.type === 'password' && this.setState({password:value.val}) 
+  setVal = (value: any) => {
+    value.type === 'account' && this.setState({ account: value.val })
+    value.type === 'password' && this.setState({ password: value.val })
   }
   //记住密码状态
   handleRememberPwd = () => {
-    const btnStatue = this.state.btnStatue === RemPwd.remembered? RemPwd.unremember : RemPwd.remembered
+    const btnStatue = this.state.btnStatue === RemPwd.remembered ? RemPwd.unremember : RemPwd.remembered
     this.setState({
       btnStatue
     })
-    _storeData('pwdStatus',btnStatue)
+    _storeData('pwdStatus', btnStatue)
   }
 
   render() {
-    const  inputAcData =  {
+    const inputAcData = {
       title: '账号',
       maxLength: 20,
       type: 'account'
     }
-    const  inputPdData =  {
+    const inputPdData = {
       title: '密码',
-      maxLength:20,
+      maxLength: 20,
       type: 'password'
     }
     // const circltStyle = {
@@ -138,18 +142,18 @@ export default class LoginScreen extends Component<any> {
         </View>
         <View style={styleSheet.inputWrap}>
           <Text style={styleSheet.formTit}>密码登录</Text>
-          <InputCmp  isPassWord={false} inputData={inputAcData} setVal={this.setVal}/>
-          <InputCmp isPassWord={true} inputData={inputPdData} setVal={this.setVal}/>
-          
+          <InputCmp isPassWord={false} inputData={inputAcData} setVal={this.setVal} />
+          <InputCmp isPassWord={true} inputData={inputPdData} setVal={this.setVal} />
+
           <View style={styleSheet.remPwd} >
             <TouchableOpacity
-                style={styleSheet.left} 
-                onPress={() => {this.handleRememberPwd()}}>
-                <View style={styleSheet.leftRadio}>
-                  <View style={[styleSheet.circle,
-                  {display: this.state.btnStatue === RemPwd.remembered? "flex" : "none"}]} ></View>
-                </View>
-                <Text style={styleSheet.leftText} >记住密码</Text>
+              style={styleSheet.left}
+              onPress={() => { this.handleRememberPwd() }}>
+              <View style={styleSheet.leftRadio}>
+                <View style={[styleSheet.circle,
+                { display: this.state.btnStatue === RemPwd.remembered ? "flex" : "none" }]} ></View>
+              </View>
+              <Text style={styleSheet.leftText} >记住密码</Text>
             </TouchableOpacity>
             {/* <View>
               <Text style={styleSheet.rightText}>忘记密码？</Text>
@@ -158,12 +162,12 @@ export default class LoginScreen extends Component<any> {
 
           <TouchableOpacity
             style={styleSheet.button}
-            onPress={() => {this.handleLoginIn()}}
+            onPress={() => { this.handleLoginIn() }}
           >
             <Text style={styleSheet.btnText}>登录</Text>
           </TouchableOpacity>
         </View>
-        
+
         <Text style={styleSheet.copyright}>Copyright © 2019 de RUCCI All rights reserved</Text>
       </View>
     )
@@ -171,12 +175,12 @@ export default class LoginScreen extends Component<any> {
 }
 
 
-const styleSheet:any = StyleSheet.create({
+const styleSheet: any = StyleSheet.create({
   container: {
     paddingLeft: pxToDp(73),
     paddingRight: pxToDp(73),
     backgroundColor: '#fff',
-    height:  '100%',
+    height: '100%',
   },
   top: {
     width: '100%',
@@ -184,36 +188,36 @@ const styleSheet:any = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop:pxToDp(210),
+    marginTop: pxToDp(210),
   },
   icon: {
     width: pxToDp(136),
     height: pxToDp(136),
-    marginRight:pxToDp(17)
+    marginRight: pxToDp(17)
     // flex: 1,
   },
   h1: {
     fontSize: pxToDp(72),
-    lineHeight:pxToDp(92),
-    color:"#001b38"
+    lineHeight: pxToDp(92),
+    color: "#001b38"
   },
   h2: {
     fontSize: pxToDp(48),
     lineHeight: pxToDp(72),
-    color:"#001b38"
+    color: "#001b38"
   },
   formTit: {
     fontSize: pxToDp(36),
     marginTop: pxToDp(149),
     marginBottom: pxToDp(41),
-    fontWeight:'bold',
-    color:"#001b38"
+    fontWeight: 'bold',
+    color: "#001b38"
   },
   inputWrap: {
-    flex:1
+    flex: 1
   },
   inputBox: {
-    paddingTop:pxToDp(64),
+    paddingTop: pxToDp(64),
   },
   input: {
     height: pxToDp(80),
@@ -225,12 +229,12 @@ const styleSheet:any = StyleSheet.create({
   label: {
     fontSize: pxToDp(24),
     color: '#BEBEBE',
-    fontWeight:'bold'
+    fontWeight: 'bold'
   },
   button: {
     height: pxToDp(98),
     borderRadius: pxToDp(49),
-    backgroundColor:  '#007AFF',
+    backgroundColor: '#007AFF',
     marginTop: pxToDp(96),
     display: "flex",
     flexDirection: "row",
@@ -242,7 +246,7 @@ const styleSheet:any = StyleSheet.create({
     fontSize: pxToDp(34),
     textAlign: 'center',
     lineHeight: pxToDp(98),
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
   copyright: {
     fontSize: pxToDp(24),
@@ -254,44 +258,44 @@ const styleSheet:any = StyleSheet.create({
     width: '100%',
   },
   remPwd: {
-    width:'100%',
+    width: '100%',
     marginTop: pxToDp(47),
-    display:"flex",
+    display: "flex",
     flexDirection: 'row',
-    justifyContent:"space-between"
+    justifyContent: "space-between"
   },
   left: {
-    display:"flex",
+    display: "flex",
     flexDirection: 'row',
-    alignItems:"center"
+    alignItems: "center"
   },
   leftRadio: {
-    width:pxToDp(38),
-    height:pxToDp(38),
-    borderRadius:50,
-    borderColor:"#d2d2d2",
-    borderWidth:pxToDp(1),
-    marginRight:pxToDp(17),
-    backgroundColor:"#eee",
-    display:'flex',
-    alignItems:'center',
-    justifyContent:"center"
+    width: pxToDp(38),
+    height: pxToDp(38),
+    borderRadius: 50,
+    borderColor: "#d2d2d2",
+    borderWidth: pxToDp(1),
+    marginRight: pxToDp(17),
+    backgroundColor: "#eee",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: "center"
   },
   circle: {
-    backgroundColor:'linear-gradient(0deg,rgba(0,122,255,1),rgba(67,173,254,1))',
-    width:pxToDp(18),
-    height:pxToDp(18),
-    borderRadius:50,
+    backgroundColor: 'linear-gradient(0deg,rgba(0,122,255,1),rgba(67,173,254,1))',
+    width: pxToDp(18),
+    height: pxToDp(18),
+    borderRadius: 50,
   },
   leftText: {
-    color:'#909090',
-    fontSize:pxToDp(28),
-    fontWeight:"500"
+    color: '#909090',
+    fontSize: pxToDp(28),
+    fontWeight: "500"
   },
   rightText: {
-    color:"#007aff",
-    fontSize:pxToDp(28),
-    fontWeight:"500"
+    color: "#007aff",
+    fontSize: pxToDp(28),
+    fontWeight: "500"
   }
 })
 

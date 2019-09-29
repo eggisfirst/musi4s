@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Platform, Dimensions } from "react-native";
 import pxToDp from "../../../utils/fixcss";
-
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 interface IProps {
   getAllList: Array<any>
   nodeStateList: Array<any>
@@ -15,14 +15,14 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
       return
     }
     const w = Dimensions.get("window").width
-    const h = Dimensions.get("window").height
+    const h = Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight() 
     console.log(h, w)
     if (getAllList[index].data.length) {
       const i = getAllList[index].data.length
       if (Platform.OS === 'ios') {
         return pxToDp((i) * 31.5 + 40)
       } else {
-        if (w === 360 && h === 730) {
+        if (w === 360 && h <= 760) {
           return pxToDp((i) * 36 + 40)
         } else {
           return pxToDp((i) * 33 + 36.5)
@@ -35,7 +35,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
     const len = nodeStateList.length
     // console.log('len',len)
     // console.log('index',index)
-    const h = Dimensions.get("window").height
+    const h =  Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight() 
     const w = Dimensions.get("window").width
     console.log(w, h)
     if (index === len) {
@@ -43,7 +43,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
       if (Platform.OS === 'ios') {
         return length * 33 + 31
       } else {
-        if (w === 360 && h === 730) {
+        if (w === 360 && h <= 760) {
           return length * 33 + 50
         } else {
           return length * 33 + 36
@@ -55,7 +55,7 @@ export const TimerShaft: React.FC<IProps> = ({ getAllList, nodeStateList }) => {
         return 76
       } else {
 
-        if (w === 360 && h === 730) {
+        if (w === 360 && h <= 760) {
           return 80
         } else {
           return 75

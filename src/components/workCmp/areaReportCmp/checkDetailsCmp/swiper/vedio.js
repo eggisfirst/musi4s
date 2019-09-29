@@ -150,18 +150,18 @@ class VideoPlayScreen extends Component {
   /// -------Video组件回调事件-------
   
   _onLoadStart = () => {
-    console.log('视频开始加载');
+    // console.log('视频开始加载');
     // store.dispatch(setLoading(true));
 
   };
   
   _onBuffering = () => {
-    console.log('视频缓冲中...')
+    // console.log('视频缓冲中...')
     // store.dispatch(setLoading(true));
   };
   
   _onLoaded = (data) => {
-    console.log('视频加载完成');
+    // console.log('视频加载完成');
     // store.dispatch(setLoading(false));
     this.setState({
       duration: data.duration,
@@ -169,7 +169,7 @@ class VideoPlayScreen extends Component {
   };
   
   _onProgressChanged = (data) => {
-    console.log('视频进度更新');
+    // console.log('视频进度更新');
     // store.dispatch(setLoading(true));
     // store.dispatch(setLoading(false));
     if (this.props.video.isPlay) {
@@ -180,7 +180,7 @@ class VideoPlayScreen extends Component {
   };
   
   _onPlayEnd = () => {
-    console.log('视频播放结束');
+    // console.log('视频播放结束');
     this.setState({
       currentTime: 0,
       isPlaying: false,
@@ -190,7 +190,7 @@ class VideoPlayScreen extends Component {
   };
   
   _onPlayError = () => {
-    console.log('视频播放失败');
+    // console.log('视频播放失败');
   };
   
   ///-------控件点击事件-------
@@ -278,8 +278,8 @@ class VideoPlayScreen extends Component {
   _onLayout = (event) => {
     //获取根View的宽高
     let {width, height} = event.nativeEvent.layout;
-    console.log('通过onLayout得到的宽度：' + width);
-    console.log('通过onLayout得到的高度：' + height);
+    // console.log('通过onLayout得到的宽度：' + width);
+    // console.log('通过onLayout得到的高度：' + height);
     
     // 一般设备横屏下都是宽大于高，这里可以用这个来判断横竖屏
     let isLandscape = (width > height);

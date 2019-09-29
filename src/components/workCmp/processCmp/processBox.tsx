@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { TimerShaft } from './ timerShaft';
 import { ApproveNode } from "../../../utils/enum";
 import { approveBoxLeftInfo, getApproveBoxState, getApproveOtherBoxState } from "../../../utils";
-
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 interface IProps {
   handleCloseProcessBox: () => void
   rightData: any
@@ -150,7 +150,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
     const myMarginTop = (index: number) => {
       // console.log('index',index)
       const w = Dimensions.get("window").width
-      const h = Dimensions.get("window").height
+      const h =   Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight() 
       if (index === -1) {
         if (Platform.OS === 'ios') {
           return 40
@@ -171,7 +171,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
           if (index === 0) {
             return (i) * 32 + 24
           } else {
-            if (w === 360 && h === 730) {
+            if (w === 360 && h <= 760) {
               return (i) * 35 + 23
             } else {
               return (i) * 32 + 25
@@ -183,7 +183,7 @@ export default class ProcessBox extends React.Component<IProps, IState>{
         if (Platform.OS === 'ios') {
           return 68
         } else {
-          if (w === 360 && h === 730) {
+          if (w === 360 && h <= 760) {
             return 64
           } else {
             return 62
@@ -254,15 +254,15 @@ export default class ProcessBox extends React.Component<IProps, IState>{
      */
     const marginTop = (index: number) => {
       const w = Dimensions.get("window").width
-      const h = Dimensions.get("window").height
+      const h =   Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight() 
       if(Platform.OS === 'ios') {
         if(index === 0) {
           return 40
         } 
         return 38
       }else {
-        if (w === 360 && h === 730) {
-          return 42
+        if (w === 360 && h <= 760) {
+          return 45
         } else {
           return 46
         }

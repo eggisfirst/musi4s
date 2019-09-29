@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { View, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from "react-native";
+import { View, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, Text } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { HeaderCmp } from "../../../components/headerCmp/headerCmp"
 import { changeCheckList } from '../../../store/actions/4s/checkList';
@@ -30,6 +30,7 @@ interface IState {
   bigImageStatus: boolean
   urls: any
   gradeStatus: boolean
+  remark: string
 }
 
 interface IData {
@@ -47,6 +48,7 @@ class CheckDetailPage extends React.Component<any, IState>{
     bigImageStatus: false,
     urls: [],
     gradeStatus: true,
+    remark: ''
   }
 
   _data: IData = {
@@ -80,8 +82,12 @@ class CheckDetailPage extends React.Component<any, IState>{
   getImageList = (arr: string[]): void => {
     this._data.imgDataList = arr
     this.setState({ urls: this.filterImageList(arr) })
-    console.log('上传的图片：', arr)
+    // console.log('上传的图片：', arr)
   }
+  getImage = (arr: any) => {
+    return this.filterImageList(arr)
+  }
+
 
   /**
    * 提交检查信息到vuex
@@ -172,16 +178,17 @@ class CheckDetailPage extends React.Component<any, IState>{
     let tempArr = arr ? arr : []
     this.setState({ imageList: tempArr })
     // this.filterImageList(tempArr)
-    console.log('props:', temp, this.props.imageList)
+    // console.log('props:', temp, this.props.imageList)
   }
 
   componentDidMount() {
-    const { type, index, fatherIndex } = this.props.navigation.state.params
-    if (type === '已评分') {this.getGradeDetailInfo()}
+    const { type, index, fatherIndex, remark } = this.props.navigation.state.params
+    if (type === '已评分') { this.getGradeDetailInfo() }
     let temp = this.props.checkList
     let arr = temp[fatherIndex].standardList[index].urls
     let tempArr = arr ? arr : []
     this.setState({
+      remark,
       imageList: tempArr,
       urls: this.filterImageList(tempArr),
       inputAreaVal: this.props.checkList[fatherIndex].standardList[index].text,
@@ -191,7 +198,8 @@ class CheckDetailPage extends React.Component<any, IState>{
     })
     this._data.imgDataList = tempArr
     // this.filterImageList(tempArr)
-    console.log('mount:', temp, tempArr, arr)
+    // console.log('mount:', temp, tempArr, arr)
+    console.log(this.props.navigation.state.params)
   }
 
   render() {
@@ -205,8 +213,38 @@ class CheckDetailPage extends React.Component<any, IState>{
           title={this.props.navigation.state.params.name}
           // title={'this.props.navigation.state.params.name'}
           eggHandleBack={() => { navigation.goBack() }}
+          Children={
+            <TouchableOpacity activeOpacity={0.8} style={styles.topRight} onPress={() => { navigation.push('RulePage', { remark: this.state.remark }) }}>
+              <Image style={{ width: pxToDp(41.5), height: pxToDp(42) }} source={require('../../../images/work/rule1.png')} />
+            </TouchableOpacity>
+          }
         />
         <ScrollView>
+          <View style={{ width: '100%', backgroundColor: "#fec06d", display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "space-around",paddingTop: pxToDp(10),paddingBottom:pxToDp(5) }}>
+            <View>
+              <Text style={styles.headText}>门店面积</Text>
+              <Text style={styles.headText}>{this.props.navigation.state.params.showAcreage? navigation.state.params.shopInfo.acreage + '平方' : null}</Text>
+            </View>
+            <View>
+              <Text style={styles.headText}>最近装修时间</Text>
+              <Text style={styles.headText}>{this.props.navigation.state.params.showDecorateDate? navigation.state.params.shopInfo.decorate_time : null}</Text>
+            </View>
+            <View>
+              <Text  style={styles.headText}>装修到期时间</Text>
+              <Text style={styles.headText}>{this.props.navigation.state.params.show_expiry_date? navigation.state.params.shopInfo.expiry_date : null}</Text>
+            </View>
+            {/* {
+              // this.props.navigation.state.params.showAcreage?
+              <Text style={{ lineHeight: pxToDp(64), color: "#915305", fontSize: pxToDp(24) }}>门店面积：{navigation.state.params.shopInfo.acreage}平方 </Text>
+              //  : null
+            }
+            {
+              // this.props.navigation.state.params.showDecorateDate?
+              <Text style={{ lineHeight: pxToDp(64), color: "#915305", fontSize: pxToDp(24) }}> 装修时间：{navigation.state.params.shopInfo.decorate_time}</Text>
+              //  : null
+
+            } */}
+          </View>
           <View style={styles.contentBox}>
             {/* 文本域 */}
             <InputAreaCmp
@@ -239,27 +277,26 @@ class CheckDetailPage extends React.Component<any, IState>{
               text={'保存'}
             ></BigBtn>
           </View>}
-
-          {
-            this.state.bigImageStatus ? <View style={styles.bigImageBox}>
-              <TouchableOpacity
-                style={styles.closeBigImageBox}
-                onPress={this.closeBigImageBox}
-              >
-                <Image
-                  style={styles.closeBigImage}
-                  source={require('../../../images/egg_delete.png')}
-                ></Image>
-              </TouchableOpacity>
-              <View style={{
-                width: pxToDp(750),
-                height: itemWidth * 1.33,
-              }}>
-                <SwiperIndex urls={this.state.urls} />
-              </View>
-            </View> : <View></View>
-          }
         </ScrollView>
+        {
+          this.state.bigImageStatus ? <View style={styles.bigImageBox}>
+            <TouchableOpacity
+              style={styles.closeBigImageBox}
+              onPress={this.closeBigImageBox}
+            >
+              <Image
+                style={styles.closeBigImage}
+                source={require('../../../images/egg_delete.png')}
+              ></Image>
+            </TouchableOpacity>
+            <View style={{
+              width: pxToDp(750),
+              height: itemWidth * 1.33,
+            }}>
+              <SwiperIndex urls={this.getImage(this.state.imageList)} />
+            </View>
+          </View> : null
+        }
       </View>
     )
   }
@@ -299,7 +336,7 @@ const styles: any = StyleSheet.create({
     top: 0,
     left: 0,
     zIndex: 9999,
-    height: Dimensions.get('screen').height,
+    height: Dimensions.get("screen").height,
     width: pxToDp(750),
     alignItems: 'center',
     justifyContent: 'center',
@@ -336,4 +373,19 @@ const styles: any = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+
+  topRight: {
+    width: pxToDp(180),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+
+  headText: {
+    color: "#915305",
+    fontSize: pxToDp(24),
+    fontWeight: '500',
+    lineHeight: pxToDp(30),
+    textAlign: "center",
+  }
 })

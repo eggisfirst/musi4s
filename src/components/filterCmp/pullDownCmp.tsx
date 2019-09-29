@@ -67,7 +67,7 @@ class PullDownCmp extends React.Component<IProps, IState>{
     const activeColor = {
       color: "#007aff"
     }
-    console.log('data',this.props.data)
+    // console.log('data',this.props.data)
     return (
       <View>
         <TouchableOpacity onPress={() => { this.handleShowBox() }} style={styles.container} activeOpacity={0.6}>

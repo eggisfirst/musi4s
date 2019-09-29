@@ -98,7 +98,6 @@ class CheckDetails extends React.Component<any>{
          */
         let myIndex = index !== undefined ? index :
         this.getInitStar(allLen, this.props.navigation.state.params.starLevel)
-        console.log('myIndex', myIndex)
         this.props.handleSelectStarActiveIndex(myIndex)
         const scoreData = {
           getTotal: res.data.getTotal,
@@ -270,7 +269,6 @@ class CheckDetails extends React.Component<any>{
   /**请求筛选星级的数据 */
   handleSelect = (index: number) => {
     if (this.props.navigation.state.params.type === 'check') {
-      console.log(index)
       //注意返回来的stardata的顺序？ 321 还是123
       // const myIndex = this.state.allStarLength - index
       // console.log(myIndex)
@@ -291,7 +289,6 @@ class CheckDetails extends React.Component<any>{
       }
       this.getStarGrade(data, index)
     }
-    console.log('index', index)
   }
   /**设置初始点击进来的星级 index-1*/
   componentDidMount() {

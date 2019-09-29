@@ -7,16 +7,17 @@ import { setLoading, Token } from '../store/actions/global/loading';
 import store from '../store';
 
 timer = null
-// baseUrl = 'http://10.11.8.247:8088/'    
+timer1 = null
+baseUrl = 'http://10.11.8.247:8088/'
 // baseUrl = 'http://172.16.4.201:8088/'
 // baseUrl = 'http://10.11.8.8:8088/'
-baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
+// baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // baseUrl = 'https://op.derucci.com/'
 // baseUrl = 'https://qiang.derucci.com/'
 // tokenUrl = "https://op.derucci.com/"
 axios.interceptors.request.use(config => {
   store.dispatch(setLoading(true));
-  if(timer) {
+  if (timer) {
     clearTimeout(timer)
   }
   timer = setTimeout(() => {
@@ -27,43 +28,69 @@ axios.interceptors.request.use(config => {
   }
   return config
 }, error => {  //请求错误处理
-  Promise.reject(error)
+  if (timer) {
+    clearTimeout(timer)
+  }
+  timer = setTimeout(() => {
+    store.dispatch(setLoading(false));
+  }, 60000);
+  return Promise.reject(error)
 });
 
 //返回拦截器
 axios.interceptors.response.use(
-  function(response) {
-    console.log(111,response)
-    // if(response.data.code === 500) {
-    //   Alert.alert(
-    //     '提示',
-    //     response.data.msg,
-    //     [
-    //       {text: '好的', onPress: () => { store.dispatch(setLoading(false))}},
-    //     ]
-    //   )
-    // }else {
-    //   store.dispatch(setLoading(false));
-    // }
-    store.dispatch(setLoading(false));
-    return response
+  response => {
+    console.log(111, response)
+    if (response.data.code == 500) {
+      if (response.data.msg == 'refresh_token不能为空') {
+        store.dispatch(setLoading(false));
+        return response
+      } else {
+        if(timer1) {
+          clearTimeout(timer1)
+        }
+        timer1 = setTimeout(() => {
+          Alert.alert(
+            '提示',
+            response.data.msg,
+            [
+              { text: '好的', onPress: () => { store.dispatch(setLoading(false)) } },
+            ]
+          )
+        }, 100);
+        return response
+      }
+    } else {
+      store.dispatch(setLoading(false));
+      return response
+    }
   },
-  function(error) {
-    console.log(222,error)
-    
-    store.dispatch(setLoading(false));
+  function (error) {
+    // console.log(222, error)
+    if(timer1) {
+      clearTimeout(timer1)
+    }
+    timer1 = setTimeout(() => {
+      Alert.alert(
+        '提示',
+        '登录已失效，请重新操作',
+        [
+          { text: '好的', onPress: () => { store.dispatch(setLoading(false)) } },
+        ]
+      )
+    }, 100);
     return Promise.reject(error)
   }
 )
 
 
 class Request {
-  getSecretData({ url, data = {} }) {
+  getSecretData({ url, data = {}, method = 'post' }) {
     return new Promise((resolve, reject) => {
       const sign = this._getSign(data)
       axios({
         url: baseUrl + url,
-        method: 'POST',
+        method: method,
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
           'sign': sign,
@@ -78,13 +105,12 @@ class Request {
         refreshToken().then(res => {
           if (res.access_token) {
             store.dispatch(Token(res.access_token))
-            this.getSecretData()
+            // this.getSecretData()
           } else {
             getToken().then(res => {
               if (res.access_token) {
                 _storeData("refresh_token", res.refresh_token)
                 store.dispatch(Token(res.access_token))
-                this.getSecretData()
               }
             })
           }
@@ -115,13 +141,13 @@ class Request {
         refreshToken().then(res => {
           if (res.access_token) {
             store.dispatch(Token(res.access_token))
-            this.getSecretData()
+            // this.getSecretData()
           } else {
             getToken().then(res => {
               if (res.access_token) {
                 _storeData("refresh_token", res.refresh_token)
                 store.dispatch(Token(res.access_token))
-                this.getSecretData()
+                // this.getSecretData()
               }
             })
           }
@@ -132,7 +158,7 @@ class Request {
   }
 
   getJsonData({ url, data = {} }) {
-    console.log('again')
+    // console.log('again')
     return new Promise((resolve, reject) => {
       const sign = this._getSign(data)
       axios({
@@ -152,13 +178,13 @@ class Request {
         refreshToken().then(res => {
           if (res.access_token) {
             store.dispatch(Token(res.access_token))
-            this.getSecretData()
+            // this.getSecretData()
           } else {
             getToken().then(res => {
               if (res.access_token) {
                 _storeData("refresh_token", res.refresh_token)
                 store.dispatch(Token(res.access_token))
-                this.getSecretData()
+                // this.getSecretData()
               }
             })
           }

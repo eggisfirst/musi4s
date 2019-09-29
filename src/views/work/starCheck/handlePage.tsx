@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Text, ActivityIndicator, Alert } from "react-native";
+import { View, StyleSheet, FlatList, Text, ActivityIndicator, Alert, TouchableOpacity } from "react-native";
 import pxToDp from "../../../utils/fixcss";
 import { CheckHeader } from '../../../components/workCmp/starCheck/CheckHeader';
 import Sort from '../../../components/filterCmp/sortCmp';
@@ -212,7 +212,7 @@ class HandelPage extends React.Component<any, IState>{
     let list = this.state.list
     indexModel.getLogList(myData).then(res => {
       if (res.status) {
-        console.log(res)
+        // console.log(res)
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
           if (this.state.pageNo === 1) {
@@ -277,7 +277,7 @@ class HandelPage extends React.Component<any, IState>{
           ],
           { cancelable: false }
         )
-        console.log('认证失败')
+        // console.log('认证失败')
       }
     })
   }
@@ -290,7 +290,7 @@ class HandelPage extends React.Component<any, IState>{
     const starLevel = this.state.list[index].approveLevel
     indexModel.getApproveFlowInfo(id).then(res => {
       if (res.status) {
-        console.log(res)
+        // console.log(res)
         this.setState({
           processBoxStatus: true,
           processLeftData: approveBoxLeftInfo(res.data),
@@ -363,7 +363,7 @@ class HandelPage extends React.Component<any, IState>{
     this.initFilterData()
     const sort = this.props.sort.activeIndex === 0 ? 'asc' : 'desc'
     /**注意认证的参数！！！ */
-    console.log('reset')
+    // console.log('reset')
     const data = {
       page: 1,
       limit: 10,
@@ -459,7 +459,7 @@ class HandelPage extends React.Component<any, IState>{
     this._setAlertBoxStatus(BtnTitle.null)
     switch (status) {
       case AlertBtnTypes.cancle:
-        console.log('cancle')
+        // console.log('cancle')
 
         break;
       case AlertBtnTypes.comfirm:
@@ -723,9 +723,13 @@ class HandelPage extends React.Component<any, IState>{
                 }
                 {
                   this.state.starCheckType === StarCheckTypes.processing_record &&
-                  <Text style={preceStyle(item.status) === 1 ? styles.processStatus_blue :
+                  <TouchableOpacity style={preceStyle(item.status) === 1 ? styles.processStatus_blue :
                     preceStyle(item.status) === 3 ? styles.processStatus_green :
-                      styles.processStatus_red}>{getApproveState(item.status,item.lastFlow,item.rejectType)}</Text>
+                      styles.processStatus_red}>
+                      <Text style={preceStyle(item.status) === 1 ? styles.text_blue :
+                    preceStyle(item.status) === 3 ? styles.text_green :
+                      styles.text_red}>{getApproveState(item.status,item.lastFlow,item.rejectType)}</Text>
+                  </TouchableOpacity>
                 }
               </View>
               {
@@ -811,18 +815,47 @@ const styles = StyleSheet.create({
   processStatus_blue: {
     color: "#007aff",
     fontSize: pxToDp(30),
-    marginTop: pxToDp(10)
+    // marginTop: pxToDp(10),
+    borderRadius: pxToDp(30),
+    paddingLeft: pxToDp(25),
+    paddingRight: pxToDp(25),
+    backgroundColor: "rgba(0,122,255,0.3)",
   },
   processStatus_red: {
     color: "#FF2D55",
     fontSize: pxToDp(30),
-    marginTop: pxToDp(10)
+    // marginTop: pxToDp(10),
+    borderRadius: pxToDp(30),
+    paddingLeft: pxToDp(25),
+    paddingRight: pxToDp(25),
+    backgroundColor: "rgba(255,45,85,0.3)",
   },
   processStatus_green: {
     color: "#4CD964",
     fontSize: pxToDp(30),
-    marginTop: pxToDp(10)
+    // marginTop: pxToDp(10),
+    borderRadius: pxToDp(30),
+    paddingLeft: pxToDp(25),
+    paddingRight: pxToDp(25),
+    backgroundColor: "rgba(76,217,100,0.3)",
   },
+  text_blue: {
+    color: "#007aff",
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(60),
+  },
+  text_red: {
+    color: "#FF2D55",
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(60),
+  },
+  text_green: {
+    color: "#4CD964",
+    fontSize: pxToDp(30),
+    lineHeight: pxToDp(60),
+  },
+
+
   process_footer: {
     marginTop: pxToDp(26),
   },

@@ -91,7 +91,6 @@ export default class VideoScreen extends Component {
   };
 
   handleFull = () => {
-    console.log(11111)
     this.setState({
       isFull: true
     })

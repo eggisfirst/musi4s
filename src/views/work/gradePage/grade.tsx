@@ -15,6 +15,7 @@ interface IState {
   list: Array<any>
   shopName: string
   levelId: string
+  shopInfo: any
 }
 
 export default class GradePage extends React.Component<any>{
@@ -25,7 +26,8 @@ export default class GradePage extends React.Component<any>{
     numberData: {},
     list: [],
     shopName: '',
-    levelId:''
+    levelId:'',
+    shopInfo: {}
   }
   //请求
   /**
@@ -39,7 +41,8 @@ export default class GradePage extends React.Component<any>{
 
         this.setState({
           numberData: res.data.number,
-          list: res.data.list
+          list: res.data.list,
+          shopInfo: res.data.shopInfo
         })
       }
     })
@@ -58,7 +61,7 @@ export default class GradePage extends React.Component<any>{
 
   //跳转到评分页面
   handleToGrade = (index: number, i: number, type: string) => {
-    console.log(1122334455, index, i)
+    // console.log(1122334455, index, i)
     const list = this.state.list
     const {shopId,qualificationId} = this.props.navigation.state.params
     this.props.navigation.navigate('CheckListPage', {
@@ -66,6 +69,8 @@ export default class GradePage extends React.Component<any>{
       shopId,
       categoryId: list[index][i].id,
       title: list[index][i].name,
+      remark: list[index][i].remark,
+      shopInfo: this.state.shopInfo,
       type,
       scoreFlag: list[index][i].scoreFlag,
       callBack: () => {

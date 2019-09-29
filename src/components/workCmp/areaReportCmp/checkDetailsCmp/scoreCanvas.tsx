@@ -25,16 +25,20 @@ export const ScoreCanvas: React.FC<IProps> = (props) => {
     }
     return [0,props.score]
   }
-  console.log(props)
+
+  let color = props.score>=60? '#007aff' : '#000'
+  let textColor = props.score>=60? '#666' : '#f88675'
+
+  // console.log(props)
   return(
     <View style={styles.container}>
       <View style={styles.circleBox}>  
         <CircleProgress score={props.score}/>
         <View style={styles.textBox}>
-          <Text style={styles.blueText}>{getScore()[0] !==0 &&  getScore()[0]}
-            <Text style={styles.sBluetext}>{getScore()[1]}</Text>
+          <Text style={[styles.blueText,{color: color}]}>{getScore()[0] !==0 &&  getScore()[0]}
+            <Text style={[styles.sBluetext,{color: color}]}>{getScore()[1]}</Text>
           </Text>
-          <Text style={styles.text}>{props.score >= 80? '合格' : '不合格'}</Text>
+          <Text style={[styles.text,{color: textColor}]}>{props.score >= 80? '合格' : '不合格'}</Text>
         </View>
       </View>
     

@@ -29,12 +29,14 @@ class SwiperIndex extends Component {
         slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
         itemWidth: itemWidth
     }
+   
+
     /**
      * 设置切换到哪一张
      */
     setActiveIndex = (index) => {
         this.props.videoControl(false)
-        console.log('index',this.props.urls[index])
+        // console.log('index',this.props.urls[index])
        
         this.setState({
             slider1ActiveSlide: index
@@ -85,7 +87,7 @@ class SwiperIndex extends Component {
                     hasParallaxImages={true}
                     firstItem={this.state.slider1ActiveSlide}
                     inactiveSlideScale={0.94}
-
+                    noData={true}
                     inactiveSlideOpacity={0.7}
                      removeClippedSubviews={false}
                     // inactiveSlideShift={20}

@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "#666",
-    fontSize: pxToDp(28)
+    fontSize: pxToDp(28),
   },
   redStyle: {
     color: "#FF2D55",
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   greenStyle: {
     color: "#4CD964",
-    fontSize: pxToDp(30)
+    fontSize: pxToDp(30),
   },
   toGradeBtn: {
     width: pxToDp(160),
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   toGradeTxt: {
     color: "#007aff",

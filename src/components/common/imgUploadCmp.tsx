@@ -34,6 +34,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
   }
 
   options = {
+    mediaType: 'mixed',
     title: '请选择图片',
     cancelButtonTitle: '取消',
     takePhotoButtonTitle: '拍照',
@@ -247,6 +248,8 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
         <View style={styleSheet.imgUploadWrapper}>
           {imgBoxList}
           {/* <Image source={this.state.avatarSource} style={{width: 200,height: 200}} /> */}
+          
+          {/* 添加图片按钮 */}
           {
             this.props.imageList.length < 5 ?
               <TouchableOpacity
@@ -256,6 +259,8 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
                 <Image style={styleSheet.videoImg} source={require('../../images/img.png')}></Image>
               </TouchableOpacity> : null
           }
+
+          {/* 添加视频按钮 */}
           {
             this.props.imageList.length < 5 && !this.hasVideo(this.props.imageList) ?
               <TouchableOpacity

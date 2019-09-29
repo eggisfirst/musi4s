@@ -22,7 +22,7 @@ export const StarCheck: React.FC<IProps> = ({navigation, list, refreshMsg}) => {
     navigation.push('HandlePage',{
       type: item,
       callback: () => {
-        console.log('i am callback')
+        // console.log('i am callback')
         refreshMsg()
       }
     })

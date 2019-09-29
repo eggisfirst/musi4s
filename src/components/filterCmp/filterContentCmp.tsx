@@ -144,10 +144,14 @@ class FilterContentCmp extends React.Component<IProps> {
 
 
   render() {
-    console.log(ExtraDimensions.getStatusBarHeight())
-    console.log(ExtraDimensions.getSoftMenuBarHeight())
-    console.log(ExtraDimensions.getSmartBarHeight())
-    console.log(ExtraDimensions.isSoftMenuBarEnabled())
+    // console.log(ExtraDimensions.getRealWindowHeight())
+    // console.log(Dimensions.get("window").height)
+    // console.log(Dimensions.get("screen").height)
+
+    // console.log(ExtraDimensions.getStatusBarHeight())
+    // console.log(ExtraDimensions.getSoftMenuBarHeight())
+    // console.log(ExtraDimensions.getSmartBarHeight())
+    // console.log(ExtraDimensions.isSoftMenuBarEnabled())
     // console.log('props', format(new Date(this.props.startDate)))
     return (
       <View style={styles.container} >
@@ -269,7 +273,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(600),
-    height: Platform.OS === 'android'? ExtraDimensions.getRealWindowHeight() : "100%",
+    height: Platform.OS === 'android'?  Dimensions.get("window").height + ExtraDimensions.getStatusBarHeight()  : "100%",
     backgroundColor: '#fff',
     paddingTop: pxToDp(90),
     paddingLeft: pxToDp(33),
@@ -326,7 +330,7 @@ const styles = StyleSheet.create({
     width: pxToDp(600),
     height: pxToDp(165),
     position: "absolute",
-    bottom: 0,
+    bottom:  0,
     left: 0,
     display: "flex",
     flexDirection: "row",

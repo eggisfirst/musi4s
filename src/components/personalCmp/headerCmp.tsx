@@ -2,7 +2,11 @@ import React  from 'react';
 import { View, StyleSheet, Text, ImageBackground, Image } from 'react-native';
 import pxToDp from '../../utils/fixcss';
 
-export const HeaderCmp:React.FC = (props) => {
+interface IProps {
+  userInfo: any
+}
+
+export const HeaderCmp:React.FC<IProps> = (props) => {
   return(
     <ImageBackground  style={styles.container}
                       source={require("../../images/personal/bannerbg.png")}>
@@ -14,10 +18,10 @@ export const HeaderCmp:React.FC = (props) => {
                           <Image  style={styles.people}
                                   source={require("../../images/personal/via.png")} />
                           <View style={styles.textContent}>
-                            <Text style={styles.name}>张晓红</Text>
-                            <Text style={styles.normalText}>运营专员</Text>
-                            <Text style={styles.normalText}>流程信息部</Text>
-                            <Text style={styles.normalText}>移动营销组</Text>
+                            <Text style={styles.name}>{props.userInfo.username}</Text>
+                            {/* <Text style={styles.normalText}>运营专员</Text> */}
+                            <Text style={styles.normalText}>{props.userInfo.deptName}</Text>
+                            {/* <Text style={styles.normalText}>移动营销组</Text> */}
                           </View>
                           <Image  style={styles.logo}
                                   source={require("../../images/personal/logo.png")}/>
@@ -74,12 +78,12 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     width:pxToDp(320),
     flexWrap:"wrap",
-    alignItems:"center"
+    alignItems:"center",
   },
   name: {
     color:"#363636",
     fontSize:pxToDp(36),
-    marginRight:pxToDp(42),
+    marginRight:pxToDp(70),
     lineHeight:pxToDp(70)
   },
   normalText: {

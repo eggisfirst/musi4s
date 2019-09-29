@@ -175,7 +175,6 @@ class DetailsPage extends React.Component<any>{
    * @param index 
    */
   pullDownSelect = (index: number) => {
-    console.log('index', index)
     if (this.props.navigation.state.params.type === 'check') {
       this.getStandardinfo(index)
     } else {

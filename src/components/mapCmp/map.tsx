@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, Linking, TouchableOpacity, Image, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Linking, TouchableOpacity, Image, Dimensions, Alert } from "react-native";
 import pxToDp from "../../utils/fixcss";
 import { MapCanvas } from './mapCanvas';
 import { MapToApp } from './mapToApp';
@@ -30,8 +30,8 @@ export default class MapCmp extends React.Component<Iprops>{
 
   }
   componentDidMount() {
-    console.log(this.props)
-    // this.getLocationPosition()  //在华为以及一些手机型号上定位不了自己位置。
+    // console.log(this.props)
+    this.getLocationPosition()  //在华为以及一些手机型号上定位不了自己位置。
     // const url = 'iosamap://path?sourceApplication=test&slat=39.92848272&slon=116.39560823&sname=A&dlat=39.98848272&dlon=116.47560823&dname=B&dev=0&t=0'
     // Linking.getInitialURL().then((url) => {
     //   if (url) {
@@ -45,18 +45,21 @@ export default class MapCmp extends React.Component<Iprops>{
   getLocationPosition = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        // console.log('position', position)
         this.setState({
           curLat: position.coords.latitude,
           curLong: position.coords.longitude
         })
-      }
+      },
+      (error) => {console.log('error',error)},
+      {enableHighAccuracy: true}
     )
   }
   /**
    * 打开导航到店
    */
   handleOpenToApp = () => {
-    console.log('open')
+    // console.log('open')
     this.setState({
       toAppStatus: true
     })
@@ -92,21 +95,27 @@ export default class MapCmp extends React.Component<Iprops>{
           </View>
           <Text style={styles.title}>{shopInfo.shopName}</Text>
           <Text style={styles.address}>地址：{shopInfo.address}</Text>
+          {
+            shopInfo.latitude && shopInfo.longitude && shopInfo.latitude!==0 &&  shopInfo.longitude!==0?
+              <MapCanvas targerLat={shopInfo.latitude} targetLong={shopInfo.longitude} />
+              : null
+          }
 
-          <MapCanvas targerLat={this.state.targerLat} targetLong={this.state.targetLong} />
-
-          <View style={{display: "flex",justifyContent: "space-between", flexDirection: "row"}}>
+          <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row" }}>
             <View>
               <Text style={styles.text}>店长：{shopInfo.username}</Text>
               <Text style={styles.text}>联系电话：{shopInfo.phone}</Text>
               <Text style={styles.text}>门店电话：{shopInfo.shopPhone}</Text>
               <Text style={styles.text}>状态：{this.props.shopInfo.passFlag ? '已评分' : '未评分'}</Text>
             </View>
+            {
+              shopInfo.latitude !== 0 && shopInfo.longitude!== 0 ?
+                <TouchableOpacity style={styles.toShop} onPress={() => { this.handleOpenToApp() }}>
+                  <Image source={require('../../images/work/toShop.png')} style={styles.toShopIcon} />
+                  <Text style={styles.toShopText}>导航到店</Text>
+                </TouchableOpacity> : null
+            }
 
-            <TouchableOpacity style={styles.toShop} onPress={() => { this.handleOpenToApp() }}>
-              <Image source={require('../../images/work/toShop.png')} style={styles.toShopIcon} />
-              <Text style={styles.toShopText}>导航到店</Text>
-            </TouchableOpacity>
           </View>
 
           {/* <TouchableOpacity style={styles.close} onPress={() => {this.props.handleCloseMap()}}>
@@ -118,8 +127,8 @@ export default class MapCmp extends React.Component<Iprops>{
               address={shopInfo.address}
               curLat={this.state.curLat}
               curLong={this.state.curLong}
-              targerLat={this.state.targerLat}
-              targetLong={this.state.targetLong} />
+              targerLat={shopInfo && shopInfo.latitude}
+              targetLong={shopInfo && shopInfo.longitude} />
           }
         </View>
       </View>
@@ -138,7 +147,7 @@ const styles = StyleSheet.create({
   },
   topStyle: {
     width: "100%",
-    height: Dimensions.get('screen').height - pxToDp(930),
+    height: Dimensions.get('screen').height,
     backgroundColor: 'rgba(0,0,0,0)',
     position: "absolute",
     top: 0,
@@ -154,13 +163,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     padding: pxToDp(31),
-    paddingBottom: pxToDp(20)
+    paddingBottom: pxToDp(20),
   },
   title: {
     color: "#363636",
     fontSize: pxToDp(40),
     marginTop: pxToDp(38),
-    fontWeight: "bold"
+    fontWeight: "bold",
+    lineHeight: pxToDp(50)
   },
   address: {
     fontSize: pxToDp(28),

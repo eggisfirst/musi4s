@@ -24,10 +24,13 @@ export const CheckBox: React.FC<IProps> = ({item,index,handleToGrade,i}) => {
       </View>
       {
         item.scoreFlag? 
+        <>
+        <Text style={{color: "#4CD964",fontSize: pxToDp(44)}}>{item.getTotal || 0}<Text style={{color: "#dbdbdb",fontSize: pxToDp(22)}}>/{item.total}分</Text></Text>
         <TouchableOpacity onPress={() => {handleClick('已评分')}} style={styles.hadGradeBtn}>
           <Image style={styles.icon} source={require('../../../images/work/grade/graded.png')} />
+   
           <Text style={styles.hadGradeText}>已评分</Text>
-        </TouchableOpacity> :
+        </TouchableOpacity></> :
         <TouchableOpacity onPress={() => {handleClick('未评分')}} style={styles.btn}>
           <Text style={styles.grade}>去评分</Text>
           <Image style={styles.toGrade} source={require("../../../images/work/grade/toGrade.png")}></Image>
@@ -73,20 +76,21 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   hadGradeBtn: {
-    width: pxToDp(121),
-    height: pxToDp(44),
+    width: pxToDp(110),
+    height: pxToDp(29),
     backgroundColor: "rgba(76,217,100,0.3)",
-    borderRadius: pxToDp(22),
-    marginTop: pxToDp(20),
+    borderRadius: pxToDp(14),
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    // marginTop: pxToDp(14)
   },
   hadGradeText: {
     color: "#4CD964",
-    fontSize: pxToDp(23),
-    paddingLeft: pxToDp(5)
+    fontSize: pxToDp(20),
+    paddingLeft: pxToDp(5),
+    // lineHeight: pxToDp(29)
   },
   grade: {
     fontSize: pxToDp(23),
@@ -100,7 +104,7 @@ const styles = StyleSheet.create({
     marginLeft: pxToDp(5)
   },
   icon: {
-    width: pxToDp(24),
-    height: pxToDp(24)
+    width: pxToDp(17),
+    height: pxToDp(17)
   }
 })

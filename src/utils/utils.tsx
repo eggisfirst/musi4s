@@ -22,7 +22,7 @@ const _retrieveData = async (key: string) => {
     if (value !== null) {
       return value
       // We have data!!
-      console.log(value);
+      // console.log(value);
     }
    } catch (error) {
      // Error retrieving data

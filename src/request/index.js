@@ -2,6 +2,17 @@ import { Request } from './request'
 
 
 class IndexModel extends Request {
+  /**获取账号的个人信息 */
+  getTheInfo(account,method) {
+    return this.getSecretData({
+      url: "v1/api/userinfo",
+      data: {
+        account
+      },
+      method
+    })
+  }
+
   /**获取职位 */
   getAuth() {
     return this.getSecretData({
@@ -368,6 +379,14 @@ class IndexModel extends Request {
       }
     })
   }
+
+  getPosition(data) {
+    return this.getSecretData({
+      url:"/v1/api/shop/getShopsByLocation",
+      data
+    })
+  }
+
 }
 
 

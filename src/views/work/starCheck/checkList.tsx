@@ -12,7 +12,6 @@ import store from '../../../store';
 import * as actions from '../../../store/actions/4s/checkList';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { BackGroundHeader } from "../../../components/headerCmp/backgroundHeader";
-import ExtraDimensions from 'react-native-extra-dimensions-android';
 const indexModel = new IndexModel()
 // const actions = {
 //   ...changeCheckList,
@@ -110,14 +109,14 @@ class CheckListPage extends React.Component<any, IState>{
           this.props.navigation.push("AcceptancePage")
         }
       } else {
-        Alert.alert(
-          '提示',
-          `${res.msg}`,
-          [
-            { text: '确定', onPress: () => console.log('onPress OK') },
-          ],
-          { cancelable: false }
-        )
+        // Alert.alert(
+        //   '提示',
+        //   `${res.msg}`,
+        //   [
+        //     { text: '确定', onPress: () => console.log('onPress OK') },
+        //   ],
+        //   { cancelable: false }
+        // )
       }
     })
     // console.log(this.filterParams(this.props.checkList.checkList))
@@ -148,8 +147,9 @@ class CheckListPage extends React.Component<any, IState>{
    * 跳转检查详情页面
    */
   toDetail = (index: number, fatherIndex: number): void => {
-    let {type, qualificationId} = this.props.navigation.state.params
-    let {name, standardId} = this.props.checkList.checkList[fatherIndex].standardList[index]
+    let {type, qualificationId,shopInfo} = this.props.navigation.state.params
+    let {name, standardId,remark,showAcreage,showDecorateDate,show_expiry_date} = this.props.checkList.checkList[fatherIndex].standardList[index]
+    // console.log(this.props.checkList.checkList[fatherIndex].standardList[index])
     this.props.navigation.navigate('CheckDetailPage', {
       name,
       index,
@@ -157,6 +157,11 @@ class CheckListPage extends React.Component<any, IState>{
       standardId,
       type,
       qualificationId,
+      showDecorateDate,
+      showAcreage,
+      show_expiry_date,
+      shopInfo,
+      remark,
       callBack: () => {
         this.setState({ deductTotal: this.computeDeductTotal(this.props.checkList.checkList) | 0 })
       }
@@ -218,6 +223,10 @@ class CheckListPage extends React.Component<any, IState>{
           obj.type = params.type === '未评分' ? false : true
           obj.standardId = data[i].standardList[j].id ? data[i].standardList[j].id : data[i].standardList[j].standardId
           obj.urls = [] //上传文件url集合
+          obj.remark = data[i].standardList[j].remark
+          obj.showAcreage = data[i].standardList[j].showAcreage
+          obj.showDecorateDate = data[i].standardList[j].showDecorateDate
+          obj.show_expiry_date = data[i].standardList[j].show_expiry_date
           temp.standardList.push(obj)
         }
       }
@@ -307,14 +316,14 @@ class CheckListPage extends React.Component<any, IState>{
           setHeight={223}
           imgUrl={require('../../../images/work/reception/back.png')}
           Children={
-            <TouchableOpacity activeOpacity={0.8} style={styles.topRight}  onPress={() => { navigation.push('RulePage') }}>
-                <Image style={{width: pxToDp(40),height: pxToDp(40)}} source={require('../../../images/work/rule.png')} />
+            <TouchableOpacity activeOpacity={0.8} style={styles.topRight}  onPress={() => { navigation.push('RulePage',{remark:this.props.navigation.state.params.remark}) }}>
+                <Image style={{width: pxToDp(41.5),height: pxToDp(42)}} source={require('../../../images/work/rule.png')} />
             </TouchableOpacity>
           }
         />
 
         <View style={styles.grad}>
-          <Text style={styles.gradText}>分数统计：</Text>
+          <Text style={styles.gradText}>分数统计</Text>
           <View style={styles.grad}>
             <Text style={styles.gradTotal}>总分 {this.state.scoreTotal}   |</Text>
             <Text style={styles.gradDeduct}>   扣分 {this.state.deductTotal}</Text>
