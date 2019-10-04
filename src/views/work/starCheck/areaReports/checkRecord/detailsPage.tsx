@@ -51,7 +51,7 @@ class DetailsPage extends React.Component<any>{
   changeUrl(list: any) {
     let arr: any = []
     list.map((it: any) => {
-      var reg = /\.mp4$/gm
+      var reg = /\.mp4|\.3gp|\.mov$/gm
       if (reg.test(it)) {
         arr.push({ url: it, type: 'mp4' })
       } else {
