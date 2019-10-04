@@ -220,19 +220,31 @@ class CheckDetailPage extends React.Component<any, IState>{
           }
         />
         <ScrollView>
-          <View style={{ width: '100%', backgroundColor: "#fec06d", display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "space-around",paddingTop: pxToDp(10),paddingBottom:pxToDp(5) }}>
-            <View>
-              <Text style={styles.headText}>门店面积</Text>
-              <Text style={styles.headText}>{this.props.navigation.state.params.showAcreage? navigation.state.params.shopInfo.acreage + '平方' : null}</Text>
-            </View>
-            <View>
-              <Text style={styles.headText}>最近装修时间</Text>
-              <Text style={styles.headText}>{this.props.navigation.state.params.showDecorateDate? navigation.state.params.shopInfo.decorate_time : null}</Text>
-            </View>
-            <View>
-              <Text  style={styles.headText}>装修到期时间</Text>
-              <Text style={styles.headText}>{this.props.navigation.state.params.showExpiryDate? navigation.state.params.shopInfo.expiry_date : null}</Text>
-            </View>
+          <View style={{ width: '100%', backgroundColor: "#fec06d", display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "space-around",  }}>
+            {
+              this.props.navigation.state.params.showAcreage ?
+                <View>
+                  <Text style={styles.headText}>门店面积</Text>
+                  <Text style={styles.headText}>{navigation.state.params.shopInfo.acreage + '平方'}</Text>
+                </View> : null
+            }
+            {
+              this.props.navigation.state.params.showDecorateDate ?
+                <View>
+                  <Text style={styles.headText}>最近装修时间</Text>
+                  <Text style={styles.headText}>{navigation.state.params.shopInfo.decorate_time}</Text>
+                </View> : null
+            }
+            {
+              this.props.navigation.state.params.showExpiryDate ?
+                <View>
+                  <Text style={styles.headText}>装修到期时间</Text>
+                  <Text style={styles.headText}>{navigation.state.params.shopInfo.expiry_date}</Text>
+                </View> : null
+            }
+
+
+
             {/* {
               // this.props.navigation.state.params.showAcreage?
               <Text style={{ lineHeight: pxToDp(64), color: "#915305", fontSize: pxToDp(24) }}>门店面积：{navigation.state.params.shopInfo.acreage}平方 </Text>
@@ -387,5 +399,6 @@ const styles: any = StyleSheet.create({
     fontWeight: '500',
     lineHeight: pxToDp(30),
     textAlign: "center",
+    paddingTop: pxToDp(5), 
   }
 })
