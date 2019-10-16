@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   shop: {
-    color: "rgba(255,255,255,0.5)",
+    // color: "rgba(255,255,255,0.5)",
+    color: '#222444',
     lineHeight: pxToDp(42),
     fontWeight: "500",
     fontSize: pxToDp(26),
