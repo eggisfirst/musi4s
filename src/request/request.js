@@ -2,19 +2,18 @@ import { _storeData, _retrieveData } from '../utils/utils'
 import MD5 from "react-native-md5";
 import axios from 'axios'
 import { Alert } from 'react-native';
-import SHA1 from 'crypto-js/sha512';
-import Base64 from 'crypto-js/enc-base64'
-
+//引入sha1加密
+import {sha1} from '../utils/sha'
 
 import { setLoading, Token } from '../store/actions/global/loading';
 import store from '../store';
 
 timer = null
 timer1 = null
-baseUrl = 'http://10.11.8.247:8088/'
+// baseUrl = 'http://10.11.8.247:8088/'
 // baseUrl = 'http://172.16.4.201:8088/'
 // baseUrl = 'http://10.11.8.8:8088/'
-// baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
+baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // baseUrl = 'https://op.derucci.com/'
 // baseUrl = 'https://qiang.derucci.com/'
 // tokenUrl = "https://op.derucci.com/"
@@ -210,11 +209,12 @@ class Request {
     for (let key in obj) {
       keyArr.push(key)
     }
-    keyArr.sort((a, b) => {
-      return a.length - b.length
-    })
+    keyArr = keyArr.sort()
+    // keyArr.sort((a, b) => {
+    //   return a.length - b.length
+    // })
     keyArr.map((item, index) => {
-      if (obj[item]) {
+      if (obj[item] !== '') {
         if (!str) {
           str = `${item}=${obj[item]}`
         } else {
@@ -223,7 +223,7 @@ class Request {
       }
     })
     console.log('string',str + token);
-    return MD5.hex_md5(str + token)
+    return sha1(str + token)
   }
 
   getFormData({ url, data = {} }) {
