@@ -2,7 +2,9 @@
 /**加载动画 */
 export const LOADING = 'LOADING'   
 /**获取token */
-export const TOKEN = 'TOKEN'   
+export const TOKEN = 'TOKEN'  
+
+export const TOKENOBJ = 'TOKENOBJ'
    
 
 /**排序 */
