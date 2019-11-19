@@ -3,48 +3,52 @@ import configAppNavigator from './src/routes'
 import { Provider } from 'react-redux'
 import store from './src/store'
 import Loader from './src/components/loading';
-import { refreshToken, getToken} from './src/request/request';
-import { _storeData, _removeItem } from './src/utils/utils';
-import { Token } from './src/store/actions/global/loading';
+import { refreshToken, baseUrl} from './src/request/newRequest';
+import { _storeData, _removeItem, _retrieveData } from './src/utils/utils';
+import { Token,TokenObj } from './src/store/actions/global/loading';
 // import ExtraDimensions from 'react-native-extra-dimensions-android';
 import { Platform, StatusBar } from 'react-native';
 
 class App extends Component {
   state = {
     isLoggedIn: true,
-    // checkLogin: false
-    checkLogin: true
-
+    checkLogin: false
   }
 
   isLogin() {
-    const tokenObj = getToken();
-    console.log(1111,tokenObj)
-    if (tokenObj.access_token && tokenObj.tokenExpireTime) {
-      const now = Date.now();
-      if (now >= tokenObj.tokenExpireTime) {
-        // 刷新token
-          refreshToken()
-            .then(res => {
-              if (res.data) {
-                const { expires_in, access_token } = res.data;
-                const tokenExpireTime = now + expires_in * 1000;
-                const obj = {
-                  ...res.data,
-                  tokenExpireTime
-                };
-                _storeData('token', JSON.stringify(obj))
-                this.setState({ isLoggedIn: true, checkLogin: true })
-              }
-            }).catch(err => {
-              _removeItem('token');
-              this.setState({ isLoggedIn: false, checkLogin: true })
-            });
+    _retrieveData('token').then(res => {
+      if(res) {
+        const tokenObj = JSON.parse(res)
+        if (tokenObj.access_token && tokenObj.tokenExpireTime) {
+          const now = Date.now();
+          console.log(tokenObj)
+          if (now >= tokenObj.tokenExpireTime) {
+            // 刷新token
+              refreshToken(baseUrl)
+                .then(res => {
+                  if (res.data) {
+                    const { expires_in, access_token } = res.data;
+                    const tokenExpireTime = now + expires_in * 1000;
+                    const obj = {
+                      ...res.data,
+                      tokenExpireTime
+                    };
+                    store.dispatch(TokenObj(obj))
+                    _storeData('token', JSON.stringify(obj))
+                    this.setState({ isLoggedIn: true, checkLogin: true })
+                  }
+                }).catch(err => {
+                  _removeItem('token');
+                  this.setState({ isLoggedIn: false, checkLogin: true })
+                });
+          }
+          else {
+            this.setState({ isLoggedIn: true, checkLogin: true })
+          }
+        }
       }
-      else {
-        this.setState({ isLoggedIn: false, checkLogin: true })
-      }
-    }
+    })
+    
   }
 
 
@@ -66,7 +70,7 @@ class App extends Component {
 
 
   componentDidMount() {
-    // this.refreshToken()
+    this.isLogin()
   }
 
   render() {

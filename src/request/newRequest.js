@@ -2,14 +2,15 @@ import axios from 'axios'
 import { sha1 } from '../utils/sha'
 import { _storeData, _retrieveData, _removeItem } from '../utils/utils'
 import { Alert } from 'react-native';
-import { setLoading, Token } from '../store/actions/global/loading';
+import { setLoading, Token, TokenObj } from '../store/actions/global/loading';
 import store from '../store';
 import MD5 from "react-native-md5";
 import {
   Navigator
 } from 'react-native';
 
-baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
+// const baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
+const baseUrl = 'http://172.16.8.42:8081'
 
 /**
  * 获取本地存储的token
@@ -41,6 +42,8 @@ function refreshToken(baseUrl) {
 
 axios.setToken = (obj) => {
   axios.defaults.headers['Authorization'] = `Bearer ${obj.access_token}`
+  //同时存store和localStrage
+  store.dispatch(TokenObj(obj))
   _storeData('token', JSON.stringify(obj))
 }
 
@@ -80,8 +83,8 @@ axios.interceptors.request.use(config => {
         }).catch(err => {
           console.log(err)
           _removeItem('token')
-          Navigator.push('Login')
-          // window.location.herf = '/Login'
+          // Navigator.push('Login')
+          window.location.herf = '/Login'
         })
       }
       const retryOriginalRequest = new Promise(resolve => {
@@ -222,4 +225,4 @@ export function Login() {
   })
 }
 
-export { axios, Request, getToken, refreshToken }
+export { axios, Request, getToken, refreshToken, baseUrl }
