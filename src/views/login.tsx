@@ -76,7 +76,6 @@ export default class LoginScreen extends Component<any> {
     this.state.password && _storeData('password', this.state.password)
     /**请求token */
     Login().then(res => {
-      console.log('res',res)
       if (res.access_token) {
         const now = Date.now();
         const { expires_in } = res;
@@ -85,7 +84,6 @@ export default class LoginScreen extends Component<any> {
           ...res,
           tokenExpireTime
         };
-        console.log('obj',obj)
         store.dispatch(TokenObj(obj))
         _storeData("token", JSON.stringify(obj))
         //获取职位
@@ -107,6 +105,8 @@ export default class LoginScreen extends Component<any> {
           }
         })
       }
+    },err => {
+      console.log('err',err)
     })
     // getToken().then(res => {
     //   if (res.access_token) {

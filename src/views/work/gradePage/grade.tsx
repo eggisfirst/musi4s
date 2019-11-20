@@ -36,7 +36,7 @@ export default class GradePage extends React.Component<any>{
    * @param shopId 
    */
   getCategories(id: any,shopId: any) {
-    indexModel.getCategories(id,shopId).then(res => {
+    indexModel.getCategories(this,id,shopId).then(res => {
       if(res.status) {
 
         this.setState({

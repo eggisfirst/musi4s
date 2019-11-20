@@ -84,7 +84,7 @@ class DetailsPage extends React.Component<any>{
    */
   getStandard() {
     const { shopId, startTime, endTime, categoryId } = this.getCheckParams()
-    indexModel.getStandard(shopId, categoryId, startTime, endTime).then(res => {
+    indexModel.getStandard(this, shopId, categoryId, startTime, endTime).then(res => {
       if (res.status) {
         this.setState({
           standards: res.standards
@@ -101,7 +101,7 @@ class DetailsPage extends React.Component<any>{
   getStandardinfo(index: number, id?: any) {
     const { shopId, startTime, endTime } = this.getCheckParams()
     const standardId = id ? id : this.state.standards[index].standardId
-    indexModel.getStandardinfo(shopId, standardId, startTime, endTime).then(res => {
+    indexModel.getStandardinfo(this, shopId, standardId, startTime, endTime).then(res => {
       if (res.status) {
         const urls = res.standardinfo.urls && res.standardinfo.urls.length ? this.changeUrl(res.standardinfo.urls) : []
         this.setState({
@@ -116,7 +116,7 @@ class DetailsPage extends React.Component<any>{
    */
   getGradeDetailList() {
     const { shopId, qualificationId, id, type } = this.getGradeParams()
-    indexModel.getGradeDetailList(shopId, qualificationId, id, type).then(res => {
+    indexModel.getGradeDetailList(this, shopId, qualificationId, id, type).then(res => {
       if (res.status) {
         this.setState({
           standards: res.data
@@ -130,7 +130,7 @@ class DetailsPage extends React.Component<any>{
    * @param id 初始进来不传，id为上个页面带过来的id
    */
   getGradeDetailInfo(id: any) {
-    indexModel.getGradeDetailInfo(id).then(res => {
+    indexModel.getGradeDetailInfo(this, id).then(res => {
       if (res.status) {
         // console.log(123,this.getUrls(res.data.attachment))
         this.setState({

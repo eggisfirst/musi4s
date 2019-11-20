@@ -12,62 +12,53 @@ import { Platform, StatusBar } from 'react-native';
 class App extends Component {
   state = {
     isLoggedIn: true,
-    checkLogin: false
+    checkLogin: true
   }
-
+  //判断token是否过期
   isLogin() {
     _retrieveData('token').then(res => {
       if(res) {
         const tokenObj = JSON.parse(res)
         if (tokenObj.access_token && tokenObj.tokenExpireTime) {
           const now = Date.now();
-          console.log(tokenObj)
+          this.setStore(tokenObj)
           if (now >= tokenObj.tokenExpireTime) {
             // 刷新token
               refreshToken(baseUrl)
                 .then(res => {
-                  if (res.data) {
-                    const { expires_in, access_token } = res.data;
-                    const tokenExpireTime = now + expires_in * 1000;
-                    const obj = {
-                      ...res.data,
-                      tokenExpireTime
-                    };
-                    store.dispatch(TokenObj(obj))
+                  if (res.data.access_token) {
+                    const obj = this.setStore(res.data)
                     _storeData('token', JSON.stringify(obj))
                     this.setState({ isLoggedIn: true, checkLogin: true })
+                  }else {
+                    _removeItem('token');
+                    this.setState({ isLoggedIn: false, checkLogin: true })
                   }
-                }).catch(err => {
-                  _removeItem('token');
-                  this.setState({ isLoggedIn: false, checkLogin: true })
-                });
+                })
           }
+          //设置store里面的值
           else {
             this.setState({ isLoggedIn: true, checkLogin: true })
           }
         }
+      }else {
+        this.setState({ isLoggedIn: false, checkLogin: true })
       }
     })
     
   }
-
-
-  /**刷新token判断有没有登录 */
-  // refreshToken() {
-  //   refreshToken().then(res => {
-  //     if (res.access_token) {
-  //       store.dispatch(Token(res.access_token))
-  //       this.setState({ isLoggedIn: true, checkLogin: true })
-  //     } else {
-  //       this.setState({ isLoggedIn: false, checkLogin: true })
-  //     }
-  //   }).catch(err => {
-  //     this.setState({ isLoggedIn: false, checkLogin: true })
-  //   })
-  // }
-
-
-
+  //辅助函数
+  setStore(data: any) {
+    const now = Date.now();
+    const { expires_in} = data;
+    const tokenExpireTime = now + expires_in * 1000;
+    const obj = {
+      ...data,
+      tokenExpireTime
+    };
+    store.dispatch(TokenObj(obj))
+    return obj
+  }
 
   componentDidMount() {
     this.isLogin()

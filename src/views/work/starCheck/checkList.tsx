@@ -99,7 +99,7 @@ class CheckListPage extends React.Component<any, IState>{
       //打分分类列表，必须提交全部
       categoryList: this.filterParams(this.props.checkList.checkList).arr
     }
-    indexModel.submitForm(data).then(res => {
+    indexModel.submitForm(this, data).then(res => {
       if (res.status) {
         const { goBack, state } = this.props.navigation;
         if (type === 'goback') {
@@ -188,7 +188,7 @@ class CheckListPage extends React.Component<any, IState>{
    */
   subcategories = () => {
     let {categoryId, shopId, type, qualificationId} = this.props.navigation.state.params
-    indexModel.subcategories(categoryId, shopId, qualificationId, type === '已评分').then(res => {
+    indexModel.subcategories(this, categoryId, shopId, qualificationId, type === '已评分').then(res => {
       if (res.data) {
         this.setState({ levelId: res.data.starLevelId })
         let data = res.data.categories

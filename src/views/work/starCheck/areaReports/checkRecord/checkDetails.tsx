@@ -90,7 +90,7 @@ class CheckDetails extends React.Component<any>{
    * 获取评分进来的 页面评分详情
    */
   getStarGrade(data: any, index?: number) {
-    indexModel.getStarGrade(data).then(res => {
+    indexModel.getStarGrade(this, data).then(res => {
       if (res.status) {
         const allLen = res.data.starList.length
         /**
@@ -125,7 +125,7 @@ class CheckDetails extends React.Component<any>{
     if (!levelId) {
       levelId = this.state.starData[0].levelId
     }
-    indexModel.getCheckLogInfo(shopId, levelId, startTime, endTime).then(res => {
+    indexModel.getCheckLogInfo(this,shopId, levelId, startTime, endTime).then(res => {
       if (res.status) {
         /**
         * 初始进来的index跟自己选择的index
@@ -155,7 +155,7 @@ class CheckDetails extends React.Component<any>{
    */
   getCheckcategories() {
     const { shopId, startTime, endTime } = this.getCheckParams()
-    indexModel.getCheckcategories(shopId, startTime, endTime).then(res => {
+    indexModel.getCheckcategories(this, shopId, startTime, endTime).then(res => {
       if (res.status) {
         if (res.checkCategories.length) {
           this.props.handleSelectStarActiveIndex(0)

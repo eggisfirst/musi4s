@@ -43,7 +43,7 @@ class Search extends React.Component<any, IState> {
   */
   getCheckList(page: number, limit: number, key: string) {
     let list = this.state.list
-    indexModel.getCheckList(page, limit, key).then(res => {
+    indexModel.getCheckList(this, page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -78,7 +78,7 @@ class Search extends React.Component<any, IState> {
    */
   getApproveCheckLogList(page: number, limit: number, key: string) {
     let list = this.state.list
-    indexModel.getApproveCheckLogList(page, limit, key).then(res => {
+    indexModel.getApproveCheckLogList(this, page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -117,7 +117,7 @@ class Search extends React.Component<any, IState> {
       key
     }
     let list = this.state.list
-    indexModel.getAcceptList(data).then(res => {
+    indexModel.getAcceptList(this,data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -152,7 +152,7 @@ class Search extends React.Component<any, IState> {
       key
     }
     let list = this.state.list
-    indexModel.getReceptionList(data).then(res => {
+    indexModel.getReceptionList(this,data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -187,7 +187,7 @@ class Search extends React.Component<any, IState> {
       key
     }
     let list = this.state.list
-    indexModel.getSponsorList(data).then(res => {
+    indexModel.getSponsorList(this,data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -222,7 +222,7 @@ class Search extends React.Component<any, IState> {
       limit,
       key
     }
-    indexModel.getLogList(data).then(res => {
+    indexModel.getLogList(this,data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {

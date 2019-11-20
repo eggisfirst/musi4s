@@ -32,7 +32,7 @@ export default class CheckRecord extends React.Component<any>{
    */
   getCheckList(page: number, limit?: number, key?: string) {
     let list = this.state.list
-    indexModel.getCheckList(page, limit, key).then(res => {
+    indexModel.getCheckList(this, page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
