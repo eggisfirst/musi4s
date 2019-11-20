@@ -166,7 +166,7 @@ axios.interceptors.response.use(response => {
 }, error => {
   console.log(222,error);
   //不是网络错误则弹出错误提示
-  if(error.message !== 'Request failed with status code 510') {
+  if(error.message !== 'Request failed with status code 510' && error.message !== 'Network Error') {
     alert(error)
   }
   store.dispatch(setLoading(false));
@@ -186,13 +186,13 @@ class Request {
       }).then(res => {
         resolve(res.data)
       }, err => {
-        if (err.message === 'Request failed with status code 510') {
+        if (err.message === 'Request failed with status code 510' || err.message === 'Network Error') {
           Alert.alert('提示', '登录已失效，请重新登录',
             [{
               text: '确定',
               onPress: () => {
                 _removeItem('token')
-                that.props.navigation.navigate('Login')
+                that.props.navigation.replace('Login')
               }
             }])
           }else {
@@ -216,13 +216,13 @@ class Request {
       }).then(res => {
         resolve(res.data)
       }).catch(err => {
-        if (err.message === 'Request failed with status code 510') {
+        if (err.message === 'Request failed with status code 510'  || err.message === 'Network Error') {
           Alert.alert('提示', '登录已失效，请重新登录',
             [{
               text: '确定',
               onPress: () => {
                 _removeItem('token')
-                that.props.navigation.navigate('Login')
+                that.props.navigation.replace('Login')
               }
             }])
           }else {
@@ -245,13 +245,13 @@ class Request {
       }).then(res => {
         resolve(res.data)
       }).catch(err => {
-        if (err.message === 'Request failed with status code 510') {
+        if (err.message === 'Request failed with status code 510' || err.message === 'Network Error') {
           Alert.alert('提示', '登录已失效，请重新登录',
             [{
               text: '确定',
               onPress: () => {
                 _removeItem('token')
-                that.props.navigation.navigate('Login')
+                that.props.navigation.replace('Login')
               }
             }])
           }else {
