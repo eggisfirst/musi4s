@@ -28,6 +28,8 @@ PODS:
     - react-native-video/Video (= 5.0.0)
   - react-native-video/Video (5.0.0):
     - React
+  - react-native-webview (7.5.1):
+    - React
   - React/Core (0.59.9):
     - yoga (= 0.59.9.React)
   - React/CxxBridge (0.59.9):
@@ -85,6 +87,7 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-video (from `../node_modules/react-native-video`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -123,6 +126,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/slider"
   react-native-video:
     :path: "../node_modules/react-native-video"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNSVG:
@@ -145,10 +150,11 @@ SPEC CHECKSUMS:
   react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
   react-native-slider: 754abcdae695545c5875c2150cb2a502d24b7bed
   react-native-video: 6555881252c8ca039760e1cd6df28ac28ffb2baf
+  react-native-webview: 2aadbfef6b9eaa9e89b306ae3e31e6e870a6306d
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
   RNSVG: a53a5de0d90ec96a6502cc3a4534dfcc0c130622
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: 48e2d83ed2d4402a27eee658b9b91965fa4c824e
+PODFILE CHECKSUM: a02ca11c00508e7d8f4d9f6c20daa994fa01c966
 
 COCOAPODS: 1.7.5

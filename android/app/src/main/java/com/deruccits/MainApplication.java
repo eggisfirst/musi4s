@@ -3,6 +3,7 @@ package com.deruccits;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCWebViewPackage(),
             new ReactSliderPackage(),
           new ExtraDimensionsPackage(),
           new ImagePickerPackage(),

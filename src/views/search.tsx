@@ -23,6 +23,7 @@ interface IState {
   alertBox: BtnTitle
   index: number
   list: Array<any>
+  hasChangeplaceholder: boolean //判断默认值是否要改
 }
 
 class Search extends React.Component<any, IState> {
@@ -35,7 +36,8 @@ class Search extends React.Component<any, IState> {
     index: -1,
     list: [],
     showFoot: 0,
-    pageNo: 1
+    pageNo: 1,
+    hasChangeplaceholder: false
   }
   /**
   * 检查数据
@@ -252,6 +254,38 @@ class Search extends React.Component<any, IState> {
   }
 
 
+  getFAQList(...data: any) {
+    let list = this.state.list
+    indexModel.getFAQList(this, ...data).then(res => {
+      if (res.data) {
+        /**是否第一次加载 */
+        if (res.data.length < 10) {
+          if (this.state.pageNo === 1) {
+            this.setState({
+              showFoot: 1,
+              list: res.data
+            })
+          } else {
+            this.setState({
+              showFoot: 1,
+              list: [...list, ...res.data]
+            })
+          }
+
+        } else {
+          this.setState({
+            list: [...list, ...res.data],
+          })
+          /**
+           * 防止连续加载两次
+           */
+          this.preventLoadMoreTime()
+        }
+      }
+    })
+  }
+
+
   /**
 * 防止加载两次
 */
@@ -283,6 +317,9 @@ class Search extends React.Component<any, IState> {
     }
     else if (this.getType() === SearchTypes.processing_record) {
       this.getLogList(page, limit, key)
+    }
+    else if (this.getType() === SearchTypes.faq) {
+      this.getFAQList(page, limit, '',key)
     }
   }
   /**
@@ -362,6 +399,11 @@ class Search extends React.Component<any, IState> {
     else if (this.getType() === SearchTypes.processing_record) {
       this.handlePageType(SearchTypes.processing_record, index)
     }
+    else if (this.getType() === SearchTypes.faq) {
+      this.props.navigation.push('FaqContent', {
+        data: this.state.list[index]
+      })
+    }
   }
   /**初始化筛选框 */
   initFilter = () => {
@@ -375,6 +417,22 @@ class Search extends React.Component<any, IState> {
     /**星级选择 */
     this.props.handleSelectStarIndex(-1)
   }
+
+  /**
+   * 是否改变输入框默认值
+   */
+  hasChange = () => {
+    if(this.getType() === SearchTypes.faq) {
+      this.setState({
+        hasChangeplaceholder: true
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.hasChange()
+  }
+  
 
   componentWillUnmount() {
     this.initFilter()
@@ -431,7 +489,7 @@ class Search extends React.Component<any, IState> {
               value={this.state.value}
               onChangeText={(text) => { this.handleChange(text) }}
               autoFocus={true}
-              placeholder="请输入经销商名称"
+              placeholder={this.state.hasChangeplaceholder? `请输入${this.getType()}` : '请输入经销商名称'}
               returnKeyType="search"
               onSubmitEditing={() => { this.handleSubmit() }}
             />
@@ -446,7 +504,7 @@ class Search extends React.Component<any, IState> {
           keyExtractor={item => item.id || item.distributor}
           renderItem={({ item, index }) => (
             <TouchableOpacity style={styles.list} activeOpacity={0.6} onPress={() => { this.handleLinkTo(index) }}>
-              <Text style={styles.listItem}>{item.distributor}</Text>
+              <Text style={styles.listItem}>{item.distributor || item.title}</Text>
             </TouchableOpacity>
           )}
         />

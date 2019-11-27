@@ -416,6 +416,70 @@ class IndexModel extends Request {
     })
   }
 
+  //--------知识库内容接口
+  /**
+   * 获取常见问题分类
+   * @param {*} that 
+   * @param {*} id 
+   */
+  getFAQTab(that, id = null) {
+    return this.getSecretData({
+      url: "api/question/repository/v1/getCategoryList",
+      that,
+      data: {
+        id,
+        platform: '慕思助手'
+      },
+      method: 'get'
+    })
+  }
+  /**
+   * 常见问题列表
+   */
+  getFAQList(that, page, limit, id = '', key = '') {
+    return this.getSecretData({
+      url: 'api/question/repository/v1/getQuestionList',
+      that,
+      data: {
+        categoryId: id, //  问题分类id
+        page,
+        limit,
+        key
+      },
+      method: 'get'
+    })
+  }
+
+  /**
+   * 常见问题内容
+   * @param {*} that 
+   * @param {*} id 文章id
+   */
+   getFAQContent(that, id) {
+    return this.getSecretData({
+      url: 'api/train/repository/v1/get',
+      that,
+      data: {
+        id
+      },
+      method: 'get'
+    })
+  }
+
+  /**
+   * 记录访问次数
+   */
+  collectFaqNum (that, id) {
+    return this.getSecretData({
+      url: 'api/question/repository/v1/browse',
+      that,
+      data: {
+        id
+      },
+      method: 'get'
+    })
+  }
+
 }
 
 
