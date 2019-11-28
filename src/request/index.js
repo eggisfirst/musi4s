@@ -428,7 +428,8 @@ class IndexModel extends Request {
       that,
       data: {
         id,
-        platform: '慕思助手'
+        platform: '慕思助手',
+        modular: '常见问题'
       },
       method: 'get'
     })
@@ -444,7 +445,9 @@ class IndexModel extends Request {
         categoryId: id, //  问题分类id
         page,
         limit,
-        key
+        key,
+        platform: '慕思助手',
+        modular: '常见问题'
       },
       method: 'get'
     })
@@ -455,12 +458,15 @@ class IndexModel extends Request {
    * @param {*} that 
    * @param {*} id 文章id
    */
-   getFAQContent(that, id) {
+   getFAQContent(that, id, account) {
     return this.getSecretData({
-      url: 'api/train/repository/v1/get',
+      url: 'api/question/repository/v1/getDrAssistant',
       that,
       data: {
-        id
+        id,
+        account,
+        platform: '慕思助手',
+        modular: '常见问题'
       },
       method: 'get'
     })
@@ -479,7 +485,36 @@ class IndexModel extends Request {
       method: 'get'
     })
   }
-
+  /**
+   * 收藏统计
+   * @param {*} that 
+   * @param {*} id  问题id
+   */
+  collectFaqCount (that, id) {
+    return this.getSecretData({
+      url: "api/question/repository/v1/collection",
+      that,
+      data: {
+        id
+      }
+    })
+  }
+  /**
+   * 收藏问题
+   * @param {*} that 
+   * @param {*} id 
+   */
+  collectFaq (that, id, account) {
+    return this.getSecretData({
+      url: "api/user/collect/v1/collect",
+      that,
+      data: {
+        id,
+        account,
+        type: 2 //收藏类型（1：文章   2：问题）
+      }
+    })
+  }
 }
 
 
