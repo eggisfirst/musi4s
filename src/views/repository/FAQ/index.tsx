@@ -17,7 +17,9 @@ interface IState {
   list: Array<any>
   showFoot: number //加载更多状态显示
   pageNo: number  //页数
-  id: string    
+  id: string
+  //指定tab,如果没有的话默认第一个
+  tabActiveIndex: number 
 }
 
 export default class FAQ extends React.Component<any, IState>{
@@ -30,7 +32,8 @@ export default class FAQ extends React.Component<any, IState>{
     list: [],
     showFoot: 0,
     pageNo: 1,
-    id: ''
+    id: '',
+    tabActiveIndex: 0
   }
 
 
@@ -40,7 +43,7 @@ export default class FAQ extends React.Component<any, IState>{
   getFAQTab() {
     indexModel.getFAQTab(this).then(res => {
       if (res.data) {
-        const id = res.data[0].id
+        const id = res.data[this.state.tabActiveIndex].id
         this.setState({
           tabList: res.data,
           id
@@ -154,7 +157,7 @@ export default class FAQ extends React.Component<any, IState>{
             searchWidth={686}
           />
           <View style={styles.scrollList}>
-            <RowScroll data={this.state.tabList} getActiveIndex={this.getActiveIndex} />
+            <RowScroll activeIndex={this.state.tabActiveIndex} data={this.state.tabList} getActiveIndex={this.getActiveIndex} />
           </View>
 
         </View>

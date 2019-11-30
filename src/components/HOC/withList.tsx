@@ -10,6 +10,7 @@ interface IProps {
   loadMore: (page: number) => void
   showFoot: number
   pageNo: number
+  //如果有跟顶部tab相关联，则表示顶部tab的当前活动项
 }
 
 /**

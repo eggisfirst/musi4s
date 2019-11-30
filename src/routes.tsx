@@ -25,6 +25,7 @@ import FAQ from './views/repository/FAQ'
 import WebCollage from './views/repository/webCollege'
 import GoldService from './views/repository/goldService'
 import FaqContent from "./views/repository/FAQ/faqContent";
+import CollectPage from "./views/personal/collect";
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -171,6 +172,12 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     },
     FaqContent: {
       screen: FaqContent,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CollectPage: {
+      screen: CollectPage,
       navigationOptions: {
         headerTransparent: true,
       }

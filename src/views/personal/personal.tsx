@@ -46,10 +46,13 @@ export default class PersonalScreen extends React.Component<any> {
     _removeItem('token')
     _removeItem('type')
   }
+
+ 
   render() {
     const list = [
       {
-        title: '我的收藏'
+        title: '我的收藏',
+        link: 'CollectPage'
       },
       {
         title: '意见反馈'
@@ -62,18 +65,17 @@ export default class PersonalScreen extends React.Component<any> {
         version: "版本 1.0.1"
       },
     ]
-
     return (
       <View>
         <HeaderCmp userInfo={this.state.userInfo && this.state.userInfo}/>
         {
           list && list.map(item =>
-            <TouchableOpacity onPress={() => { console.log(123) }} key={item.title}>
+            <TouchableOpacity onPress={() => {this.props.navigation.push(`${item.link}`)}} key={item.title}>
               <ListItem title={item.title} version={item.version} />
             </TouchableOpacity>
           )
         }
-        <BtnCmp handleLogout={() => { this.handleLogout() }} />
+        <BtnCmp handleLogout={this.handleLogout} />
       </View>
     )
   }

@@ -5,12 +5,13 @@ import pxToDp from "../../../utils/fixcss";
 interface Iprops {
   data: Array<any>
   getActiveIndex: (data: Object) => void
+  activeIndex?: number
 }
 
 
 export default class RowScroll extends React.Component<Iprops> {
   state = {
-    activeIndex: 0
+    activeIndex: 0 || this.props.activeIndex
   }
   /**
    * 点击切换样式/或者当前index

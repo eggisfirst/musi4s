@@ -506,12 +506,47 @@ class IndexModel extends Request {
    */
   collectFaq (that, id, account) {
     return this.getSecretData({
-      url: "api/user/collect/v1/collect",
+      url: "api/user/collect/v2/collect",
       that,
       data: {
         id,
         account,
         type: 2 //收藏类型（1：文章   2：问题）
+      },
+      method: 'get'
+    })
+  }
+
+  /**
+   * 获取我的收藏的常见问题
+   */
+  getCollectFaq(that,account,page,limit) {
+    return this.getSecretData({
+      url: "api/user/collect/v2/getcollect",
+      that,
+      data: {
+        account,
+        page,
+        limit,
+        type: 2 //收藏类型（1：文章   2：问题）
+      },
+      method: 'get'
+    })
+  }
+  /**
+   * 取消文章收藏
+   * @param {*} that 
+   * @param {*} account 
+   * @param {*} id 
+   */
+  cancleCollectFaq(that,account,id) {
+    return this.getSecretData({
+      url: "api/user/collect/v2/cancelCollect",
+      that,
+      data: {
+        account,
+        id,
+        type: 2
       }
     })
   }

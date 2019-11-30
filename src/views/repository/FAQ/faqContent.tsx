@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import WebView from 'react-native-webview'
 import { IndexModel } from "../../../request";
 import { HeaderCmp } from "../../../components/headerCmp/headerCmp";
 import pxToDp from "../../../utils/fixcss";
 import { CollectCmp } from '../../../components/respository/FAQ/collectCmp';
 import { _retrieveData } from "../../../utils/utils";
+import { b64DecodeUnicode } from "../../../utils";
 const indexModel = new IndexModel()
 
 interface IState {
@@ -15,6 +17,7 @@ interface IState {
     detail: string
     id: string
   }
+  height: number
 }
 export default class FaqContent extends React.Component<any, IState> {
   static navigationOptions = {
@@ -28,7 +31,8 @@ export default class FaqContent extends React.Component<any, IState> {
       collect: false,
       detail: '',
       id: ''
-    }
+    },
+    height: 0
   }
 
   /**
@@ -40,10 +44,11 @@ export default class FaqContent extends React.Component<any, IState> {
         indexModel.getFAQContent(this, id, res).then(res => {
           if (res.status) {
             const data = res.data
+            const remark = b64DecodeUnicode(data.remark)
             const obj = {
               title: data.title,
               collect: data.collect,
-              detail: data.remark,
+              detail: remark,
               id: data.id
             }
             this.setState({
@@ -75,7 +80,7 @@ export default class FaqContent extends React.Component<any, IState> {
    * 点击收藏的时候统计收藏数
    */
   collectFaqCount = (id: string) => {
-    indexModel.collectFaqCount(this,id).then(res => {
+    indexModel.collectFaqCount(this, id).then(res => {
 
     })
   }
@@ -86,7 +91,7 @@ export default class FaqContent extends React.Component<any, IState> {
     const id = this.state.contentData.id
     //收藏
     _retrieveData('account').then(res => {
-      if(res) {
+      if (res) {
         indexModel.collectFaq(this, id, res).then(res => {
           if (res.status) {
             this.collectFaqCount(id)
@@ -100,24 +105,54 @@ export default class FaqContent extends React.Component<any, IState> {
       }
     })
 
-  
+
   }
 
   render() {
+    const injectedJs = 'var timer = setInterval(() => {window.ReactNativeWebView.postMessage(document.getElementById("content").clientHeight);clearInterval(timer)}, 100); '
+
     return (
       <View style={styles.wrapper}>
         <HeaderCmp title={'常见问题'}
           eggHandleBack={() => { this.props.navigation.goBack() }}
           Children={<CollectCmp isCollect={this.state.contentData.collect} clickCollect={this.clickCollect} />}
         />
-        <View style={styles.content}>
+        <ScrollView style={styles.content}>
           <View style={styles.titleBox}>
             <Text style={styles.title}>{this.state.contentData.title}</Text>
           </View>
-          <Text style={styles.text}>
-            除螨用xxxxxxxx最好除螨用xxxxxxxx最好除螨用xxxxxxxx最好除螨用xxxxxxxx最好除螨用xxxxxxxx最好除螨用xxxxxxxx最好除螨用xxxxxxxx最好除螨用xxxxxxxx最好.
-          </Text>
-        </View>
+          <WebView
+            style={{
+              width: Dimensions.get('window').width,
+              height: this.state.height
+            }}
+            injectedJavaScript={injectedJs}
+            automaticallyAdjustContentInsets={true}
+            source={{
+              html: `<!DOCTYPE html><html> <style type="text/css">
+                .tour_product_explain img{ display: block!important; vertical-align: top!important; width: 100%!important;}
+                .tour_product_explain{ padding: 0 15px 20px 15px;}
+                .tour_product_explain *{text-align: left!important;
+                  font-size: 28px!important;
+                  color: #666;
+                  line-height: 1.3!important;
+                  font-family: Arial,"Lucida Grande",Verdana,"Microsoft YaHei",hei!important;
+                  float: none!important;
+                  padding: 0!important;
+                  position: static!important;
+                  height: auto!important}
+                </style><body><div class='tour_product_explain' id='content'>${this.state.contentData.detail}</div></body></html>`
+            }}
+            scalesPageToFit={true}
+            javaScriptEnabled={true} // 仅限Android平台。iOS平台JavaScript是默认开启的。
+            domStorageEnabled={true} // 适用于安卓a
+            scrollEnabled={false}
+            startInLoadingState={true}
+            onMessage={(event) => {
+              this.setState({ height: pxToDp(+event.nativeEvent.data) })
+            }}
+          />
+        </ScrollView>
       </View>
     )
   }
@@ -131,7 +166,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: '100%',
-    height: 200,
+    // height: ,
     backgroundColor: 'white',
     shadowColor: '#000000',
     shadowOffset: { height: pxToDp(1), width: 0 },
