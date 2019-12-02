@@ -101,7 +101,7 @@ export default class Item extends React.Component<Iprops> {
           renderHiddenItem={(data, rowMap) => (
             <View style={styles.rowBack}>
               <Text></Text>
-              <TouchableOpacity style={styles.btn} onPress={_ => this.deleteRow(data, rowMap)}>
+              <TouchableOpacity style={styles.btn} activeOpacity={0.6} onPress={_ => this.deleteRow(data, rowMap)}>
                 <Text style={styles.deleteTxt}>删除</Text>
               </TouchableOpacity>
             </View>

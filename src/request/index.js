@@ -547,7 +547,8 @@ class IndexModel extends Request {
         account,
         id,
         type: 2
-      }
+      },
+      method: 'get'
     })
   }
 }
