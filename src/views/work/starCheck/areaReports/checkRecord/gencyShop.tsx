@@ -7,6 +7,7 @@ import { SearchCmp } from "../../../../../components/workCmp/starCheck/searchCmp
 import { GencyCard } from '../../../../../components/workCmp/areaReportCmp/checkRecord/gencyCard';
 import { ReportType, SearchTypes } from "../../../../../utils/enum";
 import { IndexModel } from "../../../../../request";
+import { HeaderCmp } from "../../../../../components/headerCmp/headerCmp";
 const indexModel = new IndexModel()
 
 interface IState {
@@ -31,7 +32,7 @@ export default class CheckRecord extends React.Component<any>{
    */
   getCheckList(page: number, limit?: number, key?: string) {
     let list = this.state.list
-    indexModel.getCheckList(page, limit, key).then(res => {
+    indexModel.getCheckList(this, page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -141,6 +142,18 @@ export default class CheckRecord extends React.Component<any>{
 
     return (
       <View style={styles.container}>
+         {
+          this.state.searchIn ?
+            <HeaderCmp title={'检查记录'}
+              eggHandleBack={() => { navigation.goBack() }}
+            /> :
+            <HeaderCmp title={'检查记录'}
+              eggHandleBack={() => { navigation.goBack() }}
+              Children={<SearchCmp type={SearchTypes.check}
+                eggHandleSearch={this.eggHandleSearch} />} />
+        }
+
+{/* 
         <BackGroundHeader
           title={'检查记录'}
           eggHandleBack={() => { navigation.goBack() }}
@@ -149,6 +162,7 @@ export default class CheckRecord extends React.Component<any>{
           setHeight={200}
           imgUrl={require("../../../../../images/backicon.png")} 
           Children={!this.state.searchIn && 
+<<<<<<< HEAD
             <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check} />
           }/>
         {/* <View style={styles.search}>
@@ -157,6 +171,11 @@ export default class CheckRecord extends React.Component<any>{
             <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check} />
           }
         </View> */}
+=======
+            <SearchCmp eggHandleSearch={this.eggHandleSearch} type={SearchTypes.check} />
+          }/> */}
+       
+>>>>>>> newtoken
         <FlatList style={styles.scorllList}
           data={this.state.list}
           ItemSeparatorComponent={this._separator}

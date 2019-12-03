@@ -138,6 +138,10 @@ android {
 }
 
 dependencies {
+<<<<<<< HEAD
+=======
+    implementation project(':react-native-webview')
+>>>>>>> newtoken
     implementation project(':@react-native-community_slider')
     implementation project(':react-native-extra-dimensions-android')
 

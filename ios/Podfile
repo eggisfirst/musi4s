@@ -39,6 +39,11 @@ target 'derucciTS' do
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
 
+<<<<<<< HEAD
+=======
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+>>>>>>> newtoken
 end
 
 post_install do |installer|

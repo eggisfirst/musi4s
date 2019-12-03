@@ -4,7 +4,11 @@ import pxToDp from "../../../utils/fixcss";
 import { StarCheckTypes } from "../../../utils/enum";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import store from '../../../store'
+<<<<<<< HEAD
 import { getStar, removeSecond } from "../../../utils";
+=======
+import { getStar, removeSecond, removeMin } from "../../../utils";
+>>>>>>> newtoken
 
 interface IProps {
   title: string
@@ -32,7 +36,10 @@ export const ApplyItem: React.FC<IProps> = (props) => {
                   <Text style={styles.name} >
                     {props.title}
                   </Text>
-                  <Text style={styles.processText}>{props.time}</Text>
+                  <View style={styles.time}>
+                  <Text style={styles.processText}>{removeSecond(props.time)}</Text>
+                  <Text  style={styles.processText}>{removeMin(props.time)}</Text>
+                  </View>
                 </View>
                 <Text style={styles.star}>认证星级：{getStar(props.star)}</Text>
               </View>
@@ -113,10 +120,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: pxToDp(580)
   },
+
+  time: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end"
+  },
   processText: {
     color: "#666",
     fontSize: pxToDp(24),
     paddingRight: pxToDp(32),
+<<<<<<< HEAD
     lineHeight: pxToDp(50)
+=======
+    lineHeight: pxToDp(50),
+>>>>>>> newtoken
   }
 })

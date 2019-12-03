@@ -232,6 +232,16 @@ export const removeSecond = (data: any) => {
 }
 
 /**
+ * 返回的时间参数
+ */
+export const removeMin = (data: any) => {
+  const time = data.split(' ')
+  if (time) {
+    return time[1]
+  }
+}
+
+/**
  * 对象/数组深度拷贝
  */
 export const deepClone = (origin: any, target: any) => {

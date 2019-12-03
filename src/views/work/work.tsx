@@ -37,7 +37,23 @@ export default class WorkScreen extends React.Component<any>{
         imgUrl: require('../../images/work/daiban.png'),
         title: "我的代办",
         // link:"StarHome"
-      }
+      },
+      // {
+      //   imgUrl: require('../../images/work/news.png'),
+      //   title: "网络商学院",
+      //   link: "WebCollage"
+      // },
+      // {
+      //   imgUrl: require('../../images/work/news.png'),
+      //   title: "金管家服务",
+      //   link: "GoldService"
+      // },
+      // {
+      //   imgUrl: require('../../images/work/news.png'),
+      //   title: "常见问题",
+      //   link: "FAQ"
+      // },
+
     ]
     return (
       <View style={styles.wrapper}>

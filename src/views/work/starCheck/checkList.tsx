@@ -99,7 +99,7 @@ class CheckListPage extends React.Component<any, IState>{
       //打分分类列表，必须提交全部
       categoryList: this.filterParams(this.props.checkList.checkList).arr
     }
-    indexModel.submitForm(data).then(res => {
+    indexModel.submitForm(this, data).then(res => {
       if (res.status) {
         const { goBack, state } = this.props.navigation;
         if (type === 'goback') {
@@ -148,7 +148,11 @@ class CheckListPage extends React.Component<any, IState>{
    */
   toDetail = (index: number, fatherIndex: number): void => {
     let {type, qualificationId,shopInfo} = this.props.navigation.state.params
+<<<<<<< HEAD
     let {name, standardId,remark,showAcreage,showDecorateDate,show_expiry_date} = this.props.checkList.checkList[fatherIndex].standardList[index]
+=======
+    let {name, standardId,remark,showAcreage,showDecorateDate,showExpiryDate} = this.props.checkList.checkList[fatherIndex].standardList[index]
+>>>>>>> newtoken
     // console.log(this.props.checkList.checkList[fatherIndex].standardList[index])
     this.props.navigation.navigate('CheckDetailPage', {
       name,
@@ -159,7 +163,11 @@ class CheckListPage extends React.Component<any, IState>{
       qualificationId,
       showDecorateDate,
       showAcreage,
+<<<<<<< HEAD
       show_expiry_date,
+=======
+      showExpiryDate,
+>>>>>>> newtoken
       shopInfo,
       remark,
       callBack: () => {
@@ -188,7 +196,11 @@ class CheckListPage extends React.Component<any, IState>{
    */
   subcategories = () => {
     let {categoryId, shopId, type, qualificationId} = this.props.navigation.state.params
+<<<<<<< HEAD
     indexModel.subcategories(categoryId, shopId, qualificationId, type === '已评分').then(res => {
+=======
+    indexModel.subcategories(this, categoryId, shopId, qualificationId, type === '已评分').then(res => {
+>>>>>>> newtoken
       if (res.data) {
         this.setState({ levelId: res.data.starLevelId })
         let data = res.data.categories
@@ -226,7 +238,11 @@ class CheckListPage extends React.Component<any, IState>{
           obj.remark = data[i].standardList[j].remark
           obj.showAcreage = data[i].standardList[j].showAcreage
           obj.showDecorateDate = data[i].standardList[j].showDecorateDate
+<<<<<<< HEAD
           obj.show_expiry_date = data[i].standardList[j].show_expiry_date
+=======
+          obj.showExpiryDate = data[i].standardList[j].showExpiryDate
+>>>>>>> newtoken
           temp.standardList.push(obj)
         }
       }

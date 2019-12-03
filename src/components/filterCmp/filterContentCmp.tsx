@@ -34,6 +34,7 @@ class FilterContentCmp extends React.Component<IProps> {
   }
   /**点击左边空白区域关闭筛选框 */
   closeFilter = () => {
+    console.log('123123123')
     this.props.handleFilterActive(false)
   }
 
@@ -155,7 +156,7 @@ class FilterContentCmp extends React.Component<IProps> {
     // console.log('props', format(new Date(this.props.startDate)))
     return (
       <View style={styles.container} >
-        <TouchableOpacity style={styles.leftStyle} onPress={this.closeFilter}></TouchableOpacity>
+        <TouchableOpacity style={styles.leftStyle} onPress={()=> {this.closeFilter()}}></TouchableOpacity>
         <View style={styles.modalStyle}>
           <View>
             <Text style={styles.textStyle}>时间</Text>
@@ -263,8 +264,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 9999,
     width: pxToDp(150),
+<<<<<<< HEAD
     height: ExtraDimensions.getRealWindowHeight(),
+=======
+    height: "100%",
+>>>>>>> newtoken
     backgroundColor: 'rgba(0,0,0,0)',
+
   },
   modalStyle: {
     position: 'absolute',

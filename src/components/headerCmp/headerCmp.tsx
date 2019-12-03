@@ -35,7 +35,17 @@ export const HeaderCmp:React.FC<IProps> = (props:IProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:Platform.OS === 'ios'? pxToDp(55) : pxToDp(25) ,
+    // backgroundColor:"#fff",
+    // width:"100%",
+    // height:Platform.OS === 'android'? pxToDp(180) : pxToDp(170),
+    // display:"flex",
+    // flexDirection:"row",
+    // justifyContent:"center",
+    // alignItems:"center",
+    // paddingTop:Platform.OS === 'android'? pxToDp(80) : pxToDp(56)
+
+
+    paddingTop:Platform.OS === 'ios'? pxToDp(55) : pxToDp(25) ,
     paddingLeft:pxToDp(32),
     paddingRight:pxToDp(22),
     display:"flex",
@@ -43,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent:"space-between",
     alignItems:"center",
     width: "100%",
-    height: pxToDp(150),
+    height: Platform.OS === 'android'? pxToDp(185) : pxToDp(205),
     backgroundColor: "#fff"
   },
   backBtn: {

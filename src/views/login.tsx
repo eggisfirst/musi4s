@@ -11,13 +11,19 @@ import pxToDp from '../utils/fixcss';
 import InputCmp from '../components/loginCmp/inputCmp';
 import { RemPwd } from '../utils/enum';
 
-import { IndexModel } from '../request';
+import { IndexModel } from '../request/index';
 const indexModel = new IndexModel()
 import { _storeData, _retrieveData, _removeItem, } from '../utils/utils';
 import Loader from '../components/loading'
+<<<<<<< HEAD
 import { getToken } from '../request/request';
+=======
+// import { getToken } from '../request/request';
+import { Login } from '../request/newRequest';
+
+>>>>>>> newtoken
 import store from '../store';
-import { setLoading, Token } from '../store/actions/global/loading';
+import { setLoading, Token, TokenObj } from '../store/actions/global/loading';
 import { deepClone } from '../utils';
 
 interface IState {
@@ -73,10 +79,25 @@ export default class LoginScreen extends Component<any> {
     this.state.account && _storeData('account', this.state.account)
     this.state.password && _storeData('password', this.state.password)
     /**请求token */
+<<<<<<< HEAD
     getToken().then(res => {
       if (res.access_token) {
         _storeData("refresh_token", res.refresh_token)
         store.dispatch(Token(res.access_token))
+=======
+    Login().then(res => {
+      if (res.access_token) {
+        const now = Date.now();
+        const { expires_in } = res;
+        const tokenExpireTime = now + expires_in * 1000;
+        let obj = {
+          ...res,
+          tokenExpireTime
+        };
+        store.dispatch(TokenObj(obj))
+        _storeData("token", JSON.stringify(obj))
+        //获取职位
+>>>>>>> newtoken
         indexModel.getAuth().then(res => {
           if (res.status) {
             //用户级别
@@ -95,7 +116,35 @@ export default class LoginScreen extends Component<any> {
           }
         })
       }
+    },err => {
+      console.log('err',err)
     })
+<<<<<<< HEAD
+=======
+    // getToken().then(res => {
+    //   if (res.access_token) {
+    //     _storeData("refresh_token", res.refresh_token)
+    //     store.dispatch(Token(res.access_token))
+    //     indexModel.getAuth().then(res => {
+    //       if (res.status) {
+    //         //用户级别
+    //         if (res.type) {
+    //           _storeData('type', JSON.stringify(res.type))
+    //         }
+    //         /**获取用户信息 */
+    //         _retrieveData('account').then(res => {
+    //           indexModel.getTheInfo(res, 'get').then(res => {
+    //             if (res.status) {
+    //               _storeData('userInfo', JSON.stringify(res.userInfo))
+    //               this.props.navigation.navigate('Work')
+    //             }
+    //           })
+    //         })
+    //       }
+    //     })
+    //   }
+    // })
+>>>>>>> newtoken
 
 
   }

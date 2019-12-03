@@ -1,15 +1,21 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
+=======
+import { Text, StatusBar, Platform, View, StyleSheet, Image, TouchableOpacity, Button, Alert } from 'react-native';
+>>>>>>> newtoken
 import { Header } from '../../components/workCmp/starHome/header';
 import { StarCheck } from '../../components/workCmp/starHome/starCheck';
 import { ReportForm } from '../../components/workCmp/starHome/reportForms';
 
+import {setPage} from '../../utils/token'
 
 import pxToDp from '../../utils/fixcss';
 import { StarCheckTypes } from '../../utils/enum';
 
 
 import { IndexModel } from '../../request';
+import { _removeItem } from '../../utils/utils';
 const indexModel = new IndexModel()
 
 export default class StarHome extends React.Component<any> {
@@ -47,11 +53,19 @@ export default class StarHome extends React.Component<any> {
   //   this.getUserInfo()
   // }
 
+<<<<<<< HEAD
  
 
   /**获取用户信息 获取未完成信息数量*/
   getUserInfo = () => {
     indexModel.getUserInfo().then(res => {
+=======
+
+
+  /**获取用户信息 获取未完成信息数量*/
+  getUserInfo = () => {
+    indexModel.getUserInfo(this).then(res => {
+>>>>>>> newtoken
       if (res.status) {
         const data = res.data
         let list = this.state.list
@@ -72,7 +86,11 @@ export default class StarHome extends React.Component<any> {
       }
     })
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> newtoken
   componentDidMount() {
     this.getUserInfo()
   }

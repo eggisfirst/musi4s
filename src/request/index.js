@@ -1,4 +1,4 @@
-import { Request } from './request'
+import { Request } from './newRequest'
 
 
 class IndexModel extends Request {
@@ -9,36 +9,43 @@ class IndexModel extends Request {
       data: {
         account
       },
+<<<<<<< HEAD
       method
+=======
+      method,
+>>>>>>> newtoken
     })
   }
 
   /**获取职位 */
   getAuth() {
     return this.getSecretData({
-      url: "v2/api/cert/approve/getAuth"
+      url: "v2/api/cert/approve/getAuth",
     })
   }
 
   /**获取星级认证信息 */
-  getUserInfo() {
+  getUserInfo(that) {
     return this.getSecretData({
       url: "v2/api/cert/approve/getUserInfo",
+      that,
     })
   }
 
   /**待受理名单 */
-  getAcceptList(data) {
+  getAcceptList(that,data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/acceptList",
+      that,
       data: data
     })
   }
 
   /**退回 待受理*/
-  sendBack(id, remark) {
+  sendBack(that,id, remark) {
     return this.getSecretData({
       url: "v2/api/cert/approve/reject",
+      that,
       data: {
         id,
         remark
@@ -46,9 +53,10 @@ class IndexModel extends Request {
     })
   }
   /**受理 待受理 */
-  accept(id) {
+  accept(that,id) {
     return this.getSecretData({
       url: "v2/api/cert/approve/accept",
+      that,
       data: {
         id
       }
@@ -56,9 +64,10 @@ class IndexModel extends Request {
   }
 
   /**待验收名单 */
-  getReceptionList(data) {
+  getReceptionList(that,data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/gradeList",
+      that,
       data: data
     })
   }
@@ -66,9 +75,10 @@ class IndexModel extends Request {
   /**
    * 验收店铺列表
    */
-  getReceShopList(qualificationId) {
+  getReceShopList(that,qualificationId) {
     return this.getSecretData({
       url: 'v2/api/cert/approve/getShopList',
+      that,
       data: {
         qualificationId
       }
@@ -79,9 +89,10 @@ class IndexModel extends Request {
    * @param {*记录id} qualificationId 
    * @param {*店铺id} shopId 
    */
-  getShopInfo(qualificationId, shopId) {
+  getShopInfo(that,qualificationId, shopId) {
     return this.getSecretData({
       url: "v2/api/cert/approve/getShopInfo",
+      that,
       data: {
         qualificationId,
         shopId,
@@ -92,9 +103,10 @@ class IndexModel extends Request {
    * 获取待发起名单
    * @param {*} data 
    */
-  getSponsorList(data) {
+  getSponsorList(that,data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/sponsorList",
+      that,
       data: data
     })
   }
@@ -102,9 +114,10 @@ class IndexModel extends Request {
    * 获取认证进度名单
    * @param {*} data 
    */
-  getLogList(data) {
+  getLogList(that,data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/logList",
+      that,
       data: data
     })
   }
@@ -112,9 +125,10 @@ class IndexModel extends Request {
    * 获取认证进度条数据
    * @param {*} qualificationId 
    */
-  getApproveFlowInfo(qualificationId) {
+  getApproveFlowInfo(that,qualificationId) {
     return this.getSecretData({
       url: "v2/api/cert/approve/getApproveFlowInfo",
+      that,
       data: {
         qualificationId
       }
@@ -126,9 +140,10 @@ class IndexModel extends Request {
    * @param {*申请认证id} qualificationId 
    * @param {*店铺id} shopId 
    */
-  getCategories(qualificationId, shopId) {
+  getCategories(that,qualificationId, shopId) {
     return this.getSecretData({
       url: "v2/api/cert/approve/getCategories",
+      that,
       data: {
         qualificationId,
         shopId
@@ -140,9 +155,14 @@ class IndexModel extends Request {
    * @param {*} categoryId 
    * @param shopId
    */
+<<<<<<< HEAD
   subcategories(categoryId, shopId, qualificationId, scoreFlag) {
+=======
+  subcategories(that,categoryId, shopId, qualificationId, scoreFlag) {
+>>>>>>> newtoken
     return this.getSecretData({
       url: "v2/api/cert/approve/subcategories",
+      that,
       data: {
         categoryId,
         shopId,
@@ -155,9 +175,10 @@ class IndexModel extends Request {
    * 提交评分
    * @param {*} data 
    */
-  submitForm(data) {
+  submitForm(that,data) {
     return this.getJsonData({
       url: "v2/api/cert/approve/submit",
+      that,
       data: data
     })
   }
@@ -167,9 +188,10 @@ class IndexModel extends Request {
    * 发起认证
    * @param {*发起认证id} qualificationId 
    */
-  getApproveList(qualificationId) {
+  getApproveList(that,qualificationId) {
     return this.getSecretData({
       url: "v2/api/cert/approve/getApproveInfo",
+      that,
       data: {
         qualificationId
       }
@@ -178,9 +200,10 @@ class IndexModel extends Request {
   /**
    * 提交认证
    */
-  sendApprove(qualificationId) {
+  sendApprove(that,qualificationId) {
     return this.getSecretData({
       url: "v2/api/cert/approve/saveApprove",
+      that,
       data: {
         qualificationId
       }
@@ -190,9 +213,10 @@ class IndexModel extends Request {
   /**
    * 获取检查记录
    */
-  getCheckList(page, limit = 10, key = '') {
+  getCheckList(that,page, limit = 10, key = '') {
     return this.getSecretData({
       url: "v2/api/cert/approve/checkList",
+      that,
       data: {
         page,
         limit,
@@ -205,9 +229,10 @@ class IndexModel extends Request {
    * @param {*} shopId 
    * @param {*0不合格，1合格，不传默认全部} pass 
    */
-  getCheckLog(shopId, pass) {
+  getCheckLog(that,shopId, pass) {
     return this.getSecretData({
       url: "v2/api/cert/approve/checklogs",
+      that,
       data: {
         shopId,
         pass
@@ -220,9 +245,10 @@ class IndexModel extends Request {
    * @param {*} startTime 
    * @param {*} endTime 
    */
-  getCheckcategories(shopId, startTime, endTime) {
+  getCheckcategories(that, shopId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/checkcategories",
+      that,
       data: {
         shopId,
         startTime,
@@ -234,9 +260,10 @@ class IndexModel extends Request {
    * 获取检查 检查详情页面的详情
    * shopId,levelId,startTime,endTime
    */
-  getCheckLogInfo(shopId, levelId, startTime, endTime) {
+  getCheckLogInfo(that,shopId, levelId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/checkloginfo",
+      that,
       data: {
         shopId,
         levelId,
@@ -253,9 +280,10 @@ class IndexModel extends Request {
    * @param {*} startTime 
    * @param {*} endTime 
    */
-  getStandard(shopId, categoryId, startTime, endTime) {
+  getStandard(that,shopId, categoryId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/standards",
+      that,
       data: {
         shopId,
         categoryId,
@@ -271,9 +299,10 @@ class IndexModel extends Request {
    * @param {*} startTime 
    * @param {*} endTime 
    */
-  getStandardinfo(shopId, standardId, startTime, endTime) {
+  getStandardinfo(that,shopId, standardId, startTime, endTime) {
     return this.getSecretData({
       url: "v2/api/cert/approve/standardinfo",
+      that,
       data: {
         shopId,
         standardId,
@@ -283,15 +312,15 @@ class IndexModel extends Request {
     })
   }
 
-
   /**
    * 获取验收评分列表
    * @param {*页数} page 
    * @param {*全部1/及格2/不及格3} status 
    */
-  getApproveCheckLogList(page, limit = 10, key = '') {
+  getApproveCheckLogList(that, page, limit = 10, key = '') {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/list",
+      that,
       data: {
         page,
         limit,
@@ -299,13 +328,15 @@ class IndexModel extends Request {
       }
     })
   }
+
   /**
    * 获取验收评分/门店检查列表
    * @param {*} shopId 
    */
-  getShopHistory(shopId) {
+  getShopHistory(that,shopId) {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/shopHistory",
+      that,
       data: {
         shopId
       }
@@ -315,9 +346,10 @@ class IndexModel extends Request {
    * 获取评分过来的  各星级评分详情
    * @param {*shopId,qualificationId,starLevelId,type} data 
    */
-  getStarGrade(data) {
+  getStarGrade(that, data) {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/starGrade",
+      that,
       data: data
     })
   }
@@ -328,9 +360,10 @@ class IndexModel extends Request {
    * @param {*每个模块的id} id 
    * @param {*3区域/4 4s} type 
    */
-  getGradeDetailList(shopId, qualificationId, id, type) {
+  getGradeDetailList(that, shopId, qualificationId, id, type) {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/gradeDetailList",
+      that,
       data: {
         shopId,
         qualificationId,
@@ -343,9 +376,10 @@ class IndexModel extends Request {
    * 获取验收评分-- 每一项扣分详情
    * @param {*} id 
    */
-  getGradeDetailInfo(id) {
+  getGradeDetailInfo(that, id) {
     return this.getSecretData({
       url: "v2/api/cert/approve/approveCheckLog/gradeDetailInfo",
+      that,
       data: {
         id
       }
@@ -361,9 +395,16 @@ class IndexModel extends Request {
   //     data: formData
   //   })
   // }
+<<<<<<< HEAD
   uploadFile(formData) {
     return this.getFormData({
       url: "v2/api/cert/approve/upload",
+=======
+  uploadFile(that, formData) {
+    return this.getFormData({
+      url: "v2/api/cert/approve/upload",
+      that,
+>>>>>>> newtoken
       data: formData
     })
   }
@@ -371,22 +412,97 @@ class IndexModel extends Request {
    * 上传base64图片
    * @param {*上传base64格式的图片时传file参数} file
    */
-  uploadBase64(file) {
+  uploadBase64(that, file) {
     return this.getSecretData({
       url: "v2/api/cert/approve/upload",
+      that,
       data: {
         file
       }
     })
   }
 
+<<<<<<< HEAD
   getPosition(data) {
     return this.getSecretData({
       url:"/v1/api/shop/getShopsByLocation",
+=======
+  getPosition(that, data) {
+    return this.getSecretData({
+      url:"/v1/api/shop/getShopsByLocation",
+      that,
+>>>>>>> newtoken
       data
     })
   }
 
+<<<<<<< HEAD
+=======
+  //--------知识库内容接口
+  /**
+   * 获取常见问题分类
+   * @param {*} that 
+   * @param {*} id 
+   */
+  getFAQTab(that, id = null) {
+    return this.getSecretData({
+      url: "api/question/repository/v1/getCategoryList",
+      that,
+      data: {
+        id,
+        platform: '慕思助手'
+      },
+      method: 'get'
+    })
+  }
+  /**
+   * 常见问题列表
+   */
+  getFAQList(that, page, limit, id = '', key = '') {
+    return this.getSecretData({
+      url: 'api/question/repository/v1/getQuestionList',
+      that,
+      data: {
+        categoryId: id, //  问题分类id
+        page,
+        limit,
+        key
+      },
+      method: 'get'
+    })
+  }
+
+  /**
+   * 常见问题内容
+   * @param {*} that 
+   * @param {*} id 文章id
+   */
+   getFAQContent(that, id) {
+    return this.getSecretData({
+      url: 'api/train/repository/v1/get',
+      that,
+      data: {
+        id
+      },
+      method: 'get'
+    })
+  }
+
+  /**
+   * 记录访问次数
+   */
+  collectFaqNum (that, id) {
+    return this.getSecretData({
+      url: 'api/question/repository/v1/browse',
+      that,
+      data: {
+        id
+      },
+      method: 'get'
+    })
+  }
+
+>>>>>>> newtoken
 }
 
 

@@ -2,13 +2,19 @@ import { _storeData, _retrieveData } from '../utils/utils'
 import MD5 from "react-native-md5";
 import axios from 'axios'
 import { Alert } from 'react-native';
+//引入sha1加密
+import {sha1} from '../utils/sha'
 
 import { setLoading, Token } from '../store/actions/global/loading';
 import store from '../store';
 
 timer = null
 timer1 = null
+<<<<<<< HEAD
 baseUrl = 'http://10.11.8.247:8088/'
+=======
+// baseUrl = 'http://10.11.8.247:8088/'
+>>>>>>> newtoken
 // baseUrl = 'http://172.16.4.201:8088/'
 // baseUrl = 'http://10.11.8.8:8088/'
 // baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
@@ -42,14 +48,29 @@ axios.interceptors.response.use(
   response => {
     console.log(111, response)
     if (response.data.code == 500) {
+<<<<<<< HEAD
       if (response.data.msg == 'refresh_token不能为空') {
         store.dispatch(setLoading(false));
         return response
       } else {
+=======
+      const reg = /Invalid refresh token/g
+      if (response.data.msg == 'refresh_token不能为空') {
+        store.dispatch(setLoading(false));
+        return response
+      }else if(response.data.msg.match(reg)){
+        return response
+      }
+      else {
+>>>>>>> newtoken
         if(timer1) {
           clearTimeout(timer1)
         }
         timer1 = setTimeout(() => {
+<<<<<<< HEAD
+=======
+         
+>>>>>>> newtoken
           Alert.alert(
             '提示',
             response.data.msg,
@@ -87,7 +108,8 @@ axios.interceptors.response.use(
 class Request {
   getSecretData({ url, data = {}, method = 'post' }) {
     return new Promise((resolve, reject) => {
-      const sign = this._getSign(data)
+      const sign = this._getSign(data,store.getState().Loading.token)
+      console.log('sign',sign);
       axios({
         url: baseUrl + url,
         method: method,
@@ -123,7 +145,7 @@ class Request {
 
   getFormData({ url, data = {} }) {
     return new Promise((resolve, reject) => {
-      const sign = this._getSign(data)
+      const sign = this._getSign(data,store.getState().Loading.token)
       axios({
         url: baseUrl + url,
         method: 'POST',
@@ -160,7 +182,7 @@ class Request {
   getJsonData({ url, data = {} }) {
     // console.log('again')
     return new Promise((resolve, reject) => {
-      const sign = this._getSign(data)
+      const sign = this._getSign(data,store.getState().Loading.token)
       axios({
         url: baseUrl + url,
         method: 'POST',
@@ -201,11 +223,12 @@ class Request {
     for (let key in obj) {
       keyArr.push(key)
     }
-    keyArr.sort((a, b) => {
-      return a.length - b.length
-    })
+    keyArr = keyArr.sort()
+    // keyArr.sort((a, b) => {
+    //   return a.length - b.length
+    // })
     keyArr.map((item, index) => {
-      if (obj[item]) {
+      if (obj[item] !== '') {
         if (!str) {
           str = `${item}=${obj[item]}`
         } else {
@@ -213,9 +236,11 @@ class Request {
         }
       }
     })
-    return MD5.hex_md5(str + token)
+    console.log('string',str + token);
+    return sha1(str + token)
   }
 
+<<<<<<< HEAD
   getFormData({ url, data = {} }) {
     return new Promise((resolve, reject) => {
       const sign = this._getSign(data)
@@ -250,6 +275,9 @@ class Request {
       })
     })
   }
+=======
+ 
+>>>>>>> newtoken
 }
 /**
  * 登录/获取token

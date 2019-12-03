@@ -34,7 +34,7 @@ export default class Acceptance extends React.Component<any>{
    */
   getApproveCheckList(page: number, limit?: number, key?: string) {
     let list = this.state.list
-    indexModel.getApproveCheckLogList(page, limit, key).then(res => {
+    indexModel.getApproveCheckLogList(this, page, limit, key).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {

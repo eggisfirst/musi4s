@@ -43,7 +43,7 @@ export default class PersonalScreen extends React.Component<any> {
   /**退出登录 清除refresh_token*/
   handleLogout = () => {
     this.props.navigation.replace('Login')
-    _removeItem('refresh_token')
+    _removeItem('token')
     _removeItem('type')
   }
   render() {
