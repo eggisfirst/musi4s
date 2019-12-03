@@ -551,6 +551,58 @@ class IndexModel extends Request {
       method: 'get'
     })
   }
+
+  //------------知识库
+  /**
+   * 搜索知识库文章
+   */
+  searchKnowArticle(that,account,classify,key,page,limit) {
+    return this.getSecretData({
+      url: "api/train/repository/v1/getRepositoryByKey",
+      that,
+      data: {
+        key,
+        account,
+        classify,  //1金管家 2学院
+        page,
+        limit
+      },
+      method: 'get'
+    })
+  }
+  /**
+   * 获取主页的分类
+   * @param {*} that 
+   * @param {*} classify 
+   * @param {*} level 
+   * @param {*} id 
+   */
+  getIndexCategory(that,classify, level = 1, id = '') {
+    return this.getSecretData({
+      url: "api/train/repository/v1/category",
+      that,
+      data: {
+        classify,
+        level,
+        id
+      },
+      method: 'get'
+    })
+  }
+  /**
+   * 获取首页轮播图
+   * @param {*} classify  0首页 1金管家 2学院
+   */
+  getAdSwiper(that, classify) {
+    return this.getSecretData({
+      url: "api/train/repository/v1/adverts",
+      that,
+      data: {
+        classify
+      },
+      method: 'get'
+    })
+  }
 }
 
 

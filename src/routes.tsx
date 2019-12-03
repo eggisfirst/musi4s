@@ -23,7 +23,6 @@ import DetailsPage from './views/work/starCheck/areaReports/checkRecord/detailsP
 import RulePage from './views/work/rule';
 import FAQ from './views/repository/FAQ'
 import WebCollage from './views/repository/webCollege'
-import GoldService from './views/repository/goldService'
 import FaqContent from "./views/repository/FAQ/faqContent";
 import CollectPage from "./views/personal/collect";
 
@@ -160,12 +159,6 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     },
     WebCollage: {
       screen: WebCollage,
-      navigationOptions: {
-        headerTransparent: true,
-      }
-    },
-    GoldService: {
-      screen: GoldService,
       navigationOptions: {
         headerTransparent: true,
       }

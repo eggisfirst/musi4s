@@ -1,3 +1,4 @@
+//可以横向滚动的列表
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from "react-native";
 import React from "react";
 import pxToDp from "../../../utils/fixcss";

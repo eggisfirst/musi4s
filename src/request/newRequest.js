@@ -6,9 +6,9 @@ import { setLoading, Token, TokenObj } from '../store/actions/global/loading';
 import store from '../store';
 import MD5 from "react-native-md5";
 
-const baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
+// const baseUrl = 'https://mobiletest.derucci.net/consumer-admin/'
 // const baseUrl = 'http://localhost:8088/'
-// const baseUrl = 'https://op.derucci.com/'
+const baseUrl = 'https://op.derucci.com/'
 // const baseUrl = 'http://10.11.8.247:8088/'
 timer = null
 /**
@@ -154,11 +154,11 @@ axios.interceptors.response.use(response => {
         '提示',
         response.data.msg,
         [
-          { text: '好的', onPress: () => { store.dispatch(setLoading(false)) } },
+          { text: '好的', onPress: () => { } },
         ]
       )
+      store.dispatch(setLoading(false))
     }, 100);
-    store.dispatch(setLoading(false));
     return response
   }else {
     store.dispatch(setLoading(false));

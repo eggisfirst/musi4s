@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import * as sort from '../store/actions/filter/sort'
 import * as rightFliter from '../store/actions/filter/rightFliter';
 import * as handlePageState from '../store/actions/4s/handlePageState';
+import { _retrieveData } from "../utils/utils";
 const actions = {
   ...rightFliter,
   ...handlePageState,
@@ -119,7 +120,7 @@ class Search extends React.Component<any, IState> {
       key
     }
     let list = this.state.list
-    indexModel.getAcceptList(this,data).then(res => {
+    indexModel.getAcceptList(this, data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -154,7 +155,7 @@ class Search extends React.Component<any, IState> {
       key
     }
     let list = this.state.list
-    indexModel.getReceptionList(this,data).then(res => {
+    indexModel.getReceptionList(this, data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -189,7 +190,7 @@ class Search extends React.Component<any, IState> {
       key
     }
     let list = this.state.list
-    indexModel.getSponsorList(this,data).then(res => {
+    indexModel.getSponsorList(this, data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -224,7 +225,7 @@ class Search extends React.Component<any, IState> {
       limit,
       key
     }
-    indexModel.getLogList(this,data).then(res => {
+    indexModel.getLogList(this, data).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < limit) {
@@ -253,7 +254,10 @@ class Search extends React.Component<any, IState> {
     })
   }
 
-
+  /**
+   * 常见问题
+   * @param data 
+   */
   getFAQList(...data: any) {
     let list = this.state.list
     indexModel.getFAQList(this, ...data).then(res => {
@@ -283,6 +287,44 @@ class Search extends React.Component<any, IState> {
         }
       }
     })
+  }
+
+  /**
+   * 知识库文章
+   * @param data 
+   */
+  getKnowArticle(...data: any) {
+    _retrieveData('account').then(res => {
+      let list = this.state.list
+      indexModel.searchKnowArticle(this, res, ...data).then(res => {
+        if (res.data) {
+          /**是否第一次加载 */
+          if (res.data.length < 10) {
+            if (this.state.pageNo === 1) {
+              this.setState({
+                showFoot: 1,
+                list: res.data
+              })
+            } else {
+              this.setState({
+                showFoot: 1,
+                list: [...list, ...res.data]
+              })
+            }
+
+          } else {
+            this.setState({
+              list: [...list, ...res.data],
+            })
+            /**
+             * 防止连续加载两次
+             */
+            this.preventLoadMoreTime()
+          }
+        }
+      })
+    })
+
   }
 
 
@@ -319,7 +361,13 @@ class Search extends React.Component<any, IState> {
       this.getLogList(page, limit, key)
     }
     else if (this.getType() === SearchTypes.faq) {
-      this.getFAQList(page, limit, '',key)
+      this.getFAQList(page, limit, '', key)
+    }
+    else if (this.getType() === SearchTypes.goldGj) {
+      this.getKnowArticle(1, key, page, limit)
+    }
+    else if (this.getType() === SearchTypes.webSxy) {
+      this.getKnowArticle(2, key, page, limit)
     }
   }
   /**
@@ -422,7 +470,7 @@ class Search extends React.Component<any, IState> {
    * 是否改变输入框默认值
    */
   hasChange = () => {
-    if(this.getType() === SearchTypes.faq) {
+    if (this.getType() === SearchTypes.faq || this.getType() === SearchTypes.webSxy || this.getType() === SearchTypes.goldGj) {
       this.setState({
         hasChangeplaceholder: true
       })
@@ -432,7 +480,7 @@ class Search extends React.Component<any, IState> {
   componentDidMount() {
     this.hasChange()
   }
-  
+
 
   componentWillUnmount() {
     this.initFilter()
@@ -489,7 +537,7 @@ class Search extends React.Component<any, IState> {
               value={this.state.value}
               onChangeText={(text) => { this.handleChange(text) }}
               autoFocus={true}
-              placeholder={this.state.hasChangeplaceholder? `请输入${this.getType()}` : '请输入经销商名称'}
+              placeholder={this.state.hasChangeplaceholder ? '请输入搜索内容' : '请输入经销商名称'}
               returnKeyType="search"
               onSubmitEditing={() => { this.handleSubmit() }}
             />

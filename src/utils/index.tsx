@@ -1,3 +1,5 @@
+import { _retrieveData } from "./utils";
+
 export const format = (date: any) => {
   if (date) {
     let mday = date.getDate();
@@ -267,10 +269,54 @@ export const deepClone = (origin: any, target: any) => {
 
 //base64解码
 function b64DecodeUnicode(str: string) {
-  let nstr=str.replace(/\--/g,"+");
-  return decodeURIComponent(atob(nstr).split('').map(function(c) {
+  let nstr = str.replace(/\--/g, "+");
+  return decodeURIComponent(atob(nstr).split('').map(function (c: { charCodeAt: (arg0: number) => { toString: (arg0: number) => string; }; }) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 }
 
-export {b64DecodeUnicode}
+export { b64DecodeUnicode }
+
+//增加水印
+function waterMark(selector: any, num: number, document: any, img: any) {
+  _retrieveData('account').then(res => {
+    let str = res;
+    let canvas = document.createElement('canvas');
+    img.src = "";
+    img.onload = function () {
+      canvas.width = 200;
+      canvas.height = 200;
+      let ctx = canvas.getContext('2d');
+      ctx.font = "14px Vedana";
+      ctx.fillStyle = '#ccc';
+      ctx.globalAlpha = 0.4;
+      ctx.save();
+      ctx.translate(-120, 50);
+      ctx.rotate(-45 * Math.PI / 180);
+      ctx.drawImage(img, 0, 185, 14, 15);
+      ctx.fillText(str, 15, 200);
+      ctx.restore();
+      ctx.translate(-18, 80);
+      ctx.rotate(-45 * Math.PI / 180);
+      ctx.drawImage(img, 100, 85, 14, 15);
+      ctx.fillText(str, 115, 100);
+      ctx.save();
+      if (num == 1) {
+        document.querySelector(selector).style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+        document.querySelector(selector).style.backgroundPosition = 'left top';
+        document.querySelector(selector).style.backgroundRepeat = 'repeat';
+        document.querySelector(selector).style['overflow-x'] = 'hidden';  //添加x方向超出隐藏
+      } else {
+        let selectors = document.querySelectorAll(selector);
+        for (let i = 0; i < selectors.length; i++) {
+          selectors[i].style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+          selectors[i].style.backgroundPosition = 'left top';
+          selectors[i].style.backgroundRepeat = 'repeat';
+        }
+      }
+
+    }
+  })
+
+}
+export { waterMark }

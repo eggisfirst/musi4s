@@ -6,6 +6,7 @@ import pxToDp from "../../utils/fixcss";
 import { TabBar } from "../../components/tabBar";
 
 import { IndexModel } from "../../request";
+import { knowledgeLibrary } from "../../utils/enum";
 const indexModel = new IndexModel()
 
 
@@ -40,13 +41,13 @@ export default class WorkScreen extends React.Component<any>{
       },
       {
         imgUrl: require('../../images/work/news.png'),
-        title: "网络商学院",
+        title: knowledgeLibrary.webSxy,
         link: "WebCollage"
       },
       {
         imgUrl: require('../../images/work/news.png'),
-        title: "金管家服务",
-        link: "GoldService"
+        title: knowledgeLibrary.goldGj,
+        link: "WebCollage"
       },
       {
         imgUrl: require('../../images/work/news.png'),
@@ -64,7 +65,7 @@ export default class WorkScreen extends React.Component<any>{
             list && list.map(item => (
               <TouchableOpacity
                 key={item.title}
-                onPress={() => { this.props.navigation.push(`${item.link}`) }}>
+                onPress={() => { this.props.navigation.push(`${item.link}`, {title: item.title}) }}>
                 <IndexIcon imgUrl={item.imgUrl} title={item.title} key={item.title} />
               </TouchableOpacity>
             ))

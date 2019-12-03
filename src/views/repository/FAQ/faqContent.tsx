@@ -1,23 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 import WebView from 'react-native-webview'
 import { IndexModel } from "../../../request";
 import { HeaderCmp } from "../../../components/headerCmp/headerCmp";
 import pxToDp from "../../../utils/fixcss";
 import { CollectCmp } from '../../../components/respository/FAQ/collectCmp';
 import { _retrieveData } from "../../../utils/utils";
-import { b64DecodeUnicode } from "../../../utils";
-const indexModel = new IndexModel()
+import { b64DecodeUnicode, waterMark } from "../../../utils";
+// import HTML from 'react-native-render-html';
 
+const indexModel = new IndexModel()
 interface IState {
   isCollect: boolean
-  contentData: {
-    title: string
-    collect: boolean
-    detail: string
-    id: string
-  }
+  title: string
+  collect: boolean
+  detail: string
+  id: string
   height: number
+  showWebView: boolean
+
 }
 export default class FaqContent extends React.Component<any, IState> {
   static navigationOptions = {
@@ -26,12 +27,11 @@ export default class FaqContent extends React.Component<any, IState> {
 
   state: IState = {
     isCollect: false,
-    contentData: {
-      title: '',
-      collect: false,
-      detail: '',
-      id: ''
-    },
+    title: '',
+    collect: false,
+    detail: '<div>这是一个测试页面</div>',
+    id: '',
+    showWebView: false,
     height: 0
   }
 
@@ -41,23 +41,23 @@ export default class FaqContent extends React.Component<any, IState> {
   getFAQContent = (id: string) => {
     _retrieveData('account').then(res => {
       if (res) {
-        indexModel.getFAQContent(this, id, res).then(res => {
-          if (res.status) {
+        indexModel.getFAQContent(this, id, '11510025').then(res => {
             const data = res.data
             const remark = b64DecodeUnicode(data.remark)
-            const obj = {
+            this.setState({
               title: data.title,
               collect: data.collect,
               detail: remark,
-              id: data.id
-            }
-            this.setState({
-              contentData: obj
+              id: data.id,
+              showWebView: true
             })
-          }
         })
+        .catch(err => {
+          Alert.alert('err',err)
+        }) 
       }
     })
+
 
   }
 
@@ -88,70 +88,76 @@ export default class FaqContent extends React.Component<any, IState> {
    * 点击收藏问题
    */
   clickCollect = () => {
-    const id = this.state.contentData.id
+    const id = this.state.id
     //收藏
     _retrieveData('account').then(res => {
       if (res) {
         indexModel.collectFaq(this, id, res).then(res => {
           if (res.status) {
             this.collectFaqCount(id)
-            const obj = this.state.contentData
-            obj.collect = true
             this.setState({
-              contentData: obj
+              collect: true
             })
           }
         })
       }
     })
-
-
   }
 
+
+
   render() {
-    const injectedJs = 'var timer = setInterval(() => {window.ReactNativeWebView.postMessage(document.getElementById("content").clientHeight);clearInterval(timer)}, 100); '
+    const injectedJs = 'var timer = setInterval(() => {window.ReactNativeWebView.postMessage(document.getElementById("content").clientHeight);clearInterval(timer)}, 100);'
 
     return (
       <View style={styles.wrapper}>
         <HeaderCmp title={'常见问题'}
           eggHandleBack={() => { this.props.navigation.goBack() }}
-          Children={<CollectCmp isCollect={this.state.contentData.collect} clickCollect={this.clickCollect} />}
+          Children={<CollectCmp isCollect={this.state.collect} clickCollect={this.clickCollect} />}
         />
         <ScrollView style={styles.content}>
           <View style={styles.titleBox}>
-            <Text style={styles.title}>{this.state.contentData.title}</Text>
+            <Text style={styles.title}>{this.props.navigation.state.params.data.title}</Text>
           </View>
-          <WebView
-            style={{
-              width: Dimensions.get('window').width,
-              height: this.state.height
-            }}
-            injectedJavaScript={injectedJs}
-            automaticallyAdjustContentInsets={true}
-            source={{
-              html: `<!DOCTYPE html><html> <style type="text/css">
-                .tour_product_explain img{ display: block!important; vertical-align: top!important; width: 100%!important;}
-                .tour_product_explain{ padding: 0 15px 20px 15px;}
-                .tour_product_explain *{text-align: left!important;
-                  font-size: 28px!important;
-                  color: #666;
-                  line-height: 1.3!important;
-                  font-family: Arial,"Lucida Grande",Verdana,"Microsoft YaHei",hei!important;
-                  float: none!important;
-                  padding: 0!important;
-                  position: static!important;
-                  height: auto!important}
-                </style><body><div class='tour_product_explain' id='content'>${this.state.contentData.detail}</div></body></html>`
-            }}
-            scalesPageToFit={true}
-            javaScriptEnabled={true} // 仅限Android平台。iOS平台JavaScript是默认开启的。
-            domStorageEnabled={true} // 适用于安卓a
-            scrollEnabled={false}
-            startInLoadingState={true}
-            onMessage={(event) => {
-              this.setState({ height: pxToDp(+event.nativeEvent.data) })
-            }}
-          />
+          {/* <HTML
+            html={this.state.contentData.detail.replace(/(style=")[^;"]+([^"]*")/ig, "")}
+            imagesMaxWidth={Dimensions.get('window').width} 
+            /> */}
+            {
+              this.state.showWebView? 
+              <WebView
+              style={{
+                width: Dimensions.get('window').width,
+                height: this.state.height
+              }}
+              injectedJavaScript={injectedJs}
+              automaticallyAdjustContentInsets={true}
+              source={{
+                html: `<!DOCTYPE html><html> <style type="text/css">
+                  .tour_product_explain img{ display: block!important; vertical-align: top!important; width: 100%!important;}
+                  .tour_product_explain{ padding: 0 15px 20px 15px;}
+                  .tour_product_explain *{text-align: left!important;
+                    font-size: 28px!important;
+                    color: #666;
+                    line-height: 1.3!important;
+                    font-family: Arial,"Lucida Grande",Verdana,"Microsoft YaHei",hei!important;
+                    float: none!important;
+                    padding: 0!important;
+                    position: static!important;
+                    height: auto!important}
+                  </style><body><div class='tour_product_explain' id='content'>${this.state.detail}</div></body></html>`
+              }}
+              scalesPageToFit={true}
+              javaScriptEnabled={true} // 仅限Android平台。iOS平台JavaScript是默认开启的。
+              domStorageEnabled={true} // 适用于安卓a
+              scrollEnabled={false}
+              startInLoadingState={true}
+              onMessage={(event) => {
+                this.setState({ height: pxToDp(+event.nativeEvent.data) })
+              }}
+            /> : null
+            }
+         
         </ScrollView>
       </View>
     )

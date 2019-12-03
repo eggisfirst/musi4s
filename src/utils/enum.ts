@@ -51,7 +51,9 @@ export enum SearchTypes {
   processing_record = '认证进度',
   check = '检查',
   acceptance = '验收',
-  faq = '常见问题'
+  faq = '常见问题',
+  webSxy = '网络商学院',
+  goldGj = '金管家服务'
 }
 
 
@@ -98,5 +100,10 @@ export enum SelectType {
 export enum ReportType {
   check = '检查',
   acceptance = '认证'
+}
+
+export enum knowledgeLibrary {
+  webSxy = '网络商学院',
+  goldGj = '金管家服务'
 }
 

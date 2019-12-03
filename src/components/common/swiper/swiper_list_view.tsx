@@ -1,3 +1,4 @@
+//左滑出现删除插件
 import React from 'react';
 import {
   View,
