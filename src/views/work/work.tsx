@@ -38,21 +38,21 @@ export default class WorkScreen extends React.Component<any>{
         title: "我的代办",
         // link:"StarHome"
       },
-      {
-        imgUrl: require('../../images/work/news.png'),
-        title: "网络商学院",
-        link: "WebCollage"
-      },
-      {
-        imgUrl: require('../../images/work/news.png'),
-        title: "金管家服务",
-        link: "GoldService"
-      },
-      {
-        imgUrl: require('../../images/work/news.png'),
-        title: "常见问题",
-        link: "FAQ"
-      },
+      // {
+      //   imgUrl: require('../../images/work/news.png'),
+      //   title: "网络商学院",
+      //   link: "WebCollage"
+      // },
+      // {
+      //   imgUrl: require('../../images/work/news.png'),
+      //   title: "金管家服务",
+      //   link: "GoldService"
+      // },
+      // {
+      //   imgUrl: require('../../images/work/news.png'),
+      //   title: "常见问题",
+      //   link: "FAQ"
+      // },
 
     ]
     return (
