@@ -34,7 +34,7 @@ class CheckRecord extends React.Component<any>{
    */
   getCheckLog(pass = '') {
     const shopId = this.props.navigation.state.params.id
-    indexModel.getCheckLog(shopId, pass).then(res => {
+    indexModel.getCheckLog(this, shopId, pass).then(res => {
       if (res.status) {
         this.setState({
           list: res.checkLogs

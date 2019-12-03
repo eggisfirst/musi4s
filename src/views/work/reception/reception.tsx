@@ -44,7 +44,7 @@ export default class index extends React.Component<any>{
    * 获取验收店铺列表
    */
   getReceShopList(id: number) {
-    indexModel.getReceShopList(id).then(res => {
+    indexModel.getReceShopList(this,id).then(res => {
       if (res.status) {
         this.setState({
           cardData: res.data.distributor,
@@ -61,7 +61,7 @@ export default class index extends React.Component<any>{
   getShopInfo(index: number) {
     const qualificationId = this.props.navigation.state.params.id
     const shopId = this.state.shopList[index].shopId
-    indexModel.getShopInfo(qualificationId, shopId).then(res => {
+    indexModel.getShopInfo(this,qualificationId, shopId).then(res => {
       if (res.status) {
         this.setState({
           shopInfo: res.data

@@ -21,8 +21,10 @@ import AcceptancePage from './views/work/starCheck/areaReports/acceptance/accept
 import AcceptanceDetailsPage from './views/work/starCheck/areaReports/acceptance/acceptanceDetails';
 import DetailsPage from './views/work/starCheck/areaReports/checkRecord/detailsPage';
 import RulePage from './views/work/rule';
-
-
+import FAQ from './views/repository/FAQ'
+import WebCollage from './views/repository/webCollege'
+import FaqContent from "./views/repository/FAQ/faqContent";
+import CollectPage from "./views/personal/collect";
 
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
@@ -145,6 +147,30 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     },
     RulePage: {
       screen: RulePage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    FAQ: {
+      screen: FAQ,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    WebCollage: {
+      screen: WebCollage,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    FaqContent: {
+      screen: FaqContent,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    CollectPage: {
+      screen: CollectPage,
       navigationOptions: {
         headerTransparent: true,
       }

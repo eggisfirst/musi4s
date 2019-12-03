@@ -23,7 +23,7 @@ export default class AcceptanceDetails extends React.Component<any>{
    */
   getShopHistory() {
     const id = this.props.navigation.state.params.id
-    indexModel.getShopHistory(id).then(res => {
+    indexModel.getShopHistory(this, id).then(res => {
       if(res.status) {
         this.setState({
           list: res.data

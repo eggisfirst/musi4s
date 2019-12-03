@@ -112,7 +112,7 @@ class CheckDetailPage extends React.Component<any, IState>{
    */
   getGradeDetailInfo() {
     let id = this.props.navigation.state.params.standardId
-    indexModel.getGradeDetailInfo(id).then(res => {
+    indexModel.getGradeDetailInfo(this, id).then(res => {
       if (res.status && res.data) {
         let data = res.data
         let imageList = data.attachment.map((item: any) => {

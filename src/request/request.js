@@ -226,40 +226,7 @@ class Request {
     return sha1(str + token)
   }
 
-  getFormData({ url, data = {} }) {
-    return new Promise((resolve, reject) => {
-      const sign = this._getSign(data,store.getState().Loading.token)
-      axios({
-        url: baseUrl + url,
-        method: 'POST',
-        headers: {
-          'Content-type': 'multipart/form-data',
-          'sign': sign,
-        },
-        data: data,
-      }).then(res => {
-        store.dispatch(setLoading(false));
-        resolve(res.data)
-      }).catch(err => {
-        store.dispatch(setLoading(false));
-        /**返回错误信息 */
-        refreshToken().then(res => {
-          if (res.access_token) {
-            store.dispatch(Token(res.access_token))
-            this.getSecretData()
-          } else {
-            getToken().then(res => {
-              if (res.access_token) {
-                _storeData("refresh_token", res.refresh_token)
-                store.dispatch(Token(res.access_token))
-                this.getSecretData()
-              }
-            })
-          }
-        })
-      })
-    })
-  }
+ 
 }
 /**
  * 登录/获取token

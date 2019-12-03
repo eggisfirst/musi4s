@@ -120,7 +120,7 @@ class HandelPage extends React.Component<any, IState>{
   /**获取待受理名单 */
   getAcceptList(myData: any) {
     let list = this.state.list
-    indexModel.getAcceptList(myData).then(res => {
+    indexModel.getAcceptList(this,myData).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -150,7 +150,7 @@ class HandelPage extends React.Component<any, IState>{
    */
   getReceptionList(myData: any) {
     let list = this.state.list
-    indexModel.getReceptionList(myData).then(res => {
+    indexModel.getReceptionList(this,myData).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -180,7 +180,7 @@ class HandelPage extends React.Component<any, IState>{
    */
   getSponsorList(myData: any) {
     let list = this.state.list
-    indexModel.getSponsorList(myData).then(res => {
+    indexModel.getSponsorList(this,myData).then(res => {
       if (res.status) {
         /**是否第一次加载 */
         if (res.data.list.length < 10) {
@@ -210,7 +210,7 @@ class HandelPage extends React.Component<any, IState>{
    */
   getLogList(myData: any) {
     let list = this.state.list
-    indexModel.getLogList(myData).then(res => {
+    indexModel.getLogList(this,myData).then(res => {
       if (res.status) {
         // console.log(res)
         /**是否第一次加载 */
@@ -244,7 +244,7 @@ class HandelPage extends React.Component<any, IState>{
    */
   getApproveList(index: number) {
     const qualificationId = this.state.list[index].id
-    indexModel.getApproveList(qualificationId).then(res => {
+    indexModel.getApproveList(this,qualificationId).then(res => {
       if (res.status) {
         this.setState({
           sponsorBoxData: res.data
@@ -260,7 +260,7 @@ class HandelPage extends React.Component<any, IState>{
   sendApprove(index: number) {
     const id = this.state.list[index].id
     const list = this.state.list
-    indexModel.sendApprove(id).then(res => {
+    indexModel.sendApprove(this,id).then(res => {
       if (res.status) {
         this._setSponsorStatus(false)
         list.splice(this.state.index, 1)
@@ -288,7 +288,7 @@ class HandelPage extends React.Component<any, IState>{
   getApproveFlowInfo(index: number) {
     const id = this.state.list[index].id
     const starLevel = this.state.list[index].approveLevel
-    indexModel.getApproveFlowInfo(id).then(res => {
+    indexModel.getApproveFlowInfo(this,id).then(res => {
       if (res.status) {
         // console.log(res)
         this.setState({
@@ -464,7 +464,7 @@ class HandelPage extends React.Component<any, IState>{
         break;
       case AlertBtnTypes.comfirm:
         //请求
-        indexModel.accept(id).then(res => {
+        indexModel.accept(this,id).then(res => {
           if (res.status) {
             list.splice(this.state.index, 1)
             this.setState({
@@ -484,7 +484,7 @@ class HandelPage extends React.Component<any, IState>{
         })
         break;
       case AlertBtnTypes.sendBack:
-        indexModel.sendBack(id, value).then(res => {
+        indexModel.sendBack(this,id, value).then(res => {
           if (res.status) {
             list.splice(this.state.index, 1)
             this.setState({

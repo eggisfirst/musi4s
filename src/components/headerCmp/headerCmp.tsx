@@ -12,7 +12,7 @@ interface IProps {
 
 /**通用头部需要设置页面默认头部为null */
 /**
- * 
+ * children 180px
  * @param props static navigationOptions = {
   header: null,
 }

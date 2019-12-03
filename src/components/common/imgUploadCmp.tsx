@@ -205,7 +205,7 @@ export default class ImgUploadCmp extends Component<IProps, IState> {
     let formData = new FormData()
     // formData.append('dataFile', file)
     formData.append('multipartFile', file)
-    indexModel.uploadFile(formData).then(res => {
+    indexModel.uploadFile(this, formData).then(res => {
       console.log('res',res)
       let temp = this.props.imageList
       temp.push(res.data)

@@ -14,3 +14,10 @@ export const Token = (token: string ) => {
   }
 }
 
+export const TokenObj = (tokenObj: Object ) => {
+  return {
+    type: Types.TOKENOBJ,
+    tokenObj
+  }
+}
+
