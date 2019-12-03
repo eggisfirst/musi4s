@@ -96,10 +96,10 @@ export default class WorkScreen extends React.Component<any>{
           />
         </View>
         <View style={styles.swiper}>
-          {
+          {/* {
             this.state.loopData.length? 
             <SwiperCmp loopData={this.state.loopData}/> : null
-          }
+          } */}
         </View>
         <ImgRowScroll data={this.state.categoryList} handClick={this.handClickCategory}/>
       </View>
