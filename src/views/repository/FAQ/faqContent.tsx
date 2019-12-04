@@ -41,7 +41,7 @@ export default class FaqContent extends React.Component<any, IState> {
   getFAQContent = (id: string) => {
     _retrieveData('account').then(res => {
       if (res) {
-        indexModel.getFAQContent(this, id, '11510025').then(res => {
+        indexModel.getFAQContent(this, id, '11510025').then((res: { data: any; }) => {
             const data = res.data
             const remark = b64DecodeUnicode(data.remark)
             this.setState({
@@ -52,7 +52,7 @@ export default class FaqContent extends React.Component<any, IState> {
               showWebView: true
             })
         })
-        .catch(err => {
+        .catch((err: string | undefined) => {
           Alert.alert('err',err)
         }) 
       }
@@ -65,7 +65,7 @@ export default class FaqContent extends React.Component<any, IState> {
    * 浏览量增加
    */
   collectFaqNum = (id: string) => {
-    indexModel.collectFaqNum(this, id).then(res => {
+    indexModel.collectFaqNum(this, id).then((res: { status: any; }) => {
       if (res.status) {
 
       }
@@ -73,14 +73,14 @@ export default class FaqContent extends React.Component<any, IState> {
   }
   componentDidMount() {
     const id = this.props.navigation.state.params.data.id
-    this.getFAQContent(id)
     this.collectFaqNum(id)
+    this.getFAQContent(id)
   }
   /**
    * 点击收藏的时候统计收藏数
    */
   collectFaqCount = (id: string) => {
-    indexModel.collectFaqCount(this, id).then(res => {
+    indexModel.collectFaqCount(this, id).then((res: any) => {
 
     })
   }
@@ -92,7 +92,7 @@ export default class FaqContent extends React.Component<any, IState> {
     //收藏
     _retrieveData('account').then(res => {
       if (res) {
-        indexModel.collectFaq(this, id, res).then(res => {
+        indexModel.collectFaq(this, id, res).then((res: { status: any; }) => {
           if (res.status) {
             this.collectFaqCount(id)
             this.setState({
@@ -120,7 +120,7 @@ export default class FaqContent extends React.Component<any, IState> {
             <Text style={styles.title}>{this.props.navigation.state.params.data.title}</Text>
           </View>
           {/* <HTML
-            html={this.state.contentData.detail.replace(/(style=")[^;"]+([^"]*")/ig, "")}
+            html={this.state.detail.replace(/(style=")[^;"]+([^"]*")/ig, "")}
             imagesMaxWidth={Dimensions.get('window').width} 
             /> */}
             {
