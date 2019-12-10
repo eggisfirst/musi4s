@@ -19,6 +19,14 @@ PODS:
   - react-native-amap3d (1.1.1):
     - AMap3DMap (~> 6.6.0)
     - React
+  - react-native-camera (3.13.1):
+    - React
+    - react-native-camera/RCT (= 3.13.1)
+    - react-native-camera/RN (= 3.13.1)
+  - react-native-camera/RCT (3.13.1):
+    - React
+  - react-native-camera/RN (3.13.1):
+    - React
   - react-native-image-picker (1.1.0):
     - React
   - react-native-slider (1.1.4):
@@ -28,7 +36,7 @@ PODS:
     - react-native-video/Video (= 5.0.0)
   - react-native-video/Video (5.0.0):
     - React
-  - react-native-webview (7.5.1):
+  - react-native-webview (7.6.0):
     - React
   - React/Core (0.59.9):
     - yoga (= 0.59.9.React)
@@ -84,6 +92,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - JPush
   - react-native-amap3d (from `../node_modules/react-native-amap3d/lib/ios`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-video (from `../node_modules/react-native-video`)
@@ -120,6 +129,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-amap3d:
     :path: "../node_modules/react-native-amap3d/lib/ios"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-slider:
@@ -147,14 +158,15 @@ SPEC CHECKSUMS:
   JPush: 0e9088c85c73275629facc311fe5992dfac36eeb
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
   react-native-amap3d: 7ee6406ae17b263f4ae4bbb9eacd1bc53cc8bd4f
+  react-native-camera: 1df7f9a047591bbc2c9a7ec80bd6412d3c19579f
   react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
   react-native-slider: 754abcdae695545c5875c2150cb2a502d24b7bed
   react-native-video: 6555881252c8ca039760e1cd6df28ac28ffb2baf
-  react-native-webview: 2aadbfef6b9eaa9e89b306ae3e31e6e870a6306d
+  react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
   RNSVG: a53a5de0d90ec96a6502cc3a4534dfcc0c130622
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: a02ca11c00508e7d8f4d9f6c20daa994fa01c966
+PODFILE CHECKSUM: f938f580d5a372a7857a42d72d8bb5f0107f1569
 
 COCOAPODS: 1.7.5

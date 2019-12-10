@@ -41,6 +41,8 @@ target 'derucciTS' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
 end
 
 post_install do |installer|
