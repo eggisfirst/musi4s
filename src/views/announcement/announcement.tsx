@@ -36,10 +36,10 @@ export default class AnnouncementScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>公告</Text>
-        {/* <TouchableHighlight style={{ padding: 10, backgroundColor: 'blue', marginTop: 20 }} onPress={() => this.sendPostMessage()}>
+        <TouchableHighlight style={{ padding: 10, backgroundColor: 'blue', marginTop: 20 }} onPress={() => this.sendPostMessage()}>
           <Text style={{ color: 'white' }}>Send post message from react natives</Text>
-        </TouchableHighlight> */}
-        {/* <WebView
+        </TouchableHighlight>
+        <WebView
           ref={w => this.webview = w}
           javaScriptEnabled={true}
           startInLoadingState={true}
@@ -49,7 +49,8 @@ export default class AnnouncementScreen extends React.Component {
             this.onMesg(event)
           }}
           injectedJavaScript={runFirst}
-        /> */}
+        />
+        <Text>111</Text>
       </View>
     )
 
