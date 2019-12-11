@@ -19,7 +19,7 @@ export default class AnnouncementScreen extends React.Component {
   webview: any
   //发送信息给h5
   sendPostMessage = () => {
-    const message: string = '我来自rn!'
+    const message: string = '我来自rn！！！!'
     console.log('send msg')
     this.webview.postMessage(message)
   }
@@ -37,7 +37,7 @@ export default class AnnouncementScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>公告</Text>
-        <TouchableHighlight style={{ padding: 10, backgroundColor: 'blue', marginTop: 20 }} onPress={() => this.sendPostMessage()}>
+        <TouchableHighlight style={{ padding: 10, backgroundColor: 'blue', marginTop: 200 }} onPress={() => this.sendPostMessage()}>
           <Text style={{ color: 'white' }}>Send post message from react natives</Text>
         </TouchableHighlight>
         <WebView
@@ -45,7 +45,7 @@ export default class AnnouncementScreen extends React.Component {
           javaScriptEnabled={true}
           startInLoadingState={true}
           style={{ width: width, height: height }}
-          source={{ uri: "https://mobiletest.derucci.net/web/h5/#/" }}
+          source={{ uri: "https://mobiletest.derucci.net/web/h51/#/" }}
           onMessage={event => {
             this.onMesg(event)
           }}

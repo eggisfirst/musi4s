@@ -12,7 +12,8 @@ import {
     default as Easing,
     ImageBackground,
 } from 'react-native';
-import {View, Text } from 'react-native';
+import { View, Text } from 'react-native';
+import pxToDp from '../../../utils/fixcss';
 
 export default class Scan extends Component {
     static navigationOptions = {
@@ -24,7 +25,8 @@ export default class Scan extends Component {
             //中间横线动画初始值
             moveAnim: new Animated.Value(-2),
             title: "扫码签到",
-            key: true
+            key: true,
+            flashStatus: 'off'
         };
         this.requestCameraPermission = this.requestCameraPermission.bind(this)
     }
@@ -93,7 +95,7 @@ export default class Scan extends Component {
         const { navigate } = this.props.navigation;
         const { data } = result; //只要拿到data就可以了
         //扫码后的操作
-        if(this.state.key) {
+        if (this.state.key) {
             this.props.navigation.push('Work')
             this.setState({
                 key: false
@@ -101,12 +103,31 @@ export default class Scan extends Component {
         }
     };
 
+    // handleFlash = () => {
+    //     if(this.state.flashStatus !== 'on') {
+    //         this.setState({
+    //             flashStatus: 'on'
+    //         })
+    //     }
+    //     else {
+    //         this.setState({
+    //             flashStatus: 'off'
+    //         })
+    //     }
+    // }
+
     render() {
         return (
             <View style={styles.container}>
-                {/* <HeaderCmp title={this.state.title}
-                    eggHandleBack={() => { this.props.navigation.goBack() }}
-                /> */}
+                <View style={styles.head}>
+                    <HeaderCmp title={this.state.title}
+                        eggHandleBack={() => { this.props.navigation.goBack() }}
+                        ></HeaderCmp>
+                        {/* Children={<TouchableOpacity onPress={this.handleFlash} style={styles.flash} activeOpacity={0.6}>
+                            <Text>闪光灯</Text>
+                        </TouchableOpacity>}
+                    /> */}
+                </View>
                 <RNCamera
                     ref={ref => {
                         this.camera = ref;
@@ -146,7 +167,25 @@ export default class Scan extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        position: "relative"
+    },
+    head: {
+        height: pxToDp(205),
+        width: '100%',
+        position: "absolute",
+        zIndex: 99,
+        top: 0,
+        left: 0
+    },
+    text: {
+        color: "#fff"
+    },
+    flash: {
+        width:pxToDp(180),
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end"
     },
     preview: {
         flex: 1,
@@ -169,7 +208,7 @@ const styles = StyleSheet.create({
     rectangleText: {
         flex: 0,
         color: '#fff',
-        marginTop: 10
+        marginTop: pxToDp(20)
     },
     border: {
         flex: 0,

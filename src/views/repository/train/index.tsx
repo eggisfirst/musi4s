@@ -51,7 +51,7 @@ export default class AnnouncementScreen extends React.Component<any> {
           javaScriptEnabled={true}
           startInLoadingState={true}
           style={{ width: width, height: height }}
-          source={{ uri: "http://localhost:8080/#/train" }}
+          source={{ uri: "http://127.0.0.1:12306/#/train" }}
           onMessage={event => {
             this.onMesg(event)
           }}
