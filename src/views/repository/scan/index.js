@@ -94,9 +94,13 @@ export default class Scan extends Component {
     onBarCodeRead = (result) => {
         const { navigate } = this.props.navigation;
         const { data } = result; //只要拿到data就可以了
+        console.log(result);
         //扫码后的操作
         if (this.state.key) {
-            this.props.navigation.push('Work')
+            this.props.navigation.replace('Result', {
+                type: 'result',
+                data: '666666'
+            })
             this.setState({
                 key: false
             })

@@ -27,6 +27,7 @@ import FaqContent from "./views/repository/FAQ/faqContent";
 import CollectPage from "./views/personal/collect";
 import Train from './views/repository/train/index';
 import Scan from './views/repository/scan/index';
+import Result from './views/repository/train/result';
 const AppNavigator = createBottomTabNavigator({
     Work: WorkScreen,
     Report: ReportScreen,
@@ -184,6 +185,12 @@ export default function configAppNavigator(isLoggedIn:boolean) {
     },
     Scan: {
       screen: Scan,
+      navigationOptions: {
+        headerTransparent: true,
+      }
+    },
+    Result: {
+      screen: Result,
       navigationOptions: {
         headerTransparent: true,
       }

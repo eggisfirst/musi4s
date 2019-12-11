@@ -59,11 +59,6 @@ export default class WorkScreen extends React.Component<any>{
         title: "培训",
         link: "Train"
       },
-      {
-        imgUrl: require('../../images/work/news.png'),
-        title: "saoyisao",
-        link: "Scan"
-      }
     ]
     return (
       <View style={styles.wrapper}>

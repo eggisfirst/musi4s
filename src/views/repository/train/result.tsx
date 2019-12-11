@@ -6,30 +6,35 @@ import { HeaderCmp } from "../../../components/headerCmp/headerCmp";
 
 const { width, height } = Dimensions.get("window");
 
-export default class Train extends React.Component<any> {
+export default class Result extends React.Component<any> {
   static navigationOptions = {
     header: null,
   }
 
   state = {
-    title: '培训报名'
+    title: '发放物资'
   }
 
   webview: any
   //发送信息给h5
   sendPostMessage = () => {
-    const message: string = '我来自rn!'
-    console.log('send msg')
-    this.webview.postMessage(message)
+    const message = this.props.navigation.state.params.data
+    //异步
+    var timer = setTimeout(() => {
+      this.webview.postMessage(message)
+      clearTimeout(timer)
+    }, 100);
   }
   //接收h5的信息
   onMesg = (e: any) => {
     console.log(e.nativeEvent.data)
-    if(e.nativeEvent.data === 'scan') {
-      console.log('开始扫码')
-      this.props.navigation.push('Scan')
-    }
+  }
 
+  componentDidMount() {
+    const obj = this.props.navigation.state.params
+    if(obj.type === 'result') {
+      this.sendPostMessage()
+    }
   }
 
   render() {
@@ -43,15 +48,12 @@ export default class Train extends React.Component<any> {
         <HeaderCmp title={this.state.title}
           eggHandleBack={() => { this.props.navigation.goBack() }}
         />
-        {/* <TouchableHighlight style={{ padding: 10, backgroundColor: 'blue', marginTop: 20 }} onPress={() => this.sendPostMessage()}>
-          <Text style={{ color: 'white' }}>Send post message from react natives</Text>
-        </TouchableHighlight> */}
         <WebView
           ref={w => this.webview = w}
           javaScriptEnabled={true}
           startInLoadingState={true}
           style={{ width: width, height: height }}
-          source={{ uri: "https://mobiletest.derucci.net/web/derucci_app_h5/#/train" }}
+          source={{ uri: "https://mobiletest.derucci.net/web/derucci_app_h5/#/result" }}
           onMessage={event => {
             this.onMesg(event)
           }}
